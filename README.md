@@ -14,7 +14,7 @@ A comprehensive template for AI-driven C# development with full CI/CD pipeline s
 - **Code quality**: EditorConfig + .NET analyzers with warnings as errors
 - **Pre-commit hooks**: Automated code quality checks before commits
 - **CI/CD pipeline**: GitHub Actions with multi-platform support
-- **Changelog management**: Fragment-based changelog (like Changesets/Scriv)
+- **Changesets workflow**: Version-safe changelog management (like JavaScript Changesets)
 - **Release automation**: Automatic NuGet publishing and GitHub releases
 
 ## Quick Start
@@ -84,20 +84,22 @@ dotnet format --verify-no-changes && dotnet build --configuration Release /warna
 
 ```
 .
+├── .changeset/                 # Changesets configuration
+│   ├── config.json             # Changeset settings
+│   ├── README.md               # Changeset instructions
+│   └── *.md                    # Individual changesets
 ├── .github/
 │   └── workflows/
 │       └── release.yml         # CI/CD pipeline configuration
-├── changelog.d/                # Changelog fragments
-│   ├── README.md               # Fragment instructions
-│   └── *.md                    # Individual changelog entries
 ├── examples/
 │   ├── BasicUsage.cs           # Usage example
 │   └── BasicUsage.csproj       # Example project
 ├── scripts/
 │   ├── bump-version.mjs        # Version bumping utility
 │   ├── check-file-size.mjs     # File size validation script
-│   ├── collect-changelog.mjs   # Changelog collection script
 │   ├── create-github-release.mjs # GitHub release creation
+│   ├── merge-changesets.mjs    # Merge multiple changesets
+│   ├── validate-changeset.mjs  # PR changeset validation
 │   └── version-and-commit.mjs  # CI/CD version management
 ├── src/
 │   └── MyPackage/
@@ -147,44 +149,56 @@ The template supports multiple levels of testing:
 - **Coverage**: Automatic collection with Coverlet
 - **Examples**: In `examples/` directory (also serve as documentation)
 
-### Changelog Management
+### Changesets Workflow
 
-This template uses a fragment-based changelog system similar to:
-- [Changesets](https://github.com/changesets/changesets) (JavaScript)
-- [Scriv](https://scriv.readthedocs.io/) (Python)
+This template uses a changesets workflow similar to [Changesets](https://github.com/changesets/changesets) in JavaScript:
 
 Benefits:
-- **No merge conflicts**: Multiple PRs can add fragments without conflicts
+- **No merge conflicts**: Multiple PRs can add changesets independently
+- **Version safety**: Version bumps happen after PR merge, not before
 - **Per-PR documentation**: Each PR documents its own changes
-- **Automated collection**: Fragments are collected during release
-- **Consistent format**: Template ensures consistent changelog entries
+- **Automated releases**: Changesets are collected and processed automatically
 
 ```bash
-# Create a changelog fragment (bash/zsh)
-touch changelog.d/$(date +%Y%m%d_%H%M%S)_my_change.md
+# Create a changeset file
+cat > .changeset/my-change.md << 'EOF'
+---
+'MyPackage': patch
+---
 
-# Edit the fragment to document your changes
+Description of your changes
+EOF
 ```
+
+Version types:
+- `major` - Breaking changes (1.x.x -> 2.0.0)
+- `minor` - New features (x.1.x -> x.2.0)
+- `patch` - Bug fixes (x.x.1 -> x.x.2)
 
 ### CI/CD Pipeline
 
 The GitHub Actions workflow provides:
 
-1. **Linting**: dotnet format and build with warnings as errors
-2. **Changelog check**: Warns if PRs are missing changelog fragments
+1. **Changeset validation**: Ensures PRs include a changeset file
+2. **Linting**: dotnet format and build with warnings as errors
 3. **Test matrix**: 3 OS (Ubuntu, macOS, Windows) with .NET 8.0
 4. **Building**: Release build and package validation
-5. **Release**: Automated NuGet publishing and GitHub releases
+5. **Release**: Automated versioning, NuGet publishing, and GitHub releases
 
 ### Release Automation
 
-The release workflow supports:
+The release workflow supports two modes:
 
-- **Auto-release**: Automatically creates releases when version in csproj changes
-- **Manual release**: Trigger releases via workflow_dispatch with version bump type
-- **Changelog collection**: Automatically collects fragments during release
-- **NuGet publishing**: Automatic publishing (requires NUGET_API_KEY secret)
-- **GitHub releases**: Automatic creation with CHANGELOG content
+**Automatic Release** (on push to main):
+1. Detects changesets in `.changeset/` directory
+2. Merges multiple changesets if needed (using highest bump type)
+3. Updates version in csproj and CHANGELOG.md
+4. Creates git tag and pushes changes
+5. Publishes to NuGet and creates GitHub release
+
+**Manual Release** (via workflow_dispatch):
+- `instant` mode: Immediate version bump and release
+- `changeset-pr` mode: Creates a PR with changeset for review
 
 ## Configuration
 
@@ -266,7 +280,7 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for gui
 2. Create a feature branch: `git checkout -b feature/my-feature`
 3. Make your changes and add tests
 4. Run quality checks: `dotnet format && dotnet build /warnaserror && dotnet test`
-5. Add a changelog fragment
+5. Add a changeset file in `.changeset/`
 6. Commit your changes (pre-commit hooks will run automatically)
 7. Push and create a Pull Request
 

@@ -1,15 +1,37 @@
 #!/usr/bin/env node
 
 /**
- * Bump version in csproj and commit changes
+ * Bump version in csproj, update changelog, and commit changes
  * Used by the CI/CD pipeline for releases
  *
- * Usage: bun run scripts/version-and-commit.mjs --bump-type <major|minor|patch> [--description <desc>]
+ * Usage:
+ *   Changeset mode: bun run scripts/version-and-commit.mjs --mode changeset
+ *   Instant mode:   bun run scripts/version-and-commit.mjs --mode instant --bump-type <major|minor|patch> [--description <desc>]
  */
 
-import { readFileSync, writeFileSync, appendFileSync, readdirSync, existsSync } from 'fs';
+import {
+  readFileSync,
+  writeFileSync,
+  appendFileSync,
+  readdirSync,
+  existsSync,
+  unlinkSync,
+} from 'fs';
 import { join } from 'path';
 import { execSync } from 'child_process';
+
+// Package name must match the package name in the changeset files
+const PACKAGE_NAME = 'MyPackage';
+const CSPROJ_PATH = 'src/MyPackage/MyPackage.csproj';
+const CHANGESET_DIR = '.changeset';
+const CHANGELOG_FILE = 'CHANGELOG.md';
+
+// Version bump type priority (higher number = higher priority)
+const BUMP_PRIORITY = {
+  patch: 1,
+  minor: 2,
+  major: 3,
+};
 
 // Simple argument parsing
 const args = process.argv.slice(2);
@@ -19,17 +41,9 @@ const getArg = (name) => {
   return args[index + 1] || '';
 };
 
-const bumpType = getArg('bump-type');
+const mode = getArg('mode') || 'instant';
+const bumpTypeArg = getArg('bump-type');
 const description = getArg('description') || '';
-
-if (!bumpType || !['major', 'minor', 'patch'].includes(bumpType)) {
-  console.error(
-    'Usage: bun run scripts/version-and-commit.mjs --bump-type <major|minor|patch> [--description <desc>]'
-  );
-  process.exit(1);
-}
-
-const CSPROJ_PATH = 'src/MyPackage/MyPackage.csproj';
 
 /**
  * Execute a shell command
@@ -129,43 +143,132 @@ function checkTagExists(version) {
 }
 
 /**
- * Collect changelog fragments and update CHANGELOG.md
- * @param {string} version
+ * Parse a changeset file and extract its metadata
+ * @param {string} filePath
+ * @returns {{type: string, description: string} | null}
  */
-function collectChangelog(version) {
-  const changelogDir = 'changelog.d';
-  const changelogFile = 'CHANGELOG.md';
+function parseChangeset(filePath) {
+  try {
+    const content = readFileSync(filePath, 'utf-8');
 
-  if (!existsSync(changelogDir)) {
-    return;
+    // Extract version type - support both quoted and unquoted package names
+    const versionTypeRegex = new RegExp(
+      `^['"]?${PACKAGE_NAME.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}['"]?:\\s+(major|minor|patch)`,
+      'm'
+    );
+    const versionTypeMatch = content.match(versionTypeRegex);
+
+    if (!versionTypeMatch) {
+      console.warn(`Warning: Could not parse version type from ${filePath}`);
+      return null;
+    }
+
+    // Extract description
+    const parts = content.split('---');
+    const desc = parts.length >= 3 ? parts.slice(2).join('---').trim() : '';
+
+    return {
+      type: versionTypeMatch[1],
+      description: desc,
+    };
+  } catch (error) {
+    console.warn(`Warning: Failed to parse ${filePath}: ${error.message}`);
+    return null;
   }
+}
 
-  const files = readdirSync(changelogDir).filter(
-    (f) => f.endsWith('.md') && f !== 'README.md'
+/**
+ * Get the highest priority bump type
+ * @param {string[]} types
+ * @returns {string}
+ */
+function getHighestBumpType(types) {
+  let highest = 'patch';
+  for (const type of types) {
+    if (BUMP_PRIORITY[type] > BUMP_PRIORITY[highest]) {
+      highest = type;
+    }
+  }
+  return highest;
+}
+
+/**
+ * Get changeset files from .changeset directory
+ * @returns {string[]}
+ */
+function getChangesetFiles() {
+  if (!existsSync(CHANGESET_DIR)) {
+    return [];
+  }
+  return readdirSync(CHANGESET_DIR).filter(
+    (file) =>
+      file.endsWith('.md') && file !== 'README.md' && file !== 'config.json'
   );
+}
+
+/**
+ * Process changesets and return bump type and descriptions
+ * @returns {{bumpType: string, descriptions: string[]} | null}
+ */
+function processChangesets() {
+  const files = getChangesetFiles();
 
   if (files.length === 0) {
-    return;
+    console.log('No changeset files found');
+    return null;
   }
 
-  const fragments = files
-    .sort()
-    .map((f) => readFileSync(join(changelogDir, f), 'utf-8').trim())
-    .filter(Boolean)
-    .join('\n\n');
+  console.log(`Found ${files.length} changeset file(s)`);
 
-  if (!fragments) {
-    return;
+  const parsedChangesets = [];
+  for (const file of files) {
+    const filePath = join(CHANGESET_DIR, file);
+    const parsed = parseChangeset(filePath);
+    if (parsed) {
+      parsedChangesets.push({
+        file,
+        filePath,
+        ...parsed,
+      });
+    }
   }
 
+  if (parsedChangesets.length === 0) {
+    console.log('No valid changesets could be parsed');
+    return null;
+  }
+
+  const bumpTypes = parsedChangesets.map((c) => c.type);
+  const highestBumpType = getHighestBumpType(bumpTypes);
+  const descriptions = parsedChangesets
+    .filter((c) => c.description)
+    .map((c) => c.description);
+
+  console.log(`Bump types found: ${[...new Set(bumpTypes)].join(', ')}`);
+  console.log(`Using highest: ${highestBumpType}`);
+
+  return {
+    bumpType: highestBumpType,
+    descriptions,
+  };
+}
+
+/**
+ * Update CHANGELOG.md with new version entry
+ * @param {string} version
+ * @param {string[]} descriptions
+ */
+function updateChangelog(version, descriptions) {
   const dateStr = new Date().toISOString().split('T')[0];
-  const newEntry = `\n## [${version}] - ${dateStr}\n\n${fragments}\n`;
+  const content = descriptions.join('\n\n');
+  const newEntry = `\n## [${version}] - ${dateStr}\n\n${content}\n`;
 
-  if (existsSync(changelogFile)) {
-    let content = readFileSync(changelogFile, 'utf-8');
-    const lines = content.split('\n');
+  if (existsSync(CHANGELOG_FILE)) {
+    let changelog = readFileSync(CHANGELOG_FILE, 'utf-8');
+    const lines = changelog.split('\n');
     let insertIndex = -1;
 
+    // Find the first version entry
     for (let i = 0; i < lines.length; i++) {
       if (lines[i].startsWith('## [')) {
         insertIndex = i;
@@ -175,21 +278,75 @@ function collectChangelog(version) {
 
     if (insertIndex >= 0) {
       lines.splice(insertIndex, 0, newEntry);
-      content = lines.join('\n');
+      changelog = lines.join('\n');
     } else {
-      content += newEntry;
+      // No existing version entries, append after header
+      changelog += newEntry;
     }
 
-    writeFileSync(changelogFile, content, 'utf-8');
-  }
+    writeFileSync(CHANGELOG_FILE, changelog, 'utf-8');
+    console.log(`Updated CHANGELOG.md with version ${version}`);
+  } else {
+    // Create new changelog file
+    const newChangelog = `# Changelog
 
-  console.log(`Collected ${files.length} changelog fragment(s)`);
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+${newEntry}`;
+    writeFileSync(CHANGELOG_FILE, newChangelog, 'utf-8');
+    console.log(`Created CHANGELOG.md with version ${version}`);
+  }
+}
+
+/**
+ * Remove processed changeset files
+ */
+function removeChangesetFiles() {
+  const files = getChangesetFiles();
+  for (const file of files) {
+    const filePath = join(CHANGESET_DIR, file);
+    unlinkSync(filePath);
+    console.log(`Removed changeset: ${file}`);
+  }
 }
 
 try {
   // Configure git
   exec('git config user.name "github-actions[bot]"');
   exec('git config user.email "github-actions[bot]@users.noreply.github.com"');
+
+  let bumpType;
+  let descriptions = [];
+
+  if (mode === 'changeset') {
+    // Changeset mode: get bump type from changesets
+    const result = processChangesets();
+    if (!result) {
+      console.log('No changesets to process, exiting');
+      setOutput('version_committed', 'false');
+      setOutput('already_released', 'false');
+      process.exit(0);
+    }
+    bumpType = result.bumpType;
+    descriptions = result.descriptions;
+  } else if (mode === 'instant') {
+    // Instant mode: use provided bump type
+    if (!bumpTypeArg || !['major', 'minor', 'patch'].includes(bumpTypeArg)) {
+      console.error(
+        'Usage: bun run scripts/version-and-commit.mjs --mode instant --bump-type <major|minor|patch> [--description <desc>]'
+      );
+      process.exit(1);
+    }
+    bumpType = bumpTypeArg;
+    if (description) {
+      descriptions = [description];
+    }
+  } else {
+    console.error('Invalid mode. Use --mode changeset or --mode instant');
+    process.exit(1);
+  }
 
   const current = getCurrentVersion();
   const newVersion = calculateNewVersion(current, bumpType);
@@ -205,11 +362,18 @@ try {
   // Update version in csproj
   updateCsproj(newVersion);
 
-  // Collect changelog fragments
-  collectChangelog(newVersion);
+  // Update changelog if we have descriptions
+  if (descriptions.length > 0) {
+    updateChangelog(newVersion, descriptions);
+  }
 
-  // Stage csproj and CHANGELOG.md
-  exec('git add src/MyPackage/MyPackage.csproj CHANGELOG.md');
+  // Remove changeset files (only in changeset mode)
+  if (mode === 'changeset') {
+    removeChangesetFiles();
+  }
+
+  // Stage all changed files
+  exec(`git add ${CSPROJ_PATH} ${CHANGELOG_FILE} ${CHANGESET_DIR}/`);
 
   // Check if there are changes to commit
   try {

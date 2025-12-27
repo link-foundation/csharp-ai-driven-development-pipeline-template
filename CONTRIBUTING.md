@@ -81,26 +81,30 @@ Thank you for your interest in contributing! This document provides guidelines a
    dotnet test --filter "FullyQualifiedName~TestName"
    ```
 
-5. **Add a changelog fragment**
+5. **Add a changeset**
 
-   For any user-facing changes, create a changelog fragment:
+   For any user-facing changes, create a changeset file in `.changeset/`:
 
    ```bash
-   # Create a new fragment with timestamp (bash/zsh)
-   touch changelog.d/$(date +%Y%m%d_%H%M%S)_my_change.md
+   # Create a changeset file
+   cat > .changeset/my-change.md << 'EOF'
+   ---
+   'MyPackage': patch
+   ---
+
+   Description of your changes
+   EOF
    ```
 
-   Edit the file to document your changes:
+   **Changeset format:**
+   - First line after `---`: `'PackageName': version_type`
+   - Version types: `major`, `minor`, or `patch`
+   - Description after the second `---`
 
-   ```markdown
-   ### Added
-   - Description of new feature
-
-   ### Fixed
-   - Description of bug fix
-   ```
-
-   **Why fragments?** This prevents merge conflicts in CHANGELOG.md when multiple PRs are open simultaneously (same as Changesets in JavaScript).
+   **Why changesets?** This workflow:
+   - Prevents merge conflicts in CHANGELOG.md
+   - Ensures version bumps happen safely after merge
+   - Matches the JavaScript Changesets workflow
 
 6. **Commit your changes**
 
@@ -208,53 +212,60 @@ public class MyFeatureTests
 
 1. Ensure all tests pass locally
 2. Update documentation if needed
-3. Add a changelog fragment (see step 5 in Development Workflow)
+3. Add a changeset file (see step 5 in Development Workflow)
 4. Ensure the PR description clearly describes the changes
 5. Link any related issues in the PR description
-6. Wait for CI checks to pass
+6. Wait for CI checks to pass (including changeset validation)
 7. Address any review feedback
 
-## Changelog Management
+## Changesets Workflow
 
-This project uses a fragment-based changelog system similar to [Changesets](https://github.com/changesets/changesets) (JavaScript) and [Scriv](https://scriv.readthedocs.io/) (Python).
+This project uses a changesets workflow similar to [Changesets](https://github.com/changesets/changesets) in JavaScript.
 
-### Creating a Fragment
+### Creating a Changeset
 
 ```bash
-# Create a new fragment with timestamp
-touch changelog.d/$(date +%Y%m%d_%H%M%S)_description.md
+# Create a changeset file
+cat > .changeset/my-change.md << 'EOF'
+---
+'MyPackage': patch
+---
+
+Description of your changes
+EOF
 ```
 
-### Fragment Categories
+### Version Types
 
-Use these categories in your fragments:
+- `major` - Breaking changes (1.x.x -> 2.0.0)
+- `minor` - New features, backwards compatible (x.1.x -> x.2.0)
+- `patch` - Bug fixes, backwards compatible (x.x.1 -> x.x.2)
 
-- **Added**: New features
-- **Changed**: Changes to existing functionality
-- **Deprecated**: Features that will be removed in future
-- **Removed**: Features that were removed
-- **Fixed**: Bug fixes
-- **Security**: Security-related changes
+### How It Works
 
-### During Release
+1. Each PR adds a changeset file in `.changeset/`
+2. CI validates that exactly one changeset is added per PR
+3. When merged to main, the release workflow:
+   - Merges multiple changesets (if any) using highest bump type
+   - Updates version in csproj and CHANGELOG.md
+   - Creates git tag and pushes changes
+   - Publishes to NuGet and creates GitHub release
 
-Fragments are automatically collected into CHANGELOG.md during the release process. The release workflow:
+### Benefits
 
-1. Collects all fragments
-2. Updates CHANGELOG.md with the new version entry
-3. Removes processed fragment files
-4. Bumps the version in csproj
-5. Creates a git tag and GitHub release
-6. Publishes to NuGet
+- **No merge conflicts**: Multiple PRs can add changesets independently
+- **Version safety**: Version bumps happen after merge, not before
+- **Consistent with JS/Python templates**: Same workflow across all templates
 
 ## Project Structure
 
 ```
 .
+├── .changeset/           # Changesets configuration
+│   ├── config.json       # Changeset settings
+│   ├── README.md         # Changeset instructions
+│   └── *.md              # Individual changesets
 ├── .github/workflows/    # GitHub Actions CI/CD
-├── changelog.d/          # Changelog fragments
-│   ├── README.md         # Fragment instructions
-│   └── *.md              # Individual changelog fragments
 ├── examples/             # Usage examples
 ├── scripts/              # Utility scripts (.mjs)
 ├── src/MyPackage/        # Source code
@@ -279,10 +290,18 @@ This project uses semantic versioning (MAJOR.MINOR.PATCH):
 - **MINOR**: New features (backward compatible)
 - **PATCH**: Bug fixes (backward compatible)
 
-Releases are managed through GitHub releases and NuGet publishing. To trigger a release:
+Releases are triggered automatically when changesets are merged to main, or manually via workflow_dispatch:
 
-1. Manually trigger the release workflow with a version bump type
-2. Or: Update the version in csproj and push to main
+**Automatic Release:**
+1. PR with changeset is merged to main
+2. Release workflow detects and processes changesets
+3. Version is bumped, changelog updated, tag created
+4. Package published to NuGet, GitHub release created
+
+**Manual Release:**
+1. Go to Actions > CI/CD Pipeline > Run workflow
+2. Select release mode (`instant` or `changeset-pr`)
+3. Choose bump type and optional description
 
 ## Getting Help
 
