@@ -19,9 +19,10 @@
     <!-- CA1707: Underscores in test method names are standard practice -->
     <!-- CA1034: Nested types in tests are acceptable for organization -->
     <!-- CA1052: Static types used as test containers -->
+    <!-- CA1515: Test classes are public by xUnit convention -->
     <!-- CA1849: Sync cancel is fine in test setup -->
     <!-- CA2007: ConfigureAwait not needed in tests -->
-    <NoWarn>$(NoWarn);CA1707;CA1034;CA1052;CA1849;CA2007</NoWarn>
+    <NoWarn>$(NoWarn);CA1707;CA1034;CA1052;CA1515;CA1849;CA2007</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
