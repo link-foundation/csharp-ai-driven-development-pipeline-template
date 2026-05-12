@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- changelog-insert-here -->
 
+
+## [0.2.1] - 2026-05-12
+
+Self-heal release workflow when NuGet publish fails after the version commit + tag are pushed. A new `scripts/check-release-needed.mjs` probes the NuGet flat-container index and the GitHub Releases API; when the csproj `<Version>` is missing on NuGet (or its GitHub release is missing), the next push to `main` resumes publishing without requiring a new changeset. Both the automatic `release` job and the manual `instant-release` job validate `NUGET_API_KEY` upfront so an expired key fails fast instead of mid-push.
+
 ## [0.2.0] - 2026-05-12
 
 Fix CI/CD check differences between pull request and push events
