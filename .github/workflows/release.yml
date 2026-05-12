@@ -323,7 +323,8 @@ jobs:
             --repository "${{ github.repository }}" \
             --tag-prefix "csharp_v" \
             --language "C#" \
-            --package-id "${{ steps.package.outputs.id }}"
+            --package-id "${{ steps.package.outputs.id }}" \
+            --assets-glob "./artifacts/*.nupkg"
 
   # === MANUAL INSTANT RELEASE ===
   # Triggered via workflow_dispatch with instant mode
@@ -425,7 +426,8 @@ jobs:
             --repository "${{ github.repository }}" \
             --tag-prefix "csharp_v" \
             --language "C#" \
-            --package-id "${{ steps.package.outputs.id }}"
+            --package-id "${{ steps.package.outputs.id }}" \
+            --assets-glob "./artifacts/*.nupkg"
 
   # === MANUAL CHANGESET PR ===
   # Creates a pull request with the changeset for review
