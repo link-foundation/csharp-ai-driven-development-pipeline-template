@@ -15,6 +15,7 @@ import {
   buildReleaseTag,
   buildReleaseTitle,
   findPackageId,
+  main,
   normalizeReleaseVersion,
   parseArgs,
 } from './create-github-release.mjs';
@@ -31,6 +32,7 @@ describe('create-github-release helpers', () => {
     ]);
 
     expect(config).toEqual({
+      assetsGlob: '',
       language: 'C#',
       packageId: 'MyPackage',
       releaseVersion: '1.2.3',
@@ -108,6 +110,128 @@ describe('create-github-release helpers', () => {
       );
 
       expect(findPackageId(projectRoot)).toBe('Example.Package');
+    } finally {
+      rmSync(projectRoot, { force: true, recursive: true });
+    }
+  });
+
+  test('uploads matching NuGet package assets after creating a release', () => {
+    const projectRoot = mkdtempSync(path.join(tmpdir(), 'csharp-release-'));
+    try {
+      mkdirSync(path.join(projectRoot, 'artifacts'), { recursive: true });
+      writeFileSync(
+        path.join(projectRoot, 'CHANGELOG.md'),
+        '## [1.2.3] - 2026-05-12\n\n- Attach package assets\n'
+      );
+      writeFileSync(
+        path.join(projectRoot, 'artifacts', 'MyPackage.1.2.3.nupkg'),
+        'fake nupkg'
+      );
+      writeFileSync(
+        path.join(projectRoot, 'artifacts', 'MyPackage.1.2.3.snupkg'),
+        'symbols package'
+      );
+
+      const calls = [];
+      const stdoutMessages = [];
+      const stderrMessages = [];
+      const spawn = (command, args, options) => {
+        calls.push({ args, command, options });
+        return { status: 0, stderr: '', stdout: '' };
+      };
+
+      const exitCode = main({
+        argv: [
+          '--release-version',
+          '1.2.3',
+          '--repository',
+          'owner/repo',
+          '--assets-glob',
+          'artifacts/*.nupkg',
+        ],
+        cwd: projectRoot,
+        env: {},
+        spawn,
+        stderr: (message) => stderrMessages.push(message),
+        stdout: (message) => stdoutMessages.push(message),
+      });
+
+      expect(exitCode).toBe(0);
+      expect(stderrMessages).toEqual([]);
+      expect(calls).toHaveLength(2);
+      expect(calls[0].command).toBe('gh');
+      expect(calls[0].args).toEqual([
+        'api',
+        'repos/owner/repo/releases',
+        '-X',
+        'POST',
+        '--input',
+        '-',
+      ]);
+      expect(calls[1].command).toBe('gh');
+      expect(calls[1].args).toEqual([
+        'release',
+        'upload',
+        'csharp_v1.2.3',
+        path.join(projectRoot, 'artifacts', 'MyPackage.1.2.3.nupkg'),
+        '--clobber',
+        '--repo',
+        'owner/repo',
+      ]);
+      expect(stdoutMessages).toContain(
+        'Uploading 1 release asset(s) to csharp_v1.2.3...'
+      );
+    } finally {
+      rmSync(projectRoot, { force: true, recursive: true });
+    }
+  });
+
+  test('uploads matching NuGet package assets when the release already exists', () => {
+    const projectRoot = mkdtempSync(path.join(tmpdir(), 'csharp-release-'));
+    try {
+      mkdirSync(path.join(projectRoot, 'artifacts'), { recursive: true });
+      writeFileSync(
+        path.join(projectRoot, 'CHANGELOG.md'),
+        '## [1.2.3] - 2026-05-12\n\n- Attach package assets\n'
+      );
+      writeFileSync(
+        path.join(projectRoot, 'artifacts', 'MyPackage.1.2.3.nupkg'),
+        'fake nupkg'
+      );
+
+      const calls = [];
+      const stdoutMessages = [];
+      const spawn = (command, args, options) => {
+        calls.push({ args, command, options });
+        if (args[0] === 'api') {
+          return { status: 1, stderr: 'already_exists', stdout: '' };
+        }
+
+        return { status: 0, stderr: '', stdout: '' };
+      };
+
+      const exitCode = main({
+        argv: [
+          '--release-version',
+          '1.2.3',
+          '--repository',
+          'owner/repo',
+          '--assets-glob',
+          'artifacts/*.nupkg',
+        ],
+        cwd: projectRoot,
+        env: {},
+        spawn,
+        stdout: (message) => stdoutMessages.push(message),
+      });
+
+      expect(exitCode).toBe(0);
+      expect(calls).toHaveLength(2);
+      expect(calls[1].args[0]).toBe('release');
+      expect(calls[1].args[1]).toBe('upload');
+      expect(stdoutMessages).toContain(
+        'GitHub release already exists: csharp_v1.2.3, reconciling assets'
+      );
     } finally {
       rmSync(projectRoot, { force: true, recursive: true });
     }

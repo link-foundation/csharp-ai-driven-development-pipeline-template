@@ -2,7 +2,7 @@
 
 /**
  * Create GitHub Release from CHANGELOG.md
- * Usage: bun run scripts/create-github-release.mjs --release-version <version> --repository <repository> [--tag-prefix <prefix>] [--language <language>] [--package-id <id>]
+ * Usage: bun run scripts/create-github-release.mjs --release-version <version> --repository <repository> [--tag-prefix <prefix>] [--language <language>] [--package-id <id>] [--assets-glob <glob>]
  */
 
 import { spawnSync } from 'node:child_process';
@@ -16,16 +16,17 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const USAGE =
-  'Usage: bun run scripts/create-github-release.mjs --release-version <version> --repository <repository> [--tag-prefix <prefix>] [--language <language>] [--package-id <id>]';
+  'Usage: bun run scripts/create-github-release.mjs --release-version <version> --repository <repository> [--tag-prefix <prefix>] [--language <language>] [--package-id <id>] [--assets-glob <glob>]';
 
 /**
  * Parse CLI arguments.
  * @param {string[]} argv
  * @param {NodeJS.ProcessEnv} env
- * @returns {{releaseVersion: string, repository: string, tagPrefix: string, language: string, packageId: string}}
+ * @returns {{assetsGlob: string, releaseVersion: string, repository: string, tagPrefix: string, language: string, packageId: string}}
  */
 export function parseArgs(argv, env = process.env) {
   const config = {
+    assetsGlob: env.ASSETS_GLOB ?? '',
     language: env.LANGUAGE ?? 'C#',
     packageId: env.PACKAGE_ID ?? '',
     releaseVersion: env.VERSION ?? '',
@@ -63,6 +64,11 @@ export function parseArgs(argv, env = process.env) {
       index++;
     } else if (arg.startsWith('--package-id=')) {
       config.packageId = arg.slice('--package-id='.length);
+    } else if (arg === '--assets-glob') {
+      config.assetsGlob = readOptionValue(argv, index, arg);
+      index++;
+    } else if (arg.startsWith('--assets-glob=')) {
+      config.assetsGlob = arg.slice('--assets-glob='.length);
     }
   }
 
@@ -320,6 +326,99 @@ export function createRelease({ payload, repository, spawn = spawnSync }) {
 }
 
 /**
+ * Resolve a simple release asset glob.
+ *
+ * Supports exact file paths or `*` in the file name portion, such as
+ * `artifacts/*.nupkg`. Matches are returned in deterministic path order.
+ *
+ * @param {string} assetsGlob
+ * @param {string} cwd
+ * @returns {string[]}
+ */
+export function resolveReleaseAssets(assetsGlob, cwd = '.') {
+  const pattern = String(assetsGlob ?? '').trim();
+  if (!pattern) {
+    return [];
+  }
+
+  const absolutePattern = path.isAbsolute(pattern)
+    ? pattern
+    : path.resolve(cwd, pattern);
+  const assetDirectory = path.dirname(absolutePattern);
+  const filePattern = path.basename(absolutePattern);
+
+  if (!filePattern.includes('*')) {
+    try {
+      return existsSync(absolutePattern) && statSync(absolutePattern).isFile()
+        ? [absolutePattern]
+        : [];
+    } catch {
+      return [];
+    }
+  }
+
+  let entries;
+  try {
+    entries = readdirSync(assetDirectory, { withFileTypes: true });
+  } catch {
+    return [];
+  }
+
+  const filePatternRegex = new RegExp(
+    `^${escapeRegex(filePattern).replace(/\\\*/g, '.*')}$`
+  );
+
+  return entries
+    .filter((entry) => entry.isFile() && filePatternRegex.test(entry.name))
+    .map((entry) => path.join(assetDirectory, entry.name))
+    .sort();
+}
+
+/**
+ * Upload release assets using gh.
+ * @param {{assetPaths: string[], repository: string, tag: string, spawn?: typeof spawnSync}} options
+ * @returns {void}
+ */
+export function uploadReleaseAssets({
+  assetPaths,
+  repository,
+  tag,
+  spawn = spawnSync,
+}) {
+  if (assetPaths.length === 0) {
+    return;
+  }
+
+  const result = spawn(
+    'gh',
+    [
+      'release',
+      'upload',
+      tag,
+      ...assetPaths,
+      '--clobber',
+      '--repo',
+      repository,
+    ],
+    { encoding: 'utf-8' }
+  );
+
+  if (result.error) {
+    throw new Error(`gh release upload failed to start: ${result.error.message}`);
+  }
+
+  if (result.status !== 0) {
+    const output = [result.stderr, result.stdout]
+      .filter((value) => typeof value === 'string' && value.trim())
+      .join('\n');
+
+    throw new Error(
+      `gh release upload failed with code ${result.status}: ${output}`
+    );
+  }
+}
+
+/**
  * Run the CLI.
  * @param {{argv?: string[], cwd?: string, env?: NodeJS.ProcessEnv, spawn?: typeof spawnSync, stderr?: typeof console.error, stdout?: typeof console.log}} options
  * @returns {number}
@@ -333,7 +432,14 @@ export function main({
   stdout = console.log,
 } = {}) {
   try {
-    const { language, packageId, releaseVersion, repository, tagPrefix } =
+    const {
+      assetsGlob,
+      language,
+      packageId,
+      releaseVersion,
+      repository,
+      tagPrefix,
+    } =
       parseArgs(argv, env);
 
     if (!releaseVersion || !repository) {
@@ -361,11 +467,23 @@ export function main({
     const result = createRelease({ payload, repository, spawn });
 
     if (result.alreadyExists) {
-      stdout(`GitHub release already exists: ${tag}, skipping`);
-      return 0;
+      stdout(`GitHub release already exists: ${tag}, reconciling assets`);
+    } else {
+      stdout(`Created GitHub release: ${tag}`);
     }
 
-    stdout(`Created GitHub release: ${tag}`);
+    if (assetsGlob) {
+      const assetPaths = resolveReleaseAssets(assetsGlob, cwd);
+
+      if (assetPaths.length === 0) {
+        throw new Error(`No release assets matched ${assetsGlob}`);
+      }
+
+      stdout(`Uploading ${assetPaths.length} release asset(s) to ${tag}...`);
+      uploadReleaseAssets({ assetPaths, repository, spawn, tag });
+      stdout(`Uploaded ${assetPaths.length} release asset(s) to ${tag}`);
+    }
+
     return 0;
   } catch (error) {
     stderr(`Error creating release: ${error.message}`);
