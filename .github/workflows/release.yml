@@ -314,9 +314,7 @@ jobs:
           if [ -z "$PACKAGE_ID" ]; then
             PACKAGE_ID="MyPackage"
           fi
-          PACKAGE_ID_LOWER=$(echo "$PACKAGE_ID" | tr '[:upper:]' '[:lower:]')
           echo "id=$PACKAGE_ID" >> "$GITHUB_OUTPUT"
-          echo "flat_container_id=$PACKAGE_ID_LOWER" >> "$GITHUB_OUTPUT"
 
       - name: Validate NuGet API key
         # Upfront validation surfaces an expired/invalid NUGET_API_KEY before
@@ -353,7 +351,11 @@ jobs:
             echo "published=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Verify package on NuGet
+      - name: Wait for NuGet indexing
+        # NuGet's flat-container API can take up to 15 minutes to reflect a
+        # newly pushed package (see issue #13). Poll it via the tested helper
+        # before creating the GitHub release so users can `dotnet add package`
+        # the version mentioned in the release notes.
         if: >-
           steps.nuget_publish.outputs.published == 'true' && (
           steps.version.outputs.version_committed == 'true' ||
@@ -361,22 +363,9 @@ jobs:
           (steps.check_release.outputs.should_release == 'true' &&
            steps.check_release.outputs.skip_bump == 'true'))
         run: |
-          PACKAGE_ID="${{ steps.package.outputs.id }}"
-          PACKAGE_ID_LOWER="${{ steps.package.outputs.flat_container_id }}"
-          VERSION="${{ steps.release_version.outputs.version }}"
-          for DELAY in 0 5 10 20 30 60; do
-            if [ "$DELAY" != "0" ]; then
-              sleep "$DELAY"
-            fi
-            STATUS=$(curl -sS -o /dev/null -w '%{http_code}' "https://api.nuget.org/v3-flatcontainer/${PACKAGE_ID_LOWER}/${VERSION}/${PACKAGE_ID_LOWER}.nuspec" || true)
-            echo "NuGet status for ${PACKAGE_ID}@${VERSION}: ${STATUS}"
-            if [ "$STATUS" = "200" ]; then
-              echo "Verified ${PACKAGE_ID}@${VERSION} is available on NuGet"
-              exit 0
-            fi
-          done
-          echo "::error title=NuGet verification failed::${PACKAGE_ID}@${VERSION} was not available from NuGet after publish."
-          exit 1
+          bun run scripts/wait-for-nuget.mjs \
+            --package-id "${{ steps.package.outputs.id }}" \
+            --release-version "${{ steps.release_version.outputs.version }}"
 
       - name: Create GitHub Release
         if: >-
@@ -451,9 +440,7 @@ jobs:
           if [ -z "$PACKAGE_ID" ]; then
             PACKAGE_ID="MyPackage"
           fi
-          PACKAGE_ID_LOWER=$(echo "$PACKAGE_ID" | tr '[:upper:]' '[:lower:]')
           echo "id=$PACKAGE_ID" >> "$GITHUB_OUTPUT"
-          echo "flat_container_id=$PACKAGE_ID_LOWER" >> "$GITHUB_OUTPUT"
 
       - name: Validate NuGet API key
         if: >-
@@ -484,28 +471,19 @@ jobs:
             echo "published=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Verify package on NuGet
+      - name: Wait for NuGet indexing
+        # NuGet's flat-container API can take up to 15 minutes to reflect a
+        # newly pushed package (see issue #13). Poll it via the tested helper
+        # before creating the GitHub release so users can `dotnet add package`
+        # the version mentioned in the release notes.
         if: >-
           steps.nuget_publish.outputs.published == 'true' && (
           steps.version.outputs.version_committed == 'true' ||
           steps.version.outputs.already_released == 'true')
         run: |
-          PACKAGE_ID="${{ steps.package.outputs.id }}"
-          PACKAGE_ID_LOWER="${{ steps.package.outputs.flat_container_id }}"
-          VERSION="${{ steps.version.outputs.new_version }}"
-          for DELAY in 0 5 10 20 30 60; do
-            if [ "$DELAY" != "0" ]; then
-              sleep "$DELAY"
-            fi
-            STATUS=$(curl -sS -o /dev/null -w '%{http_code}' "https://api.nuget.org/v3-flatcontainer/${PACKAGE_ID_LOWER}/${VERSION}/${PACKAGE_ID_LOWER}.nuspec" || true)
-            echo "NuGet status for ${PACKAGE_ID}@${VERSION}: ${STATUS}"
-            if [ "$STATUS" = "200" ]; then
-              echo "Verified ${PACKAGE_ID}@${VERSION} is available on NuGet"
-              exit 0
-            fi
-          done
-          echo "::error title=NuGet verification failed::${PACKAGE_ID}@${VERSION} was not available from NuGet after publish."
-          exit 1
+          bun run scripts/wait-for-nuget.mjs \
+            --package-id "${{ steps.package.outputs.id }}" \
+            --release-version "${{ steps.version.outputs.new_version }}"
 
       - name: Create GitHub Release
         if: >-
