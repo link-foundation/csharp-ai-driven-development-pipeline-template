@@ -90,3 +90,7 @@ package-lock.json
 *.temp
 *.swp
 *.swo
+
+# DocFX build output
+_site/
+docs/api/

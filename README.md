@@ -16,6 +16,7 @@ A comprehensive template for AI-driven C# development with full CI/CD pipeline s
 - **CI/CD pipeline**: GitHub Actions with multi-platform support
 - **Changesets workflow**: Version-safe changelog management (like JavaScript Changesets)
 - **Release automation**: Automatic NuGet publishing and GitHub releases
+- **API documentation**: DocFX build and GitHub Pages deployment on every push to `main`
 
 ## Quick Start
 
@@ -90,7 +91,10 @@ dotnet format --verify-no-changes && dotnet build --configuration Release /warna
 │   └── *.md                    # Individual changesets
 ├── .github/
 │   └── workflows/
+│       ├── docs.yml            # DocFX build + GitHub Pages deployment
 │       └── release.yml         # CI/CD pipeline configuration
+├── docs/                       # DocFX content (conceptual docs, TOC)
+├── docfx.json                  # DocFX project configuration
 ├── examples/
 │   ├── BasicUsage.cs           # Usage example
 │   └── BasicUsage.csproj       # Example project
@@ -184,6 +188,26 @@ The GitHub Actions workflow provides:
 3. **Test matrix**: 3 OS (Ubuntu, macOS, Windows) with .NET 8.0
 4. **Building**: Release build and package validation
 5. **Release**: Automated versioning, NuGet publishing, and GitHub releases
+
+### Documentation Site
+
+This template publishes API documentation to GitHub Pages on every push to `main`.
+
+- Build configuration lives in [`docfx.json`](docfx.json).
+- Conceptual docs live in [`docs/`](docs/).
+- The [`docs.yml`](.github/workflows/docs.yml) workflow builds with DocFX and
+  deploys with the official [`actions/deploy-pages`](https://github.com/actions/deploy-pages)
+  action.
+
+**One-time repository setup**: open **Settings → Pages**, set
+**Source = GitHub Actions**. The next push to `main` publishes the site at
+`https://<org>.github.io/<repo>/`.
+
+The deploy job is intentionally gated on `push` to `main` (and manual
+`workflow_dispatch`) rather than `release: published`. Gating on releases
+prevents the very first deploy until a tag is cut, leaving `<org>.github.io/<repo>/`
+returning 404 — exactly the failure documented in
+[issue #15](https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/issues/15).
 
 ### Release Automation
 
