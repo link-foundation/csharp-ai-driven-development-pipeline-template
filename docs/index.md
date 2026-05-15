@@ -6,6 +6,7 @@ GitHub Pages deployment workflow.
 ## Quick links
 
 - [API reference](xref:MyPackage) — auto-generated from XML doc comments in `src/`.
+- [Roadmap](roadmap/preview-regeneration.md) — deferred work tracked in-repo.
 - [Project README](https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template#readme)
 - [Contributing guide](https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/blob/main/CONTRIBUTING.md)
 
