@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+
+## [0.3.1] - 2026-05-29
+
+Update release workflow reliability policy, job timeouts, and action versions.
+
 ## [0.3.0] - 2026-05-12
 
 Add GitHub Pages docs deployment workflow (`.github/workflows/docs.yml`) and a
