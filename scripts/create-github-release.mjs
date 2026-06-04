@@ -18,6 +18,10 @@ import { fileURLToPath } from 'node:url';
 const USAGE =
   'Usage: bun run scripts/create-github-release.mjs --release-version <version> --repository <repository> [--tag-prefix <prefix>] [--language <language>] [--package-id <id>] [--assets-glob <glob>]';
 
+// Keep comfortably below GitHub's observed 125000-character release body limit.
+export const GITHUB_RELEASE_BODY_MAX_BYTES = 120_000;
+const textEncoder = new globalThis.TextEncoder();
+
 /**
  * Parse CLI arguments.
  * @param {string[]} argv
@@ -167,6 +171,94 @@ export function appendNuGetBadgeIfMissing(releaseNotes, packageId) {
 }
 
 /**
+ * Calculate the UTF-8 byte length for a string.
+ * @param {string} value
+ * @returns {number}
+ */
+function getUtf8ByteLength(value) {
+  return textEncoder.encode(value).byteLength;
+}
+
+/**
+ * Truncate a string without splitting UTF-8 characters.
+ * @param {string} value
+ * @param {number} maxBytes
+ * @returns {string}
+ */
+function truncateToUtf8Bytes(value, maxBytes) {
+  const chunks = [];
+  let usedBytes = 0;
+
+  for (const character of value) {
+    const characterBytes = getUtf8ByteLength(character);
+
+    if (usedBytes + characterBytes > maxBytes) {
+      break;
+    }
+
+    chunks.push(character);
+    usedBytes += characterBytes;
+  }
+
+  return chunks.join('');
+}
+
+/**
+ * Build a link to the changelog at a release tag.
+ * @param {string} repository
+ * @param {string} tag
+ * @returns {string}
+ */
+function buildTaggedChangelogUrl(repository, tag) {
+  return `https://github.com/${repository}/blob/${tag}/CHANGELOG.md`;
+}
+
+/**
+ * Build the note appended when release notes are shortened.
+ * @param {{repository: string, tag: string}} options
+ * @returns {string}
+ */
+function buildTruncatedReleaseNotesNotice({ repository, tag }) {
+  const changelogUrl = buildTaggedChangelogUrl(repository, tag);
+
+  return `Release notes were shortened to fit GitHub's release body limit. See the full tagged CHANGELOG.md: ${changelogUrl}`;
+}
+
+/**
+ * Limit release notes to GitHub's release body budget.
+ * @param {{maxBytes?: number, releaseNotes: string, repository: string, tag: string}} options
+ * @returns {string}
+ */
+export function limitReleaseNotesBytes({
+  maxBytes = GITHUB_RELEASE_BODY_MAX_BYTES,
+  releaseNotes,
+  repository,
+  tag,
+}) {
+  if (getUtf8ByteLength(releaseNotes) <= maxBytes) {
+    return releaseNotes;
+  }
+
+  const suffix = `\n\n...\n\n${buildTruncatedReleaseNotesNotice({
+    repository,
+    tag,
+  })}`;
+  const suffixBytes = getUtf8ByteLength(suffix);
+  const availableBytes = Math.max(0, maxBytes - suffixBytes);
+  const shortenedNotes = truncateToUtf8Bytes(
+    releaseNotes,
+    availableBytes
+  ).trimEnd();
+  const limitedNotes = `${shortenedNotes}${suffix}`;
+
+  if (getUtf8ByteLength(limitedNotes) <= maxBytes) {
+    return limitedNotes;
+  }
+
+  return truncateToUtf8Bytes(limitedNotes, maxBytes);
+}
+
+/**
  * Extract changelog content for a specific version
  * @param {string} changelog
  * @param {string} version
@@ -268,7 +360,7 @@ function walkProjectFiles(dir, candidates, depth = 0) {
 
 /**
  * Build the GitHub release API payload.
- * @param {{changelog: string, language: string, packageId: string, releaseVersion: string, tagPrefix: string}} options
+ * @param {{changelog: string, language: string, packageId: string, releaseVersion: string, repository?: string, tagPrefix: string}} options
  * @returns {string}
  */
 export function buildReleasePayload({
@@ -276,18 +368,20 @@ export function buildReleasePayload({
   language,
   packageId,
   releaseVersion,
+  repository = '',
   tagPrefix,
 }) {
   const semver = normalizeReleaseVersion(releaseVersion);
+  const tag = buildReleaseTag(tagPrefix, semver);
   const releaseNotes = appendNuGetBadgeIfMissing(
     extractReleaseNotes(changelog, semver),
     packageId
   );
 
   return JSON.stringify({
-    tag_name: buildReleaseTag(tagPrefix, semver),
+    tag_name: tag,
     name: buildReleaseTitle(language, semver),
-    body: releaseNotes,
+    body: limitReleaseNotesBytes({ releaseNotes, repository, tag }),
   });
 }
 
@@ -459,6 +553,7 @@ export function main({
       language,
       packageId: resolvedPackageId,
       releaseVersion,
+      repository,
       tagPrefix,
     });
 
