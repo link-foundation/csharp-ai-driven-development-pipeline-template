@@ -15,10 +15,18 @@ import {
   buildReleaseTag,
   buildReleaseTitle,
   findPackageId,
+  GITHUB_RELEASE_BODY_MAX_BYTES,
+  limitReleaseNotesBytes,
   main,
   normalizeReleaseVersion,
   parseArgs,
 } from './create-github-release.mjs';
+
+const textEncoder = new globalThis.TextEncoder();
+
+function getUtf8ByteLength(value) {
+  return textEncoder.encode(value).byteLength;
+}
 
 describe('create-github-release helpers', () => {
   test('parseArgs defaults to the C# release format and accepts package id', () => {
@@ -96,6 +104,44 @@ describe('create-github-release helpers', () => {
         '[![NuGet](https://img.shields.io/nuget/v/MyPackage.svg)]' +
         '(https://www.nuget.org/packages/MyPackage)',
     });
+  });
+
+  test('limits oversized release payload bodies and links the tagged changelog', () => {
+    const hugeNotes = `- ${'a'.repeat(GITHUB_RELEASE_BODY_MAX_BYTES + 10_000)}`;
+    const payload = JSON.parse(
+      buildReleasePayload({
+        changelog: `## [1.2.3] - 2026-06-04\n\n${hugeNotes}\n`,
+        language: 'C#',
+        packageId: 'MyPackage',
+        releaseVersion: '1.2.3',
+        repository: 'owner/repo',
+        tagPrefix: 'csharp_v',
+      })
+    );
+
+    expect(getUtf8ByteLength(payload.body)).toBeLessThanOrEqual(
+      GITHUB_RELEASE_BODY_MAX_BYTES
+    );
+    expect(payload.body.startsWith('- aaa')).toBe(true);
+    expect(payload.body).toContain('Release notes were shortened');
+    expect(payload.body).toContain(
+      'https://github.com/owner/repo/blob/csharp_v1.2.3/CHANGELOG.md'
+    );
+  });
+
+  test('truncates release notes without splitting UTF-8 characters', () => {
+    const limitedNotes = limitReleaseNotesBytes({
+      maxBytes: 600,
+      releaseNotes: '🚀'.repeat(500),
+      repository: 'owner/repo',
+      tag: 'csharp_v1.2.3',
+    });
+
+    expect(getUtf8ByteLength(limitedNotes)).toBeLessThanOrEqual(600);
+    expect(limitedNotes).not.toContain('\uFFFD');
+    expect(limitedNotes).toContain(
+      'https://github.com/owner/repo/blob/csharp_v1.2.3/CHANGELOG.md'
+    );
   });
 
   test('findPackageId reads PackageId from a project file', () => {
