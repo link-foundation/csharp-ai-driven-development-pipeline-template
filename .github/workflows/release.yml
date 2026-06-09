@@ -113,16 +113,22 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     needs: [detect-changes]
+    # detect-changes is intentionally skipped for workflow_dispatch. Without a
+    # status-check function, GitHub adds an implicit success() on detect-changes
+    # and skips lint (and everything that needs it, including instant-release).
+    # always() && !cancelled() lets the OR conditions decide instead.
     if: |
-      github.event_name == 'push' ||
-      github.event_name == 'workflow_dispatch' ||
-      needs.detect-changes.outputs.cs-changed == 'true' ||
-      needs.detect-changes.outputs.csproj-changed == 'true' ||
-      needs.detect-changes.outputs.sln-changed == 'true' ||
-      needs.detect-changes.outputs.props-changed == 'true' ||
-      needs.detect-changes.outputs.mjs-changed == 'true' ||
-      needs.detect-changes.outputs.docs-changed == 'true' ||
-      needs.detect-changes.outputs.workflow-changed == 'true'
+      always() && !cancelled() && (
+        github.event_name == 'push' ||
+        github.event_name == 'workflow_dispatch' ||
+        needs.detect-changes.outputs.cs-changed == 'true' ||
+        needs.detect-changes.outputs.csproj-changed == 'true' ||
+        needs.detect-changes.outputs.sln-changed == 'true' ||
+        needs.detect-changes.outputs.props-changed == 'true' ||
+        needs.detect-changes.outputs.mjs-changed == 'true' ||
+        needs.detect-changes.outputs.docs-changed == 'true' ||
+        needs.detect-changes.outputs.workflow-changed == 'true'
+      )
     steps:
       - uses: actions/checkout@v6
 
@@ -395,7 +401,16 @@ jobs:
   instant-release:
     name: Instant Release
     needs: [lint, test, build]
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.release_mode == 'instant' && needs.lint.result == 'success' && needs.test.result == 'success' && needs.build.result == 'success'
+    # Mirror the automatic release job: a status-check function plus explicit
+    # needs.*.result checks so the dispatch run is evaluated even though
+    # detect-changes (an upstream skip) propagated through the needs graph.
+    if: |
+      always() && !cancelled() &&
+      github.event_name == 'workflow_dispatch' &&
+      github.event.inputs.release_mode == 'instant' &&
+      needs.lint.result == 'success' &&
+      needs.test.result == 'success' &&
+      needs.build.result == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
