@@ -18,6 +18,34 @@ function readWorkflow(filePath) {
   return readFileSync(filePath, 'utf-8').replaceAll('\r\n', '\n');
 }
 
+// Jobs whose `needs` graph includes detect-changes, which is intentionally
+// skipped for workflow_dispatch. Without a status-check function in their `if`,
+// GitHub Actions adds an implicit success() over the skipped dependency and
+// skips these jobs (and the release they gate). See issue #23.
+const JOBS_REQUIRING_STATUS_CHECK = ['lint', 'test', 'build', 'release', 'instant-release'];
+
+const STATUS_CHECK_FUNCTIONS = ['always()', '!cancelled()', 'cancelled()', 'success()', 'failure()'];
+
+function getJobCondition(jobBlock) {
+  const lines = jobBlock.split('\n');
+  const ifIndex = lines.findIndex((line) => /^    if:/.test(line));
+  if (ifIndex === -1) {
+    return '';
+  }
+
+  const conditionLines = [lines[ifIndex].replace(/^    if:\s*\|?\s*/, '')];
+  for (const line of lines.slice(ifIndex + 1)) {
+    // Condition continues while indented deeper than the `if:` key.
+    if (/^      \S/.test(line) || line.trim() === '') {
+      conditionLines.push(line);
+      continue;
+    }
+    break;
+  }
+
+  return conditionLines.join('\n').trim();
+}
+
 function getJobBlocks(workflow) {
   const lines = workflow.split('\n');
   const jobsStart = lines.findIndex((line) => line === 'jobs:');
@@ -76,6 +104,30 @@ describe('release workflow policy', () => {
         `\n    timeout-minutes: ${timeoutMinutes}`
       );
     }
+  });
+
+  test('guards jobs with skipped dependencies using a status-check function', () => {
+    const workflow = readWorkflow(RELEASE_WORKFLOW);
+    const jobBlocks = getJobBlocks(workflow);
+
+    for (const jobName of JOBS_REQUIRING_STATUS_CHECK) {
+      const condition = getJobCondition(jobBlocks.get(jobName));
+      expect(condition).not.toBe('');
+      expect(
+        STATUS_CHECK_FUNCTIONS.some((fn) => condition.includes(fn)),
+        `Job "${jobName}" must use a status-check function (e.g. always()) because it depends on a possibly skipped job`
+      ).toBe(true);
+    }
+  });
+
+  test('instant-release keeps explicit success checks on its dependencies', () => {
+    const workflow = readWorkflow(RELEASE_WORKFLOW);
+    const condition = getJobCondition(getJobBlocks(workflow).get('instant-release'));
+
+    expect(condition).toContain("github.event.inputs.release_mode == 'instant'");
+    expect(condition).toContain("needs.lint.result == 'success'");
+    expect(condition).toContain("needs.test.result == 'success'");
+    expect(condition).toContain("needs.build.result == 'success'");
   });
 
   test('uses the current GitHub Action versions required by the template', () => {
