@@ -162,9 +162,17 @@ jobs:
     name: Test (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
-    needs: [detect-changes, changeset-check]
-    # Run if: push event, workflow_dispatch, OR changeset-check succeeded, OR changeset-check was skipped (docs-only PR)
-    if: always() && (github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.changeset-check.result == 'success' || needs.changeset-check.result == 'skipped')
+    needs: [detect-changes]
+    # Run tests only for events or file changes that affect runtime behavior.
+    if: |
+      always() && !cancelled() && (
+        github.event_name == 'push' ||
+        github.event_name == 'workflow_dispatch' ||
+        needs.detect-changes.outputs.any-code-changed == 'true' ||
+        needs.detect-changes.outputs.cs-changed == 'true' ||
+        needs.detect-changes.outputs.csproj-changed == 'true' ||
+        needs.detect-changes.outputs.workflow-changed == 'true'
+      )
     strategy:
       fail-fast: false
       matrix:
