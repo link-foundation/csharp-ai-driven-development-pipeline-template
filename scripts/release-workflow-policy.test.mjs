@@ -36,7 +36,7 @@ function getJobCondition(jobBlock) {
   const conditionLines = [lines[ifIndex].replace(/^    if:\s*\|?\s*/, '')];
   for (const line of lines.slice(ifIndex + 1)) {
     // Condition continues while indented deeper than the `if:` key.
-    if (/^      \S/.test(line) || line.trim() === '') {
+    if (/^ {6,}\S/.test(line) || line.trim() === '') {
       conditionLines.push(line);
       continue;
     }
@@ -128,6 +128,24 @@ describe('release workflow policy', () => {
     expect(condition).toContain("needs.lint.result == 'success'");
     expect(condition).toContain("needs.test.result == 'success'");
     expect(condition).toContain("needs.build.result == 'success'");
+  });
+
+  test('test job is gated by change detector outputs, not changeset-check skip state', () => {
+    const workflow = readWorkflow(RELEASE_WORKFLOW);
+    const testJob = getJobBlocks(workflow).get('test');
+    const condition = getJobCondition(testJob);
+
+    expect(testJob).toContain('needs: [detect-changes]');
+    expect(testJob).not.toContain('needs: [detect-changes, changeset-check]');
+    expect(condition).toContain('always()');
+    expect(condition).toContain('!cancelled()');
+    expect(condition).toContain("github.event_name == 'push'");
+    expect(condition).toContain("github.event_name == 'workflow_dispatch'");
+    expect(condition).toContain("needs.detect-changes.outputs.any-code-changed == 'true'");
+    expect(condition).toContain("needs.detect-changes.outputs.cs-changed == 'true'");
+    expect(condition).toContain("needs.detect-changes.outputs.csproj-changed == 'true'");
+    expect(condition).toContain("needs.detect-changes.outputs.workflow-changed == 'true'");
+    expect(condition).not.toContain('needs.changeset-check.result');
   });
 
   test('uses the current GitHub Action versions required by the template', () => {
