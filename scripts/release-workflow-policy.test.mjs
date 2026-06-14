@@ -158,4 +158,22 @@ describe('release workflow policy', () => {
     expect(workflow).not.toContain('uses: actions/upload-artifact@v4');
     expect(workflow).not.toContain('uses: peter-evans/create-pull-request@v7');
   });
+
+  test('smoke-tests published NuGet packages before creating releases', () => {
+    const workflow = readWorkflow(RELEASE_WORKFLOW);
+    const jobBlocks = getJobBlocks(workflow);
+
+    for (const jobName of ['release', 'instant-release']) {
+      const job = jobBlocks.get(jobName);
+      const waitIndex = job.indexOf('- name: Wait for NuGet indexing');
+      const smokeIndex = job.indexOf('- name: Smoke-test published NuGet package');
+      const releaseIndex = job.indexOf('- name: Create GitHub Release');
+
+      expect(waitIndex).toBeGreaterThan(-1);
+      expect(smokeIndex).toBeGreaterThan(waitIndex);
+      expect(releaseIndex).toBeGreaterThan(smokeIndex);
+      expect(job).toContain('bun run scripts/smoke-test-nuget-package.mjs');
+      expect(job).not.toMatch(/\|\s*head\b/);
+    }
+  });
 });
