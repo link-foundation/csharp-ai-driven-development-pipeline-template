@@ -525,6 +525,22 @@ jobs:
             --package-id "${{ steps.package.outputs.id }}" \
             --release-version "${{ steps.release_version.outputs.version }}"
 
+      - name: Smoke-test published NuGet package
+        # Indexing proves the version exists; this installs it in a clean
+        # throwaway project and runs the advertised library entry point before
+        # release notes are published. The helper captures command output
+        # before previewing it, avoiding SIGPIPE-prone live-output pagination.
+        if: >-
+          steps.nuget_publish.outputs.published == 'true' && (
+          steps.version.outputs.version_committed == 'true' ||
+          steps.version.outputs.already_released == 'true' ||
+          (steps.check_release.outputs.should_release == 'true' &&
+           steps.check_release.outputs.skip_bump == 'true'))
+        run: |
+          bun run scripts/smoke-test-nuget-package.mjs \
+            --package-id "${{ steps.package.outputs.id }}" \
+            --release-version "${{ steps.release_version.outputs.version }}"
+
       - name: Create GitHub Release
         if: >-
           steps.version.outputs.version_committed == 'true' ||
@@ -673,6 +689,20 @@ jobs:
           steps.version.outputs.already_released == 'true')
         run: |
           bun run "${{ steps.csharp_layout.outputs.root }}/scripts/wait-for-nuget.mjs" \
+            --package-id "${{ steps.package.outputs.id }}" \
+            --release-version "${{ steps.version.outputs.new_version }}"
+
+      - name: Smoke-test published NuGet package
+        # Indexing proves the version exists; this installs it in a clean
+        # throwaway project and runs the advertised library entry point before
+        # release notes are published. The helper captures command output
+        # before previewing it, avoiding SIGPIPE-prone live-output pagination.
+        if: >-
+          steps.nuget_publish.outputs.published == 'true' && (
+          steps.version.outputs.version_committed == 'true' ||
+          steps.version.outputs.already_released == 'true')
+        run: |
+          bun run scripts/smoke-test-nuget-package.mjs \
             --package-id "${{ steps.package.outputs.id }}" \
             --release-version "${{ steps.version.outputs.new_version }}"
 

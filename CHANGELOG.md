@@ -14,6 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+
+## [0.3.5] - 2026-06-14
+
+Add a post-publish NuGet consumer smoke test to the release workflow.
+
 ## [0.3.4] - 2026-06-13
 
 Fix CI test job gating so docs-only and changeset-only pull requests skip the full test matrix.
