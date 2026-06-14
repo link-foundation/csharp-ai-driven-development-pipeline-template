@@ -40,6 +40,15 @@
 import { execSync } from 'child_process';
 import { appendFileSync } from 'fs';
 
+const CSHARP_ROOT = String(process.env.CSHARP_ROOT ?? '')
+  .trim()
+  .replaceAll('\\', '/')
+  .replace(/\/+$/u, '');
+
+function prefixCsharpRoot(folder) {
+  return CSHARP_ROOT && CSHARP_ROOT !== '.' ? `${CSHARP_ROOT}/${folder}` : folder;
+}
+
 /**
  * Execute a shell command and return trimmed output
  * @param {string} command - The command to execute
@@ -122,7 +131,16 @@ function isExcludedFromCodeChanges(filePath) {
   }
 
   // Exclude specific folders from code changes
-  const excludedFolders = ['.changeset/', 'docs/', 'experiments/', 'examples/'];
+  const excludedFolders = [
+    '.changeset/',
+    'docs/',
+    'experiments/',
+    'examples/',
+    prefixCsharpRoot('.changeset/'),
+    prefixCsharpRoot('docs/'),
+    prefixCsharpRoot('experiments/'),
+    prefixCsharpRoot('examples/'),
+  ];
 
   for (const folder of excludedFolders) {
     if (filePath.startsWith(folder)) {

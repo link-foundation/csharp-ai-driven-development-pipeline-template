@@ -59,6 +59,25 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Detect C# layout
+        id: csharp_layout
+        shell: bash
+        run: |
+          set -euo pipefail
+          if compgen -G "*.csproj" > /dev/null || compgen -G "*.sln" > /dev/null || find src -maxdepth 5 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
+            CSHARP_ROOT="."
+            MULTI_LANGUAGE="false"
+          elif find csharp -maxdepth 6 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
+            CSHARP_ROOT="csharp"
+            MULTI_LANGUAGE="true"
+          else
+            echo "::error::Could not find a C# project at the repository root or under csharp/"
+            exit 1
+          fi
+          echo "root=$CSHARP_ROOT" >> "$GITHUB_OUTPUT"
+          echo "multi-language=$MULTI_LANGUAGE" >> "$GITHUB_OUTPUT"
+          echo "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
@@ -70,7 +89,8 @@ jobs:
           GITHUB_EVENT_NAME: ${{ github.event_name }}
           GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           GITHUB_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        run: bun run scripts/detect-code-changes.mjs
+          CSHARP_ROOT: ${{ steps.csharp_layout.outputs.root }}
+        run: bun run "${{ steps.csharp_layout.outputs.root }}/scripts/detect-code-changes.mjs"
 
   # === CHANGESET CHECK - only runs on PRs with code changes ===
   # Docs-only PRs (./docs folder, markdown files) don't require changesets
@@ -85,6 +105,25 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Detect C# layout
+        id: csharp_layout
+        shell: bash
+        run: |
+          set -euo pipefail
+          if compgen -G "*.csproj" > /dev/null || compgen -G "*.sln" > /dev/null || find src -maxdepth 5 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
+            CSHARP_ROOT="."
+            MULTI_LANGUAGE="false"
+          elif find csharp -maxdepth 6 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
+            CSHARP_ROOT="csharp"
+            MULTI_LANGUAGE="true"
+          else
+            echo "::error::Could not find a C# project at the repository root or under csharp/"
+            exit 1
+          fi
+          echo "root=$CSHARP_ROOT" >> "$GITHUB_OUTPUT"
+          echo "multi-language=$MULTI_LANGUAGE" >> "$GITHUB_OUTPUT"
+          echo "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
@@ -95,6 +134,7 @@ jobs:
           GITHUB_BASE_REF: ${{ github.base_ref }}
           GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           GITHUB_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          CSHARP_ROOT: ${{ steps.csharp_layout.outputs.root }}
         run: |
           # Skip changeset check for automated release PRs
           if [[ "${{ github.head_ref }}" == "changeset-release/"* ]] || [[ "${{ github.head_ref }}" == "changeset-manual-release-"* ]]; then
@@ -103,7 +143,7 @@ jobs:
           fi
 
           # Run changeset validation script
-          bun run scripts/validate-changeset.mjs
+          bun run "${{ steps.csharp_layout.outputs.root }}/scripts/validate-changeset.mjs"
 
   # === LINT AND FORMAT CHECK ===
   # Lint runs independently of changeset-check - it's a fast check that should always run
@@ -132,6 +172,25 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Detect C# layout
+        id: csharp_layout
+        shell: bash
+        run: |
+          set -euo pipefail
+          if compgen -G "*.csproj" > /dev/null || compgen -G "*.sln" > /dev/null || find src -maxdepth 5 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
+            CSHARP_ROOT="."
+            MULTI_LANGUAGE="false"
+          elif find csharp -maxdepth 6 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
+            CSHARP_ROOT="csharp"
+            MULTI_LANGUAGE="true"
+          else
+            echo "::error::Could not find a C# project at the repository root or under csharp/"
+            exit 1
+          fi
+          echo "root=$CSHARP_ROOT" >> "$GITHUB_OUTPUT"
+          echo "multi-language=$MULTI_LANGUAGE" >> "$GITHUB_OUTPUT"
+          echo "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -143,18 +202,23 @@ jobs:
           bun-version: latest
 
       - name: Restore dependencies
+        working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: dotnet restore
 
       - name: Check formatting
+        working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: dotnet format --verify-no-changes --verbosity diagnostic
 
       - name: Build with warnings as errors
+        working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: dotnet build --no-restore --configuration Release /warnaserror
 
       - name: Run script tests
+        working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: bun test scripts/*.test.mjs
 
       - name: Check file size limit
+        working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: bun run scripts/check-file-size.mjs
 
   # === TEST ON MULTIPLE OS ===
@@ -180,18 +244,40 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Detect C# layout
+        id: csharp_layout
+        shell: bash
+        run: |
+          set -euo pipefail
+          if compgen -G "*.csproj" > /dev/null || compgen -G "*.sln" > /dev/null || find src -maxdepth 5 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
+            CSHARP_ROOT="."
+            MULTI_LANGUAGE="false"
+          elif find csharp -maxdepth 6 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
+            CSHARP_ROOT="csharp"
+            MULTI_LANGUAGE="true"
+          else
+            echo "::error::Could not find a C# project at the repository root or under csharp/"
+            exit 1
+          fi
+          echo "root=$CSHARP_ROOT" >> "$GITHUB_OUTPUT"
+          echo "multi-language=$MULTI_LANGUAGE" >> "$GITHUB_OUTPUT"
+          echo "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
+        working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: dotnet restore
 
       - name: Build
+        working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: dotnet build --no-restore --configuration Release
 
       - name: Run tests
+        working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: dotnet test --no-build --configuration Release --verbosity normal --collect:"XPlat Code Coverage"
 
       - name: Upload coverage to Codecov
@@ -211,25 +297,47 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Detect C# layout
+        id: csharp_layout
+        shell: bash
+        run: |
+          set -euo pipefail
+          if compgen -G "*.csproj" > /dev/null || compgen -G "*.sln" > /dev/null || find src -maxdepth 5 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
+            CSHARP_ROOT="."
+            MULTI_LANGUAGE="false"
+          elif find csharp -maxdepth 6 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
+            CSHARP_ROOT="csharp"
+            MULTI_LANGUAGE="true"
+          else
+            echo "::error::Could not find a C# project at the repository root or under csharp/"
+            exit 1
+          fi
+          echo "root=$CSHARP_ROOT" >> "$GITHUB_OUTPUT"
+          echo "multi-language=$MULTI_LANGUAGE" >> "$GITHUB_OUTPUT"
+          echo "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
+        working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: dotnet restore
 
       - name: Build Release
+        working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: dotnet build --no-restore --configuration Release
 
       - name: Pack NuGet package
+        working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: dotnet pack --no-build --configuration Release --output ./artifacts
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v7
         with:
           name: nuget-package
-          path: ./artifacts/*.nupkg
+          path: ${{ steps.csharp_layout.outputs.root }}/artifacts/*.nupkg
 
   # === AUTOMATIC RELEASE ===
   # Runs on push to main using changesets
@@ -247,6 +355,25 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Detect C# layout
+        id: csharp_layout
+        shell: bash
+        run: |
+          set -euo pipefail
+          if compgen -G "*.csproj" > /dev/null || compgen -G "*.sln" > /dev/null || find src -maxdepth 5 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
+            CSHARP_ROOT="."
+            MULTI_LANGUAGE="false"
+          elif find csharp -maxdepth 6 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
+            CSHARP_ROOT="csharp"
+            MULTI_LANGUAGE="true"
+          else
+            echo "::error::Could not find a C# project at the repository root or under csharp/"
+            exit 1
+          fi
+          echo "root=$CSHARP_ROOT" >> "$GITHUB_OUTPUT"
+          echo "multi-language=$MULTI_LANGUAGE" >> "$GITHUB_OUTPUT"
+          echo "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -261,7 +388,8 @@ jobs:
         id: check_changesets
         run: |
           # Count changeset files (excluding README.md and config.json)
-          CHANGESET_COUNT=$(find .changeset -name "*.md" ! -name "README.md" 2>/dev/null | wc -l)
+          CHANGESET_DIR="${{ steps.csharp_layout.outputs.root }}/.changeset"
+          CHANGESET_COUNT=$(find "$CHANGESET_DIR" -name "*.md" ! -name "README.md" 2>/dev/null | wc -l)
           echo "Found $CHANGESET_COUNT changeset file(s)"
           echo "has_changesets=$([[ $CHANGESET_COUNT -gt 0 ]] && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
           echo "changeset_count=$CHANGESET_COUNT" >> $GITHUB_OUTPUT
@@ -276,10 +404,14 @@ jobs:
           HAS_CHANGESETS: ${{ steps.check_changesets.outputs.has_changesets }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
-        run: bun run scripts/check-release-needed.mjs
+          CSHARP_ROOT: ${{ steps.csharp_layout.outputs.root }}
+        run: |
+          bun run "${{ steps.csharp_layout.outputs.root }}/scripts/check-release-needed.mjs" \
+            --csharp-root "${{ steps.csharp_layout.outputs.root }}"
 
       - name: Merge multiple changesets
         if: steps.check_changesets.outputs.has_changesets == 'true' && steps.check_changesets.outputs.changeset_count > 1
+        working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: |
           echo "Multiple changesets detected, merging..."
           bun run scripts/merge-changesets.mjs
@@ -287,7 +419,10 @@ jobs:
       - name: Version and commit
         if: steps.check_changesets.outputs.has_changesets == 'true'
         id: version
-        run: bun run scripts/version-and-commit.mjs --mode changeset
+        run: |
+          bun run "${{ steps.csharp_layout.outputs.root }}/scripts/version-and-commit.mjs" \
+            --mode changeset \
+            --csharp-root "${{ steps.csharp_layout.outputs.root }}"
 
       - name: Resolve release version
         # Picks the version that downstream steps should publish. Prefers the
@@ -314,6 +449,7 @@ jobs:
           steps.version.outputs.already_released == 'true' ||
           (steps.check_release.outputs.should_release == 'true' &&
            steps.check_release.outputs.skip_bump == 'true')
+        working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: |
           dotnet restore
           dotnet build --configuration Release
@@ -326,6 +462,7 @@ jobs:
           steps.version.outputs.already_released == 'true' ||
           (steps.check_release.outputs.should_release == 'true' &&
            steps.check_release.outputs.skip_bump == 'true')
+        working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: |
           PACKAGE_ID=$(dotnet msbuild src/MyPackage/MyPackage.csproj -getProperty:PackageId | tail -n 1 | tr -d '\r')
           if [ -z "$PACKAGE_ID" ]; then
@@ -362,6 +499,7 @@ jobs:
            steps.check_release.outputs.skip_bump == 'true')
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: |
           if [ -n "$NUGET_API_KEY" ]; then
             dotnet nuget push ./artifacts/*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate
@@ -383,7 +521,7 @@ jobs:
           (steps.check_release.outputs.should_release == 'true' &&
            steps.check_release.outputs.skip_bump == 'true'))
         run: |
-          bun run scripts/wait-for-nuget.mjs \
+          bun run "${{ steps.csharp_layout.outputs.root }}/scripts/wait-for-nuget.mjs" \
             --package-id "${{ steps.package.outputs.id }}" \
             --release-version "${{ steps.release_version.outputs.version }}"
 
@@ -396,10 +534,10 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          bun run scripts/create-github-release.mjs \
+          bun run "${{ steps.csharp_layout.outputs.root }}/scripts/create-github-release.mjs" \
             --release-version "${{ steps.release_version.outputs.version }}" \
             --repository "${{ github.repository }}" \
-            --tag-prefix "csharp_v" \
+            --csharp-root "${{ steps.csharp_layout.outputs.root }}" \
             --language "C#" \
             --package-id "${{ steps.package.outputs.id }}" \
             --assets-glob "./artifacts/*.nupkg"
@@ -430,6 +568,25 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Detect C# layout
+        id: csharp_layout
+        shell: bash
+        run: |
+          set -euo pipefail
+          if compgen -G "*.csproj" > /dev/null || compgen -G "*.sln" > /dev/null || find src -maxdepth 5 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
+            CSHARP_ROOT="."
+            MULTI_LANGUAGE="false"
+          elif find csharp -maxdepth 6 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
+            CSHARP_ROOT="csharp"
+            MULTI_LANGUAGE="true"
+          else
+            echo "::error::Could not find a C# project at the repository root or under csharp/"
+            exit 1
+          fi
+          echo "root=$CSHARP_ROOT" >> "$GITHUB_OUTPUT"
+          echo "multi-language=$MULTI_LANGUAGE" >> "$GITHUB_OUTPUT"
+          echo "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -443,15 +600,17 @@ jobs:
       - name: Version and commit
         id: version
         run: |
-          bun run scripts/version-and-commit.mjs \
+          bun run "${{ steps.csharp_layout.outputs.root }}/scripts/version-and-commit.mjs" \
             --mode instant \
             --bump-type "${{ github.event.inputs.bump_type }}" \
-            --description "${{ github.event.inputs.description }}"
+            --description "${{ github.event.inputs.description }}" \
+            --csharp-root "${{ steps.csharp_layout.outputs.root }}"
 
       - name: Build package
         if: >-
           steps.version.outputs.version_committed == 'true' ||
           steps.version.outputs.already_released == 'true'
+        working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: |
           dotnet restore
           dotnet build --configuration Release
@@ -462,6 +621,7 @@ jobs:
           steps.version.outputs.version_committed == 'true' ||
           steps.version.outputs.already_released == 'true'
         id: package
+        working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: |
           PACKAGE_ID=$(dotnet msbuild src/MyPackage/MyPackage.csproj -getProperty:PackageId | tail -n 1 | tr -d '\r')
           if [ -z "$PACKAGE_ID" ]; then
@@ -492,6 +652,7 @@ jobs:
           steps.version.outputs.already_released == 'true'
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: |
           if [ -n "$NUGET_API_KEY" ]; then
             dotnet nuget push ./artifacts/*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate
@@ -511,7 +672,7 @@ jobs:
           steps.version.outputs.version_committed == 'true' ||
           steps.version.outputs.already_released == 'true')
         run: |
-          bun run scripts/wait-for-nuget.mjs \
+          bun run "${{ steps.csharp_layout.outputs.root }}/scripts/wait-for-nuget.mjs" \
             --package-id "${{ steps.package.outputs.id }}" \
             --release-version "${{ steps.version.outputs.new_version }}"
 
@@ -522,10 +683,10 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          bun run scripts/create-github-release.mjs \
+          bun run "${{ steps.csharp_layout.outputs.root }}/scripts/create-github-release.mjs" \
             --release-version "${{ steps.version.outputs.new_version }}" \
             --repository "${{ github.repository }}" \
-            --tag-prefix "csharp_v" \
+            --csharp-root "${{ steps.csharp_layout.outputs.root }}" \
             --language "C#" \
             --package-id "${{ steps.package.outputs.id }}" \
             --assets-glob "./artifacts/*.nupkg"
@@ -545,6 +706,25 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Detect C# layout
+        id: csharp_layout
+        shell: bash
+        run: |
+          set -euo pipefail
+          if compgen -G "*.csproj" > /dev/null || compgen -G "*.sln" > /dev/null || find src -maxdepth 5 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
+            CSHARP_ROOT="."
+            MULTI_LANGUAGE="false"
+          elif find csharp -maxdepth 6 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
+            CSHARP_ROOT="csharp"
+            MULTI_LANGUAGE="true"
+          else
+            echo "::error::Could not find a C# project at the repository root or under csharp/"
+            exit 1
+          fi
+          echo "root=$CSHARP_ROOT" >> "$GITHUB_OUTPUT"
+          echo "multi-language=$MULTI_LANGUAGE" >> "$GITHUB_OUTPUT"
+          echo "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
@@ -553,7 +733,9 @@ jobs:
       - name: Create changeset file
         run: |
           CHANGESET_ID=$(date +%s)
-          CHANGESET_FILE=".changeset/manual-release-${CHANGESET_ID}.md"
+          CHANGESET_DIR="${{ steps.csharp_layout.outputs.root }}/.changeset"
+          mkdir -p "$CHANGESET_DIR"
+          CHANGESET_FILE="$CHANGESET_DIR/manual-release-${CHANGESET_ID}.md"
 
           cat > "$CHANGESET_FILE" << 'EOF'
           ---

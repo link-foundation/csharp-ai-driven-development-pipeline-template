@@ -235,7 +235,7 @@ describe('check-release-needed probes', () => {
     try {
       const exists = await fetchGithubReleaseExists(
         'link-foundation/csharp-ai-driven-development-pipeline-template',
-        'csharp_v1.0.0'
+        'cs_v1.0.0'
       );
       expect(exists).toBe(true);
     } finally {
@@ -258,7 +258,7 @@ describe('check-release-needed probes', () => {
     try {
       const exists = await fetchGithubReleaseExists(
         'link-foundation/csharp-ai-driven-development-pipeline-template',
-        'csharp_v9.9.9'
+        'cs_v9.9.9'
       );
       expect(exists).toBe(false);
     } finally {
@@ -272,7 +272,7 @@ describe('check-release-needed probes', () => {
   });
 
   test('fetchGithubReleaseExists returns false when repository is empty', async () => {
-    const exists = await fetchGithubReleaseExists('', 'csharp_v1.0.0');
+    const exists = await fetchGithubReleaseExists('', 'cs_v1.0.0');
     expect(exists).toBe(false);
   });
 
@@ -289,7 +289,7 @@ describe('check-release-needed probes', () => {
       const versions = await fetchNugetVersions('MyPackage');
       const exists = await fetchGithubReleaseExists(
         'link-foundation/csharp-ai-driven-development-pipeline-template',
-        'csharp_v2.4.0'
+        'cs_v2.4.0'
       );
       const result = decide({
         hasChangesets: false,
@@ -331,7 +331,7 @@ describe('check-release-needed probes', () => {
       const versions = await fetchNugetVersions('MyPackage');
       const exists = await fetchGithubReleaseExists(
         'link-foundation/csharp-ai-driven-development-pipeline-template',
-        'csharp_v2.4.0'
+        'cs_v2.4.0'
       );
       const result = decide({
         hasChangesets: false,

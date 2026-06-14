@@ -18,10 +18,11 @@ function git(args, cwd) {
   execFileSync('git', args, { cwd, stdio: 'pipe', encoding: 'utf-8' });
 }
 
-function setupRepo({ startingVersion, changesetBump }) {
+function setupRepo({ startingVersion, changesetBump, csharpRoot = '.' }) {
   const root = mkdtempSync(path.join(tmpdir(), 'version-and-commit-'));
   const remote = path.join(root, 'remote.git');
   const repo = path.join(root, 'repo');
+  const packageRoot = csharpRoot === '.' ? repo : path.join(repo, csharpRoot);
   mkdirSync(repo);
 
   // Initialize a bare remote so `git push` succeeds without network access.
@@ -35,16 +36,21 @@ function setupRepo({ startingVersion, changesetBump }) {
   git(['remote', 'add', 'origin', remote], repo);
   git(['commit', '--allow-empty', '-q', '-m', 'init'], repo);
 
-  mkdirSync(path.join(repo, 'src', 'MyPackage'), { recursive: true });
+  if (csharpRoot !== '.') {
+    mkdirSync(path.join(repo, 'js'), { recursive: true });
+    writeFileSync(path.join(repo, 'js', 'package.json'), '{}\n');
+  }
+
+  mkdirSync(path.join(packageRoot, 'src', 'MyPackage'), { recursive: true });
   writeFileSync(
-    path.join(repo, 'src', 'MyPackage', 'MyPackage.csproj'),
+    path.join(packageRoot, 'src', 'MyPackage', 'MyPackage.csproj'),
     `<Project Sdk="Microsoft.NET.Sdk">\n  <PropertyGroup>\n    <Version>${startingVersion}</Version>\n  </PropertyGroup>\n</Project>\n`
   );
 
-  mkdirSync(path.join(repo, '.changeset'), { recursive: true });
+  mkdirSync(path.join(packageRoot, '.changeset'), { recursive: true });
   if (changesetBump) {
     writeFileSync(
-      path.join(repo, '.changeset', 'feature.md'),
+      path.join(packageRoot, '.changeset', 'feature.md'),
       `---\n'MyPackage': ${changesetBump}\n---\n\nAdd a feature\n`
     );
   }
@@ -53,7 +59,7 @@ function setupRepo({ startingVersion, changesetBump }) {
   git(['commit', '-q', '-m', 'snapshot'], repo);
   git(['push', '-q', '-u', 'origin', 'main'], repo);
 
-  return { repo, root };
+  return { packageRoot, repo, root };
 }
 
 function runScript(repo, extraArgs = ['--mode', 'changeset']) {
@@ -148,6 +154,42 @@ describe('version-and-commit', () => {
       expect(exitCode).toBe(0);
       expect(outputs.already_released).toBe('true');
       expect(outputs.new_version).toBe('2.4.0');
+    } finally {
+      rmSync(root, { force: true, recursive: true });
+    }
+  });
+
+  test('uses cs_v release tags in a csharp subdirectory layout', () => {
+    const { packageRoot, repo, root } = setupRepo({
+      startingVersion: '2.3.0',
+      changesetBump: 'minor',
+      csharpRoot: 'csharp',
+    });
+    try {
+      const { exitCode, outputs } = runScript(repo);
+
+      expect(exitCode).toBe(0);
+      expect(outputs.new_version).toBe('2.4.0');
+      expect(outputs.release_tag).toBe('cs_v2.4.0');
+      expect(outputs.version_committed).toBe('true');
+
+      const csproj = readFileSync(
+        path.join(packageRoot, 'src', 'MyPackage', 'MyPackage.csproj'),
+        'utf-8'
+      );
+      expect(csproj).toContain('<Version>2.4.0</Version>');
+
+      const log = execFileSync('git', ['log', '--oneline'], {
+        cwd: repo,
+        encoding: 'utf-8',
+      });
+      expect(log).toContain('chore: release cs_v2.4.0');
+
+      const tagListing = execFileSync('git', ['tag', '-l', 'cs_v2.4.0'], {
+        cwd: repo,
+        encoding: 'utf-8',
+      }).trim();
+      expect(tagListing).toBe('cs_v2.4.0');
     } finally {
       rmSync(root, { force: true, recursive: true });
     }
