@@ -220,6 +220,8 @@ The release workflow supports two modes:
 4. Creates git tag and pushes changes
 5. Publishes to NuGet and creates GitHub release
 
+Release naming adapts to the repository layout automatically. A normal C# repository uses `v<version>` tags and `<PackageId> <version>` release titles. When the C# package lives under `csharp/` in a multi-language monorepo, releases use `cs_v<version>` tags and `[C#] <version>` titles so they do not collide with other language releases. GitHub release notes include a NuGet badge that links to the exact published package version.
+
 **Manual Release** (via workflow_dispatch):
 - `instant` mode: Immediate version bump and release
 - `changeset-pr` mode: Creates a PR with changeset for review

@@ -25,8 +25,8 @@
  *
  * Usage:
  *   bun run scripts/check-release-needed.mjs
- *     [--csproj <path>] [--repository <owner/repo>] [--tag-prefix <prefix>]
- *     [--package-id <id>]
+ *     [--csharp-root <path>] [--csproj <path>]
+ *     [--repository <owner/repo>] [--tag-prefix <prefix>] [--package-id <id>]
  *
  * Environment variables:
  *   - HAS_CHANGESETS:    'true' if changeset files exist (from check_changesets step)
@@ -46,6 +46,12 @@
  */
 
 import { appendFileSync, readFileSync } from 'node:fs';
+import path from 'node:path';
+import {
+  buildReleaseTag,
+  detectCsharpLayout,
+  findCsharpProjectFile,
+} from './release-naming.mjs';
 
 const NUGET_FLAT_CONTAINER = 'https://api.nuget.org/v3-flatcontainer';
 const GITHUB_API = 'https://api.github.com';
@@ -156,7 +162,7 @@ export async function fetchNugetVersions(packageId, fetchImpl = fetch) {
  * GitHub release already exists.
  *
  * @param {string} repository  owner/repo
- * @param {string} tag         full tag, e.g. csharp_v2.4.0
+ * @param {string} tag         full tag, e.g. cs_v2.4.0
  * @param {typeof fetch} fetchImpl
  * @returns {Promise<boolean>}
  */
@@ -265,9 +271,18 @@ export function decide({
 }
 
 async function main() {
-  const csprojPath = getArg('csproj') || 'src/MyPackage/MyPackage.csproj';
+  const csharpRootArg = getArg('csharp-root') || process.env.CSHARP_ROOT || '';
+  const layout = detectCsharpLayout({ csharpRoot: csharpRootArg });
+  const csharpRootPath =
+    layout.csharpRoot === '.'
+      ? process.cwd()
+      : path.join(process.cwd(), layout.csharpRoot);
+  const csprojPath =
+    getArg('csproj') ||
+    findCsharpProjectFile(csharpRootPath) ||
+    path.join(csharpRootPath, 'src/MyPackage/MyPackage.csproj');
   const repository = getArg('repository') || process.env.GITHUB_REPOSITORY || '';
-  const tagPrefix = getArg('tag-prefix') || 'csharp_v';
+  const tagPrefix = getArg('tag-prefix') || '';
   const packageIdOverride = getArg('package-id') || '';
 
   const csproj = readCsprojInfo(csprojPath);
@@ -275,6 +290,8 @@ async function main() {
   const currentVersion = csproj.version;
 
   console.log(`csproj path:     ${csprojPath}`);
+  console.log(`C# root:         ${layout.csharpRoot}`);
+  console.log(`Multi-language:  ${layout.isMultiLanguage}`);
   console.log(`Package id:      ${packageId}`);
   console.log(`Current version: ${currentVersion}`);
   console.log(`Repository:      ${repository || '(not set)'}`);
@@ -288,7 +305,10 @@ async function main() {
     console.log(`NuGet versions: ${publishedVersions.join(', ')}`);
   }
 
-  const tag = `${tagPrefix}${currentVersion}`;
+  const tag = buildReleaseTag(currentVersion, {
+    csharpRoot: layout.csharpRoot,
+    tagPrefix,
+  });
   const githubReleaseExists = await fetchGithubReleaseExists(repository, tag);
   console.log(`GitHub release ${tag}: ${githubReleaseExists ? 'exists' : 'missing'}`);
 

@@ -29,7 +29,7 @@ function getUtf8ByteLength(value) {
 }
 
 describe('create-github-release helpers', () => {
-  test('parseArgs defaults to the C# release format and accepts package id', () => {
+  test('parseArgs defaults to auto-detected release naming and accepts package id', () => {
     const config = parseArgs([
       '--release-version',
       '1.2.3',
@@ -41,11 +41,12 @@ describe('create-github-release helpers', () => {
 
     expect(config).toEqual({
       assetsGlob: '',
+      csharpRoot: '',
       language: 'C#',
       packageId: 'MyPackage',
       releaseVersion: '1.2.3',
       repository: 'owner/repo',
-      tagPrefix: 'csharp_v',
+      tagPrefix: '',
     });
   });
 
@@ -59,26 +60,28 @@ describe('create-github-release helpers', () => {
   });
 
   test('builds C# release tags and titles from bare semver', () => {
-    expect(buildReleaseTag('csharp_v', '1.2.3')).toBe('csharp_v1.2.3');
-    expect(buildReleaseTag('csharp_v', 'csharp-v1.2.3')).toBe(
-      'csharp_v1.2.3'
-    );
+    expect(buildReleaseTag('cs_v', '1.2.3')).toBe('cs_v1.2.3');
+    expect(buildReleaseTag('cs_v', 'csharp-v1.2.3')).toBe('cs_v1.2.3');
     expect(buildReleaseTitle('C#', 'csharp_v1.2.3')).toBe('[C#] 1.2.3');
   });
 
   test('appends a NuGet shields.io badge when release notes do not have one', () => {
-    const notes = appendNuGetBadgeIfMissing('- Fix release title', 'MyPackage');
+    const notes = appendNuGetBadgeIfMissing(
+      '- Fix release title',
+      'MyPackage',
+      '1.2.3'
+    );
 
     expect(notes).toContain('- Fix release title');
     expect(notes).toContain(
-      '[![NuGet](https://img.shields.io/nuget/v/MyPackage.svg)]'
+      '[![NuGet](https://img.shields.io/badge/NuGet-1.2.3-004880?logo=nuget)]'
     );
-    expect(notes).toContain('https://www.nuget.org/packages/MyPackage');
+    expect(notes).toContain('https://www.nuget.org/packages/MyPackage/1.2.3');
   });
 
   test('does not append a second badge when release notes already contain shields.io', () => {
     const notes = appendNuGetBadgeIfMissing(
-      `${buildNuGetBadge('MyPackage')}\n\n- Existing badge`,
+      `${buildNuGetBadge('MyPackage', '1.2.3')}\n\n- Existing badge`,
       'MyPackage'
     );
 
@@ -89,20 +92,20 @@ describe('create-github-release helpers', () => {
     const payload = JSON.parse(
       buildReleasePayload({
         changelog: '## [1.2.3] - 2026-05-09\n\n- Fix release metadata\n',
+        csharpRoot: 'csharp',
         language: 'C#',
         packageId: 'MyPackage',
         releaseVersion: '1.2.3',
-        tagPrefix: 'csharp_v',
       })
     );
 
     expect(payload).toEqual({
-      tag_name: 'csharp_v1.2.3',
+      tag_name: 'cs_v1.2.3',
       name: '[C#] 1.2.3',
       body:
         '- Fix release metadata\n\n---\n\n' +
-        '[![NuGet](https://img.shields.io/nuget/v/MyPackage.svg)]' +
-        '(https://www.nuget.org/packages/MyPackage)',
+        '[![NuGet](https://img.shields.io/badge/NuGet-1.2.3-004880?logo=nuget)]' +
+        '(https://www.nuget.org/packages/MyPackage/1.2.3)',
     });
   });
 
@@ -111,11 +114,11 @@ describe('create-github-release helpers', () => {
     const payload = JSON.parse(
       buildReleasePayload({
         changelog: `## [1.2.3] - 2026-06-04\n\n${hugeNotes}\n`,
+        csharpRoot: 'csharp',
         language: 'C#',
         packageId: 'MyPackage',
         releaseVersion: '1.2.3',
         repository: 'owner/repo',
-        tagPrefix: 'csharp_v',
       })
     );
 
@@ -125,7 +128,7 @@ describe('create-github-release helpers', () => {
     expect(payload.body.startsWith('- aaa')).toBe(true);
     expect(payload.body).toContain('Release notes were shortened');
     expect(payload.body).toContain(
-      'https://github.com/owner/repo/blob/csharp_v1.2.3/CHANGELOG.md'
+      'https://github.com/owner/repo/blob/cs_v1.2.3/CHANGELOG.md'
     );
   });
 
@@ -134,13 +137,13 @@ describe('create-github-release helpers', () => {
       maxBytes: 600,
       releaseNotes: '🚀'.repeat(500),
       repository: 'owner/repo',
-      tag: 'csharp_v1.2.3',
+      tag: 'cs_v1.2.3',
     });
 
     expect(getUtf8ByteLength(limitedNotes)).toBeLessThanOrEqual(600);
     expect(limitedNotes).not.toContain('\uFFFD');
     expect(limitedNotes).toContain(
-      'https://github.com/owner/repo/blob/csharp_v1.2.3/CHANGELOG.md'
+      'https://github.com/owner/repo/blob/cs_v1.2.3/CHANGELOG.md'
     );
   });
 
@@ -218,15 +221,13 @@ describe('create-github-release helpers', () => {
       expect(calls[1].args).toEqual([
         'release',
         'upload',
-        'csharp_v1.2.3',
+        'v1.2.3',
         path.join(projectRoot, 'artifacts', 'MyPackage.1.2.3.nupkg'),
         '--clobber',
         '--repo',
         'owner/repo',
       ]);
-      expect(stdoutMessages).toContain(
-        'Uploading 1 release asset(s) to csharp_v1.2.3...'
-      );
+      expect(stdoutMessages).toContain('Uploading 1 release asset(s) to v1.2.3...');
     } finally {
       rmSync(projectRoot, { force: true, recursive: true });
     }
@@ -276,7 +277,7 @@ describe('create-github-release helpers', () => {
       expect(calls[1].args[0]).toBe('release');
       expect(calls[1].args[1]).toBe('upload');
       expect(stdoutMessages).toContain(
-        'GitHub release already exists: csharp_v1.2.3, reconciling assets'
+        'GitHub release already exists: v1.2.3, reconciling assets'
       );
     } finally {
       rmSync(projectRoot, { force: true, recursive: true });

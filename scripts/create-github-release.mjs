@@ -2,7 +2,7 @@
 
 /**
  * Create GitHub Release from CHANGELOG.md
- * Usage: bun run scripts/create-github-release.mjs --release-version <version> --repository <repository> [--tag-prefix <prefix>] [--language <language>] [--package-id <id>] [--assets-glob <glob>]
+ * Usage: bun run scripts/create-github-release.mjs --release-version <version> --repository <repository> [--csharp-root <path>] [--tag-prefix <prefix>] [--language <language>] [--package-id <id>] [--assets-glob <glob>]
  */
 
 import { spawnSync } from 'node:child_process';
@@ -14,9 +14,19 @@ import {
 } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {
+  buildNuGetBadge as buildLayoutNuGetBadge,
+  buildReleaseTag as buildLayoutReleaseTag,
+  buildReleaseTitle as buildLayoutReleaseTitle,
+  detectCsharpLayout,
+  findCsharpProjectFile,
+  normalizeReleaseVersion,
+} from './release-naming.mjs';
+
+export { normalizeReleaseVersion };
 
 const USAGE =
-  'Usage: bun run scripts/create-github-release.mjs --release-version <version> --repository <repository> [--tag-prefix <prefix>] [--language <language>] [--package-id <id>] [--assets-glob <glob>]';
+  'Usage: bun run scripts/create-github-release.mjs --release-version <version> --repository <repository> [--csharp-root <path>] [--tag-prefix <prefix>] [--language <language>] [--package-id <id>] [--assets-glob <glob>]';
 
 // Keep comfortably below GitHub's observed 125000-character release body limit.
 export const GITHUB_RELEASE_BODY_MAX_BYTES = 120_000;
@@ -26,16 +36,17 @@ const textEncoder = new globalThis.TextEncoder();
  * Parse CLI arguments.
  * @param {string[]} argv
  * @param {NodeJS.ProcessEnv} env
- * @returns {{assetsGlob: string, releaseVersion: string, repository: string, tagPrefix: string, language: string, packageId: string}}
+ * @returns {{assetsGlob: string, csharpRoot: string, releaseVersion: string, repository: string, tagPrefix: string, language: string, packageId: string}}
  */
 export function parseArgs(argv, env = process.env) {
   const config = {
     assetsGlob: env.ASSETS_GLOB ?? '',
+    csharpRoot: env.CSHARP_ROOT ?? '',
     language: env.LANGUAGE ?? 'C#',
     packageId: env.PACKAGE_ID ?? '',
     releaseVersion: env.VERSION ?? '',
     repository: env.REPOSITORY ?? '',
-    tagPrefix: env.TAG_PREFIX ?? 'csharp_v',
+    tagPrefix: env.TAG_PREFIX ?? '',
   };
 
   for (let index = 0; index < argv.length; index++) {
@@ -53,6 +64,11 @@ export function parseArgs(argv, env = process.env) {
       index++;
     } else if (arg.startsWith('--repository=')) {
       config.repository = arg.slice('--repository='.length);
+    } else if (arg === '--csharp-root') {
+      config.csharpRoot = readOptionValue(argv, index, arg);
+      index++;
+    } else if (arg.startsWith('--csharp-root=')) {
+      config.csharpRoot = arg.slice('--csharp-root='.length);
     } else if (arg === '--tag-prefix') {
       config.tagPrefix = readOptionValue(argv, index, arg);
       index++;
@@ -106,33 +122,13 @@ function escapeRegex(value) {
 }
 
 /**
- * Normalize release versions to bare semver.
- * @param {string} releaseVersion
- * @returns {string}
- */
-export function normalizeReleaseVersion(releaseVersion) {
-  const trimmedVersion = String(releaseVersion ?? '').trim();
-  const semverTagMatch = trimmedVersion.match(
-    /(?:^|[-_])v?(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?)$/i
-  );
-
-  if (semverTagMatch) {
-    return semverTagMatch[1];
-  }
-
-  return trimmedVersion
-    .replace(/^[A-Za-z][A-Za-z0-9]*[-_]/, '')
-    .replace(/^v/i, '');
-}
-
-/**
  * Build a release tag.
  * @param {string} tagPrefix
  * @param {string} releaseVersion
  * @returns {string}
  */
 export function buildReleaseTag(tagPrefix, releaseVersion) {
-  return `${tagPrefix}${normalizeReleaseVersion(releaseVersion)}`;
+  return buildLayoutReleaseTag(releaseVersion, { tagPrefix });
 }
 
 /**
@@ -142,32 +138,42 @@ export function buildReleaseTag(tagPrefix, releaseVersion) {
  * @returns {string}
  */
 export function buildReleaseTitle(language, releaseVersion) {
-  const releaseLanguage = language.trim() || 'C#';
-  return `[${releaseLanguage}] ${normalizeReleaseVersion(releaseVersion)}`;
+  return buildLayoutReleaseTitle(releaseVersion, {
+    csharpRoot: 'csharp',
+    language,
+  });
 }
 
 /**
  * Build a NuGet badge markdown link.
  * @param {string} packageId
+ * @param {string} releaseVersion
  * @returns {string}
  */
-export function buildNuGetBadge(packageId) {
-  const encodedPackageId = encodeURIComponent(packageId);
-  return `[![NuGet](https://img.shields.io/nuget/v/${encodedPackageId}.svg)](https://www.nuget.org/packages/${encodedPackageId})`;
+export function buildNuGetBadge(packageId, releaseVersion) {
+  return buildLayoutNuGetBadge(packageId, releaseVersion);
 }
 
 /**
  * Append a NuGet badge unless release notes already include a shields.io badge.
  * @param {string} releaseNotes
  * @param {string} packageId
+ * @param {string} releaseVersion
  * @returns {string}
  */
-export function appendNuGetBadgeIfMissing(releaseNotes, packageId) {
+export function appendNuGetBadgeIfMissing(
+  releaseNotes,
+  packageId,
+  releaseVersion
+) {
   if (!packageId || /img\.shields\.io/i.test(releaseNotes)) {
     return releaseNotes;
   }
 
-  return `${releaseNotes}\n\n---\n\n${buildNuGetBadge(packageId)}`;
+  return `${releaseNotes}\n\n---\n\n${buildNuGetBadge(
+    packageId,
+    releaseVersion
+  )}`;
 }
 
 /**
@@ -288,99 +294,56 @@ export function extractReleaseNotes(changelog, version) {
  * @returns {string}
  */
 export function findPackageId(rootDir = '.') {
-  const candidates = [];
-
-  walkProjectFiles(rootDir, candidates);
-
-  for (const csprojPath of candidates) {
-    const csproj = readFileSync(csprojPath, 'utf-8');
-    const packageIdMatch = csproj.match(/<PackageId>([^<]+)<\/PackageId>/);
-    if (packageIdMatch) {
-      return packageIdMatch[1].trim();
-    }
-
-    const assemblyNameMatch = csproj.match(
-      /<AssemblyName>([^<]+)<\/AssemblyName>/
-    );
-    if (assemblyNameMatch) {
-      return assemblyNameMatch[1].trim();
-    }
+  const csprojPath = findCsharpProjectFile(rootDir);
+  if (!csprojPath) {
+    return '';
   }
 
-  if (candidates.length > 0) {
-    return path.basename(candidates[0], '.csproj');
+  const csproj = readFileSync(csprojPath, 'utf-8');
+  const packageIdMatch = csproj.match(/<PackageId>([^<]+)<\/PackageId>/);
+  if (packageIdMatch) {
+    return packageIdMatch[1].trim();
   }
 
-  return '';
-}
-
-/**
- * Walk project files under a root directory.
- * @param {string} dir
- * @param {string[]} candidates
- * @param {number} depth
- */
-function walkProjectFiles(dir, candidates, depth = 0) {
-  if (depth > 4) {
-    return;
+  const assemblyNameMatch = csproj.match(
+    /<AssemblyName>([^<]+)<\/AssemblyName>/
+  );
+  if (assemblyNameMatch) {
+    return assemblyNameMatch[1].trim();
   }
 
-  let entries;
-  try {
-    entries = readdirSync(dir);
-  } catch {
-    return;
-  }
-
-  for (const entry of entries) {
-    if (
-      entry === '.git' ||
-      entry === 'bin' ||
-      entry === 'obj' ||
-      entry === 'node_modules'
-    ) {
-      continue;
-    }
-
-    const fullPath = path.join(dir, entry);
-    let stat;
-    try {
-      stat = statSync(fullPath);
-    } catch {
-      continue;
-    }
-
-    if (stat.isDirectory()) {
-      walkProjectFiles(fullPath, candidates, depth + 1);
-    } else if (fullPath.endsWith('.csproj')) {
-      candidates.push(fullPath);
-    }
-  }
+  return path.basename(csprojPath, '.csproj');
 }
 
 /**
  * Build the GitHub release API payload.
- * @param {{changelog: string, language: string, packageId: string, releaseVersion: string, repository?: string, tagPrefix: string}} options
+ * @param {{changelog: string, csharpRoot?: string, language: string, packageId: string, releaseVersion: string, repository?: string, tagPrefix?: string}} options
  * @returns {string}
  */
 export function buildReleasePayload({
   changelog,
+  csharpRoot = '.',
   language,
   packageId,
   releaseVersion,
   repository = '',
-  tagPrefix,
+  tagPrefix = '',
 }) {
   const semver = normalizeReleaseVersion(releaseVersion);
-  const tag = buildReleaseTag(tagPrefix, semver);
+  const tag = buildLayoutReleaseTag(semver, { csharpRoot, tagPrefix });
   const releaseNotes = appendNuGetBadgeIfMissing(
     extractReleaseNotes(changelog, semver),
-    packageId
+    packageId,
+    semver
   );
 
   return JSON.stringify({
     tag_name: tag,
-    name: buildReleaseTitle(language, semver),
+    name: buildLayoutReleaseTitle(semver, {
+      csharpRoot,
+      language,
+      packageName: packageId,
+    }),
     body: limitReleaseNotesBytes({ releaseNotes, repository, tag }),
   });
 }
@@ -528,6 +491,7 @@ export function main({
   try {
     const {
       assetsGlob,
+      csharpRoot,
       language,
       packageId,
       releaseVersion,
@@ -542,14 +506,21 @@ export function main({
       return 1;
     }
 
-    const changelogPath = path.join(cwd, 'CHANGELOG.md');
+    const layout = detectCsharpLayout({ cwd, csharpRoot });
+    const csharpRootPath =
+      layout.csharpRoot === '.' ? cwd : path.join(cwd, layout.csharpRoot);
+    const changelogPath = path.join(csharpRootPath, 'CHANGELOG.md');
     const changelog = existsSync(changelogPath)
       ? readFileSync(changelogPath, 'utf-8')
       : '';
-    const resolvedPackageId = packageId || findPackageId(cwd);
-    const tag = buildReleaseTag(tagPrefix, releaseVersion);
+    const resolvedPackageId = packageId || findPackageId(csharpRootPath);
+    const tag = buildLayoutReleaseTag(releaseVersion, {
+      csharpRoot: layout.csharpRoot,
+      tagPrefix,
+    });
     const payload = buildReleasePayload({
       changelog,
+      csharpRoot: layout.csharpRoot,
       language,
       packageId: resolvedPackageId,
       releaseVersion,
@@ -568,7 +539,7 @@ export function main({
     }
 
     if (assetsGlob) {
-      const assetPaths = resolveReleaseAssets(assetsGlob, cwd);
+      const assetPaths = resolveReleaseAssets(assetsGlob, csharpRootPath);
 
       if (assetPaths.length === 0) {
         throw new Error(`No release assets matched ${assetsGlob}`);

@@ -18,7 +18,14 @@ import { join } from 'path';
 
 // Package name must match the package name in the changeset files
 const PACKAGE_NAME = 'MyPackage';
-const CHANGESET_DIR = '.changeset';
+const CSHARP_ROOT = String(process.env.CSHARP_ROOT ?? '')
+  .trim()
+  .replaceAll('\\', '/')
+  .replace(/\/+$/u, '');
+const CHANGESET_DIR =
+  CSHARP_ROOT && CSHARP_ROOT !== '.'
+    ? `${CSHARP_ROOT}/.changeset`
+    : '.changeset';
 
 /**
  * Ensure a git commit is available locally, fetching if necessary
@@ -222,9 +229,11 @@ try {
   // Ensure exactly one changeset file was added
   if (changesetCount === 0) {
     console.error(
-      '::error::No changeset found in this PR. Please add a changeset file in .changeset/ directory.'
+      `::error::No changeset found in this PR. Please add a changeset file in ${CHANGESET_DIR}/ directory.`
     );
-    console.error('\nTo create a changeset, add a file like .changeset/my-change.md with:');
+    console.error(
+      `\nTo create a changeset, add a file like ${CHANGESET_DIR}/my-change.md with:`
+    );
     console.error(`---\n'${PACKAGE_NAME}': patch\n---\n\nDescription of your changes`);
     process.exit(1);
   } else if (changesetCount > 1) {

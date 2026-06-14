@@ -5,8 +5,8 @@
  * Used by the CI/CD pipeline for releases
  *
  * Usage:
- *   Changeset mode: bun run scripts/version-and-commit.mjs --mode changeset
- *   Instant mode:   bun run scripts/version-and-commit.mjs --mode instant --bump-type <major|minor|patch> [--description <desc>]
+ *   Changeset mode: bun run scripts/version-and-commit.mjs --mode changeset [--csharp-root <path>]
+ *   Instant mode:   bun run scripts/version-and-commit.mjs --mode instant --bump-type <major|minor|patch> [--description <desc>] [--csharp-root <path>]
  */
 
 import {
@@ -17,14 +17,14 @@ import {
   existsSync,
   unlinkSync,
 } from 'fs';
-import { join } from 'path';
+import { join, relative } from 'path';
 import { execSync } from 'child_process';
-
-// Package name must match the package name in the changeset files
-const PACKAGE_NAME = 'MyPackage';
-const CSPROJ_PATH = 'src/MyPackage/MyPackage.csproj';
-const CHANGESET_DIR = '.changeset';
-const CHANGELOG_FILE = 'CHANGELOG.md';
+import {
+  buildReleaseTag,
+  detectCsharpLayout,
+  findCsharpProjectFile,
+  resolvePathInCsharpRoot,
+} from './release-naming.mjs';
 
 // Version bump type priority (higher number = higher priority)
 const BUMP_PRIORITY = {
@@ -44,6 +44,21 @@ const getArg = (name) => {
 const mode = getArg('mode') || 'instant';
 const bumpTypeArg = getArg('bump-type');
 const description = getArg('description') || '';
+const csharpRootArg = getArg('csharp-root') || process.env.CSHARP_ROOT || '';
+
+// Package name must match the package name in the changeset files
+const PACKAGE_NAME = 'MyPackage';
+const layout = detectCsharpLayout({ csharpRoot: csharpRootArg });
+const csharpRootPath = layout.csharpRoot === '.' ? '.' : layout.csharpRoot;
+const detectedCsprojPath = findCsharpProjectFile(csharpRootPath, PACKAGE_NAME);
+const CSPROJ_PATH = detectedCsprojPath
+  ? relative(process.cwd(), detectedCsprojPath)
+  : resolvePathInCsharpRoot(
+      layout.csharpRoot,
+      'src/MyPackage/MyPackage.csproj'
+    );
+const CHANGESET_DIR = resolvePathInCsharpRoot(layout.csharpRoot, '.changeset');
+const CHANGELOG_FILE = resolvePathInCsharpRoot(layout.csharpRoot, 'CHANGELOG.md');
 
 /**
  * Execute a shell command
@@ -127,13 +142,13 @@ function updateCsproj(newVersion) {
 }
 
 /**
- * Check if a git tag exists for this version
- * @param {string} version
+ * Check if a git tag exists.
+ * @param {string} tag
  * @returns {boolean}
  */
-function checkTagExists(version) {
+function checkTagExists(tag) {
   try {
-    exec(`git rev-parse --verify --quiet refs/tags/v${version}`, true);
+    exec(`git rev-parse --verify --quiet refs/tags/${tag}`, true);
     return true;
   } catch {
     return false;
@@ -348,12 +363,16 @@ try {
 
   const current = getCurrentVersion();
   const newVersion = calculateNewVersion(current, bumpType);
+  const releaseTag = buildReleaseTag(newVersion, {
+    csharpRoot: layout.csharpRoot,
+  });
 
   // Check if this version was already released
-  if (checkTagExists(newVersion)) {
-    console.log(`Tag v${newVersion} already exists`);
+  if (checkTagExists(releaseTag)) {
+    console.log(`Tag ${releaseTag} already exists`);
     setOutput('already_released', 'true');
     setOutput('new_version', newVersion);
+    setOutput('release_tag', releaseTag);
     process.exit(0);
   }
 
@@ -380,6 +399,7 @@ try {
     console.log('No changes to commit');
     setOutput('version_committed', 'false');
     setOutput('new_version', newVersion);
+    setOutput('release_tag', releaseTag);
     process.exit(0);
   } catch {
     // There are changes to commit (git diff exits with 1 when there are differences)
@@ -387,17 +407,17 @@ try {
 
   // Commit changes
   const commitMsg = description
-    ? `chore: release v${newVersion}\n\n${description}`
-    : `chore: release v${newVersion}`;
+    ? `chore: release ${releaseTag}\n\n${description}`
+    : `chore: release ${releaseTag}`;
   exec(`git commit -m "${commitMsg.replace(/"/g, '\\"')}"`);
   console.log(`Committed version ${newVersion}`);
 
   // Create tag
   const tagMsg = description
-    ? `Release v${newVersion}\n\n${description}`
-    : `Release v${newVersion}`;
-  exec(`git tag -a v${newVersion} -m "${tagMsg.replace(/"/g, '\\"')}"`);
-  console.log(`Created tag v${newVersion}`);
+    ? `Release ${releaseTag}\n\n${description}`
+    : `Release ${releaseTag}`;
+  exec(`git tag -a ${releaseTag} -m "${tagMsg.replace(/"/g, '\\"')}"`);
+  console.log(`Created tag ${releaseTag}`);
 
   // Push changes and tag
   exec('git push');
@@ -406,6 +426,7 @@ try {
 
   setOutput('version_committed', 'true');
   setOutput('new_version', newVersion);
+  setOutput('release_tag', releaseTag);
 } catch (error) {
   console.error('Error:', error.message);
   process.exit(1);
