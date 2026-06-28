@@ -8,7 +8,7 @@
 
     <!-- Package metadata -->
     <PackageId>MyPackage</PackageId>
-    <Version>0.3.6</Version>
+    <Version>0.3.7</Version>
     <Authors>Your Name</Authors>
     <Description>A C# package template for AI-driven development</Description>
     <PackageLicenseExpression>Unlicense</PackageLicenseExpression>
