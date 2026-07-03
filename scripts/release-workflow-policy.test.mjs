@@ -80,6 +80,24 @@ function getJobBlocks(workflow) {
   return blocks;
 }
 
+function getStepBlock(jobBlock, stepName) {
+  const lines = jobBlock.split('\n');
+  const stepStart = lines.findIndex((line) => line.trim() === `- name: ${stepName}`);
+  if (stepStart === -1) {
+    return '';
+  }
+
+  const stepLines = [lines[stepStart]];
+  for (const line of lines.slice(stepStart + 1)) {
+    if (/^ {6}- /.test(line)) {
+      break;
+    }
+    stepLines.push(line);
+  }
+
+  return stepLines.join('\n');
+}
+
 describe('release workflow policy', () => {
   test('does not cancel release runs on main when newer pushes arrive', () => {
     const workflow = readWorkflow(RELEASE_WORKFLOW);
@@ -157,6 +175,31 @@ describe('release workflow policy', () => {
     expect(workflow).not.toContain('uses: actions/checkout@v4');
     expect(workflow).not.toContain('uses: actions/upload-artifact@v4');
     expect(workflow).not.toContain('uses: peter-evans/create-pull-request@v7');
+  });
+
+  test('gates Codecov uploads on an explicit token', () => {
+    const workflow = readWorkflow(RELEASE_WORKFLOW);
+    const testJob = getJobBlocks(workflow).get('test');
+    const uploadStep = getStepBlock(testJob, 'Upload coverage to Codecov');
+    const missingTokenStep = getStepBlock(
+      testJob,
+      'Skip Codecov upload when token is unavailable'
+    );
+
+    expect(testJob).toContain('CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}');
+    expect(uploadStep).toContain(
+      "if: matrix.os == 'ubuntu-latest' && env.CODECOV_TOKEN != ''"
+    );
+    expect(uploadStep).toContain('uses: codecov/codecov-action@v4');
+    expect(uploadStep).toContain('token: ${{ env.CODECOV_TOKEN }}');
+    expect(uploadStep).toContain('fail_ci_if_error: true');
+    expect(uploadStep).not.toContain('fail_ci_if_error: false');
+    expect(missingTokenStep).toContain(
+      "if: matrix.os == 'ubuntu-latest' && env.CODECOV_TOKEN == ''"
+    );
+    expect(missingTokenStep).toContain(
+      '::notice::CODECOV_TOKEN is not configured; skipping Codecov upload.'
+    );
   });
 
   test('smoke-tests published NuGet packages before creating releases', () => {
