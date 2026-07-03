@@ -19,6 +19,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+
+## [0.3.10] - 2026-07-03
+
+Suppress the Git default-branch warning emitted by release workflow checkout.
+
 ## [0.3.9] - 2026-07-03
 
 Make the docs workflow keep building documentation while requiring DEPLOY_GITHUB_PAGES=true before publishing to GitHub Pages.
