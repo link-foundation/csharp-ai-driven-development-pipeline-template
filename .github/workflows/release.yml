@@ -227,6 +227,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     needs: [detect-changes]
+    env:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
     # Run tests only for events or file changes that affect runtime behavior.
     if: |
       always() && !cancelled() && (
@@ -280,11 +282,16 @@ jobs:
         working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: dotnet test --no-build --configuration Release --verbosity normal --collect:"XPlat Code Coverage"
 
+      - name: Skip Codecov upload when token is unavailable
+        if: matrix.os == 'ubuntu-latest' && env.CODECOV_TOKEN == ''
+        run: echo "::notice::CODECOV_TOKEN is not configured; skipping Codecov upload."
+
       - name: Upload coverage to Codecov
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-latest' && env.CODECOV_TOKEN != ''
         uses: codecov/codecov-action@v4
         with:
-          fail_ci_if_error: false
+          token: ${{ env.CODECOV_TOKEN }}
+          fail_ci_if_error: true
 
   # === BUILD PACKAGE ===
   # Only runs if lint and test pass
