@@ -80,6 +80,24 @@ function getJobBlocks(workflow) {
   return blocks;
 }
 
+function getTopLevelBlock(workflow, blockName) {
+  const lines = workflow.split('\n');
+  const blockStart = lines.findIndex((line) => line === `${blockName}:`);
+  if (blockStart === -1) {
+    return '';
+  }
+
+  const blockLines = [lines[blockStart]];
+  for (const line of lines.slice(blockStart + 1)) {
+    if (/^\S/.test(line) && line.trim() !== '') {
+      break;
+    }
+    blockLines.push(line);
+  }
+
+  return blockLines.join('\n');
+}
+
 function getStepBlock(jobBlock, stepName) {
   const lines = jobBlock.split('\n');
   const stepStart = lines.findIndex((line) => line.trim() === `- name: ${stepName}`);
@@ -175,6 +193,15 @@ describe('release workflow policy', () => {
     expect(workflow).not.toContain('uses: actions/checkout@v4');
     expect(workflow).not.toContain('uses: actions/upload-artifact@v4');
     expect(workflow).not.toContain('uses: peter-evans/create-pull-request@v7');
+  });
+
+  test('configures the default Git branch before checkout runs', () => {
+    const workflow = readWorkflow(RELEASE_WORKFLOW);
+    const workflowEnv = getTopLevelBlock(workflow, 'env');
+
+    expect(workflowEnv).toContain("\n  GIT_CONFIG_COUNT: '1'");
+    expect(workflowEnv).toContain('\n  GIT_CONFIG_KEY_0: init.defaultBranch');
+    expect(workflowEnv).toContain('\n  GIT_CONFIG_VALUE_0: main');
   });
 
   test('gates Codecov uploads on an explicit token', () => {
