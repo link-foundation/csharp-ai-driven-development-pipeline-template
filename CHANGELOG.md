@@ -18,6 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+
+## [0.3.9] - 2026-07-03
+
+Make the docs workflow keep building documentation while requiring DEPLOY_GITHUB_PAGES=true before publishing to GitHub Pages.
+
 ## [0.3.8] - 2026-07-03
 
 Gate Codecov uploads on a configured token and fail CI when an attempted coverage upload fails.
