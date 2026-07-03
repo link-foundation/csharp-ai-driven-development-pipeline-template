@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+
+## [0.3.8] - 2026-07-03
+
+Gate Codecov uploads on a configured token and fail CI when an attempted coverage upload fails.
+
 ## [0.3.7] - 2026-06-28
 
 Add warning-threshold annotations to the C# file-size check before files exceed the hard line limit.
