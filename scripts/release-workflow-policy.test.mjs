@@ -2,6 +2,7 @@ import { describe, expect, test } from 'bun:test';
 import { readFileSync } from 'node:fs';
 
 const RELEASE_WORKFLOW = '.github/workflows/release.yml';
+const DOCS_WORKFLOW = '.github/workflows/docs.yml';
 
 const EXPECTED_JOB_TIMEOUTS = new Map([
   ['detect-changes', 5],
@@ -198,13 +199,20 @@ describe('release workflow policy', () => {
 
   test('uses the current GitHub Action versions required by the template', () => {
     const workflow = readWorkflow(RELEASE_WORKFLOW);
+    const docsWorkflow = readWorkflow(DOCS_WORKFLOW);
 
     expect(workflow).toContain('uses: actions/checkout@v6');
+    expect(workflow).toContain('uses: actions/setup-dotnet@v5');
     expect(workflow).toContain('uses: actions/upload-artifact@v7');
+    expect(workflow).toContain('uses: codecov/codecov-action@v7');
     expect(workflow).toContain('uses: peter-evans/create-pull-request@v8');
     expect(workflow).not.toContain('uses: actions/checkout@v4');
+    expect(workflow).not.toContain('uses: actions/setup-dotnet@v4');
     expect(workflow).not.toContain('uses: actions/upload-artifact@v4');
+    expect(workflow).not.toContain('uses: codecov/codecov-action@v4');
     expect(workflow).not.toContain('uses: peter-evans/create-pull-request@v7');
+    expect(docsWorkflow).toContain('uses: actions/setup-dotnet@v5');
+    expect(docsWorkflow).not.toContain('uses: actions/setup-dotnet@v4');
   });
 
   test('configures the default Git branch before checkout runs', () => {
@@ -229,7 +237,7 @@ describe('release workflow policy', () => {
     expect(uploadStep).toContain(
       "if: matrix.os == 'ubuntu-latest' && env.CODECOV_TOKEN != ''"
     );
-    expect(uploadStep).toContain('uses: codecov/codecov-action@v4');
+    expect(uploadStep).toContain('uses: codecov/codecov-action@v7');
     expect(uploadStep).toContain('token: ${{ env.CODECOV_TOKEN }}');
     expect(uploadStep).toContain('fail_ci_if_error: true');
     expect(uploadStep).not.toContain('fail_ci_if_error: false');
