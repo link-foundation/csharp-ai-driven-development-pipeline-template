@@ -195,7 +195,7 @@ jobs:
           echo "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '8.0.x'
 
@@ -269,7 +269,7 @@ jobs:
           echo "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '8.0.x'
 
@@ -291,7 +291,7 @@ jobs:
 
       - name: Upload coverage to Codecov
         if: matrix.os == 'ubuntu-latest' && env.CODECOV_TOKEN != ''
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v7
         with:
           token: ${{ env.CODECOV_TOKEN }}
           fail_ci_if_error: true
@@ -327,7 +327,7 @@ jobs:
           echo "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '8.0.x'
 
@@ -385,7 +385,7 @@ jobs:
           echo "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '8.0.x'
 
@@ -614,7 +614,7 @@ jobs:
           echo "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '8.0.x'
 
