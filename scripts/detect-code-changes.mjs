@@ -15,6 +15,7 @@
  * - Markdown files (*.md) in any folder
  * - .changeset/ folder (changeset metadata)
  * - docs/ folder (documentation)
+ * - dev/log/ folder (development logs)
  * - experiments/ folder (experimental scripts)
  * - examples/ folder (example scripts)
  *
@@ -27,14 +28,7 @@
  *   - GITHUB_HEAD_SHA: Head commit SHA for PR
  *
  * Outputs (written to GITHUB_OUTPUT):
- *   - cs-changed: 'true' if any .cs files changed
- *   - csproj-changed: 'true' if any .csproj files changed
- *   - sln-changed: 'true' if any .sln files changed
- *   - props-changed: 'true' if any .props files changed (Directory.Build.props etc.)
- *   - mjs-changed: 'true' if any .mjs files changed (scripts)
- *   - docs-changed: 'true' if any .md files changed
- *   - workflow-changed: 'true' if any .github/workflows/ files changed
- *   - any-code-changed: 'true' if any code files changed (excludes docs, changesets, experiments, examples)
+ *   - any-code-changed: 'true' if any code files changed after applying the exclusion policy
  */
 
 import { execSync } from 'child_process';
@@ -124,7 +118,7 @@ function getChangedFiles() {
  * @param {string} filePath - The file path to check
  * @returns {boolean} True if the file should be excluded
  */
-function isExcludedFromCodeChanges(filePath) {
+export function isExcludedFromCodeChanges(filePath) {
   // Exclude markdown files in any folder
   if (filePath.endsWith('.md')) {
     return true;
@@ -134,10 +128,12 @@ function isExcludedFromCodeChanges(filePath) {
   const excludedFolders = [
     '.changeset/',
     'docs/',
+    'dev/log/',
     'experiments/',
     'examples/',
     prefixCsharpRoot('.changeset/'),
     prefixCsharpRoot('docs/'),
+    prefixCsharpRoot('dev/log/'),
     prefixCsharpRoot('experiments/'),
     prefixCsharpRoot('examples/'),
   ];
@@ -149,6 +145,21 @@ function isExcludedFromCodeChanges(filePath) {
   }
 
   return false;
+}
+
+/**
+ * Compute the outputs used by change-gated workflow jobs.
+ * @param {string[]} changedFiles - Changed repository-relative paths
+ * @returns {{ 'any-code-changed': string }} GitHub Actions output values
+ */
+export function detectChangeOutputs(changedFiles) {
+  const includedFiles = changedFiles.filter(
+    (file) => !isExcludedFromCodeChanges(file)
+  );
+  const codePattern = /\.(cs|csproj|sln|props|mjs|json|yml|yaml)$|\.github\/workflows\//;
+  const codeChanged = includedFiles.some((file) => codePattern.test(file));
+
+  return { 'any-code-changed': codeChanged ? 'true' : 'false' };
 }
 
 /**
@@ -167,37 +178,7 @@ function detectChanges() {
   }
   console.log('');
 
-  // Detect .cs file changes (C# source files)
-  const csChanged = changedFiles.some((file) => file.endsWith('.cs'));
-  setOutput('cs-changed', csChanged ? 'true' : 'false');
-
-  // Detect .csproj file changes (project files)
-  const csprojChanged = changedFiles.some((file) => file.endsWith('.csproj'));
-  setOutput('csproj-changed', csprojChanged ? 'true' : 'false');
-
-  // Detect .sln file changes (solution files)
-  const slnChanged = changedFiles.some((file) => file.endsWith('.sln'));
-  setOutput('sln-changed', slnChanged ? 'true' : 'false');
-
-  // Detect .props file changes (Directory.Build.props, etc.)
-  const propsChanged = changedFiles.some((file) => file.endsWith('.props'));
-  setOutput('props-changed', propsChanged ? 'true' : 'false');
-
-  // Detect .mjs file changes (scripts)
-  const mjsChanged = changedFiles.some((file) => file.endsWith('.mjs'));
-  setOutput('mjs-changed', mjsChanged ? 'true' : 'false');
-
-  // Detect documentation changes (any .md file)
-  const docsChanged = changedFiles.some((file) => file.endsWith('.md'));
-  setOutput('docs-changed', docsChanged ? 'true' : 'false');
-
-  // Detect workflow changes
-  const workflowChanged = changedFiles.some((file) =>
-    file.startsWith('.github/workflows/')
-  );
-  setOutput('workflow-changed', workflowChanged ? 'true' : 'false');
-
-  // Detect code changes (excluding docs, changesets, experiments, examples folders, and markdown files)
+  // Apply the exclusion policy before computing every job-gating output.
   const codeChangedFiles = changedFiles.filter(
     (file) => !isExcludedFromCodeChanges(file)
   );
@@ -210,13 +191,13 @@ function detectChanges() {
   }
   console.log('');
 
-  // Check if any code files changed (.cs, .csproj, .sln, .props, .mjs, .json, .yml, .yaml, or workflow files)
-  const codePattern = /\.(cs|csproj|sln|props|mjs|json|yml|yaml)$|\.github\/workflows\//;
-  const codeChanged = codeChangedFiles.some((file) => codePattern.test(file));
-  setOutput('any-code-changed', codeChanged ? 'true' : 'false');
+  const outputs = detectChangeOutputs(changedFiles);
+  setOutput('any-code-changed', outputs['any-code-changed']);
 
   console.log('\nChange detection completed.');
 }
 
 // Run the detection
-detectChanges();
+if (import.meta.main) {
+  detectChanges();
+}

@@ -49,13 +49,6 @@ jobs:
     timeout-minutes: 5
     if: github.event_name != 'workflow_dispatch'
     outputs:
-      cs-changed: ${{ steps.changes.outputs.cs-changed }}
-      csproj-changed: ${{ steps.changes.outputs.csproj-changed }}
-      sln-changed: ${{ steps.changes.outputs.sln-changed }}
-      props-changed: ${{ steps.changes.outputs.props-changed }}
-      mjs-changed: ${{ steps.changes.outputs.mjs-changed }}
-      docs-changed: ${{ steps.changes.outputs.docs-changed }}
-      workflow-changed: ${{ steps.changes.outputs.workflow-changed }}
       any-code-changed: ${{ steps.changes.outputs.any-code-changed }}
     steps:
       - uses: actions/checkout@v6
@@ -162,15 +155,8 @@ jobs:
     # always() && !cancelled() lets the OR conditions decide instead.
     if: |
       always() && !cancelled() && (
-        github.event_name == 'push' ||
         github.event_name == 'workflow_dispatch' ||
-        needs.detect-changes.outputs.cs-changed == 'true' ||
-        needs.detect-changes.outputs.csproj-changed == 'true' ||
-        needs.detect-changes.outputs.sln-changed == 'true' ||
-        needs.detect-changes.outputs.props-changed == 'true' ||
-        needs.detect-changes.outputs.mjs-changed == 'true' ||
-        needs.detect-changes.outputs.docs-changed == 'true' ||
-        needs.detect-changes.outputs.workflow-changed == 'true'
+        needs.detect-changes.outputs.any-code-changed == 'true'
       )
     steps:
       - uses: actions/checkout@v6
@@ -235,12 +221,8 @@ jobs:
     # Run tests only for events or file changes that affect runtime behavior.
     if: |
       always() && !cancelled() && (
-        github.event_name == 'push' ||
         github.event_name == 'workflow_dispatch' ||
-        needs.detect-changes.outputs.any-code-changed == 'true' ||
-        needs.detect-changes.outputs.cs-changed == 'true' ||
-        needs.detect-changes.outputs.csproj-changed == 'true' ||
-        needs.detect-changes.outputs.workflow-changed == 'true'
+        needs.detect-changes.outputs.any-code-changed == 'true'
       )
     strategy:
       fail-fast: false
