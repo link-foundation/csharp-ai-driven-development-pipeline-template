@@ -167,22 +167,34 @@ describe('release workflow policy', () => {
     expect(condition).toContain("needs.build.result == 'success'");
   });
 
-  test('test job is gated by change detector outputs, not changeset-check skip state', () => {
+  test('change-gated jobs use detector output for both pull requests and pushes', () => {
     const workflow = readWorkflow(RELEASE_WORKFLOW);
-    const testJob = getJobBlocks(workflow).get('test');
-    const condition = getJobCondition(testJob);
+    const jobBlocks = getJobBlocks(workflow);
 
-    expect(testJob).toContain('needs: [detect-changes]');
-    expect(testJob).not.toContain('needs: [detect-changes, changeset-check]');
-    expect(condition).toContain('always()');
-    expect(condition).toContain('!cancelled()');
-    expect(condition).toContain("github.event_name == 'push'");
-    expect(condition).toContain("github.event_name == 'workflow_dispatch'");
-    expect(condition).toContain("needs.detect-changes.outputs.any-code-changed == 'true'");
-    expect(condition).toContain("needs.detect-changes.outputs.cs-changed == 'true'");
-    expect(condition).toContain("needs.detect-changes.outputs.csproj-changed == 'true'");
-    expect(condition).toContain("needs.detect-changes.outputs.workflow-changed == 'true'");
-    expect(condition).not.toContain('needs.changeset-check.result');
+    for (const jobName of ['lint', 'test']) {
+      const job = jobBlocks.get(jobName);
+      const condition = getJobCondition(job);
+
+      expect(job).toContain('needs: [detect-changes]');
+      expect(condition).toContain('always()');
+      expect(condition).toContain('!cancelled()');
+      expect(condition).toContain("github.event_name == 'workflow_dispatch'");
+      expect(condition).toContain(
+        "needs.detect-changes.outputs.any-code-changed == 'true'"
+      );
+      expect(condition).not.toContain("github.event_name == 'push'");
+      expect(condition).not.toContain('needs.changeset-check.result');
+    }
+  });
+
+  test('publishes only the detector output consumed by job gates', () => {
+    const workflow = readWorkflow(RELEASE_WORKFLOW);
+    const detectJob = getJobBlocks(workflow).get('detect-changes');
+
+    expect(detectJob).toContain(
+      'any-code-changed: ${{ steps.changes.outputs.any-code-changed }}'
+    );
+    expect(detectJob).not.toMatch(/^\s+(cs|csproj|sln|props|mjs|docs|workflow)-changed:/m);
   });
 
   test('uses the current GitHub Action versions required by the template', () => {
