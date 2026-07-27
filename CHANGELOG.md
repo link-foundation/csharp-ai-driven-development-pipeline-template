@@ -20,6 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+
+## [0.3.11] - 2026-07-27
+
+Upgrade the .NET setup and Codecov workflow actions for Node 24 runners.
+
 ## [0.3.10] - 2026-07-03
 
 Suppress the Git default-branch warning emitted by release workflow checkout.
