@@ -21,6 +21,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+
+## [0.3.12] - 2026-07-27
+
+Keep excluded-only pull requests and pushes from activating change-gated CI jobs.
+
 ## [0.3.11] - 2026-07-27
 
 Upgrade the .NET setup and Codecov workflow actions for Node 24 runners.
