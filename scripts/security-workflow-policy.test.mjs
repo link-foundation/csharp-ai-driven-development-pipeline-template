@@ -20,9 +20,9 @@ describe('security workflow policy', () => {
     const workflow = readWorkflow();
 
     expect(workflow).toContain('language: [csharp, actions]');
-    expect(workflow).toContain('uses: github/codeql-action/init@v3');
-    expect(workflow).toContain('uses: github/codeql-action/autobuild@v3');
-    expect(workflow).toContain('uses: github/codeql-action/analyze@v3');
+    expect(workflow).toContain('uses: github/codeql-action/init@v4');
+    expect(workflow).toContain('uses: github/codeql-action/autobuild@v4');
+    expect(workflow).toContain('uses: github/codeql-action/analyze@v4');
     expect(workflow).toContain('security-events: write');
   });
 
@@ -30,7 +30,7 @@ describe('security workflow policy', () => {
     const workflow = readWorkflow();
 
     expect(workflow).toContain("if: github.event_name == 'pull_request'");
-    expect(workflow).toContain('uses: actions/dependency-review-action@v4');
+    expect(workflow).toContain('uses: actions/dependency-review-action@v5');
     expect(workflow).toContain('fail-on-severity: high');
     expect(workflow).toContain('comment-summary-in-pr: on-failure');
     expect(workflow).toContain('pull-requests: write');
