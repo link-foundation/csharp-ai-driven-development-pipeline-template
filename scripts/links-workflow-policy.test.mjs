@@ -2,6 +2,7 @@ import { describe, expect, test } from 'bun:test';
 import { readFileSync } from 'node:fs';
 
 const LINKS_WORKFLOW = '.github/workflows/links.yml';
+const LYCHEE_IGNORE = '.lycheeignore';
 
 function readWorkflow() {
   return readFileSync(LINKS_WORKFLOW, 'utf-8').replaceAll('\r\n', '\n');
@@ -23,6 +24,12 @@ describe('broken-link workflow policy', () => {
 
     expect(workflow).toContain('--exclude-path docs/case-studies');
     expect(workflow).not.toContain('examples/universal-app/index.html');
+  });
+
+  test('ignores npm bot-protection responses', () => {
+    const ignoredUrls = readFileSync(LYCHEE_IGNORE, 'utf-8');
+
+    expect(ignoredUrls).toContain('https://www\\.npmjs\\.com');
   });
 
   test('uses a bounded, cancellation-safe Wayback fallback', () => {
