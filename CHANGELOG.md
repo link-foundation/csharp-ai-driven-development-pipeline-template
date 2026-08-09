@@ -23,6 +23,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+
+## [0.3.14] - 2026-08-09
+
+Validate Markdown and HTML links in CI, with Wayback Machine fallback guidance for broken URLs.
+
 ## [0.3.13] - 2026-08-09
 
 Add CodeQL analysis for C# and GitHub Actions workflows, plus pull-request dependency review.
