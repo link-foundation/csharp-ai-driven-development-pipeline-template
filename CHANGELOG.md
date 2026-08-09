@@ -22,6 +22,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+
+## [0.3.13] - 2026-08-09
+
+Add CodeQL analysis for C# and GitHub Actions workflows, plus pull-request dependency review.
+
 ## [0.3.12] - 2026-07-27
 
 Keep excluded-only pull requests and pushes from activating change-gated CI jobs.
