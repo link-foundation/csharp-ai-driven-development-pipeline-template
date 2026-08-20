@@ -19,10 +19,11 @@ describe('broken-link workflow policy', () => {
     expect(workflow).toContain('uses: lycheeverse/lychee-action@v2');
   });
 
-  test('excludes copied case studies but not C# template HTML', () => {
+  test('excludes copied case studies and parser fixtures but not C# template HTML', () => {
     const workflow = readWorkflow();
 
     expect(workflow).toContain('--exclude-path docs/case-studies');
+    expect(workflow).toContain('--exclude-path scripts/fixtures');
     expect(workflow).not.toContain('examples/universal-app/index.html');
   });
 
