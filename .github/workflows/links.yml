@@ -50,6 +50,8 @@ jobs:
           # Exclude case-studies directory - these are research documents from
           # external repos with references to files and issues that don't exist
           # in this repository (similar exclusion pattern as eslint.config.js)
+          # Exclude scripts/fixtures - captured lychee reports whose links are
+          # deliberately broken so the parser tests have something to parse
           args: >-
             --verbose
             --no-progress
@@ -58,6 +60,7 @@ jobs:
             --max-retries 3
             --timeout 30
             --exclude-path docs/case-studies
+            --exclude-path scripts/fixtures
             './**/*.md'
             './**/*.html'
           # Don't fail the workflow immediately - we want to check web archive first
