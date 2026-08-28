@@ -131,15 +131,18 @@ jobs:
           GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           GITHUB_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           CSHARP_ROOT: ${{ steps.csharp_layout.outputs.root }}
+          GITHUB_HEAD_REF: ${{ github.head_ref }}
         run: |
           # Skip changeset check for automated release PRs
-          if [[ "${{ github.head_ref }}" == "changeset-release/"* ]] || [[ "${{ github.head_ref }}" == "changeset-manual-release-"* ]]; then
+          # Read head_ref through env, never interpolate it into the script:
+          # on a fork PR the branch name is attacker-controlled.
+          if [[ "$GITHUB_HEAD_REF" == "changeset-release/"* ]] || [[ "$GITHUB_HEAD_REF" == "changeset-manual-release-"* ]]; then
             echo "Skipping changeset check for automated release PR"
             exit 0
           fi
 
           # Run changeset validation script
-          bun run "${{ steps.csharp_layout.outputs.root }}/scripts/validate-changeset.mjs"
+          bun run "$CSHARP_ROOT/scripts/validate-changeset.mjs"
 
   # === LINT AND FORMAT CHECK ===
   # Lint runs independently of changeset-check - it's a fast check that should always run
@@ -383,8 +386,8 @@ jobs:
           CHANGESET_DIR="${{ steps.csharp_layout.outputs.root }}/.changeset"
           CHANGESET_COUNT=$(find "$CHANGESET_DIR" -name "*.md" ! -name "README.md" 2>/dev/null | wc -l)
           echo "Found $CHANGESET_COUNT changeset file(s)"
-          echo "has_changesets=$([[ $CHANGESET_COUNT -gt 0 ]] && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
-          echo "changeset_count=$CHANGESET_COUNT" >> $GITHUB_OUTPUT
+          echo "has_changesets=$([[ $CHANGESET_COUNT -gt 0 ]] && echo 'true' || echo 'false')" >> "$GITHUB_OUTPUT"
+          echo "changeset_count=$CHANGESET_COUNT" >> "$GITHUB_OUTPUT"
 
       - name: Check if release is needed
         # Self-healing gate: even when a changeset is absent, resume publishing
