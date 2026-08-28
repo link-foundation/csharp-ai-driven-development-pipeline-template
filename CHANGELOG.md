@@ -25,6 +25,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+
+## [0.3.16] - 2026-08-28
+
+Fix a script-injection sink in the release workflow: the *Validate changeset* step interpolated `${{ github.head_ref }}` directly into its `run:` body, so on a pull request from a fork the attacker-controlled branch name became shell syntax before the shell ever parsed it. The branch name is now read from the `GITHUB_HEAD_REF` environment variable, and the changeset validator path uses the `CSHARP_ROOT` variable the step already declared. Also quotes the two `>> $GITHUB_OUTPUT` redirections (SC2086). Adds a `Workflows` job that runs `actionlint` with its bundled shellcheck on every `.github/workflows/**` change, plus `scripts/workflow-injection-policy.test.mjs`, which fails if any workflow interpolates attacker-controlled context into a `run:` script.
+
 ## [0.3.15] - 2026-08-20
 
 Fix the Broken Link Checker's Wayback fallback: `scripts/check-web-archive.mjs` now parses only the `## Errors per input` section, so successfully redirected links are no longer reported as broken, and it reports lychee errors that have no http(s) URL (missing files, unresolvable root-relative links) instead of setting `all_archived=true` and turning a real failure green. Adds unit tests over a captured lychee report fixture.
