@@ -13,6 +13,7 @@ const EXPECTED_JOB_TIMEOUTS = new Map([
   ['release', 30],
   ['instant-release', 30],
   ['changeset-pr', 10],
+  ['pipeline-status', 5],
 ]);
 
 function readWorkflow(filePath) {
@@ -265,5 +266,39 @@ describe('release workflow policy', () => {
       expect(job).toContain('bun run scripts/smoke-test-nuget-package.mjs');
       expect(job).not.toMatch(/\|\s*head\b/);
     }
+  });
+
+  test('pipeline-status observes every job of the release workflow', () => {
+    const workflow = readWorkflow(RELEASE_WORKFLOW);
+    const jobBlocks = getJobBlocks(workflow);
+    const jobNames = [...jobBlocks.keys()].filter((name) => name !== 'pipeline-status');
+
+    const gate = jobBlocks.get('pipeline-status');
+    expect(gate, 'pipeline-status job should exist').toBeDefined();
+
+    // The observer is the terminal job: without if: always() it inherits the
+    // skip of whichever dependency was cancelled and disappears exactly when
+    // it is needed.
+    expect(gate).toContain('if: always()');
+
+    // Every job must be observed, in the order the jobs appear, or a later
+    // addition silently escapes the gate. A cancelled job killed by
+    // timeout-minutes is reported as `cancelled` — invisible without this.
+    const needsList = /\n    needs:\n((?:      - [a-z-]+\n)+)/.exec(`${gate}\n`);
+    expect(needsList, 'pipeline-status must declare its needs as a list').not.toBeNull();
+    const observed = needsList[1]
+      .split('\n')
+      .filter((line) => line.startsWith('      - '))
+      .map((line) => line.replace('      - ', ''));
+    expect(observed).toEqual(jobNames);
+
+    expect(gate).toContain('NEEDS_JSON: ${{ toJSON(needs) }}');
+    expect(gate).toContain("IS_MAIN: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}");
+    // The gate proves a cancelled job was not superseded before failing it;
+    // both inputs are required by scripts/check-pipeline-status.sh.
+    expect(gate).toContain('RUN_SHA: ${{ github.sha }}');
+    expect(gate).toContain('BRANCH_REF: ${{ github.ref_name }}');
+    expect(gate).toContain('run: bash scripts/check-pipeline-status.sh');
+    expect(gate).toContain('persist-credentials: false');
   });
 });

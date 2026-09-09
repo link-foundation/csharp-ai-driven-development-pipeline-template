@@ -157,7 +157,7 @@ describe('workflow credential policy', () => {
       undeclared,
       `These checkouts do not declare persist-credentials:\n${undeclared.join('\n')}`
     ).toEqual([]);
-    expect(checkoutCount).toBe(14);
+    expect(checkoutCount).toBe(15);
   });
 
   test('only the jobs that push keep a credential to push with', () => {
