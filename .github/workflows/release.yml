@@ -363,12 +363,50 @@ jobs:
           name: nuget-package
           path: ${{ steps.csharp_layout.outputs.root }}/artifacts/*.nupkg
 
+  # === RELEASE PREFLIGHT ===
+  # Proves the release preconditions can hold before any expensive job runs
+  # (issues #51, #57): the workflow token's push permission via the repository
+  # API, the presence of NUGET_API_KEY -- an absent key used to produce a
+  # green run that published nothing -- and, advisory, the package's
+  # visibility on nuget.org. Release mode (push to main, workflow_dispatch)
+  # fails before the matrix; pull requests report without blocking, because a
+  # fork legitimately has no publishing secrets.
+  release-preflight:
+    name: Release Preflight
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Probe every release precondition
+        env:
+          PREFLIGHT_MODE: >-
+            ${{
+              (
+                (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+                github.event_name == 'workflow_dispatch'
+              ) && 'release' || 'report'
+            }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: bun run scripts/preflight-credentials.mjs
+
   # === AUTOMATIC RELEASE ===
   # Runs on push to main using changesets
   release:
     name: Release
-    needs: [lint, test, build]
-    if: always() && github.ref == 'refs/heads/main' && github.event_name == 'push' && needs.lint.result == 'success' && needs.test.result == 'success' && needs.build.result == 'success'
+    needs: [lint, test, build, release-preflight]
+    if: always() && github.ref == 'refs/heads/main' && github.event_name == 'push' && needs.lint.result == 'success' && needs.test.result == 'success' && needs.build.result == 'success' && needs.release-preflight.result == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -508,8 +546,12 @@ jobs:
           echo "id=$PACKAGE_ID" >> "$GITHUB_OUTPUT"
 
       - name: Validate NuGet API key
-        # Upfront validation surfaces an expired/invalid NUGET_API_KEY before
-        # we attempt a push that would otherwise return HTTP 403 mid-flight.
+        # Presence check only. A non-empty key can still be expired or
+        # unauthorized — nuget.org exposes no read endpoint that validates an
+        # API key without a write, so nothing can probe it from here. The
+        # authoritative gate is the release-preflight job, which fails the run
+        # before this matrix when the key is absent; an expired key surfaces
+        # at the push below.
         if: >-
           steps.version.outputs.version_committed == 'true' ||
           steps.version.outputs.already_released == 'true' ||
@@ -600,7 +642,7 @@ jobs:
   # Triggered via workflow_dispatch with instant mode
   instant-release:
     name: Instant Release
-    needs: [lint, test, build]
+    needs: [lint, test, build, release-preflight]
     # Mirror the automatic release job: a status-check function plus explicit
     # needs.*.result checks so the dispatch run is evaluated even though
     # detect-changes (an upstream skip) propagated through the needs graph.
@@ -610,7 +652,8 @@ jobs:
       github.event.inputs.release_mode == 'instant' &&
       needs.lint.result == 'success' &&
       needs.test.result == 'success' &&
-      needs.build.result == 'success'
+      needs.build.result == 'success' &&
+      needs.release-preflight.result == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -703,6 +746,12 @@ jobs:
           echo "id=$PACKAGE_ID" >> "$GITHUB_OUTPUT"
 
       - name: Validate NuGet API key
+        # Presence check only. A non-empty key can still be expired or
+        # unauthorized — nuget.org exposes no read endpoint that validates an
+        # API key without a write, so nothing can probe it from here. The
+        # authoritative gate is the release-preflight job, which fails the run
+        # before this matrix when the key is absent; an expired key surfaces
+        # at the push below.
         if: >-
           steps.version.outputs.version_committed == 'true' ||
           steps.version.outputs.already_released == 'true'
@@ -883,6 +932,7 @@ jobs:
       - lint
       - test
       - build
+      - release-preflight
       - release
       - instant-release
       - changeset-pr

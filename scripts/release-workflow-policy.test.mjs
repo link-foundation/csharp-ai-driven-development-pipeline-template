@@ -10,6 +10,7 @@ const EXPECTED_JOB_TIMEOUTS = new Map([
   ['lint', 20],
   ['test', 30],
   ['build', 20],
+  ['release-preflight', 5],
   ['release', 30],
   ['instant-release', 30],
   ['changeset-pr', 10],
@@ -345,5 +346,36 @@ describe('release workflow policy', () => {
     expect(wrapper).toContain('BUDGET_WARN_PERCENT');
     expect(wrapper).toContain('BUDGET_GRACE_SECONDS');
     expect(statSync('scripts/run-with-budget-warning.sh').mode & 0o111).not.toBe(0);
+  });
+
+  test('release jobs gate on the preflight verdict', () => {
+    const workflow = readWorkflow(RELEASE_WORKFLOW);
+    const jobBlocks = getJobBlocks(workflow);
+
+    // The preflight job runs the same probes in release mode on main and
+    // dispatch, and in report mode on pull requests, where a fork has no
+    // publishing secrets.
+    const preflight = jobBlocks.get('release-preflight');
+    expect(preflight, 'release-preflight job should exist').toBeDefined();
+    expect(preflight).toContain("'release' || 'report'");
+    expect(preflight).toContain('NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}');
+    expect(preflight).toContain('GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}');
+    expect(preflight).toContain('bun run scripts/preflight-credentials.mjs');
+
+    for (const jobName of ['release', 'instant-release']) {
+      const job = jobBlocks.get(jobName);
+      expect(job, `${jobName} must need the preflight`).toMatch(
+        /needs: \[.*release-preflight.*\]/
+      );
+      expect(
+        job,
+        `${jobName} must check the preflight result, not just its completion`
+      ).toContain("needs.release-preflight.result == 'success'");
+    }
+
+    // The probe is a real script with real tests, not a presence check.
+    expect(readFileSync('scripts/preflight-credentials.mjs', 'utf-8')).toMatch(
+      /checkGithubPushPermission/
+    );
   });
 });
