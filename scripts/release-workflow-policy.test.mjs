@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import { readFileSync } from 'node:fs';
+import { readFileSync, statSync } from 'node:fs';
 
 const RELEASE_WORKFLOW = '.github/workflows/release.yml';
 const DOCS_WORKFLOW = '.github/workflows/docs.yml';
@@ -300,5 +300,50 @@ describe('release workflow policy', () => {
     expect(gate).toContain('BRANCH_REF: ${{ github.ref_name }}');
     expect(gate).toContain('run: bash scripts/check-pipeline-status.sh');
     expect(gate).toContain('persist-credentials: false');
+  });
+
+  test('budgets every long step below 70% of its job cap', () => {
+    const workflow = readWorkflow(RELEASE_WORKFLOW);
+    const jobBlocks = getJobBlocks(workflow);
+    const MAX_BUDGET_SHARE_PERCENT = 70;
+    let wrappedSteps = 0;
+
+    for (const [jobName, block] of jobBlocks) {
+      // The job cap is the timeout-minutes declared at job level, before the
+      // `steps:` key; step-level timeouts (uses: steps) come later and are
+      // not caps.
+      const beforeSteps = block.slice(0, block.indexOf('\n    steps:'));
+      const capMatch = /timeout-minutes:\s*(\d+)/.exec(beforeSteps);
+      expect(capMatch, `${jobName} declares a job-level timeout-minutes`).not.toBeNull();
+      const capSeconds = Number(capMatch[1]) * 60;
+
+      for (const [, budgetText] of block.matchAll(/run-with-budget-warning\.sh (\d+)/g)) {
+        wrappedSteps++;
+        const budget = Number(budgetText);
+        expect(
+          budget * 100 <= capSeconds * MAX_BUDGET_SHARE_PERCENT,
+          `${jobName}: budget ${budget}s must expire at or before ${MAX_BUDGET_SHARE_PERCENT}% of its ${capSeconds}s cap, or the cap fires first and the budget is decorative`
+        ).toBe(true);
+      }
+
+      if (jobName === 'test') {
+        // The test matrix includes windows-latest, where the default shell is
+        // pwsh; every wrapped step there must pin shell: bash or the wrapper
+        // never runs.
+        const shellCount = (block.match(/^\s+shell: bash$/gm) ?? []).length;
+        expect(shellCount, 'each wrapped test step pins shell: bash').toBeGreaterThanOrEqual(3);
+      }
+    }
+
+    expect(wrappedSteps).toBe(20);
+
+    // The wrapper must exist, be executable, and own the three behaviours the
+    // naive `timeout(1)` line lacks: process-group signalling, the 70% warning,
+    // and the TERM-then-KILL grace window.
+    const wrapper = readFileSync('scripts/run-with-budget-warning.sh', 'utf-8');
+    expect(wrapper).toContain('set -m');
+    expect(wrapper).toContain('BUDGET_WARN_PERCENT');
+    expect(wrapper).toContain('BUDGET_GRACE_SECONDS');
+    expect(statSync('scripts/run-with-budget-warning.sh').mode & 0o111).not.toBe(0);
   });
 });

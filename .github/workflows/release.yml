@@ -204,19 +204,19 @@ jobs:
 
       - name: Restore dependencies
         working-directory: ${{ steps.csharp_layout.outputs.root }}
-        run: dotnet restore
+        run: bash scripts/run-with-budget-warning.sh 600 "dotnet restore (lint)" dotnet restore
 
       - name: Check formatting
         working-directory: ${{ steps.csharp_layout.outputs.root }}
-        run: dotnet format --verify-no-changes --verbosity diagnostic
+        run: bash scripts/run-with-budget-warning.sh 600 "dotnet format (lint)" dotnet format --verify-no-changes --verbosity diagnostic
 
       - name: Build with warnings as errors
         working-directory: ${{ steps.csharp_layout.outputs.root }}
-        run: dotnet build --no-restore --configuration Release /warnaserror
+        run: bash scripts/run-with-budget-warning.sh 700 "dotnet build (lint)" dotnet build --no-restore --configuration Release /warnaserror
 
       - name: Run script tests
         working-directory: ${{ steps.csharp_layout.outputs.root }}
-        run: bun test scripts/*.test.mjs
+        run: bash scripts/run-with-budget-warning.sh 300 "Script tests" bun test scripts/*.test.mjs
 
       - name: Check file size limit
         working-directory: ${{ steps.csharp_layout.outputs.root }}
@@ -271,21 +271,32 @@ jobs:
 
       - name: Restore dependencies
         working-directory: ${{ steps.csharp_layout.outputs.root }}
-        run: dotnet restore
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 600 "dotnet restore (test)" dotnet restore
 
       - name: Build
         working-directory: ${{ steps.csharp_layout.outputs.root }}
-        run: dotnet build --no-restore --configuration Release
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 700 "dotnet build (test)" dotnet build --no-restore --configuration Release
 
       - name: Run tests
         working-directory: ${{ steps.csharp_layout.outputs.root }}
-        run: dotnet test --no-build --configuration Release --verbosity normal --collect:"XPlat Code Coverage"
+        shell: bash
+        # This matrix also runs on windows-latest, where the default shell is
+        # pwsh: `shell: bash` keeps the wrapper (and its process-group
+        # signalling) working on every leg.
+        run: bash scripts/run-with-budget-warning.sh 1200 "Test suite" dotnet test --no-build --configuration Release --verbosity normal --collect:"XPlat Code Coverage"
 
       - name: Skip Codecov upload when token is unavailable
         if: matrix.os == 'ubuntu-latest' && env.CODECOV_TOKEN == ''
         run: echo "::notice::CODECOV_TOKEN is not configured; skipping Codecov upload."
 
       - name: Upload coverage to Codecov
+        # A `uses:` step cannot be wrapped by run-with-budget-warning.sh, so it
+        # declares its deadline with a step-level timeout-minutes: an exhausted
+        # step budget fails the step, while an exhausted job cap only cancels
+        # the job.
+        timeout-minutes: 5
         if: matrix.os == 'ubuntu-latest' && env.CODECOV_TOKEN != ''
         uses: codecov/codecov-action@v7
         with:
@@ -331,17 +342,22 @@ jobs:
 
       - name: Restore dependencies
         working-directory: ${{ steps.csharp_layout.outputs.root }}
-        run: dotnet restore
+        run: bash scripts/run-with-budget-warning.sh 600 "dotnet restore (build)" dotnet restore
 
       - name: Build Release
         working-directory: ${{ steps.csharp_layout.outputs.root }}
-        run: dotnet build --no-restore --configuration Release
+        run: bash scripts/run-with-budget-warning.sh 700 "dotnet build (build)" dotnet build --no-restore --configuration Release
 
       - name: Pack NuGet package
         working-directory: ${{ steps.csharp_layout.outputs.root }}
-        run: dotnet pack --no-build --configuration Release --output ./artifacts
+        run: bash scripts/run-with-budget-warning.sh 600 "dotnet pack" dotnet pack --no-build --configuration Release --output ./artifacts
 
       - name: Upload artifacts
+        # A `uses:` step cannot be wrapped by run-with-budget-warning.sh, so it
+        # declares its deadline with a step-level timeout-minutes: an exhausted
+        # step budget fails the step, while an exhausted job cap only cancels
+        # the job.
+        timeout-minutes: 5
         uses: actions/upload-artifact@v7
         with:
           name: nuget-package
@@ -435,7 +451,8 @@ jobs:
         if: steps.check_changesets.outputs.has_changesets == 'true'
         id: version
         run: |
-          bun run "${{ steps.csharp_layout.outputs.root }}/scripts/version-and-commit.mjs" \
+          bash scripts/run-with-budget-warning.sh 600 "Version bump and push" \
+            bun run "${{ steps.csharp_layout.outputs.root }}/scripts/version-and-commit.mjs" \
             --mode changeset \
             --csharp-root "${{ steps.csharp_layout.outputs.root }}"
 
@@ -466,9 +483,11 @@ jobs:
            steps.check_release.outputs.skip_bump == 'true')
         working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: |
-          dotnet restore
-          dotnet build --configuration Release
-          dotnet pack --no-build --configuration Release --output ./artifacts
+          bash scripts/run-with-budget-warning.sh 1200 "Release package build" bash -c '
+            dotnet restore
+            dotnet build --configuration Release
+            dotnet pack --no-build --configuration Release --output ./artifacts
+          '
 
       - name: Resolve NuGet package id
         id: package
@@ -516,13 +535,15 @@ jobs:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: |
-          if [ -n "$NUGET_API_KEY" ]; then
-            dotnet nuget push ./artifacts/*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate
-            echo "published=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "NUGET_API_KEY not set, skipping NuGet publish"
-            echo "published=false" >> "$GITHUB_OUTPUT"
-          fi
+          bash scripts/run-with-budget-warning.sh 600 "NuGet publish" bash -c '
+            if [ -n "$NUGET_API_KEY" ]; then
+              dotnet nuget push ./artifacts/*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate
+              echo "published=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "NUGET_API_KEY not set, skipping NuGet publish"
+              echo "published=false" >> "$GITHUB_OUTPUT"
+            fi
+          '
 
       - name: Wait for NuGet indexing
         # NuGet's flat-container API can take up to 15 minutes to reflect a
@@ -536,7 +557,8 @@ jobs:
           (steps.check_release.outputs.should_release == 'true' &&
            steps.check_release.outputs.skip_bump == 'true'))
         run: |
-          bun run "${{ steps.csharp_layout.outputs.root }}/scripts/wait-for-nuget.mjs" \
+          bash scripts/run-with-budget-warning.sh 1200 "NuGet indexing wait" \
+            bun run "${{ steps.csharp_layout.outputs.root }}/scripts/wait-for-nuget.mjs" \
             --package-id "${{ steps.package.outputs.id }}" \
             --release-version "${{ steps.release_version.outputs.version }}"
 
@@ -552,7 +574,8 @@ jobs:
           (steps.check_release.outputs.should_release == 'true' &&
            steps.check_release.outputs.skip_bump == 'true'))
         run: |
-          bun run scripts/smoke-test-nuget-package.mjs \
+          bash scripts/run-with-budget-warning.sh 600 "NuGet smoke test" \
+            bun run scripts/smoke-test-nuget-package.mjs \
             --package-id "${{ steps.package.outputs.id }}" \
             --release-version "${{ steps.release_version.outputs.version }}"
 
@@ -644,7 +667,8 @@ jobs:
           BUMP_TYPE: ${{ github.event.inputs.bump_type }}
           DESCRIPTION: ${{ github.event.inputs.description }}
         run: |
-          bun run "${{ steps.csharp_layout.outputs.root }}/scripts/version-and-commit.mjs" \
+          bash scripts/run-with-budget-warning.sh 600 "Version bump and push" \
+            bun run "${{ steps.csharp_layout.outputs.root }}/scripts/version-and-commit.mjs" \
             --mode instant \
             --bump-type "$BUMP_TYPE" \
             --description "$DESCRIPTION" \
@@ -656,9 +680,11 @@ jobs:
           steps.version.outputs.already_released == 'true'
         working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: |
-          dotnet restore
-          dotnet build --configuration Release
-          dotnet pack --no-build --configuration Release --output ./artifacts
+          bash scripts/run-with-budget-warning.sh 1200 "Release package build" bash -c '
+            dotnet restore
+            dotnet build --configuration Release
+            dotnet pack --no-build --configuration Release --output ./artifacts
+          '
 
       - name: Resolve NuGet package id
         if: >-
@@ -698,13 +724,15 @@ jobs:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: |
-          if [ -n "$NUGET_API_KEY" ]; then
-            dotnet nuget push ./artifacts/*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate
-            echo "published=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "NUGET_API_KEY not set, skipping NuGet publish"
-            echo "published=false" >> "$GITHUB_OUTPUT"
-          fi
+          bash scripts/run-with-budget-warning.sh 600 "NuGet publish" bash -c '
+            if [ -n "$NUGET_API_KEY" ]; then
+              dotnet nuget push ./artifacts/*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate
+              echo "published=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "NUGET_API_KEY not set, skipping NuGet publish"
+              echo "published=false" >> "$GITHUB_OUTPUT"
+            fi
+          '
 
       - name: Wait for NuGet indexing
         # NuGet's flat-container API can take up to 15 minutes to reflect a
@@ -716,7 +744,8 @@ jobs:
           steps.version.outputs.version_committed == 'true' ||
           steps.version.outputs.already_released == 'true')
         run: |
-          bun run "${{ steps.csharp_layout.outputs.root }}/scripts/wait-for-nuget.mjs" \
+          bash scripts/run-with-budget-warning.sh 1200 "NuGet indexing wait" \
+            bun run "${{ steps.csharp_layout.outputs.root }}/scripts/wait-for-nuget.mjs" \
             --package-id "${{ steps.package.outputs.id }}" \
             --release-version "${{ steps.version.outputs.new_version }}"
 
@@ -730,7 +759,8 @@ jobs:
           steps.version.outputs.version_committed == 'true' ||
           steps.version.outputs.already_released == 'true')
         run: |
-          bun run scripts/smoke-test-nuget-package.mjs \
+          bash scripts/run-with-budget-warning.sh 600 "NuGet smoke test" \
+            bun run scripts/smoke-test-nuget-package.mjs \
             --package-id "${{ steps.package.outputs.id }}" \
             --release-version "${{ steps.version.outputs.new_version }}"
 
