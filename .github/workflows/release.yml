@@ -58,6 +58,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
+          persist-credentials: false
           fetch-depth: 0
 
       - name: Detect C# layout
@@ -104,6 +105,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
+          persist-credentials: false
           fetch-depth: 0
 
       - name: Detect C# layout
@@ -168,6 +170,8 @@ jobs:
       )
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Detect C# layout
         id: csharp_layout
@@ -238,6 +242,8 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Detect C# layout
         id: csharp_layout
@@ -296,6 +302,8 @@ jobs:
     if: always() && needs.lint.result == 'success' && needs.test.result == 'success'
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Detect C# layout
         id: csharp_layout
@@ -351,9 +359,16 @@ jobs:
       contents: write
       packages: write
     steps:
+      # This checkout keeps credentials in .git/config on purpose:
+      # scripts/version-and-commit.mjs runs `git push` to publish the version
+      # bump, which needs the token wired into the remote. Every other
+      # checkout in this repository sets persist-credentials: false (issue
+      # #54).
       - uses: actions/checkout@v6
         with:
+          persist-credentials: true
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Detect C# layout
         id: csharp_layout
@@ -579,8 +594,14 @@ jobs:
       contents: write
       packages: write
     steps:
+      # This checkout keeps credentials in .git/config on purpose:
+      # scripts/version-and-commit.mjs runs `git push` to publish the version
+      # bump, which needs the token wired into the remote. Every other
+      # checkout in this repository sets persist-credentials: false (issue
+      # #54).
       - uses: actions/checkout@v6
         with:
+          persist-credentials: true
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -739,8 +760,13 @@ jobs:
       contents: write
       pull-requests: write
     steps:
+      # This checkout keeps credentials in .git/config on purpose:
+      # peter-evans/create-pull-request pushes the changeset branch from this
+      # worktree. Every other checkout in this repository sets
+      # persist-credentials: false (issue #54).
       - uses: actions/checkout@v6
         with:
+          persist-credentials: true
           fetch-depth: 0
 
       - name: Detect C# layout

@@ -108,6 +108,90 @@ describe('workflow script-injection policy', () => {
   });
 });
 
+// Returns the body of one top-level job (from `  <name>:` to the next job
+// key at the same indent), so per-job assertions do not depend on line
+// numbers that every edit would shift.
+function getJobBody(workflow, jobName) {
+  const lines = workflow.split('\n');
+  const start = lines.findIndex((line) => line === `  ${jobName}:`);
+  if (start === -1) return null;
+  let end = lines.length;
+  for (let i = start + 1; i < lines.length; i++) {
+    if (/^  [A-Za-z0-9_-]+:\s*$/.test(lines[i])) {
+      end = i;
+      break;
+    }
+  }
+  return lines.slice(start, end).join('\n');
+}
+
+// actions/checkout stores the job token in .git/config as an http.extraheader
+// unless told not to. Every checkout must say which it is doing, and only the
+// jobs that write to the remote may keep the credential (issue #54).
+const CREDENTIAL_KEEPING_JOBS = ['release', 'instant-release', 'changeset-pr'];
+
+describe('workflow credential policy', () => {
+  test('every checkout declares its credential persistence explicitly', () => {
+    const undeclared = [];
+    let checkoutCount = 0;
+
+    for (const filePath of listWorkflows()) {
+      const lines = readWorkflow(filePath).split('\n');
+      lines.forEach((line, index) => {
+        if (!/^(\s*)- uses: actions\/checkout@/.test(line)) return;
+        checkoutCount++;
+        const stepIndent = line.length - line.trimStart().length;
+        let persistence = null;
+        for (let i = index + 1; i < lines.length; i++) {
+          const next = lines[i];
+          if (next.trim() === '') continue;
+          if (next.length - next.trimStart().length <= stepIndent) break;
+          const match = /^\s*persist-credentials:\s*(true|false)\s*$/.exec(next);
+          if (match) persistence = match[1];
+        }
+        if (persistence === null) undeclared.push(`${filePath}:${index + 1}`);
+      });
+    }
+
+    expect(
+      undeclared,
+      `These checkouts do not declare persist-credentials:\n${undeclared.join('\n')}`
+    ).toEqual([]);
+    expect(checkoutCount).toBe(14);
+  });
+
+  test('only the jobs that push keep a credential to push with', () => {
+    const release = readWorkflow(RELEASE_WORKFLOW);
+
+    for (const jobName of CREDENTIAL_KEEPING_JOBS) {
+      const body = getJobBody(release, jobName);
+      expect(body, `${jobName} should exist`).not.toBeNull();
+      expect(body, `${jobName} pushes to the remote and needs its credential`).toContain(
+        'persist-credentials: true'
+      );
+    }
+
+    const keeping = [];
+    for (const filePath of listWorkflows()) {
+      const workflow = readWorkflow(filePath);
+      const lines = workflow.split('\n');
+      lines.forEach((line, index) => {
+        if (/^\s*persist-credentials:\s*true\s*$/.test(line)) {
+          keeping.push(`${filePath}:${index + 1}`);
+        }
+      });
+    }
+
+    expect(keeping.length, `expected exactly the three pushing checkouts, got ${keeping.join(', ')}`).toBe(3);
+    expect(keeping.every((site) => site.startsWith(RELEASE_WORKFLOW))).toBe(true);
+
+    for (const filePath of listWorkflows()) {
+      if (filePath === RELEASE_WORKFLOW) continue;
+      expect(readWorkflow(filePath)).not.toContain('persist-credentials: true');
+    }
+  });
+});
+
 describe('workflow linting policy', () => {
   test('lints every workflow with actionlint plus its bundled shellcheck', () => {
     const workflow = readWorkflow(WORKFLOWS_WORKFLOW);
