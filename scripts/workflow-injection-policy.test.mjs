@@ -113,10 +113,28 @@ describe('workflow linting policy', () => {
     const workflow = readWorkflow(WORKFLOWS_WORKFLOW);
 
     // The Docker image bundles shellcheck; a native binary without shellcheck on
-    // PATH silently skips the shell checks that catch injection sinks.
-    expect(workflow).toContain('uses: docker://rhysd/actionlint:');
+    // PATH silently skips the shell checks that catch injection sinks. Pinned
+    // by digest: a mutable tag of a repository outside this organization is
+    // arbitrary code in a job that analyses credentials.
+    expect(workflow).toContain('uses: docker://rhysd/actionlint@sha256:');
     expect(workflow).toContain('permissions:\n  contents: read');
     expect(workflow).toContain('timeout-minutes: 10');
     expect(workflow).toContain("      - '.github/workflows/**'");
+  });
+
+  test('audits every workflow with zizmor beside actionlint', () => {
+    const workflow = readWorkflow(WORKFLOWS_WORKFLOW);
+
+    // The regular pass with the repository's own config; `version` is named
+    // because the action's `latest` resolves through its own frozen table, so
+    // an unlisted bump would silently keep running the old analyser.
+    expect(workflow).toContain('uses: zizmorcore/zizmor-action@v0.6.2');
+    expect(workflow).toContain('config: .github/zizmor.yml');
+    expect(workflow).toContain('version: 1.29.0');
+
+    // The audits that cover `uses: docker://` image references are
+    // Pedantic-persona only; without this second pass the digest pin above
+    // could quietly regress to a mutable tag.
+    expect(workflow).toContain('--persona pedantic --min-severity high --min-confidence high');
   });
 });

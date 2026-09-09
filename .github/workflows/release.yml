@@ -33,6 +33,11 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
+# Least-privilege default for every job that does not declare its own block
+# (zizmor excessive-permissions); the release jobs below escalate individually.
+permissions:
+  contents: read
+
 env:
   GIT_CONFIG_COUNT: '1'
   GIT_CONFIG_KEY_0: init.defaultBranch
@@ -610,11 +615,18 @@ jobs:
 
       - name: Version and commit
         id: version
+        # The dispatch inputs reach the script through env, never through ${{ }}
+        # in the script body: an interpolated expression is spliced into the
+        # program before the shell parses it, so quoting does not help
+        # (zizmor template-injection).
+        env:
+          BUMP_TYPE: ${{ github.event.inputs.bump_type }}
+          DESCRIPTION: ${{ github.event.inputs.description }}
         run: |
           bun run "${{ steps.csharp_layout.outputs.root }}/scripts/version-and-commit.mjs" \
             --mode instant \
-            --bump-type "${{ github.event.inputs.bump_type }}" \
-            --description "${{ github.event.inputs.description }}" \
+            --bump-type "$BUMP_TYPE" \
+            --description "$DESCRIPTION" \
             --csharp-root "${{ steps.csharp_layout.outputs.root }}"
 
       - name: Build package
@@ -756,19 +768,26 @@ jobs:
           bun-version: latest
 
       - name: Create changeset file
+        # The dispatch inputs flow through env and printf arguments, never
+        # through ${{ }} inside the script: an interpolated expression is
+        # spliced into the program before the shell parses it, so quoting does
+        # not help (zizmor template-injection).
+        env:
+          BUMP_TYPE: ${{ github.event.inputs.bump_type }}
+          DESCRIPTION: ${{ github.event.inputs.description }}
         run: |
           CHANGESET_ID=$(date +%s)
           CHANGESET_DIR="${{ steps.csharp_layout.outputs.root }}/.changeset"
           mkdir -p "$CHANGESET_DIR"
           CHANGESET_FILE="$CHANGESET_DIR/manual-release-${CHANGESET_ID}.md"
 
-          cat > "$CHANGESET_FILE" << 'EOF'
-          ---
-          'MyPackage': ${{ github.event.inputs.bump_type }}
-          ---
-
-          ${{ github.event.inputs.description || 'Manual release' }}
-          EOF
+          {
+            printf '%s\n' '---'
+            printf "'MyPackage': %s\n" "$BUMP_TYPE"
+            printf '%s\n' '---'
+            printf '%s\n' ''
+            printf '%s\n' "${DESCRIPTION:-Manual release}"
+          } > "$CHANGESET_FILE"
 
           echo "Created changeset: $CHANGESET_FILE"
 
