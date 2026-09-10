@@ -15,6 +15,7 @@
 import { execSync } from 'child_process';
 import { readFileSync, readdirSync, existsSync } from 'fs';
 import { join } from 'path';
+import { printUntrusted } from './print-untrusted.mjs';
 
 // Package name must match the package name in the changeset files
 const PACKAGE_NAME = 'MyPackage';
@@ -258,7 +259,7 @@ try {
     console.error(`::error::${validation.error}`);
     console.error(`\nFile content of ${changesetFile}:`);
     try {
-      console.error(readFileSync(changesetFile, 'utf-8'));
+      printUntrusted(readFileSync(changesetFile, 'utf-8'), console.error);
     } catch {
       console.error('(could not read file)');
     }
@@ -267,7 +268,8 @@ try {
 
   console.log('Changeset validation passed');
   console.log(`   Type: ${validation.type}`);
-  console.log(`   Description: ${validation.description}`);
+  console.log('   Description:');
+  printUntrusted(validation.description);
 } catch (error) {
   console.error('Error during changeset validation:', error.message);
   if (process.env.DEBUG) {

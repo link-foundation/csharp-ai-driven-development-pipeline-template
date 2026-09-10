@@ -24,6 +24,7 @@ import {
   statSync,
 } from 'fs';
 import { join } from 'path';
+import { printUntrusted } from './print-untrusted.mjs';
 
 // Package name must match the package name in the changeset files
 const PACKAGE_NAME = 'MyPackage';
@@ -258,7 +259,8 @@ function main() {
   }
 
   console.log('\nChangeset merge completed successfully');
-  console.log(`\nMerged changeset content:\n${mergedContent}`);
+  console.log('\nMerged changeset content:');
+  printUntrusted(mergedContent);
 }
 
 main();
