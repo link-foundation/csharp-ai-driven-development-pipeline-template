@@ -1,6 +1,8 @@
 import { describe, expect, test } from 'bun:test';
 import { readFileSync } from 'node:fs';
 
+import { extractLycheeRequestOptions } from './recheck-broken-links.mjs';
+
 const LINKS_WORKFLOW = '.github/workflows/links.yml';
 const LYCHEE_IGNORE = '.lycheeignore';
 
@@ -43,8 +45,57 @@ describe('broken-link workflow policy', () => {
     expect(workflow).toContain('cancel-in-progress: true');
     expect(workflow).toContain('fail: false');
     expect(workflow).toContain('run: node scripts/check-web-archive.mjs');
+  });
+
+  test('re-asks the failures no host ever answered before declaring links broken', () => {
+    const workflow = readWorkflow();
+    const recheckIndex = workflow.indexOf('id: recheck');
+    const webarchiveIndex = workflow.indexOf('id: webarchive');
+
+    // The re-check runs whenever lychee reported anything, before the
+    // archive lookup consumes its recovered list.
+    expect(recheckIndex).toBeGreaterThan(-1);
+    expect(webarchiveIndex).toBeGreaterThan(recheckIndex);
     expect(workflow).toContain(
-      "if: steps.lychee.outputs.exit_code != 0 && steps.webarchive.outputs.all_archived != 'true'"
+      "if: steps.lychee.outputs.exit_code != 0\n        id: recheck"
     );
+    expect(workflow).toContain('run: node scripts/recheck-broken-links.mjs');
+    expect(workflow).toContain('LYCHEE_OUTPUT: lychee/out.md');
+    expect(workflow).toContain('RECOVERED_OUTPUT: lychee/recovered.txt');
+    expect(workflow).toContain('RECOVERED_URLS: lychee/recovered.txt');
+
+    // `!= 'true'`, never `== 'false'`: a skipped or crashed re-check leaves
+    // the output empty, and only the != form fails safe. Both consumers --
+    // the archive lookup and the fail step -- must gate on it.
+    const gates = workflow.match(
+      /steps\.recheck\.outputs\.all_recovered != 'true'/g
+    );
+    expect(gates).toHaveLength(2);
+    expect(workflow).toContain('!cancelled() &&');
+  });
+
+  test('the re-check judges links by the same rules lychee ran with', () => {
+    const workflow = readWorkflow();
+
+    // The workflow sets no --accept/--user-agent flags, so lychee runs on
+    // its documented defaults; the re-check derives the same pair from this
+    // text instead of hardcoding its own idea of the rules.
+    expect(extractLycheeRequestOptions(workflow)).toEqual([
+      '100..=103,200..=299',
+      'lychee',
+    ]);
+  });
+
+  test('the re-check budget expires before the job cap can', () => {
+    const workflow = readWorkflow();
+    const capSeconds = Number(/timeout-minutes: (\d+)/.exec(workflow)[1]) * 60;
+    const budgetSeconds = Number(
+      /RECHECK_BUDGET_SECONDS', (\d+)/.exec(
+        readFileSync('scripts/recheck-broken-links.mjs', 'utf-8')
+      )[1]
+    );
+
+    expect(capSeconds).toBe(600);
+    expect(budgetSeconds * 100).toBeLessThanOrEqual(capSeconds * 70);
   });
 });

@@ -12,6 +12,7 @@ import { fileURLToPath } from 'node:url';
 import {
   extractErrorsSection,
   extractBrokenLinks,
+  splitRecoveredUrls,
 } from './check-web-archive.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -68,5 +69,29 @@ describe('lychee report parsing', () => {
     const reported = Number(/🚫 Errors\s*\|\s*(\d+)/.exec(report)[1]);
 
     expect(urls.length + others.length).toBe(reported);
+  });
+});
+
+describe('recovered url splitting', () => {
+  const urls = ['https://a.example/1', 'https://b.example/2'];
+
+  test('a URL the re-check found healthy leaves the archive report', () => {
+    const { remaining, recovered } = splitRecoveredUrls(
+      urls,
+      'https://a.example/1\n'
+    );
+
+    expect(remaining).toEqual(['https://b.example/2']);
+    expect(recovered).toEqual(['https://a.example/1']);
+  });
+
+  test('blank lines and stray whitespace are tolerated', () => {
+    const { remaining, recovered } = splitRecoveredUrls(
+      urls,
+      '\n  https://b.example/2  \n\n'
+    );
+
+    expect(remaining).toEqual(['https://a.example/1']);
+    expect(recovered).toEqual(['https://b.example/2']);
   });
 });

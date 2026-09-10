@@ -41,6 +41,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Check links with lychee
         id: lychee
@@ -72,15 +74,38 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Check broken links against Web Archive
+      - name: Re-check links that never got an answer
+        # --max-retries never retries a failure during the connect phase
+        # (lycheeverse/lychee#2297), so a healthy URL behind a connection
+        # reset is reported broken without one retry. Ask the URLs that got
+        # no answer again, outside lychee. A failure carrying a status code
+        # is a host's answer and stays final (issue #58).
         if: steps.lychee.outputs.exit_code != 0
+        id: recheck
+        env:
+          LYCHEE_OUTPUT: lychee/out.md
+          RECOVERED_OUTPUT: lychee/recovered.txt
+        run: node scripts/recheck-broken-links.mjs
+
+      - name: Check broken links against Web Archive
+        # `!= 'true'`, never `== 'false'`: a skipped or crashed re-check
+        # leaves the output empty, and only the != form fails safe.
+        if: >-
+          steps.lychee.outputs.exit_code != 0 &&
+          steps.recheck.outputs.all_recovered != 'true'
         id: webarchive
         run: node scripts/check-web-archive.mjs
         env:
           LYCHEE_OUTPUT: lychee/out.md
+          RECOVERED_URLS: lychee/recovered.txt
 
       - name: Fail if broken links found and no web archive fallback
-        if: steps.lychee.outputs.exit_code != 0 && steps.webarchive.outputs.all_archived != 'true'
+        # !cancelled(): the step must still run after the archive step's own
+        # failure, but not during a cancelled (superseded) run.
+        if: >-
+          !cancelled() &&
+          steps.lychee.outputs.exit_code != 0 &&
+          steps.recheck.outputs.all_recovered != 'true'
         run: |
           echo "::error::Broken links were detected with no Web Archive fallback available."
           echo ""

@@ -26,10 +26,10 @@ on:
       - '.github/workflows/docs.yml'
   workflow_dispatch:
 
+# Least-privilege default: only the deploy job escalates, at job level, to the
+# permissions GitHub Pages deployment requires.
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -47,6 +47,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
@@ -97,6 +99,13 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    # Scoped here rather than workflow-level: the build job only reads the
+    # tree, and pages/id-token writes belong to the deployment alone
+    # (zizmor excessive-permissions).
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

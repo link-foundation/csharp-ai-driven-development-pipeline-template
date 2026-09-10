@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import { readFileSync } from 'node:fs';
+import { readFileSync, statSync } from 'node:fs';
 
 const RELEASE_WORKFLOW = '.github/workflows/release.yml';
 const DOCS_WORKFLOW = '.github/workflows/docs.yml';
@@ -10,9 +10,11 @@ const EXPECTED_JOB_TIMEOUTS = new Map([
   ['lint', 20],
   ['test', 30],
   ['build', 20],
+  ['release-preflight', 5],
   ['release', 30],
   ['instant-release', 30],
   ['changeset-pr', 10],
+  ['pipeline-status', 5],
 ]);
 
 function readWorkflow(filePath) {
@@ -265,5 +267,115 @@ describe('release workflow policy', () => {
       expect(job).toContain('bun run scripts/smoke-test-nuget-package.mjs');
       expect(job).not.toMatch(/\|\s*head\b/);
     }
+  });
+
+  test('pipeline-status observes every job of the release workflow', () => {
+    const workflow = readWorkflow(RELEASE_WORKFLOW);
+    const jobBlocks = getJobBlocks(workflow);
+    const jobNames = [...jobBlocks.keys()].filter((name) => name !== 'pipeline-status');
+
+    const gate = jobBlocks.get('pipeline-status');
+    expect(gate, 'pipeline-status job should exist').toBeDefined();
+
+    // The observer is the terminal job: without if: always() it inherits the
+    // skip of whichever dependency was cancelled and disappears exactly when
+    // it is needed.
+    expect(gate).toContain('if: always()');
+
+    // Every job must be observed, in the order the jobs appear, or a later
+    // addition silently escapes the gate. A cancelled job killed by
+    // timeout-minutes is reported as `cancelled` — invisible without this.
+    const needsList = /\n    needs:\n((?:      - [a-z-]+\n)+)/.exec(`${gate}\n`);
+    expect(needsList, 'pipeline-status must declare its needs as a list').not.toBeNull();
+    const observed = needsList[1]
+      .split('\n')
+      .filter((line) => line.startsWith('      - '))
+      .map((line) => line.replace('      - ', ''));
+    expect(observed).toEqual(jobNames);
+
+    expect(gate).toContain('NEEDS_JSON: ${{ toJSON(needs) }}');
+    expect(gate).toContain("IS_MAIN: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}");
+    // The gate proves a cancelled job was not superseded before failing it;
+    // both inputs are required by scripts/check-pipeline-status.sh.
+    expect(gate).toContain('RUN_SHA: ${{ github.sha }}');
+    expect(gate).toContain('BRANCH_REF: ${{ github.ref_name }}');
+    expect(gate).toContain('run: bash scripts/check-pipeline-status.sh');
+    expect(gate).toContain('persist-credentials: false');
+  });
+
+  test('budgets every long step below 70% of its job cap', () => {
+    const workflow = readWorkflow(RELEASE_WORKFLOW);
+    const jobBlocks = getJobBlocks(workflow);
+    const MAX_BUDGET_SHARE_PERCENT = 70;
+    let wrappedSteps = 0;
+
+    for (const [jobName, block] of jobBlocks) {
+      // The job cap is the timeout-minutes declared at job level, before the
+      // `steps:` key; step-level timeouts (uses: steps) come later and are
+      // not caps.
+      const beforeSteps = block.slice(0, block.indexOf('\n    steps:'));
+      const capMatch = /timeout-minutes:\s*(\d+)/.exec(beforeSteps);
+      expect(capMatch, `${jobName} declares a job-level timeout-minutes`).not.toBeNull();
+      const capSeconds = Number(capMatch[1]) * 60;
+
+      for (const [, budgetText] of block.matchAll(/run-with-budget-warning\.sh (\d+)/g)) {
+        wrappedSteps++;
+        const budget = Number(budgetText);
+        expect(
+          budget * 100 <= capSeconds * MAX_BUDGET_SHARE_PERCENT,
+          `${jobName}: budget ${budget}s must expire at or before ${MAX_BUDGET_SHARE_PERCENT}% of its ${capSeconds}s cap, or the cap fires first and the budget is decorative`
+        ).toBe(true);
+      }
+
+      if (jobName === 'test') {
+        // The test matrix includes windows-latest, where the default shell is
+        // pwsh; every wrapped step there must pin shell: bash or the wrapper
+        // never runs.
+        const shellCount = (block.match(/^\s+shell: bash$/gm) ?? []).length;
+        expect(shellCount, 'each wrapped test step pins shell: bash').toBeGreaterThanOrEqual(3);
+      }
+    }
+
+    expect(wrappedSteps).toBe(20);
+
+    // The wrapper must exist, be executable, and own the three behaviours the
+    // naive `timeout(1)` line lacks: process-group signalling, the 70% warning,
+    // and the TERM-then-KILL grace window.
+    const wrapper = readFileSync('scripts/run-with-budget-warning.sh', 'utf-8');
+    expect(wrapper).toContain('set -m');
+    expect(wrapper).toContain('BUDGET_WARN_PERCENT');
+    expect(wrapper).toContain('BUDGET_GRACE_SECONDS');
+    expect(statSync('scripts/run-with-budget-warning.sh').mode & 0o111).not.toBe(0);
+  });
+
+  test('release jobs gate on the preflight verdict', () => {
+    const workflow = readWorkflow(RELEASE_WORKFLOW);
+    const jobBlocks = getJobBlocks(workflow);
+
+    // The preflight job runs the same probes in release mode on main and
+    // dispatch, and in report mode on pull requests, where a fork has no
+    // publishing secrets.
+    const preflight = jobBlocks.get('release-preflight');
+    expect(preflight, 'release-preflight job should exist').toBeDefined();
+    expect(preflight).toContain("'release' || 'report'");
+    expect(preflight).toContain('NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}');
+    expect(preflight).toContain('GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}');
+    expect(preflight).toContain('bun run scripts/preflight-credentials.mjs');
+
+    for (const jobName of ['release', 'instant-release']) {
+      const job = jobBlocks.get(jobName);
+      expect(job, `${jobName} must need the preflight`).toMatch(
+        /needs: \[.*release-preflight.*\]/
+      );
+      expect(
+        job,
+        `${jobName} must check the preflight result, not just its completion`
+      ).toContain("needs.release-preflight.result == 'success'");
+    }
+
+    // The probe is a real script with real tests, not a presence check.
+    expect(readFileSync('scripts/preflight-credentials.mjs', 'utf-8')).toMatch(
+      /checkGithubPushPermission/
+    );
   });
 });
