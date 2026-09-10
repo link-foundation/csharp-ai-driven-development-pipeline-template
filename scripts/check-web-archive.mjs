@@ -14,6 +14,9 @@
  *
  * Environment variables:
  *   - LYCHEE_OUTPUT: Path to lychee markdown output file (default: lychee/out.md)
+ *   - RECOVERED_URLS: Path to the re-check's recovered list -- URLs lychee
+ *     failed on that answered a direct re-check, written by
+ *     scripts/recheck-broken-links.mjs (default: lychee/recovered.txt)
  *
  * GitHub Actions outputs:
  *   - all_archived: 'true' if all broken links have a web archive version
@@ -105,6 +108,40 @@ function extractBrokenLinks(content) {
 }
 
 /**
+ * Split extracted broken URLs into the ones still to look up and the ones the
+ * re-check step (scripts/recheck-broken-links.mjs) found healthy again.
+ *
+ * A URL that never answered lychee but answers the re-check is not a broken
+ * link; keeping it in the archive report would send a healthy URL to the
+ * Wayback Machine and fail the job on it (issue #58).
+ *
+ * @param {string[]} urls - Broken http(s) URLs from extractBrokenLinks
+ * @param {string} recoveredText - Contents of the re-check's recovered list
+ * @returns {{remaining: string[], recovered: string[]}}
+ */
+export function splitRecoveredUrls(urls, recoveredText) {
+  const recoveredSet = new Set(
+    recoveredText
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean)
+  );
+
+  const remaining = [];
+  const recovered = [];
+
+  for (const url of urls) {
+    if (recoveredSet.has(url)) {
+      recovered.push(url);
+    } else {
+      remaining.push(url);
+    }
+  }
+
+  return { remaining, recovered };
+}
+
+/**
  * Check if a URL has an archived version in the Wayback Machine
  * Uses the Wayback Machine Availability API:
  * https://archive.org/help/wayback_api.php
@@ -187,6 +224,26 @@ async function main() {
   const { urls: brokenUrls, others: unarchivableLinks } =
     extractBrokenLinks(content);
 
+  // URLs the re-check step found healthy again never reach the archive
+  // lookup: a URL that answers is not broken, and suggesting an archive
+  // copy for a live link would suggest replacing it (issue #58).
+  const recoveredPath = process.env.RECOVERED_URLS || 'lychee/recovered.txt';
+  const recoveredText = existsSync(recoveredPath)
+    ? readFileSync(recoveredPath, 'utf-8')
+    : '';
+  const { remaining: stillBrokenUrls, recovered: recoveredUrls } =
+    splitRecoveredUrls(brokenUrls, recoveredText);
+
+  if (recoveredUrls.length > 0) {
+    console.log(
+      `✓ ${recoveredUrls.length} URL(s) lychee failed on answer the re-check and are not broken:`
+    );
+    for (const url of recoveredUrls) {
+      console.log(`  ${url}`);
+    }
+    console.log('');
+  }
+
   if (unarchivableLinks.length > 0) {
     // Local files and unresolvable root-relative links have no Wayback
     // equivalent. Reporting `all_archived=true` for them turned a real lychee
@@ -208,20 +265,24 @@ async function main() {
     console.log('');
   }
 
-  if (brokenUrls.length === 0) {
-    console.log('No broken URLs found in lychee output.');
+  if (stillBrokenUrls.length === 0) {
+    console.log(
+      recoveredUrls.length > 0
+        ? 'No broken URLs left: every lychee failure either answered the re-check or is not an http(s) URL.'
+        : 'No broken URLs found in lychee output.'
+    );
     setOutput('all_archived', unarchivableLinks.length === 0 ? 'true' : 'false');
     process.exit(unarchivableLinks.length === 0 ? 0 : 1);
   }
 
   console.log(
-    `Found ${brokenUrls.length} broken URL(s). Checking Web Archive...\n`
+    `Found ${stillBrokenUrls.length} broken URL(s) (lychee reported ${brokenUrls.length}). Checking Web Archive...\n`
   );
 
   const withArchive = [];
   const withoutArchive = [];
 
-  for (const url of brokenUrls) {
+  for (const url of stillBrokenUrls) {
     console.log(`Checking: ${url}`);
     const result = await checkWaybackMachine(url);
 
