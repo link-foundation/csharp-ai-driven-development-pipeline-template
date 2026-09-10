@@ -1,6 +1,8 @@
 import { describe, expect, test } from 'bun:test';
 import { execFileSync, spawnSync } from 'node:child_process';
 import {
+  chmodSync,
+  existsSync,
   mkdirSync,
   mkdtempSync,
   readFileSync,
@@ -190,6 +192,97 @@ describe('version-and-commit', () => {
         encoding: 'utf-8',
       }).trim();
       expect(tagListing).toBe('cs_v2.4.0');
+    } finally {
+      rmSync(root, { force: true, recursive: true });
+    }
+  });
+});
+
+// A fake `git` that records every invocation verbatim and behaves enough like
+// the real one (missing tag, dirty index) for the script to run to completion
+// without a repository. $GIT_STUB_LOG collects one `git <args>` line per call.
+function setupGitStub(root) {
+  const bin = path.join(root, 'stub-bin');
+  mkdirSync(bin, { recursive: true });
+  const stub = path.join(bin, 'git');
+  writeFileSync(
+    stub,
+    [
+      '#!/bin/sh',
+      'printf \'git %s\\n\' "$*" >> "$GIT_STUB_LOG"',
+      'if [ "$1" = "rev-parse" ]; then',
+      '  exit 1',
+      'fi',
+      'if [ "$1" = "diff" ] && [ "$2" = "--cached" ]; then',
+      '  exit 1',
+      'fi',
+      'exit 0',
+      '',
+    ].join('\n')
+  );
+  chmodSync(stub, 0o755);
+  return bin;
+}
+
+describe('version-and-commit argv injection (issue #61)', () => {
+  test('a --description with shell substitution is stored, never executed', () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'version-and-commit-'));
+    try {
+      const stubBin = setupGitStub(root);
+      const stubLog = path.join(root, 'git-stub.log');
+      const outputFile = path.join(root, 'gh-output.txt');
+      writeFileSync(outputFile, '');
+
+      mkdirSync(path.join(root, 'src', 'MyPackage'), { recursive: true });
+      writeFileSync(
+        path.join(root, 'src', 'MyPackage', 'MyPackage.csproj'),
+        '<Project Sdk="Microsoft.NET.Sdk">\n  <PropertyGroup>\n    <Version>2.3.0</Version>\n  </PropertyGroup>\n</Project>\n'
+      );
+
+      // The exact shape the issue demonstrates: operator text from the
+      // workflow_dispatch release form, carrying a command substitution.
+      const payload =
+        '$(printf INJECTED >> injected.txt) "quotes" && `backticks`';
+
+      const result = spawnSync(
+        'bun',
+        [
+          'run',
+          SCRIPT_PATH,
+          '--mode',
+          'instant',
+          '--bump-type',
+          'patch',
+          '--description',
+          payload,
+        ],
+        {
+          cwd: root,
+          env: {
+            ...process.env,
+            PATH: `${stubBin}${path.delimiter}${process.env.PATH}`,
+            GIT_STUB_LOG: stubLog,
+            GITHUB_OUTPUT: outputFile,
+          },
+          encoding: 'utf-8',
+        }
+      );
+
+      expect(result.status).toBe(0);
+
+      // The payload must have reached git as text, not the shell as code.
+      const log = readFileSync(stubLog, 'utf-8');
+      expect(log).toContain(
+        `git rev-parse --verify --quiet refs/tags/v2.3.1`
+      );
+      expect(log).toContain(
+        `git commit -m chore: release v2.3.1\n\n${payload}`
+      );
+      expect(log).toContain(
+        `git tag -a v2.3.1 -m Release v2.3.1\n\n${payload}`
+      );
+
+      expect(existsSync(path.join(root, 'injected.txt'))).toBe(false);
     } finally {
       rmSync(root, { force: true, recursive: true });
     }

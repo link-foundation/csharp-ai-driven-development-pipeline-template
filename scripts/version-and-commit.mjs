@@ -18,7 +18,7 @@ import {
   unlinkSync,
 } from 'fs';
 import { join, relative } from 'path';
-import { execSync } from 'child_process';
+import { execSync, execFileSync } from 'child_process';
 import {
   buildReleaseTag,
   detectCsharpLayout,
@@ -68,6 +68,29 @@ const CHANGELOG_FILE = resolvePathInCsharpRoot(layout.csharpRoot, 'CHANGELOG.md'
  */
 function exec(command, silent = false) {
   return execSync(command, {
+    encoding: 'utf-8',
+    stdio: silent ? 'pipe' : 'inherit',
+  });
+}
+
+/**
+ * Execute a command from an argument vector, never through a shell.
+ *
+ * Everything this script interpolates into a command -- the release tag, the
+ * commit and tag messages, and above all the `--description` an operator
+ * types into the workflow_dispatch release form -- is a value. A value
+ * concatenated into a command string is parsed by /bin/sh, where `$()`,
+ * backticks and `;` execute in a job holding contents:write (issue #61). The
+ * argv form hands the same bytes to git as one argument, verbatim. Any new
+ * call site that carries a value must use this, not `exec`.
+ *
+ * @param {string} file
+ * @param {string[]} args
+ * @param {boolean} silent
+ * @returns {string}
+ */
+function execArgs(file, args, silent = false) {
+  return execFileSync(file, args, {
     encoding: 'utf-8',
     stdio: silent ? 'pipe' : 'inherit',
   });
@@ -148,7 +171,11 @@ function updateCsproj(newVersion) {
  */
 function checkTagExists(tag) {
   try {
-    exec(`git rev-parse --verify --quiet refs/tags/${tag}`, true);
+    execArgs(
+      'git',
+      ['rev-parse', '--verify', '--quiet', `refs/tags/${tag}`],
+      true
+    );
     return true;
   } catch {
     return false;
@@ -390,7 +417,7 @@ try {
   }
 
   // Stage all changed files
-  exec(`git add ${CSPROJ_PATH} ${CHANGELOG_FILE} ${CHANGESET_DIR}/`);
+  execArgs('git', ['add', CSPROJ_PATH, CHANGELOG_FILE, `${CHANGESET_DIR}/`]);
 
   // Check if there are changes to commit
   try {
@@ -409,14 +436,14 @@ try {
   const commitMsg = description
     ? `chore: release ${releaseTag}\n\n${description}`
     : `chore: release ${releaseTag}`;
-  exec(`git commit -m "${commitMsg.replace(/"/g, '\\"')}"`);
+  execArgs('git', ['commit', '-m', commitMsg]);
   console.log(`Committed version ${newVersion}`);
 
   // Create tag
   const tagMsg = description
     ? `Release ${releaseTag}\n\n${description}`
     : `Release ${releaseTag}`;
-  exec(`git tag -a ${releaseTag} -m "${tagMsg.replace(/"/g, '\\"')}"`);
+  execArgs('git', ['tag', '-a', releaseTag, '-m', tagMsg]);
   console.log(`Created tag ${releaseTag}`);
 
   // Push changes and tag
