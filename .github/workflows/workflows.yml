@@ -21,7 +21,7 @@ permissions:
 jobs:
   actionlint:
     name: Lint Workflows
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # Typical run: <1min. 10min prevents an image pull stall from hanging.
     timeout-minutes: 10
     concurrency:
@@ -55,7 +55,7 @@ jobs:
 
   zizmor:
     name: zizmor
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-zizmor
