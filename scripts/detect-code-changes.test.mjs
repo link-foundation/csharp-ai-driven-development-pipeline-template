@@ -24,6 +24,7 @@ describe('code change detection', () => {
     'src/MyPackage/Calculator.cs',
     'scripts/check-file-size.mjs',
     '.github/workflows/release.yml',
+    'lychee.toml',
   ])('detects code change %s', (changedFile) => {
     expect(detectChangeOutputs([changedFile])).toEqual({
       'any-code-changed': 'true',

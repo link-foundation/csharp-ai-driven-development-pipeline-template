@@ -239,7 +239,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-24.04, macos-latest, windows-latest]
+        os: [ubuntu-24.04, macos-15, windows-2025]
     steps:
       - uses: actions/checkout@v6
         with:
@@ -282,7 +282,7 @@ jobs:
       - name: Run tests
         working-directory: ${{ steps.csharp_layout.outputs.root }}
         shell: bash
-        # This matrix also runs on windows-latest, where the default shell is
+        # This matrix also runs on windows-2025, where the default shell is
         # pwsh: `shell: bash` keeps the wrapper (and its process-group
         # signalling) working on every leg.
         run: bash scripts/run-with-budget-warning.sh 1200 "Test suite" dotnet test --no-build --configuration Release --verbosity normal --collect:"XPlat Code Coverage"
@@ -366,8 +366,8 @@ jobs:
   # === RELEASE PREFLIGHT ===
   # Proves the release preconditions can hold before any expensive job runs
   # (issues #51, #57): the workflow token's push permission via the repository
-  # API, the presence of NUGET_API_KEY -- an absent key used to produce a
-  # green run that published nothing -- and, advisory, the package's
+  # API, NuGet trusted-publishing configuration or API-key validity/scope
+  # (an absent key used to produce a green release), and the package's
   # visibility on nuget.org. Release mode (push to main, workflow_dispatch)
   # fails before the matrix; pull requests report without blocking, because a
   # fork legitimately has no publishing secrets.
@@ -399,6 +399,7 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          NUGET_USER: ${{ vars.NUGET_USER }}
         run: bun run scripts/preflight-credentials.mjs
 
   # === AUTOMATIC RELEASE ===
@@ -412,6 +413,7 @@ jobs:
     permissions:
       contents: write
       packages: write
+      id-token: write
     steps:
       # This checkout keeps credentials in .git/config on purpose:
       # scripts/version-and-commit.mjs runs `git push` to publish the version
@@ -545,26 +547,18 @@ jobs:
           fi
           echo "id=$PACKAGE_ID" >> "$GITHUB_OUTPUT"
 
-      - name: Validate NuGet API key
-        # Presence check only. A non-empty key can still be expired or
-        # unauthorized — nuget.org exposes no read endpoint that validates an
-        # API key without a write, so nothing can probe it from here. The
-        # authoritative gate is the release-preflight job, which fails the run
-        # before this matrix when the key is absent; an expired key surfaces
-        # at the push below.
+      - name: NuGet login (OIDC)
+        id: nuget-login
+        # Request the one-hour key after building, immediately before pushing.
         if: >-
+          vars.NUGET_USER != '' && (
           steps.version.outputs.version_committed == 'true' ||
           steps.version.outputs.already_released == 'true' ||
           (steps.check_release.outputs.should_release == 'true' &&
-           steps.check_release.outputs.skip_bump == 'true')
-        env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-        run: |
-          if [ -z "$NUGET_API_KEY" ]; then
-            echo "::warning::NUGET_API_KEY is not configured — NuGet publish will be skipped."
-            exit 0
-          fi
-          echo "NUGET_API_KEY length: ${#NUGET_API_KEY}"
+           steps.check_release.outputs.skip_bump == 'true'))
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0
+        with:
+          user: ${{ vars.NUGET_USER }}
 
       - name: Publish to NuGet
         id: nuget_publish
@@ -574,18 +568,12 @@ jobs:
           (steps.check_release.outputs.should_release == 'true' &&
            steps.check_release.outputs.skip_bump == 'true')
         env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          # Use the legacy secret only when trusted publishing is unconfigured.
+          NUGET_API_KEY: ${{ vars.NUGET_USER == '' && secrets.NUGET_API_KEY || steps.nuget-login.outputs.NUGET_API_KEY }}
         working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: |
-          bash scripts/run-with-budget-warning.sh 600 "NuGet publish" bash -c '
-            if [ -n "$NUGET_API_KEY" ]; then
-              dotnet nuget push ./artifacts/*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate
-              echo "published=true" >> "$GITHUB_OUTPUT"
-            else
-              echo "NUGET_API_KEY not set, skipping NuGet publish"
-              echo "published=false" >> "$GITHUB_OUTPUT"
-            fi
-          '
+          bash scripts/run-with-budget-warning.sh 600 "NuGet publish" \
+            bun run scripts/push-nuget-package.mjs
 
       - name: Wait for NuGet indexing
         # NuGet's flat-container API can take up to 15 minutes to reflect a
@@ -623,10 +611,11 @@ jobs:
 
       - name: Create GitHub Release
         if: >-
+          steps.nuget_publish.outputs.published == 'true' && (
           steps.version.outputs.version_committed == 'true' ||
           steps.version.outputs.already_released == 'true' ||
           (steps.check_release.outputs.should_release == 'true' &&
-           steps.check_release.outputs.skip_bump == 'true')
+           steps.check_release.outputs.skip_bump == 'true'))
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -659,6 +648,7 @@ jobs:
     permissions:
       contents: write
       packages: write
+      id-token: write
     steps:
       # This checkout keeps credentials in .git/config on purpose:
       # scripts/version-and-commit.mjs runs `git push` to publish the version
@@ -745,24 +735,16 @@ jobs:
           fi
           echo "id=$PACKAGE_ID" >> "$GITHUB_OUTPUT"
 
-      - name: Validate NuGet API key
-        # Presence check only. A non-empty key can still be expired or
-        # unauthorized — nuget.org exposes no read endpoint that validates an
-        # API key without a write, so nothing can probe it from here. The
-        # authoritative gate is the release-preflight job, which fails the run
-        # before this matrix when the key is absent; an expired key surfaces
-        # at the push below.
+      - name: NuGet login (OIDC)
+        id: nuget-login
+        # Request the one-hour key after building, immediately before pushing.
         if: >-
+          vars.NUGET_USER != '' && (
           steps.version.outputs.version_committed == 'true' ||
-          steps.version.outputs.already_released == 'true'
-        env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-        run: |
-          if [ -z "$NUGET_API_KEY" ]; then
-            echo "::warning::NUGET_API_KEY is not configured — NuGet publish will be skipped."
-            exit 0
-          fi
-          echo "NUGET_API_KEY length: ${#NUGET_API_KEY}"
+          steps.version.outputs.already_released == 'true')
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0
+        with:
+          user: ${{ vars.NUGET_USER }}
 
       - name: Publish to NuGet
         id: nuget_publish
@@ -770,18 +752,12 @@ jobs:
           steps.version.outputs.version_committed == 'true' ||
           steps.version.outputs.already_released == 'true'
         env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          # Use the legacy secret only when trusted publishing is unconfigured.
+          NUGET_API_KEY: ${{ vars.NUGET_USER == '' && secrets.NUGET_API_KEY || steps.nuget-login.outputs.NUGET_API_KEY }}
         working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: |
-          bash scripts/run-with-budget-warning.sh 600 "NuGet publish" bash -c '
-            if [ -n "$NUGET_API_KEY" ]; then
-              dotnet nuget push ./artifacts/*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate
-              echo "published=true" >> "$GITHUB_OUTPUT"
-            else
-              echo "NUGET_API_KEY not set, skipping NuGet publish"
-              echo "published=false" >> "$GITHUB_OUTPUT"
-            fi
-          '
+          bash scripts/run-with-budget-warning.sh 600 "NuGet publish" \
+            bun run scripts/push-nuget-package.mjs
 
       - name: Wait for NuGet indexing
         # NuGet's flat-container API can take up to 15 minutes to reflect a
@@ -815,8 +791,9 @@ jobs:
 
       - name: Create GitHub Release
         if: >-
+          steps.nuget_publish.outputs.published == 'true' && (
           steps.version.outputs.version_committed == 'true' ||
-          steps.version.outputs.already_released == 'true'
+          steps.version.outputs.already_released == 'true')
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

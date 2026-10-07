@@ -156,7 +156,7 @@ export function detectChangeOutputs(changedFiles) {
   const includedFiles = changedFiles.filter(
     (file) => !isExcludedFromCodeChanges(file)
   );
-  const codePattern = /\.(cs|csproj|sln|props|mjs|json|yml|yaml)$|\.github\/workflows\//;
+  const codePattern = /\.(cs|csproj|sln|props|mjs|json|yml|yaml|toml)$|\.github\/workflows\//;
   const codeChanged = includedFiles.some((file) => codePattern.test(file));
 
   return { 'any-code-changed': codeChanged ? 'true' : 'false' };

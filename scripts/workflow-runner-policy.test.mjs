@@ -3,41 +3,64 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const WORKFLOW_DIR = '.github/workflows';
-const RELEASE_WORKFLOW = join(WORKFLOW_DIR, 'release.yml');
-
-function readWorkflow(filePath) {
-  return readFileSync(filePath, 'utf-8').replaceAll('\r\n', '\n');
-}
-
-function listWorkflows() {
-  return readdirSync(WORKFLOW_DIR)
-    .filter((name) => name.endsWith('.yml') || name.endsWith('.yaml'))
-    .map((name) => join(WORKFLOW_DIR, name));
+function floatingRunners(workflow) {
+  const findings = [];
+  function visit(value, location) {
+    if (typeof value === 'string' && /\b[\w-]+-latest\b/.test(value)) {
+      findings.push(`${location}: ${value}`);
+    } else if (Array.isArray(value)) {
+      value.forEach((entry, index) => visit(entry, `${location}[${index}]`));
+    } else if (value && typeof value === 'object') {
+      for (const [key, entry] of Object.entries(value)) {
+        visit(entry, `${location}.${key}`);
+      }
+    }
+  }
+  for (const [name, job] of Object.entries(workflow.jobs ?? {})) {
+    visit(job['runs-on'], `jobs.${name}.runs-on`);
+    visit(job.strategy?.matrix, `jobs.${name}.strategy.matrix`);
+  }
+  return findings;
 }
 
 describe('workflow runner policy', () => {
-  test('pins every Ubuntu runner instead of following ubuntu-latest', () => {
-    const findings = [];
-
-    for (const filePath of listWorkflows()) {
-      readWorkflow(filePath)
-        .split('\n')
-        .forEach((line, index) => {
-          if (/\bubuntu-latest\b/.test(line)) {
-            findings.push(`${filePath}:${index + 1}: ${line.trim()}`);
-          }
-        });
-    }
-
-    expect(
-      findings,
-      `Pin these runner references to ubuntu-24.04:\n${findings.join('\n')}`
-    ).toEqual([]);
+  test('rejects floating runners in scalars, lists, label objects, and matrix includes', () => {
+    const workflow = Bun.YAML.parse(`
+jobs:
+  scalar:
+    runs-on: ubuntu-latest
+  list:
+    runs-on: [self-hosted, windows-latest]
+  labels:
+    runs-on:
+      labels: macos-latest
+  matrix:
+    runs-on: \${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+        include:
+          - os: windows-latest
+`);
+    expect(floatingRunners(workflow)).toHaveLength(5);
   });
 
-  test('keeps Linux, macOS, and Windows in the release test matrix', () => {
-    const workflow = readWorkflow(RELEASE_WORKFLOW);
+  test('pins runners in every workflow, including multiline matrices', () => {
+    const findings = readdirSync(WORKFLOW_DIR)
+      .filter((name) => /\.ya?ml$/.test(name))
+      .flatMap((name) => floatingRunners(
+        Bun.YAML.parse(readFileSync(join(WORKFLOW_DIR, name), 'utf-8'))
+      ).map((finding) => `${name}: ${finding}`));
+    expect(findings, findings.join('\n')).toEqual([]);
+  });
 
-    expect(workflow).toContain('os: [ubuntu-24.04, macos-latest, windows-latest]');
+  test('keeps all three pinned platforms and .NET 8 in the release matrix', () => {
+    const workflow = Bun.YAML.parse(readFileSync(join(WORKFLOW_DIR, 'release.yml'), 'utf-8'));
+    expect(workflow.jobs.test.strategy.matrix.os).toEqual([
+      'ubuntu-24.04', 'macos-15', 'windows-2025',
+    ]);
+    expect(workflow.jobs.test.steps.find((step) => step.uses?.startsWith('actions/setup-dotnet@'))
+      .with['dotnet-version']).toBe('8.0.x');
   });
 });

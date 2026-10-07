@@ -8,12 +8,20 @@ on:
       - '**.md'
       - '**.html'
       - '.github/workflows/links.yml'
+      - 'lychee.toml'
+      - '.lycheeignore'
+      - 'scripts/recheck-broken-links.mjs'
+      - 'scripts/check-web-archive.mjs'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
       - '**.md'
       - '**.html'
       - '.github/workflows/links.yml'
+      - 'lychee.toml'
+      - '.lycheeignore'
+      - 'scripts/recheck-broken-links.mjs'
+      - 'scripts/check-web-archive.mjs'
   workflow_dispatch:
 
 # Least-privilege default; jobs escalate individually when needed.
@@ -74,12 +82,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Re-check links that never got an answer
+      - name: Re-check transient link failures
         # --max-retries never retries a failure during the connect phase
         # (lycheeverse/lychee#2297), so a healthy URL behind a connection
         # reset is reported broken without one retry. Ask the URLs that got
-        # no answer again, outside lychee. A failure carrying a status code
-        # is a host's answer and stays final (issue #58).
+        # no answer again, outside lychee. Also retry 429 and 5xx with backoff
+        # (issue #68); permanent statuses such as 404 remain final.
         if: steps.lychee.outputs.exit_code != 0
         id: recheck
         env:

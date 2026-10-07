@@ -185,7 +185,7 @@ The GitHub Actions workflow provides:
 
 1. **Changeset validation**: Ensures PRs include a changeset file
 2. **Linting**: dotnet format and build with warnings as errors
-3. **Test matrix**: 3 OS (Ubuntu, macOS, Windows) with .NET 8.0
+3. **Test matrix**: Ubuntu 24.04, macOS 15, and Windows Server 2025 with .NET 8.0
 4. **Building**: Release build and package validation
 5. **Release**: Automated versioning, NuGet publishing, and GitHub releases
 
@@ -211,6 +211,32 @@ returning 404 — exactly the failure documented in
 
 ### Release Automation
 
+NuGet publishing supports [trusted publishing](https://learn.microsoft.com/en-us/nuget/nuget-org/trusted-publishing).
+To configure it, create a policy on nuget.org for your repository owner,
+repository name, and workflow file **`release.yml`** (file name only). Select
+the package owner and a package glob with permission to publish new versions
+(and new packages if needed). Leave the optional environment empty: this
+template's release jobs do not use a GitHub Actions environment. Then set the
+GitHub repository variable **`NUGET_USER`** to your NuGet profile username,
+not your email address.
+
+Both automatic and manual instant releases use the pinned official
+[`NuGet/login`](https://github.com/NuGet/login) action. Only these publishing
+jobs have `id-token: write`, and login runs after the package build, immediately
+before pushing. The temporary key lasts one hour. When `NUGET_USER` is set,
+an old or expired `NUGET_API_KEY` secret is ignored; a failed OIDC login stops
+the release with its policy error.
+
+For repositories using API keys, leave `NUGET_USER` unset and configure the
+`NUGET_API_KEY` secret. Release preflight reports the authentication mode and
+checks key validity using NuGet's symbol-verification endpoints. For an
+existing package it also checks the key's owner/glob against a published
+version. Before the first publication there is no version to check, so
+preflight reports that limitation and the push enforces package scope. An
+HTTP 401/403 at publish time fails with instructions to renew the key or set
+up trusted publishing. GitHub release creation follows successful publication,
+indexing, and the package smoke test.
+
 The release workflow supports two modes:
 
 **Automatic Release** (on push to main):
@@ -225,6 +251,25 @@ Release naming adapts to the repository layout automatically. A normal C# reposi
 **Manual Release** (via workflow_dispatch):
 - `instant` mode: Immediate version bump and release
 - `changeset-pr` mode: Creates a PR with changeset for review
+
+### Workflow Maintenance
+
+Hosted OS labels are pinned in all workflows. Review
+[`actions/runner-images`](https://github.com/actions/runner-images) every
+quarter and before an image's announced retirement. Migrate labels in a PR
+and require the full .NET 8 matrix to pass before merging. Versioned OS labels
+still receive software updates; they prevent automatic OS-version migrations.
+Repository-wide policy tests reject floating `-latest` runner labels and require
+`init.defaultBranch=main` to be configured before every checkout.
+
+The broken-link workflow uses [`lychee.toml`](lychee.toml) to limit GitHub to
+two concurrent requests spaced one second apart. Its recovery script retries
+transport failures, HTTP 429, and 5xx using exponential backoff and
+`Retry-After`, within a 180-second total budget. A link is recovered only after
+an accepted HTTP response. Permanent errors such as 404 and missing local
+files retain the existing Web Archive reporting and failure behavior.
+Configuration, ignore-list, and link-check script changes also trigger the
+link workflow.
 
 ## Configuration
 

@@ -11,6 +11,17 @@ function readWorkflow() {
 }
 
 describe('broken-link workflow policy', () => {
+  test('throttles GitHub requests without accepting rate limits as healthy links', () => {
+    const config = Bun.TOML.parse(readFileSync('lychee.toml', 'utf-8'));
+    expect(config.hosts['github.com']).toMatchObject({ concurrency: 2, request_interval: '1s' });
+    expect(config.accept).toBeUndefined();
+    const workflow = Bun.YAML.parse(readWorkflow());
+    for (const event of ['push', 'pull_request']) {
+      expect(workflow.on[event].paths).toContain('lychee.toml');
+      expect(workflow.on[event].paths).toContain('.lycheeignore');
+      expect(workflow.on[event].paths).toContain('scripts/recheck-broken-links.mjs');
+    }
+  });
   test('checks Markdown and HTML changes with least privilege', () => {
     const workflow = readWorkflow();
 

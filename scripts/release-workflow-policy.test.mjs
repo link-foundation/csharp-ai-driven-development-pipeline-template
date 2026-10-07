@@ -120,6 +120,33 @@ function getStepBlock(jobBlock, stepName) {
 }
 
 describe('release workflow policy', () => {
+  test('both publishers request OIDC just before push and never silently fall back after login', () => {
+    const workflow = Bun.YAML.parse(readWorkflow(RELEASE_WORKFLOW));
+    expect(workflow.jobs['release-preflight'].steps.at(-1).env.NUGET_USER).toBe('${{ vars.NUGET_USER }}');
+    for (const name of ['release', 'instant-release']) {
+      const job = workflow.jobs[name];
+      expect(job.permissions['id-token']).toBe('write');
+      const loginIndex = job.steps.findIndex((step) => step.id === 'nuget-login');
+      const pushIndex = job.steps.findIndex((step) => step.id === 'nuget_publish');
+      expect(loginIndex).toBeGreaterThan(-1);
+      expect(pushIndex).toBe(loginIndex + 1);
+      const login = job.steps[loginIndex];
+      expect(login.uses).toBe('NuGet/login@8d196754b4036150537f80ac539e15c2f1028841');
+      expect(login.if).toContain("vars.NUGET_USER != ''");
+      expect(login.if).toContain("steps.version.outputs.version_committed == 'true'");
+      expect(login.with.user).toBe('${{ vars.NUGET_USER }}');
+      const publish = job.steps[pushIndex];
+      expect(publish.env.NUGET_API_KEY).toBe("${{ vars.NUGET_USER == '' && secrets.NUGET_API_KEY || steps.nuget-login.outputs.NUGET_API_KEY }}");
+      expect(publish.run).toContain('scripts/push-nuget-package.mjs');
+      expect(publish.run).not.toContain('skipping');
+      const release = job.steps.find((step) => step.name === 'Create GitHub Release');
+      expect(release.if).toContain("steps.nuget_publish.outputs.published == 'true'");
+    }
+    for (const [name, job] of Object.entries(workflow.jobs)) {
+      if (['release', 'instant-release'].includes(name)) continue;
+      expect(job.permissions?.['id-token'], name).toBeUndefined();
+    }
+  });
   test('does not cancel release runs on main when newer pushes arrive', () => {
     const workflow = readWorkflow(RELEASE_WORKFLOW);
 
@@ -328,7 +355,7 @@ describe('release workflow policy', () => {
       }
 
       if (jobName === 'test') {
-        // The test matrix includes windows-latest, where the default shell is
+        // The test matrix includes windows-2025, where the default shell is
         // pwsh; every wrapped step there must pin shell: bash or the wrapper
         // never runs.
         const shellCount = (block.match(/^\s+shell: bash$/gm) ?? []).length;
