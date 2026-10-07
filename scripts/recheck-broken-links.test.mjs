@@ -1,8 +1,8 @@
 // Tests for the re-check of lychee failures where no host ever answered
 // (issue #58). lychee's --max-retries cannot retry a connection reset during
 // connect (lycheeverse/lychee#2297), so these tests pin the rule that keeps
-// the re-check from hiding real breakage: a failure carrying a status code is
-// a host's answer and is final; only silent transport failures get re-asked.
+// the re-check from hiding real breakage: permanent failures remain final,
+// while transport errors, 429 and 5xx receive bounded retries.
 import { describe, expect, test } from 'bun:test';
 import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -101,14 +101,25 @@ describe('lychee failure classification', () => {
     ]);
   });
 
-  test('"Rejected status code" marks an answer under any marker', () => {
+  test('"Rejected status code" identifies a transient server response under any marker', () => {
     const synthetic =
       '## Errors per input\n\n' +
       '* [WEIRD] <https://x.example/> (at 1:1) | Rejected status code: 500 Internal Server Error\n';
 
-    const { final } = classifyFailures(parseLycheeFailures(synthetic));
+    const { final, unanswered } = classifyFailures(parseLycheeFailures(synthetic));
 
-    expect(final).toHaveLength(1);
+    expect(final).toHaveLength(0);
+    expect(unanswered).toHaveLength(1);
+  });
+
+  test('429 and every 5xx are retryable while client failures remain final', () => {
+    const statuses = [401, 403, 404, 410, 429, 500, 502, 503, 504, 599];
+    const failures = statuses.map((status) => ({
+      marker: String(status), url: `https://example.com/${status}`, detail: '',
+    }));
+    const { final, unanswered } = classifyFailures(failures);
+    expect(final.map((failure) => Number(failure.marker))).toEqual([401, 403, 404, 410]);
+    expect(unanswered.map((failure) => Number(failure.marker))).toEqual([429, 500, 502, 503, 504, 599]);
   });
 
   test('a non-http failure is final without being re-asked', () => {
@@ -246,6 +257,49 @@ describe('probe', () => {
 });
 
 describe('recheckAll', () => {
+  for (const status of [429, 502, 503]) {
+    test(`retries HTTP ${status} until recovery without re-asking a 404`, async () => {
+      const counts = new Map();
+      const waits = [];
+      const { fetchImpl, calls } = stubFetch((url) => {
+        const count = (counts.get(url) ?? 0) + 1;
+        counts.set(url, count);
+        return url.endsWith('/gone') ? 404 : count < 3 ? status : 200;
+      });
+      const results = await recheckAll(['https://example.com/flaky', 'https://example.com/gone'], {
+        fetchImpl, waitMs: 5, sleep: async (ms) => waits.push(ms),
+      });
+      expect(results.get('https://example.com/flaky')).toMatchObject({ outcome: 'alive', attempts: 3 });
+      expect(results.get('https://example.com/gone')).toMatchObject({ outcome: 'rejected', attempts: 1 });
+      expect(calls.filter((call) => call.url.endsWith('/gone'))).toHaveLength(1);
+      expect(waits).toEqual([5, 10]);
+    });
+  }
+
+  test('persistent transient statuses exhaust retries without being called recovered', async () => {
+    const { fetchImpl, calls } = stubFetch(() => 503);
+    const results = await recheckAll(['https://example.com/outage'], { fetchImpl, sleep: async () => {} });
+    expect(calls).toHaveLength(3);
+    expect(results.get('https://example.com/outage')).toMatchObject({ outcome: 'transient', attempts: 3 });
+  });
+
+  test('honors Retry-After without exceeding the total wait budget', async () => {
+    let elapsed = 0;
+    const waits = [];
+    const calls = [];
+    const results = await recheckAll(['https://example.com/limited'], {
+      fetchImpl: async (url) => {
+        calls.push(url);
+        return { status: 429, headers: new Headers({ 'Retry-After': '120' }) };
+      },
+      budgetMs: 1000, now: () => elapsed,
+      sleep: async (ms) => { waits.push(ms); elapsed += ms; },
+    });
+    expect(calls).toHaveLength(1);
+    expect(waits).toEqual([1000]);
+    expect(results.get('https://example.com/limited').outcome).toBe('transient');
+  });
+
   test('retries a silent link and stops at the first accepted answer', async () => {
     const flappyAttempts = { count: 0 };
     const { fetchImpl, calls } = stubFetch((url) => {

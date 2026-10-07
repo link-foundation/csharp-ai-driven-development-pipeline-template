@@ -3,7 +3,7 @@
 /**
  * Prove the release can be published before any expensive job runs.
  *
- * The release jobs push to nuget.org with NUGET_API_KEY and to this
+ * The release jobs push to nuget.org with trusted publishing or NUGET_API_KEY and to this
  * repository with GITHUB_TOKEN. Before this preflight existed, the API key
  * was first exercised by `dotnet nuget push`, 55 capped minutes into the run,
  * and an absent key produced a green release that published nothing (a
@@ -13,10 +13,10 @@
  * What each probe can honestly prove:
  *   - GITHUB_TOKEN push permission: GET /repos/{owner}/{repo} reports the
  *     token's permission block. push:true is a verified positive.
- *   - NUGET_API_KEY: presence only. nuget.org exposes no read endpoint that
- *     validates an API key without a write, so an expired key cannot be
- *     probed from here; it surfaces at the push. The check exists because an
- *     absent key used to skip publishing silently.
+ *   - NUGET_USER selects trusted publishing; the OIDC policy is validated by
+ *     NuGet/login immediately before publishing. Otherwise, the API key is
+ *     checked via the symbol verification endpoints, including owner/glob
+ *     coverage for an existing published version (issue #66).
  *   - Package visibility on nuget.org (advisory, never blocks): the
  *     flat-container index answers 200 for a published package and 404 for
  *     one whose first publish has not happened yet.
@@ -36,13 +36,15 @@
  *   - PREFLIGHT_MODE:     'release' or 'report' (default 'report')
  *   - GITHUB_REPOSITORY:  owner/repo
  *   - GITHUB_TOKEN:       the workflow token whose push permission is probed
- *   - NUGET_API_KEY:      the nuget.org key whose presence is checked
+ *   - NUGET_USER:         repository variable selecting trusted publishing
+ *   - NUGET_API_KEY:      legacy nuget.org API key to verify
  *   - CSHARP_ROOT:        optional C# root (auto-detected when unset)
  *   - GITHUB_API_URL:     override GitHub API endpoint (for tests)
  *   - NUGET_INDEX_URL:    override NuGet flat-container endpoint (for tests)
  *
  * Outputs (written to GITHUB_OUTPUT):
  *   - preflight_result: 'passed' or 'failed'
+ *   - auth: 'trusted-publishing', 'api-key', or 'none'
  */
 
 import {
@@ -50,6 +52,7 @@ import {
   findCsharpProjectFile,
 } from './release-naming.mjs';
 import { readCsprojInfo } from './check-release-needed.mjs';
+import { checkNugetAuthentication } from './nuget-auth.mjs';
 import { appendFileSync } from 'node:fs';
 import path from 'node:path';
 
@@ -143,28 +146,6 @@ export async function checkGithubPushPermission({
 }
 
 /**
- * Presence check for NUGET_API_KEY. nuget.org has no read endpoint that
- * accepts an API key, so presence is the most this probe can honestly say.
- *
- * @param {object} input
- * @param {string} input.apiKey
- * @returns {{status: 'ok'|'failed'|'unknown', detail: string}}
- */
-export function checkNugetApiKeyPresence({ apiKey }) {
-  if (!apiKey) {
-    return {
-      status: 'failed',
-      detail:
-        'NUGET_API_KEY is not configured. Publishing would be skipped and the run would still cut a GitHub Release advertising a version no `dotnet add package` can find.',
-    };
-  }
-  return {
-    status: 'ok',
-    detail: `NUGET_API_KEY is configured (${apiKey.length} characters). Presence only — an expired or unauthorized key still fails at the push, because nuget.org offers no way to validate a key without a write.`,
-  };
-}
-
-/**
  * Advisory probe of the package's visibility on nuget.org. Never blocks: a
  * 404 is the expected state before the first publish, and NuGet creates the
  * registration on first push (unlike Packagist, which requires a submit).
@@ -191,7 +172,7 @@ export async function checkNugetPackageVisibility({
 
   let response;
   try {
-    response = await fetchImpl(url);
+    response = await fetchImpl(url, { signal: AbortSignal.timeout(20000) });
   } catch (error) {
     return {
       status: 'unknown',
@@ -202,6 +183,7 @@ export async function checkNugetPackageVisibility({
   if (response.status === 404) {
     return {
       status: 'ok',
+      latestVersion: '',
       detail: `"${packageId}" is not on nuget.org yet — the first publish creates the registration`,
     };
   }
@@ -212,10 +194,19 @@ export async function checkNugetPackageVisibility({
     };
   }
 
-  const payload = await response.json();
-  const versions = Array.isArray(payload.versions) ? payload.versions : [];
+  let payload;
+  try {
+    payload = await response.json();
+  } catch {
+    return { status: 'unknown', detail: 'NuGet flat-container index returned invalid JSON.' };
+  }
+  if (!Array.isArray(payload?.versions) || !payload.versions.every((version) => typeof version === 'string')) {
+    return { status: 'unknown', detail: 'NuGet flat-container index returned an invalid versions list.' };
+  }
+  const versions = payload.versions;
   return {
     status: 'ok',
+    latestVersion: versions.at(-1) || '',
     detail: `"${packageId}" is public on nuget.org with ${versions.length} published version(s)`,
   };
 }
@@ -273,25 +264,30 @@ export function resolvePackageId() {
   }
 }
 
-async function main() {
+export async function main({ fetchImpl = fetch } = {}) {
   const mode =
     process.env.PREFLIGHT_MODE === 'release' ? 'release' : 'report';
   const repository = process.env.GITHUB_REPOSITORY || '';
   const token = process.env.GITHUB_TOKEN || '';
   const apiKey = process.env.NUGET_API_KEY || '';
+  const nugetUser = process.env.NUGET_USER || '';
   const packageId = resolvePackageId();
 
   console.log(`Preflight mode: ${mode}`);
   console.log(`Repository:     ${repository || '(not set)'}`);
   console.log(`Package id:     ${packageId || '(unresolved)'}`);
 
-  const pushCheck = await checkGithubPushPermission({ repository, token });
-  const keyCheck = checkNugetApiKeyPresence({ apiKey });
-  const visibilityCheck = await checkNugetPackageVisibility({ packageId });
+  const pushCheck = await checkGithubPushPermission({ repository, token, fetchImpl });
+  const visibilityCheck = await checkNugetPackageVisibility({ packageId, fetchImpl });
+  const keyCheck = await checkNugetAuthentication({
+    apiKey, nugetUser, packageId, publishedVersion: visibilityCheck.latestVersion,
+    visibilityKnown: visibilityCheck.status === 'ok', fetchImpl,
+  });
+  setOutput('auth', keyCheck.auth);
 
   const checks = [
     { name: 'GITHUB_TOKEN push permission', required: true, ...pushCheck },
-    { name: 'NUGET_API_KEY presence', required: true, ...keyCheck },
+    { name: 'NuGet authentication', required: true, ...keyCheck },
     { name: 'NuGet package visibility', required: false, ...visibilityCheck },
   ];
 
@@ -334,8 +330,8 @@ async function main() {
     console.error(
       'Release preflight failed; no build or publish job will run. Fix the probes above and push again.'
     );
-    process.exit(1);
   }
+  return decision;
 }
 
 // Allow `import { ... } from './preflight-credentials.mjs'` without running main().
@@ -346,7 +342,9 @@ const invokedDirectly =
   (import.meta.url === `file://${entryPath}` ||
     import.meta.url.endsWith(entryPath));
 if (invokedDirectly) {
-  main().catch((error) => {
+  main().then((decision) => {
+    if (!decision.passed) process.exitCode = 1;
+  }).catch((error) => {
     console.error('Error:', error.message);
     process.exit(1);
   });
