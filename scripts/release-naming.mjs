@@ -1,9 +1,5 @@
-import {
-  existsSync,
-  readFileSync,
-  readdirSync,
-  statSync,
-} from 'node:fs';
+/** @typedef {{csharpRoot?: string, cwd?: string, csharpSubdir?: string, tagPrefix?: string, language?: string, packageName?: string}} LayoutOptions */
+import { readFileSync, readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
 
 const DEFAULT_CSHARP_SUBDIR = 'csharp';
@@ -115,7 +111,7 @@ function hasCsharpManifest(rootDir) {
     entries.some(
       (entry) =>
         entry.isFile() &&
-        (entry.name.endsWith('.csproj') || entry.name.endsWith('.sln'))
+        (entry.name.endsWith('.csproj') || entry.name.endsWith('.sln')),
     )
   ) {
     return true;
@@ -127,10 +123,7 @@ function hasCsharpManifest(rootDir) {
 
 /**
  * Detect whether the C# project lives at repo root or in a csharp/ subdirectory.
- * @param {object} [options]
- * @param {string} [options.cwd]
- * @param {string} [options.csharpRoot]
- * @param {string} [options.csharpSubdir]
+ * @param {LayoutOptions} [options]
  * @returns {{csharpRoot: string, isMultiLanguage: boolean}}
  */
 export function detectCsharpLayout({
@@ -177,7 +170,7 @@ export function detectCsharpLayout({
 
 /**
  * Whether the detected layout is a multi-language repository.
- * @param {object} [options]
+ * @param {LayoutOptions} [options]
  * @returns {boolean}
  */
 export function isMultiLanguage(options = {}) {
@@ -186,8 +179,7 @@ export function isMultiLanguage(options = {}) {
 
 /**
  * Get the release tag prefix for this layout.
- * @param {object} [options]
- * @param {string} [options.tagPrefix]
+ * @param {LayoutOptions} [options]
  * @returns {string}
  */
 export function getTagPrefix(options = {}) {
@@ -206,22 +198,20 @@ export function getTagPrefix(options = {}) {
 export function normalizeReleaseVersion(releaseVersion) {
   const trimmedVersion = String(releaseVersion ?? '').trim();
   const semverTagMatch = trimmedVersion.match(
-    /(?:^|[-_])v?(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?)$/iu
+    /(?:^|[-_])v?(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?)$/iu,
   );
 
   if (semverTagMatch) {
     return semverTagMatch[1];
   }
 
-  return trimmedVersion
-    .replace(/^[A-Za-z][A-Za-z0-9]*[-_]/u, '')
-    .replace(/^v/iu, '');
+  return trimmedVersion.replace(/^[A-Za-z][A-Za-z0-9]*[-_]/u, '').replace(/^v/iu, '');
 }
 
 /**
  * Build a release tag for this layout.
  * @param {string} releaseVersion
- * @param {object} [options]
+ * @param {LayoutOptions} [options]
  * @returns {string}
  */
 export function buildReleaseTag(releaseVersion, options = {}) {
@@ -231,9 +221,7 @@ export function buildReleaseTag(releaseVersion, options = {}) {
 /**
  * Build a release title for this layout.
  * @param {string} releaseVersion
- * @param {object} [options]
- * @param {string} [options.language]
- * @param {string} [options.packageName]
+ * @param {LayoutOptions} [options]
  * @returns {string}
  */
 export function buildReleaseTitle(releaseVersion, options = {}) {
@@ -256,9 +244,7 @@ export function buildReleaseTitle(releaseVersion, options = {}) {
  */
 export function buildNuGetPackageVersionUrl(packageId, releaseVersion) {
   const encodedPackageId = encodeURIComponent(packageId);
-  const encodedVersion = encodeURIComponent(
-    normalizeReleaseVersion(releaseVersion)
-  );
+  const encodedVersion = encodeURIComponent(normalizeReleaseVersion(releaseVersion));
   return `https://www.nuget.org/packages/${encodedPackageId}/${encodedVersion}`;
 }
 
@@ -274,7 +260,7 @@ export function buildNuGetBadge(packageId, releaseVersion) {
 
   return `[![NuGet](https://img.shields.io/badge/NuGet-${badgeVersion}-004880?logo=nuget)](${buildNuGetPackageVersionUrl(
     packageId,
-    version
+    version,
   )})`;
 }
 

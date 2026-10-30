@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+/** @type {import('./process-types.js').Fetch} */
+const request = fetch;
+
 /**
  * Check if a C# release is needed based on changesets and NuGet registry state.
  *
@@ -47,6 +50,7 @@
 
 import { appendFileSync, readFileSync } from 'node:fs';
 import path from 'node:path';
+import { fetchWithRetries } from './fetch-with-retries.mjs';
 import {
   buildReleaseTag,
   detectCsharpLayout,
@@ -136,25 +140,31 @@ export function readCsprojInfo(csprojPath) {
  * declared version list.
  *
  * @param {string} packageId
- * @param {typeof fetch} fetchImpl
+ * @param {import('./process-types.js').Fetch} fetchImpl
  * @returns {Promise<string[] | null>}
  */
-export async function fetchNugetVersions(packageId, fetchImpl = fetch) {
+export async function fetchNugetVersions(packageId, fetchImpl = request, retry = {}) {
   const baseUrl = process.env.NUGET_INDEX_URL ?? NUGET_FLAT_CONTAINER;
   const url = `${baseUrl}/${packageId.toLowerCase()}/index.json`;
   console.log(`Fetching ${url}`);
 
-  const response = await fetchImpl(url);
+  const response = await fetchWithRetries(url, {}, fetchImpl, retry);
   if (response.status === 404) {
     return null;
   }
   if (!response.ok) {
     throw new Error(
-      `NuGet flat-container index returned HTTP ${response.status} for ${packageId}`
+      `NuGet flat-container index returned HTTP ${response.status} for ${packageId}`,
     );
   }
   const payload = await response.json();
-  return Array.isArray(payload.versions) ? payload.versions : [];
+  if (
+    !Array.isArray(payload.versions) ||
+    !payload.versions.every((v) => typeof v === 'string')
+  ) {
+    throw new Error('NuGet returned an invalid version index');
+  }
+  return payload.versions;
 }
 
 /**
@@ -163,13 +173,14 @@ export async function fetchNugetVersions(packageId, fetchImpl = fetch) {
  *
  * @param {string} repository  owner/repo
  * @param {string} tag         full tag, e.g. cs_v2.4.0
- * @param {typeof fetch} fetchImpl
+ * @param {import('./process-types.js').Fetch} fetchImpl
  * @returns {Promise<boolean>}
  */
 export async function fetchGithubReleaseExists(
   repository,
   tag,
-  fetchImpl = fetch
+  fetchImpl = request,
+  retry = {},
 ) {
   if (!repository) {
     return false;
@@ -185,7 +196,7 @@ export async function fetchGithubReleaseExists(
     headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
   }
 
-  const response = await fetchImpl(url, { headers });
+  const response = await fetchWithRetries(url, { headers }, fetchImpl, retry);
   if (response.status === 404) {
     return false;
   }
@@ -325,10 +336,7 @@ async function main() {
   setOutput('skip_bump', decision.skipBump ? 'true' : 'false');
   setOutput('current_version', decision.currentVersion);
   setOutput('nuget_published', decision.nugetPublished ? 'true' : 'false');
-  setOutput(
-    'github_release_exists',
-    decision.githubReleaseExists ? 'true' : 'false'
-  );
+  setOutput('github_release_exists', decision.githubReleaseExists ? 'true' : 'false');
   setOutput('reason', decision.reason);
 
   appendStepSummary(
@@ -339,7 +347,7 @@ async function main() {
       `- GitHub release \`${tag}\`: ${decision.githubReleaseExists ? 'exists' : 'missing'}\n` +
       `- \`should_release\`: \`${decision.shouldRelease}\`\n` +
       `- \`skip_bump\`: \`${decision.skipBump}\`\n` +
-      `- Reason: ${decision.reason}\n`
+      `- Reason: ${decision.reason}\n`,
   );
 }
 
@@ -348,8 +356,7 @@ const entryPath = process.argv[1];
 const invokedDirectly =
   typeof entryPath === 'string' &&
   entryPath.length > 0 &&
-  (import.meta.url === `file://${entryPath}` ||
-    import.meta.url.endsWith(entryPath));
+  (import.meta.url === `file://${entryPath}` || import.meta.url.endsWith(entryPath));
 if (invokedDirectly) {
   main().catch((error) => {
     console.error('Error:', error.message);

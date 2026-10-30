@@ -117,7 +117,15 @@ function expectBracketed(output, payload) {
 function runScript(scriptPath, cwd, env = {}) {
   return spawnSync('bun', ['run', scriptPath], {
     cwd,
-    env: { ...process.env, GITHUB_ACTIONS: 'true', ...env },
+    env: {
+      ...process.env,
+      GITHUB_ACTIONS: 'true',
+      GITHUB_EVENT_NAME: 'local',
+      PR_AUTHOR: 'fixture-author',
+      BASE_SHA: '',
+      HEAD_SHA: '',
+      ...env,
+    },
     encoding: 'utf-8',
   });
 }
@@ -138,11 +146,11 @@ describe('validate-changeset integration', () => {
       'good.md': `---\n'MyPackage': patch\n---\n\nFix the parser. ${payload}\n`,
     });
     try {
-      const result = runScript(
-        VALIDATE_SCRIPT,
-        dir,
-        { GITHUB_BASE_REF: '', GITHUB_BASE_SHA: '', GITHUB_HEAD_SHA: '' }
-      );
+      const result = runScript(VALIDATE_SCRIPT, dir, {
+        GITHUB_BASE_REF: '',
+        GITHUB_BASE_SHA: '',
+        GITHUB_HEAD_SHA: '',
+      });
 
       expect(result.status).toBe(0);
       expectBracketed(result.stdout, payload);
@@ -157,11 +165,11 @@ describe('validate-changeset integration', () => {
       'bad.md': `---\n'NotMyPackage': major\n---\n\n${payload}\n`,
     });
     try {
-      const result = runScript(
-        VALIDATE_SCRIPT,
-        dir,
-        { GITHUB_BASE_REF: '', GITHUB_BASE_SHA: '', GITHUB_HEAD_SHA: '' }
-      );
+      const result = runScript(VALIDATE_SCRIPT, dir, {
+        GITHUB_BASE_REF: '',
+        GITHUB_BASE_SHA: '',
+        GITHUB_HEAD_SHA: '',
+      });
 
       expect(result.status).toBe(1);
       expectBracketed(result.stderr, payload);

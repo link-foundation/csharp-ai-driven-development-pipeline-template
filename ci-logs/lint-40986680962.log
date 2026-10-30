@@ -1,0 +1,936 @@
+﻿2026-10-30T01:42:17.2575890Z Current runner version: '2.338.0'
+2026-10-30T01:42:17.2596641Z ##[group]Runner Image Provisioner
+2026-10-30T01:42:17.2597537Z Hosted Compute Agent
+2026-10-30T01:42:17.2598048Z Version: 20261021.618
+2026-10-30T01:42:17.2598576Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-10-30T01:42:17.2599254Z Build Date: 2026-10-21T00:45:21Z
+2026-10-30T01:42:17.2599838Z Worker ID: {d1bdb596-3ad3-4390-8773-bff0a636b4cc}
+2026-10-30T01:42:17.2600614Z Region: westus3
+2026-10-30T01:42:17.2601141Z Cloud: Azure
+2026-10-30T01:42:17.2601626Z ##[endgroup]
+2026-10-30T01:42:17.2602821Z ##[group]Operating System
+2026-10-30T01:42:17.2603398Z Ubuntu
+2026-10-30T01:42:17.2603898Z 24.04.5
+2026-10-30T01:42:17.2604398Z LTS
+2026-10-30T01:42:17.2604853Z ##[endgroup]
+2026-10-30T01:42:17.2605364Z ##[group]Runner Image
+2026-10-30T01:42:17.2605889Z Image: ubuntu-24.04
+2026-10-30T01:42:17.2606360Z Version: 20261025.353.1
+2026-10-30T01:42:17.2607496Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261025.353/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-30T01:42:17.2608803Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261025.353
+2026-10-30T01:42:17.2609663Z ##[endgroup]
+2026-10-30T01:42:17.2610800Z ##[group]GITHUB_TOKEN Permissions
+2026-10-30T01:42:17.2612303Z Contents: read
+2026-10-30T01:42:17.2612822Z Metadata: read
+2026-10-30T01:42:17.2613392Z ##[endgroup]
+2026-10-30T01:42:17.2615134Z Secret source: Actions
+2026-10-30T01:42:17.2616008Z Cache mode: write
+2026-10-30T01:42:17.2616601Z Prepare workflow directory
+2026-10-30T01:42:17.2969122Z Prepare all required actions
+2026-10-30T01:42:17.3008367Z Getting action download info
+2026-10-30T01:42:17.5915002Z Download action repository 'actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803' (SHA:d23441a48e516b6c34aea4fa41551a30e30af803)
+2026-10-30T01:42:17.7229081Z Download action repository 'actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1' (SHA:26b0ec14cb23fa6904739307f278c14f94c95bf1)
+2026-10-30T01:42:18.3844349Z Download action repository 'oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6' (SHA:0c5077e51419868618aeaa5fe8019c62421857d6)
+2026-10-30T01:42:18.9564620Z Complete job name: Lint and Format Check
+2026-10-30T01:42:19.0388587Z ##[group]Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+2026-10-30T01:42:19.0390148Z with:
+2026-10-30T01:42:19.0390852Z   persist-credentials: false
+2026-10-30T01:42:19.0392061Z   repository: link-foundation/csharp-ai-driven-development-pipeline-template
+2026-10-30T01:42:19.0400212Z   token: ***
+2026-10-30T01:42:19.0401099Z   ssh-strict: true
+2026-10-30T01:42:19.0402113Z   ssh-user: git
+2026-10-30T01:42:19.0402876Z   clean: true
+2026-10-30T01:42:19.0403609Z   sparse-checkout-cone-mode: true
+2026-10-30T01:42:19.0404690Z   fetch-depth: 1
+2026-10-30T01:42:19.0405451Z   fetch-tags: false
+2026-10-30T01:42:19.0406169Z   show-progress: true
+2026-10-30T01:42:19.0406884Z   lfs: false
+2026-10-30T01:42:19.0407560Z   submodules: false
+2026-10-30T01:42:19.0408303Z   set-safe-directory: true
+2026-10-30T01:42:19.0409159Z   allow-unsafe-pr-checkout: false
+2026-10-30T01:42:19.0410505Z env:
+2026-10-30T01:42:19.0411164Z   GIT_CONFIG_COUNT: 1
+2026-10-30T01:42:19.0412261Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-10-30T01:42:19.0413328Z   GIT_CONFIG_VALUE_0: main
+2026-10-30T01:42:19.0414780Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+2026-10-30T01:42:19.0415705Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+2026-10-30T01:42:19.0416573Z   DOTNET_NOLOGO: true
+2026-10-30T01:42:19.0417588Z ##[endgroup]
+2026-10-30T01:42:19.2832001Z Syncing repository: link-foundation/csharp-ai-driven-development-pipeline-template
+2026-10-30T01:42:19.2835290Z ##[group]Getting Git version info
+2026-10-30T01:42:19.2838046Z Working directory is '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template'
+2026-10-30T01:42:19.2841383Z [command]/usr/bin/git version
+2026-10-30T01:42:19.2884982Z git version 2.56.0
+2026-10-30T01:42:19.2905336Z ##[endgroup]
+2026-10-30T01:42:19.2917576Z Temporarily overriding HOME='/home/runner/work/_temp/a823d81e-4c19-4571-b053-551bf138d568' before making global git config changes
+2026-10-30T01:42:19.2921468Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-30T01:42:19.2925625Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template
+2026-10-30T01:42:19.2966464Z Deleting the contents of '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template'
+2026-10-30T01:42:19.2970484Z ##[group]Determining repository object format
+2026-10-30T01:42:19.2973165Z ##[endgroup]
+2026-10-30T01:42:19.2974836Z ##[group]Initializing the repository
+2026-10-30T01:42:19.2977825Z [command]/usr/bin/git init /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template
+2026-10-30T01:42:19.3108223Z Initialized empty Git repository in /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/
+2026-10-30T01:42:19.3133434Z [command]/usr/bin/git remote add origin https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template
+2026-10-30T01:42:19.3193600Z ##[endgroup]
+2026-10-30T01:42:19.3195653Z ##[group]Disabling automatic garbage collection
+2026-10-30T01:42:19.3198446Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-30T01:42:19.3236741Z ##[endgroup]
+2026-10-30T01:42:19.3238545Z ##[group]Setting up auth
+2026-10-30T01:42:19.3240175Z Removing SSH command configuration
+2026-10-30T01:42:19.3245303Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-30T01:42:19.3287657Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-30T01:42:19.3685242Z Removing HTTP extra header
+2026-10-30T01:42:19.3692215Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-30T01:42:19.3730349Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-30T01:42:19.3961334Z Removing includeIf entries pointing to credentials config files
+2026-10-30T01:42:19.3966968Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-30T01:42:19.4006636Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-30T01:42:19.4216136Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-ab1a90be-9a9e-4ea4-9fad-32cfe2f95c76.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-30T01:42:19.4262338Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path /home/runner/work/_temp/git-credentials-ab1a90be-9a9e-4ea4-9fad-32cfe2f95c76.config
+2026-10-30T01:42:19.4305623Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-ab1a90be-9a9e-4ea4-9fad-32cfe2f95c76.config
+2026-10-30T01:42:19.4339490Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-ab1a90be-9a9e-4ea4-9fad-32cfe2f95c76.config
+2026-10-30T01:42:19.4373816Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-ab1a90be-9a9e-4ea4-9fad-32cfe2f95c76.config
+2026-10-30T01:42:19.4406157Z ##[endgroup]
+2026-10-30T01:42:19.4407335Z ##[group]Fetching the repository
+2026-10-30T01:42:19.4413228Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +ea3ffc99dcb70e3d85e579fa6700e128576298da:refs/remotes/pull/83/merge
+2026-10-30T01:42:19.9976411Z From https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template
+2026-10-30T01:42:19.9977172Z  * [new ref]         ea3ffc99dcb70e3d85e579fa6700e128576298da -> pull/83/merge
+2026-10-30T01:42:19.9981934Z ##[endgroup]
+2026-10-30T01:42:19.9982357Z ##[group]Determining the checkout info
+2026-10-30T01:42:19.9983133Z ##[endgroup]
+2026-10-30T01:42:19.9988333Z [command]/usr/bin/git sparse-checkout disable
+2026-10-30T01:42:20.0037924Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-30T01:42:20.0071357Z ##[group]Checking out the ref
+2026-10-30T01:42:20.0074486Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/83/merge
+2026-10-30T01:42:20.0173202Z Note: switching to 'refs/remotes/pull/83/merge'.
+2026-10-30T01:42:20.0173579Z
+2026-10-30T01:42:20.0173917Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-30T01:42:20.0174717Z changes and commit them, and you can discard any commits you make in this
+2026-10-30T01:42:20.0175415Z state without impacting any branches by switching back to a branch.
+2026-10-30T01:42:20.0175814Z
+2026-10-30T01:42:20.0176097Z If you want to create a new branch to retain commits you create, you may
+2026-10-30T01:42:20.0176736Z do so (now or later) by using -c with the switch command. Example:
+2026-10-30T01:42:20.0177050Z
+2026-10-30T01:42:20.0177201Z   git switch -c <new-branch-name>
+2026-10-30T01:42:20.0177382Z
+2026-10-30T01:42:20.0177509Z Or undo this operation with:
+2026-10-30T01:42:20.0177679Z
+2026-10-30T01:42:20.0177782Z   git switch -
+2026-10-30T01:42:20.0177932Z
+2026-10-30T01:42:20.0178159Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-30T01:42:20.0178472Z
+2026-10-30T01:42:20.0178782Z HEAD is now at ea3ffc9 Merge 550059b09681b6306bb4d94abb262b105d126d1d into 4cc372ebf2075a0c948b46881143f7d66f0f0e7e
+2026-10-30T01:42:20.0209086Z ##[endgroup]
+2026-10-30T01:42:20.0234157Z [command]/usr/bin/git log -1 --format=%H
+2026-10-30T01:42:20.0263388Z ea3ffc99dcb70e3d85e579fa6700e128576298da
+2026-10-30T01:42:20.0271286Z ##[group]Removing auth
+2026-10-30T01:42:20.0271747Z Removing SSH command configuration
+2026-10-30T01:42:20.0275008Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-30T01:42:20.0311285Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-30T01:42:20.0513045Z Removing HTTP extra header
+2026-10-30T01:42:20.0517900Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-30T01:42:20.0553991Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-30T01:42:20.0749383Z Removing includeIf entries pointing to credentials config files
+2026-10-30T01:42:20.0753280Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-30T01:42:20.0783182Z includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path
+2026-10-30T01:42:20.0785005Z includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path
+2026-10-30T01:42:20.0786120Z includeif.gitdir:/github/workspace/.git.path
+2026-10-30T01:42:20.0786714Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-30T01:42:20.0792669Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path
+2026-10-30T01:42:20.0820401Z /home/runner/work/_temp/git-credentials-ab1a90be-9a9e-4ea4-9fad-32cfe2f95c76.config
+2026-10-30T01:42:20.0832425Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path /home/runner/work/_temp/git-credentials-ab1a90be-9a9e-4ea4-9fad-32cfe2f95c76.config
+2026-10-30T01:42:20.0874258Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path
+2026-10-30T01:42:20.0900691Z /home/runner/work/_temp/git-credentials-ab1a90be-9a9e-4ea4-9fad-32cfe2f95c76.config
+2026-10-30T01:42:20.0908821Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-ab1a90be-9a9e-4ea4-9fad-32cfe2f95c76.config
+2026-10-30T01:42:20.0946640Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-10-30T01:42:20.0976221Z /github/runner_temp/git-credentials-ab1a90be-9a9e-4ea4-9fad-32cfe2f95c76.config
+2026-10-30T01:42:20.0982824Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-ab1a90be-9a9e-4ea4-9fad-32cfe2f95c76.config
+2026-10-30T01:42:20.1017058Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-30T01:42:20.1044179Z /github/runner_temp/git-credentials-ab1a90be-9a9e-4ea4-9fad-32cfe2f95c76.config
+2026-10-30T01:42:20.1050837Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-ab1a90be-9a9e-4ea4-9fad-32cfe2f95c76.config
+2026-10-30T01:42:20.1085907Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-30T01:42:20.1282576Z Removing credentials config '/home/runner/work/_temp/git-credentials-ab1a90be-9a9e-4ea4-9fad-32cfe2f95c76.config'
+2026-10-30T01:42:20.1290272Z ##[endgroup]
+2026-10-30T01:42:20.1514223Z Prepare all required actions
+2026-10-30T01:42:20.1562448Z ##[group]Run ./.github/actions/csharp-layout
+2026-10-30T01:42:20.1562769Z env:
+2026-10-30T01:42:20.1562995Z   GIT_CONFIG_COUNT: 1
+2026-10-30T01:42:20.1563258Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-10-30T01:42:20.1563546Z   GIT_CONFIG_VALUE_0: main
+2026-10-30T01:42:20.1563823Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+2026-10-30T01:42:20.1564137Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+2026-10-30T01:42:20.1564413Z   DOTNET_NOLOGO: true
+2026-10-30T01:42:20.1564658Z ##[endgroup]
+2026-10-30T01:42:20.1607154Z ##[start-action display=Run set -euo pipefail;id=csharp_layout.layout]
+2026-10-30T01:42:20.1643272Z ##[group]Run set -euo pipefail
+2026-10-30T01:42:20.1643672Z set -euo pipefail
+2026-10-30T01:42:20.1644288Z if compgen -G "*.csproj" > /dev/null || compgen -G "*.sln" > /dev/null || find src -maxdepth 5 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
+2026-10-30T01:42:20.1644947Z   CSHARP_ROOT="."
+2026-10-30T01:42:20.1645245Z   MULTI_LANGUAGE="false"
+2026-10-30T01:42:20.1645706Z elif find csharp -maxdepth 6 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
+2026-10-30T01:42:20.1646178Z   CSHARP_ROOT="csharp"
+2026-10-30T01:42:20.1646488Z   MULTI_LANGUAGE="true"
+2026-10-30T01:42:20.1646784Z else
+2026-10-30T01:42:20.1647175Z   echo "::error::Could not find a C# project at the repository root or under csharp/"
+2026-10-30T01:42:20.1647620Z   exit 1
+2026-10-30T01:42:20.1647874Z fi
+2026-10-30T01:42:20.1648221Z echo "root=$CSHARP_ROOT" >> "$GITHUB_OUTPUT"
+2026-10-30T01:42:20.1648640Z echo "multi-language=$MULTI_LANGUAGE" >> "$GITHUB_OUTPUT"
+2026-10-30T01:42:20.1649327Z echo "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"
+2026-10-30T01:42:20.1672330Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-30T01:42:20.1672734Z env:
+2026-10-30T01:42:20.1673015Z   GIT_CONFIG_COUNT: 1
+2026-10-30T01:42:20.1673321Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-10-30T01:42:20.1673646Z   GIT_CONFIG_VALUE_0: main
+2026-10-30T01:42:20.1673958Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+2026-10-30T01:42:20.1674293Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+2026-10-30T01:42:20.1674600Z   DOTNET_NOLOGO: true
+2026-10-30T01:42:20.1674863Z ##[endgroup]
+2026-10-30T01:42:20.1729736Z Detected C# layout: root=., multi-language=false
+2026-10-30T01:42:20.1754765Z ##[end-action id=csharp_layout.layout;outcome=success;conclusion=success;duration_ms=14]
+2026-10-30T01:42:20.1836420Z ##[group]Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+2026-10-30T01:42:20.1836837Z with:
+2026-10-30T01:42:20.1837093Z   dotnet-version: 8.0.x
+2026-10-30T01:42:20.1837383Z   cache: false
+2026-10-30T01:42:20.1837628Z env:
+2026-10-30T01:42:20.1837874Z   GIT_CONFIG_COUNT: 1
+2026-10-30T01:42:20.1838165Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-10-30T01:42:20.1838478Z   GIT_CONFIG_VALUE_0: main
+2026-10-30T01:42:20.1838779Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+2026-10-30T01:42:20.1839111Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+2026-10-30T01:42:20.1839413Z   DOTNET_NOLOGO: true
+2026-10-30T01:42:20.1839677Z ##[endgroup]
+2026-10-30T01:42:20.2945807Z [command]/home/runner/work/_actions/actions/setup-dotnet/26b0ec14cb23fa6904739307f278c14f94c95bf1/externals/install-dotnet.sh --skip-non-versioned-files --runtime dotnet --channel LTS
+2026-10-30T01:42:20.4752047Z dotnet-install: .NET Core Runtime with version '10.0.14' is already installed.
+2026-10-30T01:42:20.4771879Z [command]/home/runner/work/_actions/actions/setup-dotnet/26b0ec14cb23fa6904739307f278c14f94c95bf1/externals/install-dotnet.sh --skip-non-versioned-files --channel 8.0
+2026-10-30T01:42:20.6447883Z dotnet-install: .NET Core SDK with version '8.0.427' is already installed.
+2026-10-30T01:42:20.6637197Z ##[group]Run oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+2026-10-30T01:42:20.6637607Z with:
+2026-10-30T01:42:20.6637864Z   bun-version: 1.4.4
+2026-10-30T01:42:20.6638123Z   no-cache: false
+2026-10-30T01:42:20.6640564Z   token: ***
+2026-10-30T01:42:20.6640814Z env:
+2026-10-30T01:42:20.6641057Z   GIT_CONFIG_COUNT: 1
+2026-10-30T01:42:20.6641336Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-10-30T01:42:20.6641647Z   GIT_CONFIG_VALUE_0: main
+2026-10-30T01:42:20.6641942Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+2026-10-30T01:42:20.6642291Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+2026-10-30T01:42:20.6642586Z   DOTNET_NOLOGO: true
+2026-10-30T01:42:20.6642863Z   DOTNET_ROOT: /usr/share/dotnet
+2026-10-30T01:42:20.6643151Z ##[endgroup]
+2026-10-30T01:42:21.0051934Z Cache hit for: bun-vyrKTwhw5PEh6pGRz1Zgyle11uQ=
+2026-10-30T01:42:22.2387384Z Received 42156119 of 50544727 (83.4%), 40.2 MBs/sec
+2026-10-30T01:42:22.2787272Z Received 50544727 of 50544727 (100.0%), 46.3 MBs/sec
+2026-10-30T01:42:22.2788198Z Cache Size: ~48 MB (50544727 B)
+2026-10-30T01:42:22.2887491Z [command]/usr/bin/tar -xf /home/runner/work/_temp/c4f07c74-8f09-4c92-ad99-de95add3e6ce/cache.tzst -P -C /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template --use-compress-program unzstd
+2026-10-30T01:42:22.4408865Z Cache restored successfully
+2026-10-30T01:42:22.4441072Z [command]/home/runner/.bun/bin/bun --revision
+2026-10-30T01:42:22.4498285Z 1.4.4+38afee6c8
+2026-10-30T01:42:22.4499194Z Using a cached version of Bun: 1.4.4+38afee6c8
+2026-10-30T01:42:22.4630729Z ##[group]Run bash scripts/run-with-budget-warning.sh 600 "dotnet restore (lint)" dotnet restore
+2026-10-30T01:42:22.4631308Z bash scripts/run-with-budget-warning.sh 600 "dotnet restore (lint)" dotnet restore
+2026-10-30T01:42:22.4650170Z shell: /usr/bin/bash -e {0}
+2026-10-30T01:42:22.4650395Z env:
+2026-10-30T01:42:22.4650746Z   GIT_CONFIG_COUNT: 1
+2026-10-30T01:42:22.4650953Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-10-30T01:42:22.4651187Z   GIT_CONFIG_VALUE_0: main
+2026-10-30T01:42:22.4651438Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+2026-10-30T01:42:22.4651675Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+2026-10-30T01:42:22.4651891Z   DOTNET_NOLOGO: true
+2026-10-30T01:42:22.4652096Z   DOTNET_ROOT: /usr/share/dotnet
+2026-10-30T01:42:22.4652308Z ##[endgroup]
+2026-10-30T01:42:23.5195629Z   Determining projects to restore...
+2026-10-30T01:42:23.8918600Z   Restored /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/src/MyPackage/MyPackage.csproj (in 66 ms).
+2026-10-30T01:42:25.2093456Z   Restored /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/tests/MyPackage.Tests/MyPackage.Tests.csproj (in 1.4 sec).
+2026-10-30T01:42:25.4816113Z ##[group]Run bash scripts/run-with-budget-warning.sh 600 "dotnet format (lint)" dotnet format --verify-no-changes --verbosity diagnostic
+2026-10-30T01:42:25.4817419Z bash scripts/run-with-budget-warning.sh 600 "dotnet format (lint)" dotnet format --verify-no-changes --verbosity diagnostic
+2026-10-30T01:42:25.4842972Z shell: /usr/bin/bash -e {0}
+2026-10-30T01:42:25.4843291Z env:
+2026-10-30T01:42:25.4843538Z   GIT_CONFIG_COUNT: 1
+2026-10-30T01:42:25.4843839Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-10-30T01:42:25.4844230Z   GIT_CONFIG_VALUE_0: main
+2026-10-30T01:42:25.4844588Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+2026-10-30T01:42:25.4844952Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+2026-10-30T01:42:25.4845269Z   DOTNET_NOLOGO: true
+2026-10-30T01:42:25.4845564Z   DOTNET_ROOT: /usr/share/dotnet
+2026-10-30T01:42:25.4845868Z ##[endgroup]
+2026-10-30T01:42:26.1290996Z The dotnet runtime version is '10.0.14'.
+2026-10-30T01:42:26.4607766Z Formatting code files in workspace '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/MyPackage.sln'.
+2026-10-30T01:42:26.4608960Z Loading workspace.
+2026-10-30T01:42:27.2002816Z   Determining projects to restore...
+2026-10-30T01:42:27.2003358Z   All projects are up-to-date for restore.
+2026-10-30T01:42:34.4302708Z Project MyPackage is using configuration from '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.editorconfig'.
+2026-10-30T01:42:34.4304368Z Project MyPackage is using configuration from '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/src/MyPackage/obj/Debug/net8.0/MyPackage.GeneratedMSBuildEditorConfig.editorconfig'.
+2026-10-30T01:42:34.4305698Z Project MyPackage is using configuration from '/usr/share/dotnet/sdk/10.0.403/Sdks/Microsoft.NET.Sdk/analyzers/build/config/analysislevel_10_all.globalconfig'.
+2026-10-30T01:42:34.4306809Z Project MyPackage.Tests is using configuration from '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.editorconfig'.
+2026-10-30T01:42:34.4308321Z Project MyPackage.Tests is using configuration from '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/tests/MyPackage.Tests/obj/Debug/net8.0/MyPackage.Tests.GeneratedMSBuildEditorConfig.editorconfig'.
+2026-10-30T01:42:34.4309583Z Project MyPackage.Tests is using configuration from '/usr/share/dotnet/sdk/10.0.403/Sdks/Microsoft.NET.Sdk/analyzers/build/config/analysislevel_10_all.globalconfig'.
+2026-10-30T01:42:34.4310361Z Complete in 7969ms.
+2026-10-30T01:42:34.4310586Z Determining formattable files.
+2026-10-30T01:42:34.9064638Z Complete in 476ms.
+2026-10-30T01:42:34.9069269Z Running formatters.
+2026-10-30T01:42:35.6522766Z Running Code Style analysis.
+2026-10-30T01:42:35.6527977Z Determining diagnostics...
+2026-10-30T01:42:36.7423099Z Running 25 analyzers on MyPackage.
+2026-10-30T01:42:37.1828854Z Running 25 analyzers on MyPackage.Tests.
+2026-10-30T01:42:37.3498093Z Complete in 1697ms.
+2026-10-30T01:42:37.3498476Z Analysis complete in 1697ms.
+2026-10-30T01:42:37.3643856Z Running Analyzer Reference analysis.
+2026-10-30T01:42:37.3644328Z Determining diagnostics...
+2026-10-30T01:42:37.3846601Z Running 173 analyzers on MyPackage.
+2026-10-30T01:42:37.6826214Z Running 224 analyzers on MyPackage.Tests.
+2026-10-30T01:42:37.8079453Z Complete in 443ms.
+2026-10-30T01:42:37.8079779Z Analysis complete in 443ms.
+2026-10-30T01:42:37.8080211Z Complete in 2902ms.
+2026-10-30T01:42:37.8082147Z Formatted 0 of 11 files.
+2026-10-30T01:42:37.8082768Z Format complete in 11347ms.
+2026-10-30T01:42:38.5162190Z ##[group]Run bash scripts/run-with-budget-warning.sh 700 "dotnet build (lint)" dotnet build --no-restore --configuration Release /warnaserror
+2026-10-30T01:42:38.5163460Z bash scripts/run-with-budget-warning.sh 700 "dotnet build (lint)" dotnet build --no-restore --configuration Release /warnaserror
+2026-10-30T01:42:38.5188114Z shell: /usr/bin/bash -e {0}
+2026-10-30T01:42:38.5188460Z env:
+2026-10-30T01:42:38.5188713Z   GIT_CONFIG_COUNT: 1
+2026-10-30T01:42:38.5189027Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-10-30T01:42:38.5189379Z   GIT_CONFIG_VALUE_0: main
+2026-10-30T01:42:38.5189714Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+2026-10-30T01:42:38.5190268Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+2026-10-30T01:42:38.5190611Z   DOTNET_NOLOGO: true
+2026-10-30T01:42:38.5190900Z   DOTNET_ROOT: /usr/share/dotnet
+2026-10-30T01:42:38.5191225Z ##[endgroup]
+2026-10-30T01:42:41.1510501Z   MyPackage -> /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/src/MyPackage/bin/Release/net8.0/MyPackage.dll
+2026-10-30T01:42:41.7834637Z   MyPackage.Tests -> /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/tests/MyPackage.Tests/bin/Release/net8.0/MyPackage.Tests.dll
+2026-10-30T01:42:41.8112510Z
+2026-10-30T01:42:41.8117424Z Build succeeded.
+2026-10-30T01:42:41.8118080Z     0 Warning(s)
+2026-10-30T01:42:41.8118338Z     0 Error(s)
+2026-10-30T01:42:41.8119155Z
+2026-10-30T01:42:41.8119320Z Time Elapsed 00:00:03.15
+2026-10-30T01:42:42.5416590Z ##[group]Run bash scripts/run-with-budget-warning.sh 300 "Script tests" bun test scripts/*.test.mjs
+2026-10-30T01:42:42.5417549Z bash scripts/run-with-budget-warning.sh 300 "Script tests" bun test scripts/*.test.mjs
+2026-10-30T01:42:42.5442685Z shell: /usr/bin/bash -e {0}
+2026-10-30T01:42:42.5443014Z env:
+2026-10-30T01:42:42.5443251Z   GIT_CONFIG_COUNT: 1
+2026-10-30T01:42:42.5443556Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-10-30T01:42:42.5443923Z   GIT_CONFIG_VALUE_0: main
+2026-10-30T01:42:42.5444252Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+2026-10-30T01:42:42.5444623Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+2026-10-30T01:42:42.5444948Z   DOTNET_NOLOGO: true
+2026-10-30T01:42:42.5445249Z   DOTNET_ROOT: /usr/share/dotnet
+2026-10-30T01:42:42.5445561Z ##[endgroup]
+2026-10-30T01:42:42.5548520Z bun test v1.4.4 (38afee6c8)
+2026-10-30T01:42:42.5620535Z
+2026-10-30T01:42:42.5664295Z ##[group]scripts/recheck-broken-links.test.mjs:
+2026-10-30T01:42:42.5721533Z (pass) lychee failure classification > the real fixture leaves nothing to re-ask: 404s answered, locals unprovable [0.63ms]
+2026-10-30T01:42:42.5736668Z (pass) lychee failure classification > only silent transport failures are worth asking again [0.21ms]
+2026-10-30T01:42:42.5760953Z (pass) lychee failure classification > "Rejected status code" identifies a transient server response under any marker [0.07ms]
+2026-10-30T01:42:42.5790844Z (pass) lychee failure classification > 429 and every 5xx are retryable while client failures remain final [0.09ms]
+2026-10-30T01:42:42.5791635Z === Re-check of transient link failures ===
+2026-10-30T01:42:42.5831161Z (pass) lychee failure classification > a non-http failure is final without being re-asked [0.03ms]
+2026-10-30T01:42:42.5831715Z
+2026-10-30T01:42:42.5849773Z (pass) lychee failure classification > duplicate urls collapse to one failure [0.03ms]
+2026-10-30T01:42:42.5851102Z Reading lychee output from: /tmp/recheck-test-D4bKcD/missing.md
+2026-10-30T01:42:42.5852195Z (pass) accept list parsing > the default is lychee own documented default [0.15ms]
+2026-10-30T01:42:42.5852802Z
+2026-10-30T01:42:42.5853483Z (pass) accept list parsing > bare codes, exclusive ranges and stray spaces parse [0.05ms]
+2026-10-30T01:42:42.5854152Z No lychee output file found; nothing to re-check.
+2026-10-30T01:42:42.5868502Z (pass) accept list parsing > a typo throws instead of silently narrowing what healthy means [0.10ms]
+2026-10-30T01:42:42.5869169Z all_recovered=false
+2026-10-30T01:42:42.5890791Z (pass) request option extraction > a workflow without flags gets the lychee defaults [0.08ms]
+2026-10-30T01:42:42.5891436Z recovered=0
+2026-10-30T01:42:42.5940845Z (pass) request option extraction > flags in the workflow win [0.02ms]
+2026-10-30T01:42:42.5941391Z remaining=0
+2026-10-30T01:42:42.5950606Z (pass) probe > an accepted status is alive; a rejected one is a final verdict [1.08ms]
+2026-10-30T01:42:42.5951332Z === Re-check of transient link failures ===
+2026-10-30T01:42:42.5960099Z (pass) probe > the probe presents the same user agent lychee ran with [0.15ms]
+2026-10-30T01:42:42.5960522Z
+2026-10-30T01:42:42.5987108Z (pass) probe > a transport failure is unreachable, never a verdict [0.44ms]
+2026-10-30T01:42:42.5987840Z Reading lychee output from: /tmp/recheck-test-tMkhWs/out.md
+2026-10-30T01:42:42.5999733Z (pass) probe > an abort is reported as a timeout, not a crash [0.20ms]
+2026-10-30T01:42:42.6010575Z
+2026-10-30T01:42:42.6020748Z (pass) recheckAll > retries HTTP 429 until recovery without re-asking a 404 [0.81ms]
+2026-10-30T01:42:42.6021761Z lychee reported 2 failing link(s): 1 permanent or non-http failures, 1 transport, rate-limit or server failures.
+2026-10-30T01:42:42.6036655Z (pass) recheckAll > retries HTTP 502 until recovery without re-asking a 404 [0.31ms]
+2026-10-30T01:42:42.6040300Z
+2026-10-30T01:42:42.6040613Z   [404] https://gone.example/x -- not re-checked
+2026-10-30T01:42:42.6040951Z
+2026-10-30T01:42:42.6041368Z Re-asking 1 link(s) directly (accept: 100..=103,200..=299, user agent: lychee)...
+2026-10-30T01:42:42.6042228Z
+2026-10-30T01:42:42.6042237Z
+2026-10-30T01:42:42.6042391Z === Re-check summary ===
+2026-10-30T01:42:42.6042617Z
+2026-10-30T01:42:42.6043206Z ✓ https://flappy.example/y answered HTTP 200 on attempt 1
+2026-10-30T01:42:42.6065948Z ##[notice]https://flappy.example/y answered HTTP 200 when asked directly, after lychee reported it as "Network error: Connection reset by peer (os error 104)".
+2026-10-30T01:42:42.6075483Z The transient failure recovered within the retry budget. This link is not treated as broken.
+2026-10-30T01:42:42.6075980Z
+2026-10-30T01:42:42.6076310Z Recovered URLs written to /tmp/recheck-test-tMkhWs/recovered.txt
+2026-10-30T01:42:42.6076829Z all_recovered=false
+2026-10-30T01:42:42.6077104Z recovered=1
+2026-10-30T01:42:42.6077347Z remaining=1
+2026-10-30T01:42:42.6077668Z === Re-check of transient link failures ===
+2026-10-30T01:42:42.6078398Z (pass) recheckAll > retries HTTP 503 until recovery without re-asking a 404 [0.16ms]
+2026-10-30T01:42:42.6079353Z (pass) recheckAll > persistent transient statuses exhaust retries without being called recovered [0.23ms]
+2026-10-30T01:42:42.6080607Z (pass) recheckAll > honors Retry-After without exceeding the total wait budget [0.31ms]
+2026-10-30T01:42:42.6081504Z (pass) recheckAll > retries a silent link and stops at the first accepted answer [0.56ms]
+2026-10-30T01:42:42.6082219Z (pass) recheckAll > duplicate urls share one probe slot [0.16ms]
+2026-10-30T01:42:42.6082958Z (pass) recheckAll > an expired budget marks never-asked links without probing them [0.15ms]
+2026-10-30T01:42:42.6083897Z (pass) recheckAll > waits double between rounds: a burst of resets is outlasted, not spammed [0.20ms]
+2026-10-30T01:42:42.6084772Z (pass) main > a missing report is reported as nothing recovered, with exit code 0 [1.40ms]
+2026-10-30T01:42:42.6085578Z (pass) main > re-asks only the unanswered and never hides an answered failure [0.80ms]
+2026-10-30T01:42:42.6086719Z (pass) main > all_recovered is true only when nothing at all remains [0.91ms]
+2026-10-30T01:42:42.6087112Z
+2026-10-30T01:42:42.6087534Z ##[endgroup]
+2026-10-30T01:42:42.6087691Z
+2026-10-30T01:42:42.6088042Z ##[group]scripts/detect-code-changes.test.mjs:
+2026-10-30T01:42:42.6088808Z (pass) code change detection > pull_request ignores excluded-only change experiments/repro.mjs [0.17ms]
+2026-10-30T01:42:42.6089769Z (pass) code change detection > push ignores excluded-only change experiments/repro.md [0.01ms]
+2026-10-30T01:42:42.6090815Z (pass) code change detection > pull_request ignores excluded-only change dev/log/repro.mjs
+2026-10-30T01:42:42.6091687Z (pass) code change detection > push ignores excluded-only change dev/log/repro.md
+2026-10-30T01:42:42.6092886Z (pass) code change detection > pull_request ignores excluded-only change docs/case-studies/repro.mjs
+2026-10-30T01:42:42.6093800Z (pass) code change detection > push ignores excluded-only change docs/case-studies/repro.md
+2026-10-30T01:42:42.6094634Z (pass) code change detection > detects code change src/MyPackage/Calculator.cs [0.10ms]
+2026-10-30T01:42:42.6095416Z (pass) code change detection > detects code change scripts/check-file-size.mjs
+2026-10-30T01:42:42.6096177Z (pass) code change detection > detects code change .github/workflows/release.yml
+2026-10-30T01:42:42.6096890Z (pass) code change detection > detects code change lychee.toml [0.01ms]
+2026-10-30T01:42:42.6097684Z (pass) code change detection > detects code when excluded and included files are mixed [0.02ms]
+2026-10-30T01:42:42.6098157Z
+2026-10-30T01:42:42.6098492Z ##[endgroup]
+2026-10-30T01:42:42.6098652Z
+2026-10-30T01:42:42.6098984Z ##[group]scripts/release-naming.test.mjs:
+2026-10-30T01:42:42.6099715Z (pass) release naming layout detection > treats the template root layout as single-language [0.82ms]
+2026-10-30T01:42:42.6100854Z (pass) release naming layout detection > treats a csharp subdirectory layout as multi-language [0.80ms]
+2026-10-30T01:42:42.6102126Z (pass) release naming tags and titles > uses plain v tags and package titles for single-language releases [0.25ms]
+2026-10-30T01:42:42.6103186Z (pass) release naming tags and titles > uses cs_v tags and C# title prefixes for multi-language releases [0.03ms]
+2026-10-30T01:42:42.6104229Z (pass) release naming tags and titles > normalizes already-prefixed versions idempotently [0.04ms]
+2026-10-30T01:42:42.6105210Z (pass) release naming NuGet badge > links to the exact NuGet version page using the bare version [0.06ms]
+2026-10-30T01:42:42.6105698Z
+2026-10-30T01:42:42.6106015Z ##[endgroup]
+2026-10-30T01:42:42.6106163Z
+2026-10-30T01:42:42.6106504Z ##[group]scripts/wait-for-nuget.test.mjs:
+2026-10-30T01:42:42.6107271Z (pass) wait-for-nuget parseArgs() > defaults to two-minute checks across the NuGet indexing window [0.23ms]
+2026-10-30T01:42:42.6108250Z (pass) wait-for-nuget parseArgs() > accepts --version as an alias for --release-version [0.03ms]
+2026-10-30T01:42:42.6109264Z (pass) wait-for-nuget parseArgs() > honours CLI flags for max-attempts, sleep-seconds and flat-container-url [0.03ms]
+2026-10-30T01:42:42.6110366Z (pass) wait-for-nuget parseArgs() > reads overrides from environment variables [0.03ms]
+2026-10-30T01:42:42.6111162Z (pass) wait-for-nuget parseArgs() > inline --flag=value form is supported [0.02ms]
+2026-10-30T01:42:42.6112006Z (pass) wait-for-nuget parseArgs() > rejects non-positive integers for --max-attempts [0.10ms]
+2026-10-30T01:42:42.6112904Z (pass) wait-for-nuget parseArgs() > rejects non-positive integers for --sleep-seconds [0.05ms]
+2026-10-30T01:42:42.6113755Z (pass) wait-for-nuget parseArgs() > throws when a flag is missing its value [0.04ms]
+2026-10-30T01:42:42.6114755Z (pass) wait-for-nuget createNugetNuspecUrl() > builds the flat-container nuspec URL with lowercased id and version [0.06ms]
+2026-10-30T01:42:42.6115972Z (pass) wait-for-nuget createNugetNuspecUrl() > lowercases mixed-case versions (e.g. semver pre-release tags) [0.02ms]
+2026-10-30T01:42:42.6117132Z (pass) wait-for-nuget createNugetNuspecUrl() > defaults to the official flat-container URL when not specified [0.02ms]
+2026-10-30T01:42:42.6120379Z (pass) wait-for-nuget waitForNugetPackage() > succeeds when indexing takes longer than the old 125-second loop [0.32ms]
+2026-10-30T01:42:42.6121263Z (pass) wait-for-nuget waitForNugetPackage() > fails only after exhausting all attempts [0.15ms]
+2026-10-30T01:42:42.6122171Z (pass) wait-for-nuget waitForNugetPackage() > returns immediately when the package is already indexed [0.13ms]
+2026-10-30T01:42:42.6123237Z (pass) wait-for-nuget waitForNugetPackage() > tolerates transient network errors before succeeding [0.13ms]
+2026-10-30T01:42:42.6123797Z
+2026-10-30T01:42:42.6124083Z Reading lychee output from: /tmp/recheck-test-pE9t5M/out.md
+2026-10-30T01:42:42.6124419Z
+2026-10-30T01:42:42.6124962Z lychee reported 1 failing link(s): 0 permanent or non-http failures, 1 transport, rate-limit or server failures.
+2026-10-30T01:42:42.6125495Z
+2026-10-30T01:42:42.6125500Z
+2026-10-30T01:42:42.6125878Z Re-asking 1 link(s) directly (accept: 100..=103,200..=299, user agent: lychee)...
+2026-10-30T01:42:42.6126278Z
+2026-10-30T01:42:42.6126284Z
+2026-10-30T01:42:42.6126428Z === Re-check summary ===
+2026-10-30T01:42:42.6126619Z
+2026-10-30T01:42:42.6127145Z ✓ https://flappy.example/y answered HTTP 200 on attempt 1
+2026-10-30T01:42:42.6129412Z ##[notice]https://flappy.example/y answered HTTP 200 when asked directly, after lychee reported it as "Network error: Connection reset by peer (os error 104)".
+2026-10-30T01:42:42.6131815Z The transient failure recovered within the retry budget. This link is not treated as broken.
+2026-10-30T01:42:42.6132298Z
+2026-10-30T01:42:42.6132599Z Recovered URLs written to /tmp/recheck-test-pE9t5M/recovered.txt
+2026-10-30T01:42:42.6133092Z all_recovered=true
+2026-10-30T01:42:42.6133362Z recovered=1
+2026-10-30T01:42:42.6133608Z remaining=0
+2026-10-30T01:42:42.6133751Z
+2026-10-30T01:42:42.6134172Z Every link lychee reported answered a direct request. Every transient failure recovered.
+2026-10-30T01:42:42.6197301Z (pass) wait-for-nuget checkNugetPackageVersion() > reports 200 responses as available against a live HTTP endpoint [14.16ms]
+2026-10-30T01:42:42.6216422Z (pass) wait-for-nuget checkNugetPackageVersion() > reports 404 responses as unavailable without throwing [2.04ms]
+2026-10-30T01:42:42.6218171Z (pass) wait-for-nuget checkNugetPackageVersion() > treats fetch network errors as a soft failure [0.21ms]
+2026-10-30T01:42:42.6247457Z (pass) wait-for-nuget checkNugetPackageVersion() > end-to-end: waits through 404 responses then succeeds when the package appears [2.84ms]
+2026-10-30T01:42:42.6248361Z
+2026-10-30T01:42:42.6249120Z ##[endgroup]
+2026-10-30T01:42:42.6249534Z
+2026-10-30T01:42:42.6250318Z ##[group]scripts/workflow-injection-policy.test.mjs:
+2026-10-30T01:42:42.6286956Z (pass) workflow script-injection policy > no workflow interpolates attacker-controlled context into a run: script [2.76ms]
+2026-10-30T01:42:42.6288323Z (pass) workflow script-injection policy > changeset validation reads head_ref and the C# root from env [0.09ms]
+2026-10-30T01:42:42.6289714Z (pass) workflow script-injection policy > quotes $GITHUB_OUTPUT redirections [0.18ms]
+2026-10-30T01:42:42.6302112Z (pass) workflow credential policy > every checkout declares its credential persistence explicitly [1.23ms]
+2026-10-30T01:42:42.6323362Z (pass) workflow credential policy > only the jobs that push keep a credential to push with [2.11ms]
+2026-10-30T01:42:42.6324668Z (pass) workflow linting policy > lints every workflow with actionlint plus its bundled shellcheck [0.05ms]
+2026-10-30T01:42:42.6325918Z (pass) workflow linting policy > audits every workflow with zizmor beside actionlint [0.03ms]
+2026-10-30T01:42:42.6326684Z
+2026-10-30T01:42:42.6327309Z ##[endgroup]
+2026-10-30T01:42:42.6327642Z
+2026-10-30T01:42:42.6328182Z ##[group]scripts/release-assets.test.mjs:
+2026-10-30T01:42:42.6361902Z (pass) public nonempty asset bytes survive rerun without upload/delete/promotion [1.24ms]
+2026-10-30T01:42:42.6366458Z (pass) repairs empty/missing draft assets then verifies bytes [0.51ms]
+2026-10-30T01:42:42.6368988Z (pass) repairs empty/missing public assets then verifies bytes [0.25ms]
+2026-10-30T01:42:42.6372607Z (pass) corrupt leaves a draft unpublished [0.37ms]
+2026-10-30T01:42:42.6374518Z (pass) uploadFailure leaves a draft unpublished [0.19ms]
+2026-10-30T01:42:42.6375257Z
+2026-10-30T01:42:42.6375824Z ##[endgroup]
+2026-10-30T01:42:42.6376150Z
+2026-10-30T01:42:42.6376686Z ##[group]scripts/publish-fallback.test.mjs:
+2026-10-30T01:42:42.6431411Z (pass) working OIDC never tries a supplied fallback [1.04ms]
+2026-10-30T01:42:42.6432640Z (pass) working OIDC never tries a supplied fallback [0.19ms]
+2026-10-30T01:42:42.6442553Z (pass) actual HTTP 401 retries the same artifact only once [0.92ms]
+2026-10-30T01:42:42.6444770Z (pass) actual HTTP 403 retries the same artifact only once [0.26ms]
+2026-10-30T01:42:42.6448665Z (pass) already accepted exact version is preserved without another push [0.37ms]
+2026-10-30T01:42:42.6452073Z (pass) unrelated failure remains fatal: HTTP 400 package metadata invalid [0.33ms]
+2026-10-30T01:42:42.6453970Z (pass) unrelated failure remains fatal: Connection reset [0.20ms]
+2026-10-30T01:42:42.6455906Z (pass) unrelated failure remains fatal: exit code 401 unrelated failure [0.18ms]
+2026-10-30T01:42:42.6460463Z (pass) both authentication paths failing is redacted, bounded and fatal [0.42ms]
+2026-10-30T01:42:42.6464184Z (pass) unverified anonymous state refuses credential retry [0.39ms]
+2026-10-30T01:42:42.6469332Z (pass) modified artifact cannot be retried with fallback credentials [0.45ms]
+2026-10-30T01:42:42.6470117Z
+2026-10-30T01:42:42.6470783Z ##[endgroup]
+2026-10-30T01:42:42.6471222Z
+2026-10-30T01:42:42.6471799Z ##[group]scripts/publishing-configuration.test.mjs:
+2026-10-30T01:42:42.6518805Z Fetching https://api.github.com/repos/owner/repo
+2026-10-30T01:42:42.6527473Z (pass) template placeholder cannot pass release publishing configuration [1.57ms]
+2026-10-30T01:42:42.6528174Z Fetching https://api.github.com/repos/owner/repo
+2026-10-30T01:42:42.6529064Z Fetching https://api.github.com/repos/owner/repo
+2026-10-30T01:42:42.6530270Z Fetching https://api.github.com/repos/owner/repo
+2026-10-30T01:42:42.6531072Z Fetching https://api.github.com/repos/owner/repo
+2026-10-30T01:42:42.6550838Z (pass) repository read does not prove write capability: undefined [0.63ms]
+2026-10-30T01:42:42.6551562Z Fetching https://api.github.com/repos/owner/repo
+2026-10-30T01:42:42.6552516Z (pass) repository read does not prove write capability: {} [0.04ms]
+2026-10-30T01:42:42.6553378Z (pass) repository read does not prove write capability: {"push":false} [0.02ms]
+2026-10-30T01:42:42.6554245Z (pass) repository read does not prove write capability: {"push":true} [0.01ms]
+2026-10-30T01:42:42.6560672Z (pass) repository read rejection 401 is fatal [0.11ms]
+2026-10-30T01:42:42.6561483Z (pass) repository read rejection 404 is fatal [0.01ms]
+2026-10-30T01:42:42.6562040Z
+2026-10-30T01:42:42.6562570Z ##[endgroup]
+2026-10-30T01:42:42.6562916Z
+2026-10-30T01:42:42.6563418Z ##[group]scripts/security-gates.test.mjs:
+2026-10-30T01:42:42.6564207Z (pass) complete clean SARIF passes; every finding level fails [0.25ms]
+2026-10-30T01:42:42.6565094Z (pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.07ms]
+2026-10-30T01:42:42.6565955Z (pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.02ms]
+2026-10-30T01:42:42.6566816Z (pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.01ms]
+2026-10-30T01:42:42.6567671Z (pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.01ms]
+2026-10-30T01:42:42.6568522Z (pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.01ms]
+2026-10-30T01:42:42.6569431Z (pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.01ms]
+2026-10-30T01:42:42.6570594Z (pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.01ms]
+2026-10-30T01:42:42.6571526Z (pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.05ms]
+2026-10-30T01:42:42.6572822Z (pass) full direct/transitive dependency graph and clean validated audit pass [0.34ms]
+2026-10-30T01:42:42.6573884Z (pass) SDK 8 clean audit omits frameworks, but never substitutes for the full graph [0.12ms]
+2026-10-30T01:42:42.6574966Z (pass) existing vulnerable topLevelPackages fails without any dependency diff [0.08ms]
+2026-10-30T01:42:42.6576093Z (pass) existing vulnerable transitivePackages fails without any dependency diff [0.03ms]
+2026-10-30T01:42:42.6577251Z (pass) unverified provider, missing graph, unknown projects and malformed JSON fail [0.13ms]
+2026-10-30T01:42:42.6578303Z (pass) terminal gate rejects skipped, missing, cancelled and failed expected work [0.12ms]
+2026-10-30T01:42:42.6578905Z
+2026-10-30T01:42:42.6579417Z ##[endgroup]
+2026-10-30T01:42:42.6579746Z
+2026-10-30T01:42:42.6580440Z ##[group]scripts/smoke-test-nuget-package.test.mjs:
+2026-10-30T01:42:42.6581499Z (pass) smoke-test-nuget-package parseArgs() > defaults to a NuGet consumer smoke test for MyPackage [0.23ms]
+2026-10-30T01:42:42.6582673Z (pass) smoke-test-nuget-package parseArgs() > accepts CLI and environment overrides [0.05ms]
+2026-10-30T01:42:42.6583981Z (pass) smoke-test-nuget-package buildSmokeTestProgram() > exercises the package API advertised by the template example [0.11ms]
+2026-10-30T01:42:42.6589016Z (pass) smoke-test-nuget-package smokeTestNugetPackage() > retries package installation, then builds and runs the throwaway consumer [1.54ms]
+2026-10-30T01:42:42.6595187Z (pass) smoke-test-nuget-package smokeTestNugetPackage() > fails before build when the package cannot be installed after all attempts [0.61ms]
+2026-10-30T01:42:42.6596194Z
+2026-10-30T01:42:42.6596794Z ##[endgroup]
+2026-10-30T01:42:42.6597206Z
+2026-10-30T01:42:42.6597758Z ##[group]scripts/anonymous-package.test.mjs:
+2026-10-30T01:42:42.6607926Z (pass) anonymous exact download HTTP 200 is verified or fatal [0.93ms]
+2026-10-30T01:42:42.6609020Z (pass) anonymous exact download HTTP 404 is verified or fatal [0.16ms]
+2026-10-30T01:42:42.6610608Z (pass) anonymous exact download HTTP 400 is verified or fatal [0.15ms]
+2026-10-30T01:42:42.6611279Z
+2026-10-30T01:42:42.6612090Z ##[endgroup]
+2026-10-30T01:42:42.6612504Z
+2026-10-30T01:42:42.6613091Z ##[group]scripts/links-workflow-policy.test.mjs:
+2026-10-30T01:42:42.6620194Z (pass) broken-link workflow policy > throttles GitHub requests without accepting rate limits as healthy links [0.33ms]
+2026-10-30T01:42:42.6621473Z (pass) broken-link workflow policy > checks Markdown and HTML changes with least privilege [0.06ms]
+2026-10-30T01:42:42.6622755Z (pass) broken-link workflow policy > excludes copied case studies and parser fixtures but not C# template HTML [0.04ms]
+2026-10-30T01:42:42.6623970Z (pass) broken-link workflow policy > ignores npm bot-protection responses [0.05ms]
+2026-10-30T01:42:42.6625015Z (pass) broken-link workflow policy > uses a bounded, cancellation-safe Wayback fallback [0.05ms]
+2026-10-30T01:42:42.6626427Z (pass) broken-link workflow policy > re-asks the failures no host ever answered before declaring links broken [0.08ms]
+2026-10-30T01:42:42.6628880Z (pass) broken-link workflow policy > the re-check judges links by the same rules lychee ran with [0.04ms]
+2026-10-30T01:42:42.6630178Z (pass) broken-link workflow policy > the re-check budget expires before the job cap can [0.12ms]
+2026-10-30T01:42:42.6630841Z
+2026-10-30T01:42:42.6631357Z ##[endgroup]
+2026-10-30T01:42:42.6631675Z
+2026-10-30T01:42:42.6632228Z ##[group]scripts/push-nuget-package.test.mjs:
+2026-10-30T01:42:42.6633165Z (pass) NuGet push > publishes every package with safe arguments and duplicate handling [0.07ms]
+2026-10-30T01:42:42.6634301Z (pass) NuGet push > missing credentials fail instead of advertising an unpublished release [0.09ms]
+2026-10-30T01:42:42.6635500Z (pass) NuGet push > an expired-key 403 preserves failure and gives both remedies without logging the key [0.09ms]
+2026-10-30T01:42:42.6636558Z (pass) NuGet push > an unrelated push failure also stops the release [0.06ms]
+2026-10-30T01:42:42.6637158Z
+2026-10-30T01:42:42.6637906Z ##[endgroup]
+2026-10-30T01:42:42.6638229Z
+2026-10-30T01:42:42.6638720Z ##[group]scripts/nuget-auth.test.mjs:
+2026-10-30T01:42:42.6639543Z (pass) username alone is configuration, never authentication [0.30ms]
+2026-10-30T01:42:42.6640747Z (pass) successful official OIDC exchange never probes fallback (absent) [0.10ms]
+2026-10-30T01:42:42.6641728Z (pass) successful official OIDC exchange never probes fallback (invalid) [0.01ms]
+2026-10-30T01:42:42.6642697Z (pass) OIDC failure without a key selects deliberate token fallback [0.02ms]
+2026-10-30T01:42:42.6643558Z (pass) OIDC skipped without a key selects deliberate token fallback
+2026-10-30T01:42:42.6644372Z (pass) OIDC success without a key selects deliberate token fallback
+2026-10-30T01:42:42.6645293Z (pass) fallback probe HTTP 400 preserves honest authentication/scope states [0.13ms]
+2026-10-30T01:42:42.6646270Z (pass) fallback probe HTTP 401 preserves honest authentication/scope states [0.01ms]
+2026-10-30T01:42:42.6647239Z (pass) fallback probe HTTP 403 preserves honest authentication/scope states [0.03ms]
+2026-10-30T01:42:42.6648190Z (pass) fallback probe HTTP 500 preserves honest authentication/scope states
+2026-10-30T01:42:42.6649093Z (pass) derived verification key cannot establish original push glob [0.13ms]
+2026-10-30T01:42:42.6650241Z (pass) both methods unavailable fail with both remedies and redacted diagnostics [0.06ms]
+2026-10-30T01:42:42.6650869Z
+2026-10-30T01:42:42.6651528Z ##[endgroup]
+2026-10-30T01:42:42.6651855Z
+2026-10-30T01:42:42.6652361Z ##[group]scripts/version-and-commit.test.mjs:
+2026-10-30T01:42:42.8109535Z (pass) version-and-commit > does not report already_released when the target tag is missing [145.82ms]
+2026-10-30T01:42:42.8937563Z (pass) version-and-commit > reports already_released when the target tag does exist [82.17ms]
+2026-10-30T01:42:42.9973212Z (pass) version-and-commit > uses cs_v release tags in a csharp subdirectory layout [104.13ms]
+2026-10-30T01:42:43.0228527Z (pass) version-and-commit argv injection (issue #61) > a --description with shell substitution is stored, never executed [25.51ms]
+2026-10-30T01:42:43.0229505Z
+2026-10-30T01:42:43.0230696Z ##[endgroup]
+2026-10-30T01:42:43.0231039Z
+2026-10-30T01:42:43.0231536Z ##[group]scripts/check-file-size.test.mjs:
+2026-10-30T01:42:43.0242356Z (pass) check-file-size thresholds > classifies warning band without blocking [0.07ms]
+2026-10-30T01:42:43.0243465Z (pass) check-file-size thresholds > classifies hard limit violations as failures [0.03ms]
+2026-10-30T01:42:43.0263249Z (pass) check-file-size thresholds > reports warnings and violations separately [2.03ms]
+2026-10-30T01:42:43.0264086Z (pass) check-file-size thresholds > warning annotation uses GitHub Actions format [0.08ms]
+2026-10-30T01:42:43.0270615Z (pass) check-file-size thresholds > main emits warning annotations without failing warning-only files [0.66ms]
+2026-10-30T01:42:43.0271007Z
+2026-10-30T01:42:43.0271295Z ##[endgroup]
+2026-10-30T01:42:43.0271626Z
+2026-10-30T01:42:43.0272028Z ##[group]scripts/print-untrusted.test.mjs:
+2026-10-30T01:42:43.0284215Z (pass) printUntrusted > brackets the text between stop-commands and its resume on CI [0.26ms]
+2026-10-30T01:42:43.0285043Z (pass) printUntrusted > every call gets a fresh token, so printed text cannot resume early [0.12ms]
+2026-10-30T01:42:43.0285655Z (pass) printUntrusted > multi-line text stays verbatim inside the bracket [0.06ms]
+2026-10-30T01:42:43.0286242Z (pass) printUntrusted > prints plainly outside GitHub Actions [0.05ms]
+2026-10-30T01:42:43.0286724Z (pass) printUntrusted > markers and text share one stream [0.04ms]
+2026-10-30T01:42:43.0471576Z 142 |         GITHUB_BASE_REF: '',
+2026-10-30T01:42:43.0472474Z 143 |         GITHUB_BASE_SHA: '',
+2026-10-30T01:42:43.0473140Z 144 |         GITHUB_HEAD_SHA: '',
+2026-10-30T01:42:43.0473610Z 145 |       });
+2026-10-30T01:42:43.0486862Z 146 |
+2026-10-30T01:42:43.0487648Z 147 |       expect(result.status).toBe(0);
+2026-10-30T01:42:43.0488217Z                                   ^
+2026-10-30T01:42:43.0488742Z error: expect(received).toBe(expected)
+2026-10-30T01:42:43.0489462Z
+2026-10-30T01:42:43.0489707Z Expected: 0
+2026-10-30T01:42:43.0492742Z Received: 1
+2026-10-30T01:42:43.0493080Z
+2026-10-30T01:42:43.0494180Z       at <anonymous> (/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/scripts/print-untrusted.test.mjs:147:29)
+2026-10-30T01:42:43.0495355Z
+2026-10-30T01:42:43.0503916Z ##[error]Expected: 0
+Received: 1
+
+      at <anonymous> (/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/scripts/print-untrusted.test.mjs:147:29)
+2026-10-30T01:42:43.0507442Z (fail) validate-changeset integration > the printed description of a valid changeset is bracketed [16.83ms]
+2026-10-30T01:42:43.0648676Z 100 |
+2026-10-30T01:42:43.0671545Z 101 | // Asserts that somewhere in `output` a stop-commands bracket surrounds the
+2026-10-30T01:42:43.0672227Z 102 | // payload, and returns the token used.
+2026-10-30T01:42:43.0672724Z 103 | function expectBracketed(output, payload) {
+2026-10-30T01:42:43.0673362Z 104 |   const stopMatch = /::stop-commands::([0-9a-f]{32})/.exec(output);
+2026-10-30T01:42:43.0674064Z 105 |   expect(stopMatch, 'expected a stop-commands marker').not.toBeNull();
+2026-10-30T01:42:43.0674686Z                                                                  ^
+2026-10-30T01:42:43.0675142Z error: expected a stop-commands marker
+2026-10-30T01:42:43.0675403Z
+2026-10-30T01:42:43.0675519Z Received: null
+2026-10-30T01:42:43.0675694Z
+2026-10-30T01:42:43.0676887Z       at expectBracketed (/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/scripts/print-untrusted.test.mjs:105:60)
+2026-10-30T01:42:43.0678809Z       at <anonymous> (/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/scripts/print-untrusted.test.mjs:167:7)
+2026-10-30T01:42:43.0679711Z
+2026-10-30T01:42:43.0685829Z ##[error]Received: null
+
+      at expectBracketed (/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/scripts/print-untrusted.test.mjs:105:60)
+      at <anonymous> (/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/scripts/print-untrusted.test.mjs:167:7)
+2026-10-30T01:42:43.0689598Z (fail) validate-changeset integration > the printed file content of a rejected changeset is bracketed on stderr [19.47ms]
+2026-10-30T01:42:43.0827800Z (pass) merge-changesets integration > the merged changeset content is bracketed [17.63ms]
+2026-10-30T01:42:43.0828419Z
+2026-10-30T01:42:43.0829032Z ##[endgroup]
+2026-10-30T01:42:43.0829391Z
+2026-10-30T01:42:43.0829855Z ##[group]scripts/pipeline-gate.test.mjs:
+2026-10-30T01:42:43.0838683Z (pass) push distinguishes expected work from inapplicable jobs (code=true) [0.24ms]
+2026-10-30T01:42:43.0840311Z (pass) push distinguishes expected work from inapplicable jobs (code=false) [0.03ms]
+2026-10-30T01:42:43.0841459Z (pass) pull_request distinguishes expected work from inapplicable jobs (code=true) [0.02ms]
+2026-10-30T01:42:43.0842587Z (pass) pull_request distinguishes expected work from inapplicable jobs (code=false) [0.03ms]
+2026-10-30T01:42:43.0843674Z (pass) workflow_dispatch distinguishes expected work from inapplicable jobs (code=true) [0.02ms]
+2026-10-30T01:42:43.0844778Z (pass) workflow_dispatch distinguishes expected work from inapplicable jobs (code=false) [0.01ms]
+2026-10-30T01:42:43.0845718Z (pass) required pipeline work cannot pass as skipped [0.05ms]
+2026-10-30T01:42:43.0846379Z (pass) required pipeline work cannot pass as failure [0.01ms]
+2026-10-30T01:42:43.0847045Z (pass) required pipeline work cannot pass as cancelled
+2026-10-30T01:42:43.0847759Z (pass) required pipeline work cannot pass as undefined [0.02ms]
+2026-10-30T01:42:43.0848505Z (pass) unknown, missing or malformed detector/job result cannot pass [0.14ms]
+2026-10-30T01:42:43.0849390Z (pass) failed publication cannot produce a green main gate; deliberate changeset dispatch passes [0.08ms]
+2026-10-30T01:42:43.0850422Z
+2026-10-30T01:42:43.0850848Z ##[endgroup]
+2026-10-30T01:42:43.0851089Z
+2026-10-30T01:42:43.0851466Z ##[group]scripts/lint-integrations.test.mjs:
+2026-10-30T01:42:43.0860809Z (pass) native lint rejects missing actionlint [1.54ms]
+2026-10-30T01:42:43.0872272Z (pass) native lint rejects missing shellcheck [0.84ms]
+2026-10-30T01:42:43.0880369Z (pass) native lint rejects missing pyflakes [0.94ms]
+2026-10-30T01:42:43.0880841Z
+2026-10-30T01:42:43.0881329Z ##[endgroup]
+2026-10-30T01:42:43.0881643Z
+2026-10-30T01:42:43.0882134Z ##[group]scripts/check-release-needed.test.mjs:
+2026-10-30T01:42:43.0890684Z (pass) check-release-needed decide() > changesets take the normal release path [0.11ms]
+2026-10-30T01:42:43.0891956Z (pass) check-release-needed decide() > self-heals when csproj version is missing from NuGet [0.06ms]
+2026-10-30T01:42:43.0893040Z (pass) check-release-needed decide() > self-heals when package id is unknown to NuGet [0.06ms]
+2026-10-30T01:42:43.0894223Z (pass) check-release-needed decide() > self-heals GitHub release when NuGet already has the version [0.04ms]
+2026-10-30T01:42:43.0895376Z (pass) check-release-needed decide() > no-op when both NuGet and GitHub release exist [0.03ms]
+2026-10-30T01:42:43.0896446Z (pass) check-release-needed readCsprojInfo() > extracts version and package id [0.21ms]
+2026-10-30T01:42:43.0897562Z (pass) check-release-needed readCsprojInfo() > returns empty package id when not set in csproj [0.18ms]
+2026-10-30T01:42:43.0898631Z (pass) check-release-needed readCsprojInfo() > throws on missing <Version> tag [0.24ms]
+2026-10-30T01:42:43.0932387Z Fetching http://127.0.0.1:36763/nuget/mypackage/index.json
+2026-10-30T01:42:43.0940285Z (pass) check-release-needed probes > fetchNugetVersions returns the version list from the flat-container index [4.10ms]
+2026-10-30T01:42:43.0943970Z Fetching http://127.0.0.1:44105/nuget/notregistered/index.json
+2026-10-30T01:42:43.0956933Z (pass) check-release-needed probes > fetchNugetVersions returns null when the package id is not registered [1.69ms]
+2026-10-30T01:42:43.0964640Z Fetching http://127.0.0.1:32917/github/repos/link-foundation/csharp-ai-driven-development-pipeline-template/releases/tags/cs_v1.0.0
+2026-10-30T01:42:43.0972344Z (pass) check-release-needed probes > fetchGithubReleaseExists returns true when the GitHub release exists [1.53ms]
+2026-10-30T01:42:43.0974728Z Fetching http://127.0.0.1:39053/github/repos/link-foundation/csharp-ai-driven-development-pipeline-template/releases/tags/cs_v9.9.9
+2026-10-30T01:42:43.0983187Z (pass) check-release-needed probes > fetchGithubReleaseExists returns false on HTTP 404 [1.09ms]
+2026-10-30T01:42:43.0984517Z (pass) check-release-needed probes > fetchGithubReleaseExists returns false when repository is empty [0.07ms]
+2026-10-30T01:42:43.0990539Z Fetching http://127.0.0.1:36051/nuget/mypackage/index.json
+2026-10-30T01:42:43.0996679Z Fetching http://127.0.0.1:36051/github/repos/link-foundation/csharp-ai-driven-development-pipeline-template/releases/tags/cs_v2.4.0
+2026-10-30T01:42:43.1002899Z (pass) check-release-needed probes > end-to-end: missing NuGet version + missing GitHub release triggers self-heal [1.88ms]
+2026-10-30T01:42:43.1005845Z Fetching http://127.0.0.1:44653/nuget/mypackage/index.json
+2026-10-30T01:42:43.1016015Z Fetching http://127.0.0.1:44653/github/repos/link-foundation/csharp-ai-driven-development-pipeline-template/releases/tags/cs_v2.4.0
+2026-10-30T01:42:43.1021320Z (pass) check-release-needed probes > end-to-end: NuGet has the version and GitHub release exists → no-op [1.78ms]
+2026-10-30T01:42:43.1021907Z
+2026-10-30T01:42:43.1022561Z ##[endgroup]
+2026-10-30T01:42:43.1022737Z
+2026-10-30T01:42:43.1023270Z ##[group]scripts/security-workflow-policy.test.mjs:
+2026-10-30T01:42:43.1026681Z (pass) security workflow policy > scans pushes, pull requests, and the weekly schedule [0.06ms]
+2026-10-30T01:42:43.1027460Z (pass) security workflow policy > analyzes C# and GitHub Actions with CodeQL [0.05ms]
+2026-10-30T01:42:43.1028566Z (pass) security workflow policy > rejects high-severity dependency changes on pull requests [0.03ms]
+2026-10-30T01:42:43.1029357Z (pass) security workflow policy > uses current checkout and bounded jobs [0.02ms]
+2026-10-30T01:42:43.1029766Z
+2026-10-30T01:42:43.1030374Z ##[endgroup]
+2026-10-30T01:42:43.1030590Z
+2026-10-30T01:42:43.1031064Z ##[group]scripts/create-github-release.test.mjs:
+2026-10-30T01:42:43.1051432Z (pass) create-github-release helpers > parseArgs defaults to auto-detected release naming and accepts package id [0.20ms]
+2026-10-30T01:42:43.1052490Z (pass) create-github-release helpers > normalizes release versions from legacy and language-prefixed tags [0.03ms]
+2026-10-30T01:42:43.1053401Z (pass) create-github-release helpers > builds C# release tags and titles from bare semver [0.06ms]
+2026-10-30T01:42:43.1054356Z (pass) create-github-release helpers > appends a NuGet shields.io badge when release notes do not have one [0.10ms]
+2026-10-30T01:42:43.1055249Z (pass) create-github-release helpers > does not append a second badge when release notes already contain shields.io [0.03ms]
+2026-10-30T01:42:43.1056151Z (pass) create-github-release helpers > builds a GitHub release payload with C# title and NuGet badge [0.30ms]
+2026-10-30T01:42:43.1191026Z (pass) create-github-release helpers > limits oversized release payload bodies and links the tagged changelog [13.38ms]
+2026-10-30T01:42:43.1192239Z (pass) create-github-release helpers > truncates release notes without splitting UTF-8 characters [0.13ms]
+2026-10-30T01:42:43.1198638Z (pass) create-github-release helpers > findPackageId reads PackageId from a project file [0.67ms]
+2026-10-30T01:42:43.1212484Z (pass) create-github-release helpers > uploads matching NuGet package assets after creating a release [1.39ms]
+2026-10-30T01:42:43.1220186Z (pass) create-github-release helpers > uploads matching NuGet package assets when the release already exists [0.73ms]
+2026-10-30T01:42:43.1220766Z
+2026-10-30T01:42:43.1221165Z ##[endgroup]
+2026-10-30T01:42:43.1221345Z
+2026-10-30T01:42:43.1221614Z ##[group]scripts/preflight-credentials.test.mjs:
+2026-10-30T01:42:43.1235105Z Fetching https://api.github.com/repos/owner/repo
+2026-10-30T01:42:43.1236054Z (pass) GitHub push permission probe > verifies readable identity without claiming protected write authorization [0.33ms]
+2026-10-30T01:42:43.1236726Z Fetching https://api.github.com/repos/owner/repo
+2026-10-30T01:42:43.1237582Z (pass) GitHub push permission probe > false user-role field does not establish installation-token write permissions [0.10ms]
+2026-10-30T01:42:43.1238601Z (pass) GitHub push permission probe > treats an anonymous probe honestly: no token, no push [0.08ms]
+2026-10-30T01:42:43.1239281Z Fetching https://api.github.com/repos/owner/repo
+2026-10-30T01:42:43.1239744Z Fetching https://api.github.com/repos/owner/repo
+2026-10-30T01:42:43.1240518Z (pass) GitHub push permission probe > reports rate limiting as unknown, never as a pass [0.06ms]
+2026-10-30T01:42:43.1241317Z (pass) GitHub push permission probe > network failure is unknown, never a pass [0.12ms]
+2026-10-30T01:42:43.1241947Z Fetching https://api.github.com/repos/owner/repo
+2026-10-30T01:42:43.1242482Z (pass) GitHub push permission probe > a missing repository cannot be probed [0.11ms]
+2026-10-30T01:42:43.1243578Z Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+2026-10-30T01:42:43.1244635Z (pass) NuGet package visibility probe > a published package is reported with its version count [0.36ms]
+2026-10-30T01:42:43.1245342Z Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+2026-10-30T01:42:43.1246169Z (pass) NuGet package visibility probe > a 404 is the expected pre-first-publish state, not a failure [0.10ms]
+2026-10-30T01:42:43.1247135Z (pass) NuGet package visibility probe > an unreachable registry is unknown; the probe is advisory [0.08ms]
+2026-10-30T01:42:43.1247644Z Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+2026-10-30T01:42:43.1260406Z Preflight mode: release
+2026-10-30T01:42:43.1261007Z Repository:     owner/repo
+2026-10-30T01:42:43.1261354Z Package id:     MyPackage
+2026-10-30T01:42:43.1261761Z Fetching https://api.github.com/repos/owner/repo
+2026-10-30T01:42:43.1262341Z Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+2026-10-30T01:42:43.1262858Z Output: auth=trusted-publishing
+2026-10-30T01:42:43.1263245Z [PASS] Publishing identity: Test package configured
+2026-10-30T01:42:43.1264270Z [PASS] GitHub repository access (write unverified): Repository identity and read access verified. User-role permissions.push=true does not prove installation-token or protected-branch write authorization; actual writes remain fatal.
+2026-10-30T01:42:43.1265882Z [PASS] NuGet authentication: Official OIDC exchange authenticated the workflow. Exact package push authorization is unverified until publication.
+2026-10-30T01:42:43.1266567Z [PASS] NuGet package visibility: "MyPackage" is public on nuget.org with 1 published version(s)
+2026-10-30T01:42:43.1266981Z Output: preflight_result=passed
+2026-10-30T01:42:43.1267439Z (pass) preflight authentication integration > release mode with auth user=publisher key=(none) [1.78ms]
+2026-10-30T01:42:43.1269974Z Preflight mode: release
+2026-10-30T01:42:43.1270273Z Repository:     owner/repo
+2026-10-30T01:42:43.1270603Z Package id:     MyPackage
+2026-10-30T01:42:43.1271151Z Fetching https://api.github.com/repos/owner/repo
+2026-10-30T01:42:43.1271737Z Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+2026-10-30T01:42:43.1272227Z Output: auth=token-fallback
+2026-10-30T01:42:43.1275314Z ##[error]NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 401. This probe may require PackageVerify scope; unsupported verification is not evidence of push rejection. Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+2026-10-30T01:42:43.1280888Z ##[error]release preflight failed — NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 401. This probe may require PackageVerify scope; unsupported verification is not evidence of push rejection. Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+2026-10-30T01:42:43.1283741Z Release preflight failed; no build or publish job will run. Fix the probes above and push again.
+2026-10-30T01:42:43.1284431Z [PASS] Publishing identity: Test package configured
+2026-10-30T01:42:43.1285463Z [PASS] GitHub repository access (write unverified): Repository identity and read access verified. User-role permissions.push=true does not prove installation-token or protected-branch write authorization; actual writes remain fatal.
+2026-10-30T01:42:43.1287365Z [FAIL] NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 401. This probe may require PackageVerify scope; unsupported verification is not evidence of push rejection. Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+2026-10-30T01:42:43.1288677Z [PASS] NuGet package visibility: "MyPackage" is public on nuget.org with 1 published version(s)
+2026-10-30T01:42:43.1289060Z Output: preflight_result=failed
+2026-10-30T01:42:43.1289516Z (pass) preflight authentication integration > release mode with auth user=(none) key=expired [0.86ms]
+2026-10-30T01:42:43.1291932Z ##[error]NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. No NUGET_API_KEY fallback is configured. Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+2026-10-30T01:42:43.1294568Z [REPORT] NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. No NUGET_API_KEY fallback is configured. Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+2026-10-30T01:42:43.1296437Z (pass) preflight authentication integration > report mode with auth user=(none) key=(none) [0.81ms]
+2026-10-30T01:42:43.1297279Z (pass) preflight decision > release mode passes only when every required probe verified [0.04ms]
+2026-10-30T01:42:43.1298108Z (pass) preflight decision > release mode fails on any failed probe and names it [0.04ms]
+2026-10-30T01:42:43.1298968Z (pass) preflight decision > release mode treats an unverified required probe as a failure [0.05ms]
+2026-10-30T01:42:43.1299636Z (pass) preflight decision > an unknown advisory probe never blocks [0.06ms]
+2026-10-30T01:42:43.1300580Z (pass) preflight decision > report mode reports without blocking [0.04ms]
+2026-10-30T01:42:43.1300977Z
+2026-10-30T01:42:43.1301300Z ##[endgroup]
+2026-10-30T01:42:43.1301459Z
+2026-10-30T01:42:43.1301807Z ##[group]scripts/docs-workflow-policy.test.mjs:
+2026-10-30T01:42:43.1302225Z Preflight mode: report
+2026-10-30T01:42:43.1302447Z Repository:     owner/repo
+2026-10-30T01:42:43.1302664Z Package id:     MyPackage
+2026-10-30T01:42:43.1302927Z Fetching https://api.github.com/repos/owner/repo
+2026-10-30T01:42:43.1303300Z Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+2026-10-30T01:42:43.1303612Z Output: auth=none
+2026-10-30T01:42:43.1303858Z [PASS] Publishing identity: Test package configured
+2026-10-30T01:42:43.1304763Z [PASS] GitHub repository access (write unverified): Repository identity and read access verified. User-role permissions.push=true does not prove installation-token or protected-branch write authorization; actual writes remain fatal.
+2026-10-30T01:42:43.1306507Z [FAIL] NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. No NUGET_API_KEY fallback is configured. Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+2026-10-30T01:42:43.1307582Z [PASS] NuGet package visibility: "MyPackage" is public on nuget.org with 1 published version(s)
+2026-10-30T01:42:43.1307969Z Output: preflight_result=passed
+2026-10-30T01:42:43.1308450Z (pass) docs workflow policy > keeps documentation builds independent from Pages deployment opt-in [0.32ms]
+2026-10-30T01:42:43.1309040Z (pass) docs workflow policy > gates GitHub Pages publishing behind DEPLOY_GITHUB_PAGES=true [0.29ms]
+2026-10-30T01:42:43.1309655Z (pass) docs workflow policy > explains skipped GitHub Pages publishing when repository opt-in is absent [0.11ms]
+2026-10-30T01:42:43.1310173Z
+2026-10-30T01:42:43.1310428Z ##[endgroup]
+2026-10-30T01:42:43.1310532Z
+2026-10-30T01:42:43.1310740Z ##[group]scripts/zip-archive.test.mjs:
+2026-10-30T01:42:43.1331553Z (pass) stored and deflated bytes survive SHA-verified extraction [2.62ms]
+2026-10-30T01:42:43.1333796Z (pass) unsafe path fails before any writes: "../escape" [0.25ms]
+2026-10-30T01:42:43.1335429Z (pass) unsafe path fails before any writes: "/absolute" [0.16ms]
+2026-10-30T01:42:43.1337782Z (pass) unsafe path fails before any writes: "C:/drive" [0.16ms]
+2026-10-30T01:42:43.1338808Z (pass) unsafe path fails before any writes: "C:relative" [0.18ms]
+2026-10-30T01:42:43.1341119Z (pass) unsafe path fails before any writes: "dir\\escape" [0.22ms]
+2026-10-30T01:42:43.1342975Z (pass) unsafe path fails before any writes: "dir/../escape" [0.18ms]
+2026-10-30T01:42:43.1344425Z (pass) unsafe path fails before any writes: "dir//file" [0.15ms]
+2026-10-30T01:42:43.1345906Z (pass) unsafe path fails before any writes: "./file" [0.15ms]
+2026-10-30T01:42:43.1347160Z (pass) unsafe path fails before any writes: "dir/./file" [0.12ms]
+2026-10-30T01:42:43.1348429Z (pass) unsafe path fails before any writes: "dir/file." [0.12ms]
+2026-10-30T01:42:43.1349852Z (pass) unsafe path fails before any writes: "dir/file " [0.14ms]
+2026-10-30T01:42:43.1351482Z (pass) unsafe path fails before any writes: "bad\u0000name" [0.15ms]
+2026-10-30T01:42:43.1353581Z (pass) ambiguous/oversized/symlink ZIP fails before any writes [0.20ms]
+2026-10-30T01:42:43.1354890Z (pass) ambiguous/oversized/symlink ZIP fails before any writes [0.13ms]
+2026-10-30T01:42:43.1357063Z (pass) ambiguous/oversized/symlink ZIP fails before any writes [0.21ms]
+2026-10-30T01:42:43.1358329Z (pass) ambiguous/oversized/symlink ZIP fails before any writes [0.12ms]
+2026-10-30T01:42:43.1359534Z (pass) ambiguous/oversized/symlink ZIP fails before any writes [0.12ms]
+2026-10-30T01:42:43.1360949Z (pass) ambiguous/oversized/symlink ZIP fails before any writes [0.13ms]
+2026-10-30T01:42:43.1364031Z (pass) bad digest, checksum, truncated directory and trailing archive bytes fail closed [0.28ms]
+2026-10-30T01:42:43.1365654Z (pass) conflicting local ZIP metadata at 14 is rejected before writes [0.17ms]
+2026-10-30T01:42:43.1366889Z (pass) conflicting local ZIP metadata at 18 is rejected before writes [0.12ms]
+2026-10-30T01:42:43.1368016Z (pass) conflicting local ZIP metadata at 22 is rejected before writes [0.11ms]
+2026-10-30T01:42:43.1368600Z
+2026-10-30T01:42:43.1369060Z ##[endgroup]
+2026-10-30T01:42:43.1369395Z
+2026-10-30T01:42:43.1370076Z ##[group]scripts/issue-82-regressions.test.mjs:
+2026-10-30T01:42:43.1383678Z (pass) file limit scans substring filenames, .github and checkout names [0.73ms]
+2026-10-30T01:42:43.1384753Z Fetching https://api.nuget.org/v3-flatcontainer/example/index.json
+2026-10-30T01:42:43.1385717Z Retrying https://api.nuget.org/v3-flatcontainer/example/index.json (attempt 2 of 4)
+2026-10-30T01:42:43.1398500Z Retrying https://api.nuget.org/v3-flatcontainer/example/index.json (attempt 3 of 4)
+2026-10-30T01:42:43.1409230Z Retrying https://api.nuget.org/v3-flatcontainer/example/index.json (attempt 4 of 4)
+2026-10-30T01:42:43.1420567Z (pass) nuget retries dropped connections, rate limits and server failures [3.65ms]
+2026-10-30T01:42:43.1421372Z Fetching https://api.nuget.org/v3-flatcontainer/example/index.json
+2026-10-30T01:42:43.1422337Z Retrying https://api.nuget.org/v3-flatcontainer/example/index.json (attempt 2 of 2)
+2026-10-30T01:42:43.1433681Z (pass) nuget exhausted errors name cause; 404 is immediate [1.35ms]
+2026-10-30T01:42:43.1434382Z Fetching https://api.nuget.org/v3-flatcontainer/example/index.json
+2026-10-30T01:42:43.1435083Z Fetching https://api.github.com/repos/owner/repo/releases/tags/v1.0.0
+2026-10-30T01:42:43.1435870Z Retrying https://api.github.com/repos/owner/repo/releases/tags/v1.0.0 (attempt 2 of 4)
+2026-10-30T01:42:43.1445281Z Retrying https://api.github.com/repos/owner/repo/releases/tags/v1.0.0 (attempt 3 of 4)
+2026-10-30T01:42:43.1456009Z Retrying https://api.github.com/repos/owner/repo/releases/tags/v1.0.0 (attempt 4 of 4)
+2026-10-30T01:42:43.1466637Z (pass) github retries dropped connections, rate limits and server failures [3.26ms]
+2026-10-30T01:42:43.1467421Z Fetching https://api.github.com/repos/owner/repo/releases/tags/v1.0.0
+2026-10-30T01:42:43.1468224Z Retrying https://api.github.com/repos/owner/repo/releases/tags/v1.0.0 (attempt 2 of 2)
+2026-10-30T01:42:43.1477652Z (pass) github exhausted errors name cause; 404 is immediate [1.13ms]
+2026-10-30T01:42:43.1478339Z Fetching https://api.github.com/repos/owner/repo/releases/tags/v1.0.0
+2026-10-30T01:42:43.1505472Z (pass) Wayback retries and distinguishes lookup errors from absent snapshots [2.73ms]
+2026-10-30T01:42:43.1911431Z (pass) Dependabot exemption uses author before any git or changeset access [40.21ms]
+2026-10-30T01:42:43.2645313Z (pass) merge-changesets.mjs rejects mixed invalid changesets without mutations or pushes [73.67ms]
+2026-10-30T01:42:43.3391926Z (pass) version-and-commit.mjs rejects mixed invalid changesets without mutations or pushes [74.60ms]
+2026-10-30T01:42:43.3392659Z
+2026-10-30T01:42:43.3393306Z ##[endgroup]
+2026-10-30T01:42:43.3393492Z
+2026-10-30T01:42:43.3393823Z ##[group]scripts/git-inputs.test.mjs:
+2026-10-30T01:42:43.3521702Z (pass) detect-code-changes fails closed on unverified PR refs without executing input [12.20ms]
+2026-10-30T01:42:43.3694196Z (pass) validate-changeset fails closed on unverified PR refs without executing input [17.25ms]
+2026-10-30T01:42:43.3695017Z
+2026-10-30T01:42:43.3695645Z ##[endgroup]
+2026-10-30T01:42:43.3696000Z
+2026-10-30T01:42:43.3696516Z ##[group]scripts/release-workflow-policy.test.mjs:
+2026-10-30T01:42:43.3720428Z (pass) release workflow policy > both publishers request OIDC just before push and explicitly select bounded fallback after login failure [1.21ms]
+2026-10-30T01:42:43.3727602Z (pass) release workflow policy > queues every writer independently from readers [0.76ms]
+2026-10-30T01:42:43.3732610Z (pass) release workflow policy > sets explicit timeout-minutes on every job [0.52ms]
+2026-10-30T01:42:43.3737695Z (pass) release workflow policy > guards jobs with skipped dependencies using a status-check function [0.46ms]
+2026-10-30T01:42:43.3740598Z (pass) release workflow policy > instant-release keeps explicit success checks on its dependencies [0.27ms]
+2026-10-30T01:42:43.3752167Z (pass) release workflow policy > change-gated jobs use detector output for both pull requests and pushes [0.33ms]
+2026-10-30T01:42:43.3753442Z (pass) release workflow policy > publishes only the detector output consumed by job gates [0.29ms]
+2026-10-30T01:42:43.3754663Z (pass) release workflow policy > uses the current GitHub Action versions required by the template [0.16ms]
+2026-10-30T01:42:43.3755778Z (pass) release workflow policy > configures the default Git branch before checkout runs [0.21ms]
+2026-10-30T01:42:43.3757602Z (pass) release workflow policy > gates Codecov uploads on an explicit token [0.75ms]
+2026-10-30T01:42:43.3760960Z (pass) release workflow policy > smoke-tests published NuGet packages before creating releases [0.32ms]
+2026-10-30T01:42:43.3764856Z (pass) release workflow policy > pipeline-status observes every job of the release workflow [0.38ms]
+2026-10-30T01:42:43.3770171Z (pass) release workflow policy > budgets every long step below 70% of its job cap [0.48ms]
+2026-10-30T01:42:43.3774408Z (pass) release workflow policy > release jobs gate on the preflight verdict [0.44ms]
+2026-10-30T01:42:43.3775025Z
+2026-10-30T01:42:43.3775610Z ##[endgroup]
+2026-10-30T01:42:43.3775924Z
+2026-10-30T01:42:43.3776409Z ##[group]scripts/workflow-runner-policy.test.mjs:
+2026-10-30T01:42:43.3801115Z (pass) workflow runner policy > rejects floating runners in scalars, lists, label objects, and matrix includes [0.34ms]
+2026-10-30T01:42:43.3818765Z (pass) workflow runner policy > pins runners in every workflow, including multiline matrices [1.78ms]
+2026-10-30T01:42:43.3826428Z (pass) workflow runner policy > keeps all three pinned platforms and .NET 8 in the release matrix [0.83ms]
+2026-10-30T01:42:43.3827269Z
+2026-10-30T01:42:43.3827963Z ##[endgroup]
+2026-10-30T01:42:43.3828546Z
+2026-10-30T01:42:43.3831668Z ##[group]scripts/validate-nuget-package.test.mjs:
+2026-10-30T01:42:44.3659708Z (pass) valid generated metadata and exact bundled license pass [982.49ms]
+2026-10-30T01:42:45.1456646Z (pass) generated package rejects identity before upload [779.75ms]
+2026-10-30T01:42:45.9045274Z (pass) generated package rejects version before upload [758.81ms]
+2026-10-30T01:42:46.6292717Z (pass) generated package rejects SPDX before upload [724.76ms]
+2026-10-30T01:42:47.3566726Z (pass) generated package rejects license kind before upload [727.37ms]
+2026-10-30T01:42:48.0888553Z (pass) generated package rejects authors before upload [732.17ms]
+2026-10-30T01:42:48.8141253Z (pass) generated package rejects description before upload [725.27ms]
+2026-10-30T01:42:49.6423836Z (pass) generated package rejects malformed XML before upload [828.22ms]
+2026-10-30T01:42:50.3898328Z (pass) generated package rejects DTD before upload [747.45ms]
+2026-10-30T01:42:51.1094252Z (pass) changed bundled license bytes fail even with correct SPDX metadata [719.58ms]
+2026-10-30T01:42:51.1106499Z
+2026-10-30T01:42:51.1107315Z ##[endgroup]
+2026-10-30T01:42:51.1107792Z
+2026-10-30T01:42:51.1108110Z ##[group]scripts/git-push.test.mjs:
+2026-10-30T01:42:51.2416507Z (pass) atomic push rebases a racing unrelated main update and retags the final commit [128.92ms]
+2026-10-30T01:42:51.3090132Z (pass) protected-branch rejection is fatal and atomic: neither ref changes [67.30ms]
+2026-10-30T01:42:51.3091047Z (pass) repeated non-fast-forward races are bounded without forcing [0.20ms]
+2026-10-30T01:42:51.3096135Z
+2026-10-30T01:42:51.3096653Z ##[endgroup]
+2026-10-30T01:42:51.3096775Z
+2026-10-30T01:42:51.3097023Z ##[group]scripts/check-web-archive.test.mjs:
+2026-10-30T01:42:51.3103769Z (pass) lychee report parsing > the errors section stops at the next top-level heading [0.05ms]
+2026-10-30T01:42:51.3104343Z (pass) lychee report parsing > a report without an errors section yields nothing [0.03ms]
+2026-10-30T01:42:51.3106128Z (pass) lychee report parsing > redirected links are not reported as broken [0.21ms]
+2026-10-30T01:42:51.3106750Z (pass) lychee report parsing > every http error is extracted exactly once [0.04ms]
+2026-10-30T01:42:51.3107440Z (pass) lychee report parsing > errors that the Wayback Machine cannot answer are still reported [0.05ms]
+2026-10-30T01:42:51.3108010Z (pass) lychee report parsing > the parsed error count matches the count lychee reports [0.06ms]
+2026-10-30T01:42:51.3108911Z (pass) recovered url splitting > a URL the re-check found healthy leaves the archive report [0.08ms]
+2026-10-30T01:42:51.3109656Z (pass) recovered url splitting > blank lines and stray whitespace are tolerated [0.03ms]
+2026-10-30T01:42:51.3110138Z
+2026-10-30T01:42:51.3110494Z ##[endgroup]
+2026-10-30T01:42:51.3110655Z
+2026-10-30T01:42:51.3110966Z ##[group]scripts/workflow-git-policy.test.mjs:
+2026-10-30T01:42:51.3125150Z (pass) checkout Git configuration policy > configures init.defaultBranch before checkout in every workflow [1.20ms]
+2026-10-30T01:42:51.3125608Z
+2026-10-30T01:42:51.3130585Z ##[endgroup]
+2026-10-30T01:42:51.3130931Z
+2026-10-30T01:42:51.3131052Z 2 tests failed:
+2026-10-30T01:42:51.3132017Z (fail) validate-changeset integration > the printed description of a valid changeset is bracketed [16.83ms]
+2026-10-30T01:42:51.3133091Z (fail) validate-changeset integration > the printed file content of a rejected changeset is bracketed on stderr [19.47ms]
+2026-10-30T01:42:51.3133695Z
+2026-10-30T01:42:51.3133794Z  293 pass
+2026-10-30T01:42:51.3134030Z  2 fail
+2026-10-30T01:42:51.3134273Z  960 expect() calls
+2026-10-30T01:42:51.3134505Z Ran 295 tests across 33 files. [8.76s]
+2026-10-30T01:42:51.5680599Z ##[error]Process completed with exit code 1.
+2026-10-30T01:42:51.5798974Z Post job cleanup.
+2026-10-30T01:42:51.6525689Z [command]/usr/bin/git version
+2026-10-30T01:42:51.6564488Z git version 2.56.0
+2026-10-30T01:42:51.6597629Z Temporarily overriding HOME='/home/runner/work/_temp/5c46ce58-c7d9-4c49-ad92-ce97c26d0661' before making global git config changes
+2026-10-30T01:42:51.6598744Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-30T01:42:51.6602808Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template
+2026-10-30T01:42:51.6634147Z Removing SSH command configuration
+2026-10-30T01:42:51.6640306Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-30T01:42:51.6674570Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-30T01:42:51.6905189Z Removing HTTP extra header
+2026-10-30T01:42:51.6911453Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-30T01:42:51.6947316Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-30T01:42:51.7159013Z Removing includeIf entries pointing to credentials config files
+2026-10-30T01:42:51.7166194Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-30T01:42:51.7205307Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-30T01:42:51.7574649Z Cleaning up orphan processes
+2026-10-30T01:42:51.7854084Z Terminate orphan process: pid (2394) (dotnet)
+2026-10-30T01:42:51.7874075Z Terminate orphan process: pid (2563) (VBCSCompiler)

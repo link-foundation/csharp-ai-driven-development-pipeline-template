@@ -17,7 +17,7 @@ describe('code change detection', () => {
       expect(detectChangeOutputs([changedFile])).toEqual({
         'any-code-changed': 'false',
       });
-    }
+    },
   );
 
   test.each([
@@ -37,7 +37,7 @@ describe('code change detection', () => {
         'experiments/repro.mjs',
         'docs/case-studies/notes.md',
         'src/MyPackage/Calculator.cs',
-      ])
+      ]),
     ).toEqual({ 'any-code-changed': 'true' });
   });
 });

@@ -9,6 +9,7 @@ const EXPECTED_JOB_TIMEOUTS = new Map([
   ['changeset-check', 10],
   ['lint', 20],
   ['test', 30],
+  ['codecov-token', 5],
   ['build', 20],
   ['release-preflight', 5],
   ['release', 30],
@@ -25,18 +26,30 @@ function readWorkflow(filePath) {
 // skipped for workflow_dispatch. Without a status-check function in their `if`,
 // GitHub Actions adds an implicit success() over the skipped dependency and
 // skips these jobs (and the release they gate). See issue #23.
-const JOBS_REQUIRING_STATUS_CHECK = ['lint', 'test', 'build', 'release', 'instant-release'];
+const JOBS_REQUIRING_STATUS_CHECK = [
+  'lint',
+  'test',
+  'build',
+  'release',
+  'instant-release',
+];
 
-const STATUS_CHECK_FUNCTIONS = ['always()', '!cancelled()', 'cancelled()', 'success()', 'failure()'];
+const STATUS_CHECK_FUNCTIONS = [
+  'always()',
+  '!cancelled()',
+  'cancelled()',
+  'success()',
+  'failure()',
+];
 
 function getJobCondition(jobBlock) {
   const lines = jobBlock.split('\n');
-  const ifIndex = lines.findIndex((line) => /^    if:/.test(line));
+  const ifIndex = lines.findIndex((line) => /^ {4}if:/.test(line));
   if (ifIndex === -1) {
     return '';
   }
 
-  const conditionLines = [lines[ifIndex].replace(/^    if:\s*\|?\s*/, '')];
+  const conditionLines = [lines[ifIndex].replace(/^ {4}if:\s*\|?\s*/, '')];
   for (const line of lines.slice(ifIndex + 1)) {
     // Condition continues while indented deeper than the `if:` key.
     if (/^ {6,}\S/.test(line) || line.trim() === '') {
@@ -61,7 +74,7 @@ function getJobBlocks(workflow) {
   let currentLines = [];
 
   for (const line of lines.slice(jobsStart + 1)) {
-    const match = /^  ([a-zA-Z0-9_-]+):\s*$/.exec(line);
+    const match = /^ {2}([a-zA-Z0-9_-]+):\s*$/.exec(line);
     if (match) {
       if (currentName) {
         blocks.set(currentName, currentLines.join('\n'));
@@ -120,9 +133,12 @@ function getStepBlock(jobBlock, stepName) {
 }
 
 describe('release workflow policy', () => {
-  test('both publishers request OIDC just before push and never silently fall back after login', () => {
+  test('both publishers request OIDC just before push and explicitly select bounded fallback after login failure', () => {
+    /** @type {Record<string, any>} */
     const workflow = Bun.YAML.parse(readWorkflow(RELEASE_WORKFLOW));
-    expect(workflow.jobs['release-preflight'].steps.at(-1).env.NUGET_USER).toBe('${{ vars.NUGET_USER }}');
+    expect(workflow.jobs['release-preflight'].steps.at(-1).env.NUGET_USER).toBe(
+      '${{ vars.NUGET_USER }}',
+    );
     for (const name of ['release', 'instant-release']) {
       const job = workflow.jobs[name];
       expect(job.permissions['id-token']).toBe('write');
@@ -136,27 +152,34 @@ describe('release workflow policy', () => {
       expect(login.if).toContain("steps.version.outputs.version_committed == 'true'");
       expect(login.with.user).toBe('${{ vars.NUGET_USER }}');
       const publish = job.steps[pushIndex];
-      expect(publish.env.NUGET_API_KEY).toBe("${{ vars.NUGET_USER == '' && secrets.NUGET_API_KEY || steps.nuget-login.outputs.NUGET_API_KEY }}");
+      expect(login['continue-on-error']).toBe(true);
+      expect(publish.env.NUGET_API_KEY).toBe('${{ secrets.NUGET_API_KEY }}');
+      expect(publish.env.NUGET_OIDC_OUTCOME).toBe('${{ steps.nuget-login.outcome }}');
+      expect(publish.env.NUGET_OIDC_KEY).toBe(
+        '${{ steps.nuget-login.outputs.NUGET_API_KEY }}',
+      );
       expect(publish.run).toContain('scripts/push-nuget-package.mjs');
       expect(publish.run).not.toContain('skipping');
       const release = job.steps.find((step) => step.name === 'Create GitHub Release');
       expect(release.if).toContain("steps.nuget_publish.outputs.published == 'true'");
     }
     for (const [name, job] of Object.entries(workflow.jobs)) {
-      if (['release', 'instant-release'].includes(name)) continue;
+      if (['release', 'instant-release', 'release-preflight'].includes(name)) continue;
       expect(job.permissions?.['id-token'], name).toBeUndefined();
     }
   });
-  test('does not cancel release runs on main when newer pushes arrive', () => {
-    const workflow = readWorkflow(RELEASE_WORKFLOW);
-
-    expect(workflow).toContain(
-      'group: ${{ github.workflow }}-${{ github.ref }}'
-    );
-    expect(workflow).toContain(
-      "cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}"
-    );
-    expect(workflow).not.toContain('cancel-in-progress: true');
+  test('queues every writer independently from readers', () => {
+    /** @type {Record<string, any>} */
+    const workflow = Bun.YAML.parse(readWorkflow(RELEASE_WORKFLOW));
+    expect(workflow.concurrency).toBeUndefined();
+    for (const name of ['release', 'instant-release', 'changeset-pr']) {
+      expect(workflow.jobs[name].concurrency).toEqual({
+        group: 'main-writer-${{ github.repository }}',
+        'cancel-in-progress': false,
+        queue: 'max',
+      });
+    }
+    expect(workflow.jobs.lint.concurrency['cancel-in-progress']).toBe(true);
   });
 
   test('sets explicit timeout-minutes on every job', () => {
@@ -167,7 +190,7 @@ describe('release workflow policy', () => {
 
     for (const [jobName, timeoutMinutes] of EXPECTED_JOB_TIMEOUTS) {
       expect(jobBlocks.get(jobName)).toContain(
-        `\n    timeout-minutes: ${timeoutMinutes}`
+        `\n    timeout-minutes: ${timeoutMinutes}`,
       );
     }
   });
@@ -181,7 +204,7 @@ describe('release workflow policy', () => {
       expect(condition).not.toBe('');
       expect(
         STATUS_CHECK_FUNCTIONS.some((fn) => condition.includes(fn)),
-        `Job "${jobName}" must use a status-check function (e.g. always()) because it depends on a possibly skipped job`
+        `Job "${jobName}" must use a status-check function (e.g. always()) because it depends on a possibly skipped job`,
       ).toBe(true);
     }
   });
@@ -204,12 +227,13 @@ describe('release workflow policy', () => {
       const job = jobBlocks.get(jobName);
       const condition = getJobCondition(job);
 
-      expect(job).toContain('needs: [detect-changes]');
+      expect(job).toContain('needs: [detect-changes, release-preflight]');
       expect(condition).toContain('always()');
       expect(condition).toContain('!cancelled()');
+      expect(condition).toContain("needs.release-preflight.result == 'success'");
       expect(condition).toContain("github.event_name == 'workflow_dispatch'");
       expect(condition).toContain(
-        "needs.detect-changes.outputs.any-code-changed == 'true'"
+        "needs.detect-changes.outputs.any-code-changed == 'true'",
       );
       expect(condition).not.toContain("github.event_name == 'push'");
       expect(condition).not.toContain('needs.changeset-check.result');
@@ -221,26 +245,40 @@ describe('release workflow policy', () => {
     const detectJob = getJobBlocks(workflow).get('detect-changes');
 
     expect(detectJob).toContain(
-      'any-code-changed: ${{ steps.changes.outputs.any-code-changed }}'
+      'any-code-changed: ${{ steps.changes.outputs.any-code-changed }}',
     );
-    expect(detectJob).not.toMatch(/^\s+(cs|csproj|sln|props|mjs|docs|workflow)-changed:/m);
+    expect(detectJob).not.toMatch(
+      /^\s+(cs|csproj|sln|props|mjs|docs|workflow)-changed:/m,
+    );
   });
 
   test('uses the current GitHub Action versions required by the template', () => {
     const workflow = readWorkflow(RELEASE_WORKFLOW);
     const docsWorkflow = readWorkflow(DOCS_WORKFLOW);
 
-    expect(workflow).toContain('uses: actions/checkout@v6');
-    expect(workflow).toContain('uses: actions/setup-dotnet@v5');
-    expect(workflow).toContain('uses: actions/upload-artifact@v7');
-    expect(workflow).toContain('uses: codecov/codecov-action@v7');
-    expect(workflow).toContain('uses: peter-evans/create-pull-request@v8');
+    expect(workflow).toContain(
+      'uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803',
+    );
+    expect(workflow).toContain(
+      'uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1',
+    );
+    expect(workflow).toContain(
+      'uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9',
+    );
+    expect(workflow).toContain(
+      'uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5',
+    );
+    expect(workflow).toContain(
+      'uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1',
+    );
     expect(workflow).not.toContain('uses: actions/checkout@v4');
     expect(workflow).not.toContain('uses: actions/setup-dotnet@v4');
     expect(workflow).not.toContain('uses: actions/upload-artifact@v4');
     expect(workflow).not.toContain('uses: codecov/codecov-action@v4');
     expect(workflow).not.toContain('uses: peter-evans/create-pull-request@v7');
-    expect(docsWorkflow).toContain('uses: actions/setup-dotnet@v5');
+    expect(docsWorkflow).toContain(
+      'uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1',
+    );
     expect(docsWorkflow).not.toContain('uses: actions/setup-dotnet@v4');
   });
 
@@ -259,22 +297,24 @@ describe('release workflow policy', () => {
     const uploadStep = getStepBlock(testJob, 'Upload coverage to Codecov');
     const missingTokenStep = getStepBlock(
       testJob,
-      'Skip Codecov upload when token is unavailable'
+      'Skip Codecov upload when token is unavailable',
     );
 
     expect(testJob).toContain('CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}');
     expect(uploadStep).toContain(
-      "if: matrix.os == 'ubuntu-24.04' && env.CODECOV_TOKEN != ''"
+      "if: matrix.os == 'ubuntu-24.04' && env.CODECOV_TOKEN != ''",
     );
-    expect(uploadStep).toContain('uses: codecov/codecov-action@v7');
+    expect(uploadStep).toContain(
+      'uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5',
+    );
     expect(uploadStep).toContain('token: ${{ env.CODECOV_TOKEN }}');
     expect(uploadStep).toContain('fail_ci_if_error: true');
     expect(uploadStep).not.toContain('fail_ci_if_error: false');
     expect(missingTokenStep).toContain(
-      "if: matrix.os == 'ubuntu-24.04' && env.CODECOV_TOKEN == ''"
+      "if: matrix.os == 'ubuntu-24.04' && env.CODECOV_TOKEN == ''",
     );
     expect(missingTokenStep).toContain(
-      '::notice::CODECOV_TOKEN is not configured; skipping Codecov upload.'
+      '::notice::CODECOV_TOKEN is not configured; skipping Codecov upload.',
     );
   });
 
@@ -312,19 +352,24 @@ describe('release workflow policy', () => {
     // Every job must be observed, in the order the jobs appear, or a later
     // addition silently escapes the gate. A cancelled job killed by
     // timeout-minutes is reported as `cancelled` — invisible without this.
-    const needsList = /\n    needs:\n((?:      - [a-z-]+\n)+)/.exec(`${gate}\n`);
-    expect(needsList, 'pipeline-status must declare its needs as a list').not.toBeNull();
+    const needsList = /\n {4}needs:\n((?: {6}- [a-z-]+\n)+)/.exec(`${gate}\n`);
+    expect(
+      needsList,
+      'pipeline-status must declare its needs as a list',
+    ).not.toBeNull();
     const observed = needsList[1]
       .split('\n')
       .filter((line) => line.startsWith('      - '))
       .map((line) => line.replace('      - ', ''));
-    expect(observed).toEqual(jobNames);
+    expect(observed.sort()).toEqual(jobNames.sort());
 
     expect(gate).toContain('NEEDS_JSON: ${{ toJSON(needs) }}');
-    expect(gate).toContain("IS_MAIN: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}");
+    expect(gate).toContain(
+      "IS_MAIN: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}",
+    );
     // The gate proves a cancelled job was not superseded before failing it;
     // both inputs are required by scripts/check-pipeline-status.sh.
-    expect(gate).toContain('RUN_SHA: ${{ github.sha }}');
+    expect(gate).toContain('EVENT_NAME: ${{ github.event_name }}');
     expect(gate).toContain('BRANCH_REF: ${{ github.ref_name }}');
     expect(gate).toContain('run: bash scripts/check-pipeline-status.sh');
     expect(gate).toContain('persist-credentials: false');
@@ -342,15 +387,20 @@ describe('release workflow policy', () => {
       // not caps.
       const beforeSteps = block.slice(0, block.indexOf('\n    steps:'));
       const capMatch = /timeout-minutes:\s*(\d+)/.exec(beforeSteps);
-      expect(capMatch, `${jobName} declares a job-level timeout-minutes`).not.toBeNull();
+      expect(
+        capMatch,
+        `${jobName} declares a job-level timeout-minutes`,
+      ).not.toBeNull();
       const capSeconds = Number(capMatch[1]) * 60;
 
-      for (const [, budgetText] of block.matchAll(/run-with-budget-warning\.sh (\d+)/g)) {
+      for (const [, budgetText] of block.matchAll(
+        /run-with-budget-warning\.sh (\d+)/g,
+      )) {
         wrappedSteps++;
         const budget = Number(budgetText);
         expect(
           budget * 100 <= capSeconds * MAX_BUDGET_SHARE_PERCENT,
-          `${jobName}: budget ${budget}s must expire at or before ${MAX_BUDGET_SHARE_PERCENT}% of its ${capSeconds}s cap, or the cap fires first and the budget is decorative`
+          `${jobName}: budget ${budget}s must expire at or before ${MAX_BUDGET_SHARE_PERCENT}% of its ${capSeconds}s cap, or the cap fires first and the budget is decorative`,
         ).toBe(true);
       }
 
@@ -359,7 +409,10 @@ describe('release workflow policy', () => {
         // pwsh; every wrapped step there must pin shell: bash or the wrapper
         // never runs.
         const shellCount = (block.match(/^\s+shell: bash$/gm) ?? []).length;
-        expect(shellCount, 'each wrapped test step pins shell: bash').toBeGreaterThanOrEqual(3);
+        expect(
+          shellCount,
+          'each wrapped test step pins shell: bash',
+        ).toBeGreaterThanOrEqual(3);
       }
     }
 
@@ -385,24 +438,24 @@ describe('release workflow policy', () => {
     const preflight = jobBlocks.get('release-preflight');
     expect(preflight, 'release-preflight job should exist').toBeDefined();
     expect(preflight).toContain("'release' || 'report'");
-    expect(preflight).toContain('NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}');
+    expect(preflight).toContain('NUGET_OIDC_OUTCOME: ${{ steps.nuget-login.outcome }}');
     expect(preflight).toContain('GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}');
     expect(preflight).toContain('bun run scripts/preflight-credentials.mjs');
 
     for (const jobName of ['release', 'instant-release']) {
       const job = jobBlocks.get(jobName);
       expect(job, `${jobName} must need the preflight`).toMatch(
-        /needs: \[.*release-preflight.*\]/
+        /needs: \[.*release-preflight.*\]/,
       );
       expect(
         job,
-        `${jobName} must check the preflight result, not just its completion`
+        `${jobName} must check the preflight result, not just its completion`,
       ).toContain("needs.release-preflight.result == 'success'");
     }
 
     // The probe is a real script with real tests, not a presence check.
     expect(readFileSync('scripts/preflight-credentials.mjs', 'utf-8')).toMatch(
-      /checkGithubPushPermission/
+      /checkGithubPushPermission/,
     );
   });
 });

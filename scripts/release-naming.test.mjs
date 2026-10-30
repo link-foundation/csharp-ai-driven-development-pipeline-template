@@ -1,10 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import {
-  mkdirSync,
-  mkdtempSync,
-  rmSync,
-  writeFileSync,
-} from 'node:fs';
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
@@ -70,10 +65,12 @@ describe('release naming tags and titles', () => {
 
     expect(getTagPrefix(single)).toBe('v');
     expect(buildReleaseTag('1.2.3', single)).toBe('v1.2.3');
-    expect(buildReleaseTitle('1.2.3', {
-      ...single,
-      packageName: 'MyPackage',
-    })).toBe('MyPackage 1.2.3');
+    expect(
+      buildReleaseTitle('1.2.3', {
+        ...single,
+        packageName: 'MyPackage',
+      }),
+    ).toBe('MyPackage 1.2.3');
   });
 
   test('uses cs_v tags and C# title prefixes for multi-language releases', () => {
@@ -81,10 +78,12 @@ describe('release naming tags and titles', () => {
 
     expect(getTagPrefix(multi)).toBe('cs_v');
     expect(buildReleaseTag('1.2.3', multi)).toBe('cs_v1.2.3');
-    expect(buildReleaseTitle('1.2.3', {
-      ...multi,
-      packageName: 'MyPackage',
-    })).toBe('[C#] 1.2.3');
+    expect(
+      buildReleaseTitle('1.2.3', {
+        ...multi,
+        packageName: 'MyPackage',
+      }),
+    ).toBe('[C#] 1.2.3');
   });
 
   test('normalizes already-prefixed versions idempotently', () => {
@@ -92,9 +91,7 @@ describe('release naming tags and titles', () => {
     expect(normalizeReleaseVersion('cs-v1.2.3')).toBe('1.2.3');
     expect(normalizeReleaseVersion('csharp_v1.2.3')).toBe('1.2.3');
     expect(normalizeReleaseVersion('v1.2.3')).toBe('1.2.3');
-    expect(buildReleaseTag('cs_v1.2.3', { csharpRoot: 'csharp' })).toBe(
-      'cs_v1.2.3'
-    );
+    expect(buildReleaseTag('cs_v1.2.3', { csharpRoot: 'csharp' })).toBe('cs_v1.2.3');
     expect(buildReleaseTag('v1.2.3', { csharpRoot: '.' })).toBe('v1.2.3');
   });
 });

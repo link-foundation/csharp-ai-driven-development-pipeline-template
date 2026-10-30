@@ -1,9 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import {
-  mkdtempSync,
-  rmSync,
-  writeFileSync,
-} from 'node:fs';
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
@@ -50,7 +46,9 @@ function startNugetAndGithubMock({ versions, githubReleaseStatus }) {
 
   return new Promise((resolve) => {
     server.listen(0, '127.0.0.1', () => {
-      const { port } = server.address();
+      const address = server.address();
+      if (!address || typeof address === 'string') throw Error('Expected TCP listener');
+      const { port } = address;
       resolve({
         nugetUrl: `http://127.0.0.1:${port}/nuget`,
         githubUrl: `http://127.0.0.1:${port}/github`,
@@ -140,7 +138,7 @@ describe('check-release-needed readCsprojInfo()', () => {
       const csprojPath = path.join(dir, 'sample.csproj');
       writeFileSync(
         csprojPath,
-        '<Project Sdk="Microsoft.NET.Sdk">\n  <PropertyGroup>\n    <Version>1.2.3</Version>\n    <PackageId>MyPackage</PackageId>\n  </PropertyGroup>\n</Project>\n'
+        '<Project Sdk="Microsoft.NET.Sdk">\n  <PropertyGroup>\n    <Version>1.2.3</Version>\n    <PackageId>MyPackage</PackageId>\n  </PropertyGroup>\n</Project>\n',
       );
 
       const info = readCsprojInfo(csprojPath);
@@ -157,7 +155,7 @@ describe('check-release-needed readCsprojInfo()', () => {
       const csprojPath = path.join(dir, 'sample.csproj');
       writeFileSync(
         csprojPath,
-        '<Project Sdk="Microsoft.NET.Sdk">\n  <PropertyGroup>\n    <Version>9.0.0</Version>\n  </PropertyGroup>\n</Project>\n'
+        '<Project Sdk="Microsoft.NET.Sdk">\n  <PropertyGroup>\n    <Version>9.0.0</Version>\n  </PropertyGroup>\n</Project>\n',
       );
 
       const info = readCsprojInfo(csprojPath);
@@ -174,7 +172,7 @@ describe('check-release-needed readCsprojInfo()', () => {
       const csprojPath = path.join(dir, 'sample.csproj');
       writeFileSync(
         csprojPath,
-        '<Project Sdk="Microsoft.NET.Sdk">\n  <PropertyGroup>\n  </PropertyGroup>\n</Project>\n'
+        '<Project Sdk="Microsoft.NET.Sdk">\n  <PropertyGroup>\n  </PropertyGroup>\n</Project>\n',
       );
 
       expect(() => readCsprojInfo(csprojPath)).toThrow(/Could not parse <Version>/);
@@ -235,7 +233,7 @@ describe('check-release-needed probes', () => {
     try {
       const exists = await fetchGithubReleaseExists(
         'link-foundation/csharp-ai-driven-development-pipeline-template',
-        'cs_v1.0.0'
+        'cs_v1.0.0',
       );
       expect(exists).toBe(true);
     } finally {
@@ -258,7 +256,7 @@ describe('check-release-needed probes', () => {
     try {
       const exists = await fetchGithubReleaseExists(
         'link-foundation/csharp-ai-driven-development-pipeline-template',
-        'cs_v9.9.9'
+        'cs_v9.9.9',
       );
       expect(exists).toBe(false);
     } finally {
@@ -289,7 +287,7 @@ describe('check-release-needed probes', () => {
       const versions = await fetchNugetVersions('MyPackage');
       const exists = await fetchGithubReleaseExists(
         'link-foundation/csharp-ai-driven-development-pipeline-template',
-        'cs_v2.4.0'
+        'cs_v2.4.0',
       );
       const result = decide({
         hasChangesets: false,
@@ -331,7 +329,7 @@ describe('check-release-needed probes', () => {
       const versions = await fetchNugetVersions('MyPackage');
       const exists = await fetchGithubReleaseExists(
         'link-foundation/csharp-ai-driven-development-pipeline-template',
-        'cs_v2.4.0'
+        'cs_v2.4.0',
       );
       const result = decide({
         hasChangesets: false,

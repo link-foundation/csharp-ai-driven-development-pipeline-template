@@ -48,13 +48,13 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
 
       - name: Check links with lychee
         id: lychee
-        uses: lycheeverse/lychee-action@v2
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2
         with:
           # Check all Markdown and HTML files
           # Exclude case-studies directory - these are research documents from
@@ -115,11 +115,11 @@ jobs:
           steps.lychee.outputs.exit_code != 0 &&
           steps.recheck.outputs.all_recovered != 'true'
         run: |
-          echo "::error::Broken links were detected with no Web Archive fallback available."
+          echo "::error::Broken links were detected with unresolved Web Archive checks."
           echo ""
           echo "What happened:"
           echo "  lychee found one or more broken links in the *.md and *.html files of this repository."
-          echo "  The Web Archive (Wayback Machine) check found no archived versions for some of them."
+          echo "  Review the Web Archive verdict: failed lookups are unknown; re-run them before replacing links."
           echo ""
           echo "How to fix:"
           echo "  1. Review the 'Check links with lychee' step above for a full list of broken links."

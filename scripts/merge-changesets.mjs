@@ -16,13 +16,8 @@
  * IMPORTANT: Update the package name below to match your csproj
  */
 
-import {
-  readdirSync,
-  readFileSync,
-  writeFileSync,
-  unlinkSync,
-  statSync,
-} from 'fs';
+import { readdirSync, writeFileSync, unlinkSync, statSync } from 'fs';
+import { parseChangesetFile } from './parse-changeset.mjs';
 import { join } from 'path';
 import { printUntrusted } from './print-untrusted.mjs';
 
@@ -104,8 +99,7 @@ function generateChangesetName() {
     'wind',
   ];
 
-  const randomAdjective =
-    adjectives[Math.floor(Math.random() * adjectives.length)];
+  const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
   const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
 
   return `${randomAdjective}-${randomNoun}`;
@@ -117,38 +111,10 @@ function generateChangesetName() {
  * @returns {{type: string, description: string, mtime: Date} | null}
  */
 function parseChangeset(filePath) {
-  try {
-    const content = readFileSync(filePath, 'utf-8');
-    const stats = statSync(filePath);
-
-    // Extract version type - support both quoted and unquoted package names
-    const versionTypeRegex = new RegExp(
-      `^['"]?${PACKAGE_NAME.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}['"]?:\\s+(major|minor|patch)`,
-      'm'
-    );
-    const versionTypeMatch = content.match(versionTypeRegex);
-
-    if (!versionTypeMatch) {
-      console.warn(
-        `Warning: Could not parse version type from ${filePath}, skipping`
-      );
-      return null;
-    }
-
-    // Extract description
-    const parts = content.split('---');
-    const description =
-      parts.length >= 3 ? parts.slice(2).join('---').trim() : '';
-
-    return {
-      type: versionTypeMatch[1],
-      description,
-      mtime: stats.mtime,
-    };
-  } catch (error) {
-    console.warn(`Warning: Failed to parse ${filePath}: ${error.message}`);
-    return null;
-  }
+  return {
+    ...parseChangesetFile(filePath, PACKAGE_NAME),
+    mtime: statSync(filePath).mtime,
+  };
 }
 
 /**
@@ -188,13 +154,13 @@ function main() {
 
   // Get all changeset files
   const changesetFiles = readdirSync(CHANGESET_DIR).filter(
-    (file) =>
-      file.endsWith('.md') && file !== 'README.md' && file !== 'config.json'
+    (file) => file.endsWith('.md') && file !== 'README.md' && file !== 'config.json',
   );
 
   console.log(`Found ${changesetFiles.length} changeset file(s)`);
 
-  // If 0 or 1 changesets, nothing to merge
+  // Validate even a single pending file before deciding no merge is needed.
+  for (const file of changesetFiles) parseChangeset(join(CHANGESET_DIR, file));
   if (changesetFiles.length <= 1) {
     console.log('No merging needed (0 or 1 changeset found)');
     return;

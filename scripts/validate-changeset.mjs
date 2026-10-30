@@ -4,7 +4,7 @@
  * Validate changeset for CI - ensures exactly one valid changeset is added by the PR
  *
  * Key behavior:
- * - Only checks changeset files ADDED by the current PR (not pre-existing ones)
+ * - Requires one added changeset and validates every pending changeset
  * - Uses git diff to compare PR head against base branch
  * - Validates that the PR adds exactly one changeset with proper format
  * - Falls back to checking all changesets for local development
@@ -12,9 +12,10 @@
  * IMPORTANT: Update the package name below to match your csproj
  */
 
-import { execSync } from 'child_process';
+import { execFileSync } from 'child_process';
 import { readFileSync, readdirSync, existsSync } from 'fs';
 import { join } from 'path';
+import { parseChangesetFile } from './parse-changeset.mjs';
 import { printUntrusted } from './print-untrusted.mjs';
 
 // Package name must match the package name in the changeset files
@@ -24,9 +25,7 @@ const CSHARP_ROOT = String(process.env.CSHARP_ROOT ?? '')
   .replaceAll('\\', '/')
   .replace(/\/+$/u, '');
 const CHANGESET_DIR =
-  CSHARP_ROOT && CSHARP_ROOT !== '.'
-    ? `${CSHARP_ROOT}/.changeset`
-    : '.changeset';
+  CSHARP_ROOT && CSHARP_ROOT !== '.' ? `${CSHARP_ROOT}/.changeset` : '.changeset';
 
 /**
  * Ensure a git commit is available locally, fetching if necessary
@@ -34,13 +33,13 @@ const CHANGESET_DIR =
  */
 function ensureCommitAvailable(sha) {
   try {
-    execSync(`git cat-file -e ${sha}`, { stdio: 'ignore' });
+    execFileSync('git', ['cat-file', '-e', sha], { stdio: 'ignore' });
   } catch {
     console.log('Base commit not available locally, attempting fetch...');
     try {
-      execSync(`git fetch origin ${sha}`, { stdio: 'inherit' });
+      execFileSync('git', ['fetch', 'origin', sha], { stdio: 'inherit' });
     } catch {
-      execSync(`git fetch origin`, { stdio: 'inherit' });
+      execFileSync('git', ['fetch', 'origin'], { stdio: 'inherit' });
     }
   }
 }
@@ -76,12 +75,17 @@ function parseAddedChangesets(diffOutput) {
  * @returns {string[] | null} Array of changeset files or null if failed
  */
 function tryExplicitShaComparison(baseSha, headSha) {
+  if (![baseSha, headSha].every((sha) => /^[a-f0-9]{40,64}$/i.test(sha)))
+    throw Error('Invalid PR commit identity');
   console.log(`Comparing ${baseSha}...${headSha}`);
   try {
     ensureCommitAvailable(baseSha);
-    const diffOutput = execSync(
-      `git diff --name-status ${baseSha} ${headSha}`,
-      { encoding: 'utf-8' }
+    const diffOutput = execFileSync(
+      'git',
+      ['diff', '--name-status', baseSha, headSha, '--'],
+      {
+        encoding: 'utf-8',
+      },
     );
     return parseAddedChangesets(diffOutput);
   } catch (error) {
@@ -96,16 +100,22 @@ function tryExplicitShaComparison(baseSha, headSha) {
  * @returns {string[] | null} Array of changeset files or null if failed
  */
 function tryBaseBranchComparison(prBase) {
+  execFileSync('git', ['check-ref-format', `refs/heads/${prBase}`], {
+    stdio: 'ignore',
+  });
   console.log(`Comparing against base branch: ${prBase}`);
   try {
     try {
-      execSync(`git fetch origin ${prBase}`, { stdio: 'inherit' });
+      execFileSync('git', ['fetch', 'origin', prBase], { stdio: 'inherit' });
     } catch {
       // Ignore fetch errors, we might already have it
     }
-    const diffOutput = execSync(
-      `git diff --name-status origin/${prBase}...HEAD`,
-      { encoding: 'utf-8' }
+    const diffOutput = execFileSync(
+      'git',
+      ['diff', '--name-status', `origin/${prBase}...HEAD`, '--'],
+      {
+        encoding: 'utf-8',
+      },
     );
     return parseAddedChangesets(diffOutput);
   } catch (error) {
@@ -120,14 +130,13 @@ function tryBaseBranchComparison(prBase) {
  */
 function getAllChangesets() {
   console.log(
-    'Warning: Could not determine PR diff, checking all changesets in directory'
+    'Warning: Could not determine PR diff, checking all changesets in directory',
   );
   if (!existsSync(CHANGESET_DIR)) {
     return [];
   }
   return readdirSync(CHANGESET_DIR).filter(
-    (file) =>
-      file.endsWith('.md') && file !== 'README.md' && file !== 'config.json'
+    (file) => file.endsWith('.md') && file !== 'README.md' && file !== 'config.json',
   );
 }
 
@@ -156,7 +165,8 @@ function getAddedChangesetFiles() {
     }
   }
 
-  // Fallback to checking all changesets
+  if (process.env.GITHUB_EVENT_NAME === 'pull_request' || baseSha || headSha || prBase)
+    throw Error('Cannot verify the PR diff; changeset validation is incomplete');
   return getAllChangesets();
 }
 
@@ -167,45 +177,7 @@ function getAddedChangesetFiles() {
  */
 function validateChangesetFile(filePath) {
   try {
-    const content = readFileSync(filePath, 'utf-8');
-
-    // Check if changeset has a valid type (major, minor, or patch)
-    const versionTypeRegex = new RegExp(
-      `^['"]${PACKAGE_NAME.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}['"]:\\s+(major|minor|patch)`,
-      'm'
-    );
-    const versionTypeMatch = content.match(versionTypeRegex);
-
-    if (!versionTypeMatch) {
-      return {
-        valid: false,
-        error: `Changeset must specify a version type: major, minor, or patch\nExpected format:\n---\n'${PACKAGE_NAME}': patch\n---\n\nYour description here`,
-      };
-    }
-
-    // Extract description (everything after the closing ---) and check it's not empty
-    const parts = content.split('---');
-    if (parts.length < 3) {
-      return {
-        valid: false,
-        error:
-          "Changeset must include a description of the changes (after the closing '---')",
-      };
-    }
-
-    const description = parts.slice(2).join('---').trim();
-    if (!description) {
-      return {
-        valid: false,
-        error: 'Changeset must include a non-empty description of the changes',
-      };
-    }
-
-    return {
-      valid: true,
-      type: versionTypeMatch[1],
-      description,
-    };
+    return { valid: true, ...parseChangesetFile(filePath, PACKAGE_NAME) };
   } catch (error) {
     return {
       valid: false,
@@ -215,6 +187,10 @@ function validateChangesetFile(filePath) {
 }
 
 try {
+  if (process.env.PR_AUTHOR === 'dependabot[bot]') {
+    console.log('Skipping: PR opened by dependabot[bot]');
+    process.exit(0);
+  }
   console.log('Validating changesets added by this PR...');
 
   // Get changeset files added in this PR
@@ -230,21 +206,21 @@ try {
   // Ensure exactly one changeset file was added
   if (changesetCount === 0) {
     console.error(
-      `::error::No changeset found in this PR. Please add a changeset file in ${CHANGESET_DIR}/ directory.`
+      `::error::No changeset found in this PR. Please add a changeset file in ${CHANGESET_DIR}/ directory.`,
     );
     console.error(
-      `\nTo create a changeset, add a file like ${CHANGESET_DIR}/my-change.md with:`
+      `\nTo create a changeset, add a file like ${CHANGESET_DIR}/my-change.md with:`,
     );
     console.error(`---\n'${PACKAGE_NAME}': patch\n---\n\nDescription of your changes`);
     process.exit(1);
   } else if (changesetCount > 1) {
     console.error(
-      `::error::Multiple changesets found in this PR (${changesetCount}). Each PR should add exactly ONE changeset.`
+      `::error::Multiple changesets found in this PR (${changesetCount}). Each PR should add exactly ONE changeset.`,
     );
     console.error('::error::Found changeset files added by this PR:');
     addedChangesetFiles.forEach((file) => console.error(`  ${file}`));
     console.error(
-      '\n::error::Please combine these into a single changeset or remove the extras.'
+      '\n::error::Please combine these into a single changeset or remove the extras.',
     );
     process.exit(1);
   }
@@ -264,6 +240,12 @@ try {
       console.error('(could not read file)');
     }
     process.exit(1);
+  }
+
+  for (const file of readdirSync(CHANGESET_DIR).filter(
+    (f) => f.endsWith('.md') && f !== 'README.md',
+  )) {
+    parseChangesetFile(join(CHANGESET_DIR, file), PACKAGE_NAME);
   }
 
   console.log('Changeset validation passed');

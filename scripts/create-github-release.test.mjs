@@ -1,10 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import {
-  mkdirSync,
-  mkdtempSync,
-  rmSync,
-  writeFileSync,
-} from 'node:fs';
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
@@ -55,7 +50,7 @@ describe('create-github-release helpers', () => {
     expect(normalizeReleaseVersion('csharp_v1.2.3')).toBe('1.2.3');
     expect(normalizeReleaseVersion('v1.2.3')).toBe('1.2.3');
     expect(normalizeReleaseVersion('1.2.3-beta.1+build.7')).toBe(
-      '1.2.3-beta.1+build.7'
+      '1.2.3-beta.1+build.7',
     );
   });
 
@@ -69,12 +64,12 @@ describe('create-github-release helpers', () => {
     const notes = appendNuGetBadgeIfMissing(
       '- Fix release title',
       'MyPackage',
-      '1.2.3'
+      '1.2.3',
     );
 
     expect(notes).toContain('- Fix release title');
     expect(notes).toContain(
-      '[![NuGet](https://img.shields.io/badge/NuGet-1.2.3-004880?logo=nuget)]'
+      '[![NuGet](https://img.shields.io/badge/NuGet-1.2.3-004880?logo=nuget)]',
     );
     expect(notes).toContain('https://www.nuget.org/packages/MyPackage/1.2.3');
   });
@@ -82,7 +77,8 @@ describe('create-github-release helpers', () => {
   test('does not append a second badge when release notes already contain shields.io', () => {
     const notes = appendNuGetBadgeIfMissing(
       `${buildNuGetBadge('MyPackage', '1.2.3')}\n\n- Existing badge`,
-      'MyPackage'
+      'MyPackage',
+      '1.2.3',
     );
 
     expect(notes.match(/img\.shields\.io/g)).toHaveLength(1);
@@ -96,10 +92,11 @@ describe('create-github-release helpers', () => {
         language: 'C#',
         packageId: 'MyPackage',
         releaseVersion: '1.2.3',
-      })
+      }),
     );
 
     expect(payload).toEqual({
+      draft: true,
       tag_name: 'cs_v1.2.3',
       name: '[C#] 1.2.3',
       body:
@@ -119,16 +116,16 @@ describe('create-github-release helpers', () => {
         packageId: 'MyPackage',
         releaseVersion: '1.2.3',
         repository: 'owner/repo',
-      })
+      }),
     );
 
     expect(getUtf8ByteLength(payload.body)).toBeLessThanOrEqual(
-      GITHUB_RELEASE_BODY_MAX_BYTES
+      GITHUB_RELEASE_BODY_MAX_BYTES,
     );
     expect(payload.body.startsWith('- aaa')).toBe(true);
     expect(payload.body).toContain('Release notes were shortened');
     expect(payload.body).toContain(
-      'https://github.com/owner/repo/blob/cs_v1.2.3/CHANGELOG.md'
+      'https://github.com/owner/repo/blob/cs_v1.2.3/CHANGELOG.md',
     );
   });
 
@@ -143,7 +140,7 @@ describe('create-github-release helpers', () => {
     expect(getUtf8ByteLength(limitedNotes)).toBeLessThanOrEqual(600);
     expect(limitedNotes).not.toContain('\uFFFD');
     expect(limitedNotes).toContain(
-      'https://github.com/owner/repo/blob/cs_v1.2.3/CHANGELOG.md'
+      'https://github.com/owner/repo/blob/cs_v1.2.3/CHANGELOG.md',
     );
   });
 
@@ -155,7 +152,7 @@ describe('create-github-release helpers', () => {
       });
       writeFileSync(
         path.join(projectRoot, 'src', 'Example', 'Example.csproj'),
-        '<Project><PropertyGroup><PackageId>Example.Package</PackageId></PropertyGroup></Project>'
+        '<Project><PropertyGroup><PackageId>Example.Package</PackageId></PropertyGroup></Project>',
       );
 
       expect(findPackageId(projectRoot)).toBe('Example.Package');
@@ -170,22 +167,46 @@ describe('create-github-release helpers', () => {
       mkdirSync(path.join(projectRoot, 'artifacts'), { recursive: true });
       writeFileSync(
         path.join(projectRoot, 'CHANGELOG.md'),
-        '## [1.2.3] - 2026-05-12\n\n- Attach package assets\n'
+        '## [1.2.3] - 2026-05-12\n\n- Attach package assets\n',
       );
       writeFileSync(
         path.join(projectRoot, 'artifacts', 'MyPackage.1.2.3.nupkg'),
-        'fake nupkg'
+        'fake nupkg',
       );
       writeFileSync(
         path.join(projectRoot, 'artifacts', 'MyPackage.1.2.3.snupkg'),
-        'symbols package'
+        'symbols package',
       );
 
       const calls = [];
       const stdoutMessages = [];
       const stderrMessages = [];
+      let uploaded = false;
+      let draft = true;
       const spawn = (command, args, options) => {
         calls.push({ args, command, options });
+        if (args[0] === 'release') uploaded = true;
+        if (args.includes('PATCH')) draft = false;
+        if (args[1].includes('/tags/'))
+          return {
+            status: 0,
+            stdout: JSON.stringify({
+              id: 1,
+              draft,
+              assets: uploaded
+                ? [
+                    {
+                      id: 2,
+                      name: 'MyPackage.1.2.3.nupkg',
+                      size: 10,
+                      state: 'uploaded',
+                    },
+                  ]
+                : [],
+            }),
+          };
+        if (args.includes('Accept: application/octet-stream'))
+          return { status: 0, stdout: Buffer.from('fake nupkg') };
         return { status: 0, stderr: '', stdout: '' };
       };
 
@@ -207,7 +228,7 @@ describe('create-github-release helpers', () => {
 
       expect(exitCode).toBe(0);
       expect(stderrMessages).toEqual([]);
-      expect(calls).toHaveLength(2);
+      expect(calls).toHaveLength(7);
       expect(calls[0].command).toBe('gh');
       expect(calls[0].args).toEqual([
         'api',
@@ -217,13 +238,12 @@ describe('create-github-release helpers', () => {
         '--input',
         '-',
       ]);
-      expect(calls[1].command).toBe('gh');
-      expect(calls[1].args).toEqual([
+      expect(calls[2].command).toBe('gh');
+      expect(calls[2].args).toEqual([
         'release',
         'upload',
         'v1.2.3',
         path.join(projectRoot, 'artifacts', 'MyPackage.1.2.3.nupkg'),
-        '--clobber',
         '--repo',
         'owner/repo',
       ]);
@@ -239,22 +259,33 @@ describe('create-github-release helpers', () => {
       mkdirSync(path.join(projectRoot, 'artifacts'), { recursive: true });
       writeFileSync(
         path.join(projectRoot, 'CHANGELOG.md'),
-        '## [1.2.3] - 2026-05-12\n\n- Attach package assets\n'
+        '## [1.2.3] - 2026-05-12\n\n- Attach package assets\n',
       );
       writeFileSync(
         path.join(projectRoot, 'artifacts', 'MyPackage.1.2.3.nupkg'),
-        'fake nupkg'
+        'fake nupkg',
       );
 
       const calls = [];
       const stdoutMessages = [];
       const spawn = (command, args, options) => {
         calls.push({ args, command, options });
-        if (args[0] === 'api') {
+        if (args.includes('POST'))
           return { status: 1, stderr: 'already_exists', stdout: '' };
-        }
-
-        return { status: 0, stderr: '', stdout: '' };
+        if (args[1].includes('/tags/'))
+          return {
+            status: 0,
+            stdout: JSON.stringify({
+              id: 1,
+              draft: false,
+              assets: [
+                { id: 2, name: 'MyPackage.1.2.3.nupkg', size: 10, state: 'uploaded' },
+              ],
+            }),
+          };
+        if (args.includes('Accept: application/octet-stream'))
+          return { status: 0, stdout: Buffer.from('fake nupkg') };
+        throw Error('Unexpected write on public rerun');
       };
 
       const exitCode = main({
@@ -273,11 +304,12 @@ describe('create-github-release helpers', () => {
       });
 
       expect(exitCode).toBe(0);
-      expect(calls).toHaveLength(2);
-      expect(calls[1].args[0]).toBe('release');
-      expect(calls[1].args[1]).toBe('upload');
+      expect(calls).toHaveLength(5);
+      expect(
+        calls.some((c) => c.args.includes('upload') || c.args.includes('PATCH')),
+      ).toBe(false);
       expect(stdoutMessages).toContain(
-        'GitHub release already exists: v1.2.3, reconciling assets'
+        'GitHub release already exists: v1.2.3, reconciling assets',
       );
     } finally {
       rmSync(projectRoot, { force: true, recursive: true });

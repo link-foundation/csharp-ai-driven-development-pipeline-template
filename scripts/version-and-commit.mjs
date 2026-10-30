@@ -17,6 +17,8 @@ import {
   existsSync,
   unlinkSync,
 } from 'fs';
+import { parseChangesetFile } from './parse-changeset.mjs';
+import { pushRelease } from './git-push.mjs';
 import { join, relative } from 'path';
 import { execSync, execFileSync } from 'child_process';
 import {
@@ -53,10 +55,7 @@ const csharpRootPath = layout.csharpRoot === '.' ? '.' : layout.csharpRoot;
 const detectedCsprojPath = findCsharpProjectFile(csharpRootPath, PACKAGE_NAME);
 const CSPROJ_PATH = detectedCsprojPath
   ? relative(process.cwd(), detectedCsprojPath)
-  : resolvePathInCsharpRoot(
-      layout.csharpRoot,
-      'src/MyPackage/MyPackage.csproj'
-    );
+  : resolvePathInCsharpRoot(layout.csharpRoot, 'src/MyPackage/MyPackage.csproj');
 const CHANGESET_DIR = resolvePathInCsharpRoot(layout.csharpRoot, '.changeset');
 const CHANGELOG_FILE = resolvePathInCsharpRoot(layout.csharpRoot, 'CHANGELOG.md');
 
@@ -158,7 +157,7 @@ function updateCsproj(newVersion) {
   let csproj = readFileSync(CSPROJ_PATH, 'utf-8');
   csproj = csproj.replace(
     /<Version>[^<]+<\/Version>/,
-    `<Version>${newVersion}</Version>`
+    `<Version>${newVersion}</Version>`,
   );
   writeFileSync(CSPROJ_PATH, csproj, 'utf-8');
   console.log(`Updated csproj to version ${newVersion}`);
@@ -171,11 +170,7 @@ function updateCsproj(newVersion) {
  */
 function checkTagExists(tag) {
   try {
-    execArgs(
-      'git',
-      ['rev-parse', '--verify', '--quiet', `refs/tags/${tag}`],
-      true
-    );
+    execArgs('git', ['rev-parse', '--verify', '--quiet', `refs/tags/${tag}`], true);
     return true;
   } catch {
     return false;
@@ -188,33 +183,7 @@ function checkTagExists(tag) {
  * @returns {{type: string, description: string} | null}
  */
 function parseChangeset(filePath) {
-  try {
-    const content = readFileSync(filePath, 'utf-8');
-
-    // Extract version type - support both quoted and unquoted package names
-    const versionTypeRegex = new RegExp(
-      `^['"]?${PACKAGE_NAME.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}['"]?:\\s+(major|minor|patch)`,
-      'm'
-    );
-    const versionTypeMatch = content.match(versionTypeRegex);
-
-    if (!versionTypeMatch) {
-      console.warn(`Warning: Could not parse version type from ${filePath}`);
-      return null;
-    }
-
-    // Extract description
-    const parts = content.split('---');
-    const desc = parts.length >= 3 ? parts.slice(2).join('---').trim() : '';
-
-    return {
-      type: versionTypeMatch[1],
-      description: desc,
-    };
-  } catch (error) {
-    console.warn(`Warning: Failed to parse ${filePath}: ${error.message}`);
-    return null;
-  }
+  return { ...parseChangesetFile(filePath, PACKAGE_NAME) };
 }
 
 /**
@@ -241,8 +210,7 @@ function getChangesetFiles() {
     return [];
   }
   return readdirSync(CHANGESET_DIR).filter(
-    (file) =>
-      file.endsWith('.md') && file !== 'README.md' && file !== 'config.json'
+    (file) => file.endsWith('.md') && file !== 'README.md' && file !== 'config.json',
   );
 }
 
@@ -375,7 +343,7 @@ try {
     // Instant mode: use provided bump type
     if (!bumpTypeArg || !['major', 'minor', 'patch'].includes(bumpTypeArg)) {
       console.error(
-        'Usage: bun run scripts/version-and-commit.mjs --mode instant --bump-type <major|minor|patch> [--description <desc>]'
+        'Usage: bun run scripts/version-and-commit.mjs --mode instant --bump-type <major|minor|patch> [--description <desc>]',
       );
       process.exit(1);
     }
@@ -447,8 +415,7 @@ try {
   console.log(`Created tag ${releaseTag}`);
 
   // Push changes and tag
-  exec('git push');
-  exec('git push --tags');
+  pushRelease({ tag: releaseTag, tagMessage: tagMsg });
   console.log('Pushed changes and tags');
 
   setOutput('version_committed', 'true');

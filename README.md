@@ -220,22 +220,53 @@ template's release jobs do not use a GitHub Actions environment. Then set the
 GitHub repository variable **`NUGET_USER`** to your NuGet profile username,
 not your email address.
 
-Both automatic and manual instant releases use the pinned official
-[`NuGet/login`](https://github.com/NuGet/login) action. Only these publishing
-jobs have `id-token: write`, and login runs after the package build, immediately
-before pushing. The temporary key lasts one hour. When `NUGET_USER` is set,
-an old or expired `NUGET_API_KEY` secret is ignored; a failed OIDC login stops
-the release with its policy error.
+Before enabling publication in a generated repository, replace `MyPackage` and
+`Your Name` in the project with your unique package identity and real author.
+Confirm the NuGet package owner and configure the publisher for that exact
+package, repository and `release.yml`; never register the template placeholder
+or use a broad wildcard. Release preflight rejects placeholder settings. This
+template does not have an intended public package identity configured yet.
 
-For repositories using API keys, leave `NUGET_USER` unset and configure the
-`NUGET_API_KEY` secret. Release preflight reports the authentication mode and
-checks key validity using NuGet's symbol-verification endpoints. For an
-existing package it also checks the key's owner/glob against a published
-version. Before the first publication there is no version to check, so
-preflight reports that limitation and the push enforces package scope. An
-HTTP 401/403 at publish time fails with instructions to renew the key or set
-up trusted publishing. GitHub release creation follows successful publication,
-indexing, and the package smoke test.
+Automatic, instant/manual release and preflight each attempt the SHA-pinned
+official [`NuGet/login`](https://github.com/NuGet/login) exchange independently.
+The publishing jobs request fresh one-hour keys after building. A successful
+exchange selects `trusted-publishing`, even if a stored token is invalid. If
+OIDC is unavailable or fails (including missing username or publisher policy),
+the workflow selects the deliberately configured `NUGET_API_KEY` as
+`token-fallback`; without either credential it reports `none` and fails.
+Keep an intentional fallback secret after successful OIDC publication. The
+workflow never creates, removes or rotates long-lived keys.
+
+Only actual HTTP 401/403 rejection during OIDC publication permits one fallback
+push. It first checks the exact version anonymously, preserves an already
+accepted immutable publication, and otherwise retries the identical validated
+package bytes/version once. HTTP 400 metadata errors, network errors and failed
+builds/tests/docs remain fatal. Each method and sanitized reason is logged;
+the final selected push must succeed. Keys never pass between jobs.
+
+Preflight distinguishes configuration, authentication and authorization.
+Username presence is configuration only. PackageVerify can reject a push-only
+key (including HTTP 400/403), and a derived verification key cannot prove the
+original key's package glob. Unsupported probes report unverified status;
+actual publication enforces authorization. GitHub repository reads verify
+identity/access but cannot prove protected-branch writes. GH006/GH013 failures
+require an authorized automation identity or approved flow, never weaker rules
+or a force push. Fork PR preflight is report-only and needs no publishing secrets.
+
+Before upload, the actual `.nupkg` must contain the expected identity/version,
+SPDX license, library and unchanged bundled license. Publication is followed by
+indexing, exact anonymous download/metadata validation and a consumer install,
+build and execution in a fresh home/cache without inherited credentials. New
+GitHub releases remain drafts until required assets are downloaded and their
+hashes verified. Reruns preserve existing nonempty public asset bytes and repair
+only missing/empty assets or drafts.
+
+For setup automation, package-registry-manager owns the exact NuGet publisher
+configuration; gh-manager manages generic GitHub settings and preserves caller
+fallback secrets. Use official CLI/supported APIs, inspect saved policy state,
+and use browser tooling only for web-only setup. Record the actual main run
+SHA/URL, selected method and exact public package/version after setup repair.
+A login step or green PR alone is not publication acceptance.
 
 The release workflow supports two modes:
 

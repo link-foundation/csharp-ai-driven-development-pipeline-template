@@ -1,59 +1,19 @@
 #!/usr/bin/env bun
 
+/** @type {import('./process-types.js').Fetch} */
+const request = fetch;
+
 /**
- * Prove the release can be published before any expensive job runs.
- *
- * The release jobs push to nuget.org with trusted publishing or NUGET_API_KEY and to this
- * repository with GITHUB_TOKEN. Before this preflight existed, the API key
- * was first exercised by `dotnet nuget push`, 55 capped minutes into the run,
- * and an absent key produced a green release that published nothing (a
- * version bump commit, a tag, a GitHub Release, and no package). See issues
- * #51 and #57.
- *
- * What each probe can honestly prove:
- *   - GITHUB_TOKEN push permission: GET /repos/{owner}/{repo} reports the
- *     token's permission block. push:true is a verified positive.
- *   - NUGET_USER selects trusted publishing; the OIDC policy is validated by
- *     NuGet/login immediately before publishing. Otherwise, the API key is
- *     checked via the symbol verification endpoints, including owner/glob
- *     coverage for an existing published version (issue #66).
- *   - Package visibility on nuget.org (advisory, never blocks): the
- *     flat-container index answers 200 for a published package and 404 for
- *     one whose first publish has not happened yet.
- *
- * Modes:
- *   release — push to main and workflow_dispatch: any failed probe, or a
- *             required probe that could not be verified, fails the run
- *             before the build matrix starts. Every problem is reported,
- *             not just the first.
- *   report  — pull requests (a fork legitimately has no publishing
- *             secrets): the same probes run and report, and never block.
- *
- * Usage:
- *   bun run scripts/preflight-credentials.mjs
- *
- * Environment variables:
- *   - PREFLIGHT_MODE:     'release' or 'report' (default 'report')
- *   - GITHUB_REPOSITORY:  owner/repo
- *   - GITHUB_TOKEN:       the workflow token whose push permission is probed
- *   - NUGET_USER:         repository variable selecting trusted publishing
- *   - NUGET_API_KEY:      legacy nuget.org API key to verify
- *   - CSHARP_ROOT:        optional C# root (auto-detected when unset)
- *   - GITHUB_API_URL:     override GitHub API endpoint (for tests)
- *   - NUGET_INDEX_URL:    override NuGet flat-container endpoint (for tests)
- *
- * Outputs (written to GITHUB_OUTPUT):
- *   - preflight_result: 'passed' or 'failed'
- *   - auth: 'trusted-publishing', 'api-key', or 'none'
+ * Report repository read identity, publishing configuration and credential state.
+ * Only the official OIDC exchange proves OIDC authentication. Verification keys
+ * cannot prove original-key push scope; actual protected writes and publication
+ * are fatal checks. PR report mode requires no publishing secrets.
  */
 
-import {
-  detectCsharpLayout,
-  findCsharpProjectFile,
-} from './release-naming.mjs';
+import { detectCsharpLayout, findCsharpProjectFile } from './release-naming.mjs';
 import { readCsprojInfo } from './check-release-needed.mjs';
 import { checkNugetAuthentication } from './nuget-auth.mjs';
-import { appendFileSync } from 'node:fs';
+import { appendFileSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
 const GITHUB_API = 'https://api.github.com';
@@ -77,16 +37,19 @@ export function setOutput(key, value) {
  * @param {object} input
  * @param {string} input.repository  owner/repo
  * @param {string} input.token       GITHUB_TOKEN value ('' probes anonymously)
- * @param {typeof fetch} [input.fetchImpl]
- * @returns {Promise<{status: 'ok'|'failed'|'unknown', detail: string}>}
+ * @param {import('./process-types.js').Fetch} [input.fetchImpl]
+ * @returns {Promise<{status: string, detail: string, writeCapability?: string, latestVersion?: string}>}
  */
 export async function checkGithubPushPermission({
   repository,
   token,
-  fetchImpl = fetch,
+  fetchImpl = request,
 }) {
   if (!repository) {
-    return { status: 'unknown', detail: 'GITHUB_REPOSITORY is not set; the push permission cannot be probed' };
+    return {
+      status: 'unknown',
+      detail: 'GITHUB_REPOSITORY is not set; the push permission cannot be probed',
+    };
   }
 
   const baseUrl = process.env.GITHUB_API_URL ?? GITHUB_API;
@@ -117,10 +80,10 @@ export async function checkGithubPushPermission({
       detail: `GitHub API answered ${response.status}; the push permission could not be probed`,
     };
   }
-  if (response.status === 404) {
+  if ([401, 404].includes(response.status)) {
     return {
       status: 'failed',
-      detail: `repository ${repository} is not visible to the token (HTTP 404)`,
+      detail: `repository ${repository} is not visible to the token (HTTP ${response.status})`,
     };
   }
   if (!response.ok) {
@@ -131,17 +94,19 @@ export async function checkGithubPushPermission({
   }
 
   const payload = await response.json();
-  const permissions = payload.permissions ?? {};
-  if (permissions.push === true) {
+  if (
+    typeof payload.full_name !== 'string' ||
+    payload.full_name.toLowerCase() !== repository.toLowerCase()
+  ) {
     return {
-      status: 'ok',
-      detail: 'the workflow token can push to this repository',
+      status: 'failed',
+      detail: 'GitHub repository identity did not match the requested repository.',
     };
   }
   return {
-    status: 'failed',
-    detail:
-      'the workflow token cannot push to this repository. Check Settings → Actions → General → Workflow permissions (needs "Read and write permissions").',
+    status: 'ok',
+    writeCapability: 'unverified',
+    detail: `Repository identity and read access verified. User-role permissions.push=${String(payload.permissions?.push)} does not prove installation-token or protected-branch write authorization; actual writes remain fatal.`,
   };
 }
 
@@ -152,13 +117,10 @@ export async function checkGithubPushPermission({
  *
  * @param {object} input
  * @param {string} input.packageId
- * @param {typeof fetch} [input.fetchImpl]
- * @returns {Promise<{status: 'ok'|'failed'|'unknown', detail: string}>}
+ * @param {import('./process-types.js').Fetch} [input.fetchImpl]
+ * @returns {Promise<{status: string, detail: string, writeCapability?: string, latestVersion?: string}>}
  */
-export async function checkNugetPackageVisibility({
-  packageId,
-  fetchImpl = fetch,
-}) {
+export async function checkNugetPackageVisibility({ packageId, fetchImpl = request }) {
   if (!packageId) {
     return {
       status: 'unknown',
@@ -166,7 +128,8 @@ export async function checkNugetPackageVisibility({
     };
   }
 
-  const baseUrl = process.env.NUGET_INDEX_URL ?? 'https://api.nuget.org/v3-flatcontainer';
+  const baseUrl =
+    process.env.NUGET_INDEX_URL ?? 'https://api.nuget.org/v3-flatcontainer';
   const url = `${baseUrl}/${packageId.toLowerCase()}/index.json`;
   console.log(`Fetching ${url}`);
 
@@ -198,10 +161,19 @@ export async function checkNugetPackageVisibility({
   try {
     payload = await response.json();
   } catch {
-    return { status: 'unknown', detail: 'NuGet flat-container index returned invalid JSON.' };
+    return {
+      status: 'unknown',
+      detail: 'NuGet flat-container index returned invalid JSON.',
+    };
   }
-  if (!Array.isArray(payload?.versions) || !payload.versions.every((version) => typeof version === 'string')) {
-    return { status: 'unknown', detail: 'NuGet flat-container index returned an invalid versions list.' };
+  if (
+    !Array.isArray(payload?.versions) ||
+    !payload.versions.every((version) => typeof version === 'string')
+  ) {
+    return {
+      status: 'unknown',
+      detail: 'NuGet flat-container index returned an invalid versions list.',
+    };
   }
   const versions = payload.versions;
   return {
@@ -220,7 +192,7 @@ export async function checkNugetPackageVisibility({
  *
  * @param {object} input
  * @param {'release'|'report'} input.mode
- * @param {Array<{name: string, required: boolean, status: 'ok'|'failed'|'unknown'|'skipped', detail: string}>} input.checks
+ * @param {Array<{name: string, required: boolean, status: string, detail: string}>} input.checks
  * @returns {{passed: boolean, failures: string[]}}
  */
 export function decidePreflight({ mode, checks }) {
@@ -230,7 +202,7 @@ export function decidePreflight({ mode, checks }) {
       failures.push(`${check.name}: ${check.detail}`);
     } else if (check.required && mode === 'release' && check.status !== 'ok') {
       failures.push(
-        `${check.name}: could not be verified (${check.status}) — ${check.detail}`
+        `${check.name}: could not be verified (${check.status}) — ${check.detail}`,
       );
     }
   }
@@ -264,13 +236,46 @@ export function resolvePackageId() {
   }
 }
 
-export async function main({ fetchImpl = fetch } = {}) {
-  const mode =
-    process.env.PREFLIGHT_MODE === 'release' ? 'release' : 'report';
+export function checkPublishingConfiguration() {
+  try {
+    const layout = detectCsharpLayout({ csharpRoot: process.env.CSHARP_ROOT || '' });
+    const project = findCsharpProjectFile(path.resolve(layout.csharpRoot));
+    const xml = readFileSync(project, 'utf8');
+    const { packageId } = readCsprojInfo(project);
+    const authors = xml.match(/<Authors>([^<]+)<\/Authors>/)?.[1]?.trim();
+    if (
+      !packageId ||
+      /^(MyPackage|Your[. -]?Package)$/i.test(packageId) ||
+      !authors ||
+      /Your Name/i.test(authors)
+    ) {
+      return {
+        status: 'failed',
+        detail:
+          'Publishing identity is unset or still a template placeholder. Set a unique PackageId and real Authors, confirm the NuGet owner, and configure the exact release.yml publisher policy before publishing. Never register MyPackage or a broad wildcard.',
+      };
+    }
+    return {
+      status: 'ok',
+      detail: `Explicit package identity ${packageId}; publisher ownership/policy authorization remains subject to the actual push.`,
+    };
+  } catch {
+    return {
+      status: 'failed',
+      detail:
+        'Publishing project identity could not be verified; configure PackageId and Authors before release.',
+    };
+  }
+}
+
+export async function main({
+  fetchImpl = request,
+  configurationCheck = checkPublishingConfiguration,
+} = {}) {
+  const mode = process.env.PREFLIGHT_MODE === 'release' ? 'release' : 'report';
   const repository = process.env.GITHUB_REPOSITORY || '';
   const token = process.env.GITHUB_TOKEN || '';
   const apiKey = process.env.NUGET_API_KEY || '';
-  const nugetUser = process.env.NUGET_USER || '';
   const packageId = resolvePackageId();
 
   console.log(`Preflight mode: ${mode}`);
@@ -280,14 +285,26 @@ export async function main({ fetchImpl = fetch } = {}) {
   const pushCheck = await checkGithubPushPermission({ repository, token, fetchImpl });
   const visibilityCheck = await checkNugetPackageVisibility({ packageId, fetchImpl });
   const keyCheck = await checkNugetAuthentication({
-    apiKey, nugetUser, packageId, publishedVersion: visibilityCheck.latestVersion,
-    visibilityKnown: visibilityCheck.status === 'ok', fetchImpl,
+    apiKey,
+    oidcOutcome: process.env.NUGET_OIDC_OUTCOME,
+    oidcKey: process.env.NUGET_OIDC_KEY,
+    packageId,
+    fetchImpl,
   });
   setOutput('auth', keyCheck.auth);
 
   const checks = [
-    { name: 'GITHUB_TOKEN push permission', required: true, ...pushCheck },
-    { name: 'NuGet authentication', required: true, ...keyCheck },
+    { name: 'Publishing identity', required: true, ...configurationCheck() },
+    {
+      name: 'GitHub repository access (write unverified)',
+      required: true,
+      ...pushCheck,
+    },
+    {
+      name: 'NuGet authentication',
+      required: keyCheck.status !== 'unknown' || keyCheck.auth === 'none',
+      ...keyCheck,
+    },
     { name: 'NuGet package visibility', required: false, ...visibilityCheck },
   ];
 
@@ -305,7 +322,7 @@ export async function main({ fetchImpl = fetch } = {}) {
     console.error(
       mode === 'release'
         ? `::error::release preflight failed — ${failure}`
-        : `[REPORT] ${failure}`
+        : `[REPORT] ${failure}`,
     );
   }
 
@@ -316,19 +333,19 @@ export async function main({ fetchImpl = fetch } = {}) {
     const rows = checks
       .map(
         (check) =>
-          `| ${check.name} | ${check.status} | ${check.required ? 'required' : 'advisory'} | ${check.detail} |`
+          `| ${check.name} | ${check.status} | ${check.required ? 'required' : 'advisory'} | ${check.detail} |`,
       )
       .join('\n');
     appendFileSync(
       summaryFile,
       `### Release preflight (${mode} mode)\n\n` +
-        `| Check | Result | Kind | Detail |\n|---|---|---|---|\n${rows}\n`
+        `| Check | Result | Kind | Detail |\n|---|---|---|---|\n${rows}\n`,
     );
   }
 
   if (!decision.passed) {
     console.error(
-      'Release preflight failed; no build or publish job will run. Fix the probes above and push again.'
+      'Release preflight failed; no build or publish job will run. Fix the probes above and push again.',
     );
   }
   return decision;
@@ -339,13 +356,14 @@ const entryPath = process.argv[1];
 const invokedDirectly =
   typeof entryPath === 'string' &&
   entryPath.length > 0 &&
-  (import.meta.url === `file://${entryPath}` ||
-    import.meta.url.endsWith(entryPath));
+  (import.meta.url === `file://${entryPath}` || import.meta.url.endsWith(entryPath));
 if (invokedDirectly) {
-  main().then((decision) => {
-    if (!decision.passed) process.exitCode = 1;
-  }).catch((error) => {
-    console.error('Error:', error.message);
-    process.exit(1);
-  });
+  main()
+    .then((decision) => {
+      if (!decision.passed) process.exitCode = 1;
+    })
+    .catch((error) => {
+      console.error('Error:', error.message);
+      process.exit(1);
+    });
 }

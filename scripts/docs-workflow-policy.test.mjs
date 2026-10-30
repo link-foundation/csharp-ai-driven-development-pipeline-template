@@ -23,7 +23,7 @@ function getJobBlocks(workflow) {
   let currentLines = [];
 
   for (const line of lines.slice(jobsStart + 1)) {
-    const match = /^  ([a-zA-Z0-9_-]+):\s*$/.exec(line);
+    const match = /^ {2}([a-zA-Z0-9_-]+):\s*$/.exec(line);
     if (match) {
       if (currentName) {
         blocks.set(currentName, currentLines.join('\n'));
@@ -47,12 +47,12 @@ function getJobBlocks(workflow) {
 
 function getJobCondition(jobBlock) {
   const lines = jobBlock.split('\n');
-  const ifIndex = lines.findIndex((line) => /^    if:/.test(line));
+  const ifIndex = lines.findIndex((line) => /^ {4}if:/.test(line));
   if (ifIndex === -1) {
     return '';
   }
 
-  const conditionLines = [lines[ifIndex].replace(/^    if:\s*\|?\s*/, '')];
+  const conditionLines = [lines[ifIndex].replace(/^ {4}if:\s*\|?\s*/, '')];
   for (const line of lines.slice(ifIndex + 1)) {
     if (/^ {6,}\S/.test(line) || line.trim() === '') {
       conditionLines.push(line);
@@ -66,9 +66,7 @@ function getJobCondition(jobBlock) {
 
 function getStepBlock(jobBlock, stepName) {
   const lines = jobBlock.split('\n');
-  const stepStart = lines.findIndex(
-    (line) => line.trim() === `- name: ${stepName}`
-  );
+  const stepStart = lines.findIndex((line) => line.trim() === `- name: ${stepName}`);
   if (stepStart === -1) {
     return '';
   }
@@ -101,10 +99,7 @@ describe('docs workflow policy', () => {
     const buildJob = jobBlocks.get('build');
     const deployJob = jobBlocks.get('deploy');
 
-    for (const stepName of [
-      'Configure GitHub Pages',
-      'Upload GitHub Pages artifact',
-    ]) {
+    for (const stepName of ['Configure GitHub Pages', 'Upload GitHub Pages artifact']) {
       const step = getStepBlock(buildJob, stepName);
 
       expect(step).toContain(PAGES_DEPLOYMENT_TRIGGER);

@@ -15,7 +15,7 @@ Thank you for your interest in contributing! This document provides guidelines a
 
    Install .NET 8.0 SDK from [dotnet.microsoft.com](https://dotnet.microsoft.com/download).
 
-3. **Install Bun** (for helper scripts)
+3. **Install Bun 1.4.4** (for helper scripts)
 
    ```bash
    curl -fsSL https://bun.sh/install | bash
@@ -61,8 +61,18 @@ Thank you for your interest in contributing! This document provides guidelines a
    # Check file sizes
    bun run scripts/check-file-size.mjs
 
-   # Run all checks together
-   dotnet format --verify-no-changes && dotnet build --configuration Release /warnaserror && bun run scripts/check-file-size.mjs
+   # Maintained JavaScript: pinned lint, formatting and checkJs types
+   bun install --frozen-lockfile
+   bun run check
+   bun test scripts/*.test.mjs
+
+   # Full direct/transitive dependency audits, matching CI
+   dotnet restore --locked-mode -warnaserror
+   node scripts/audit-dependencies.mjs
+   node scripts/audit-javascript.mjs
+
+   # Generated package validation and isolated local consumer
+   bash experiments/issue-82/verify-local-package.sh
    ```
 
 4. **Run tests**
@@ -317,3 +327,37 @@ Releases are triggered automatically when changesets are merged to main, or manu
 - Show empathy towards other community members
 
 Thank you for contributing!
+
+## Security and workflow verification
+
+Run the complete pinned actionlint image used by `.github/workflows/workflows.yml`:
+
+```bash
+docker run --rm -v "$PWD:/repo" -w /repo --entrypoint sh \
+  rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667 \
+  scripts/lint-workflows.sh
+```
+
+Native mode requires actionlint, ShellCheck and Pyflakes; missing integrations
+fail. Embedded and standalone known findings are tested before repository lint.
+The only schema exception is actionlint 1.7.12's obsolete `queue` diagnostic;
+workflow policy tests enforce GitHub's `queue: max` for every main writer.
+
+Security runs on PRs, main, schedules and manual dispatch. Original SARIF,
+resolved dependency coordinates and audit JSON are retained. Every finding,
+incomplete scan, provider failure or missing required job fails the final gate.
+The template has no native dependencies or Python runtime. Add ecosystem audit
+and extraction if a generated repository introduces them.
+
+C# CodeQL uses explicit `build-mode: none`: appropriate for this small library
+without generated sources. Consumers using source generators, custom build
+steps or conditional compilation must use an explicit manual CodeQL build that
+preserves those sources. JavaScript/Actions analysis covers maintained helpers
+and experiments. Keep research snapshots separate from executable maintained
+code and document narrow exceptions instead of excluding broad trees.
+
+The artifact probe uses raw digest-checked downloads and prevalidated ZIP
+extraction with Node deprecations treated as errors. To reproduce the old
+pinned extractor warning, download the pinned action's bundle and run
+`node --throw-deprecation experiments/issue-82/reproduce-artifact-buffer.mjs <dist/index.js>`.
+This finite probe is expected to fail with DEP0005.

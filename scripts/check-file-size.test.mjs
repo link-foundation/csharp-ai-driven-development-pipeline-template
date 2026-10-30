@@ -1,10 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import {
-  mkdirSync,
-  mkdtempSync,
-  rmSync,
-  writeFileSync,
-} from 'node:fs';
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
@@ -25,7 +20,7 @@ function makeRepo() {
 function writeCSharpFileWithLines(filePath, lineCount) {
   const content = Array.from(
     { length: lineCount },
-    (_, index) => `// line ${index + 1}`
+    (_, index) => `// line ${index + 1}`,
   ).join('\n');
   writeFileSync(filePath, content);
 }
@@ -56,7 +51,7 @@ describe('check-file-size thresholds', () => {
       exitCodeForResult({
         warnings: [{ file: 'src/near_limit.cs', lines: WARN_LINES + 1 }],
         violations: [],
-      })
+      }),
     ).toBe(0);
   });
 
@@ -66,7 +61,7 @@ describe('check-file-size thresholds', () => {
       exitCodeForResult({
         warnings: [],
         violations: [{ file: 'src/over_limit.cs', lines: MAX_LINES + 1 }],
-      })
+      }),
     ).toBe(1);
   });
 
@@ -75,14 +70,8 @@ describe('check-file-size thresholds', () => {
     try {
       const srcDir = path.join(repo, 'src');
       mkdirSync(srcDir, { recursive: true });
-      writeCSharpFileWithLines(
-        path.join(srcDir, 'near_limit.cs'),
-        WARN_LINES + 1
-      );
-      writeCSharpFileWithLines(
-        path.join(srcDir, 'over_limit.cs'),
-        MAX_LINES + 1
-      );
+      writeCSharpFileWithLines(path.join(srcDir, 'near_limit.cs'), WARN_LINES + 1);
+      writeCSharpFileWithLines(path.join(srcDir, 'over_limit.cs'), MAX_LINES + 1);
       writeCSharpFileWithLines(path.join(srcDir, 'small.cs'), WARN_LINES);
 
       const result = checkDirectory(repo);
@@ -110,9 +99,9 @@ describe('check-file-size thresholds', () => {
       warningAnnotation({
         file: 'src/near_limit.cs',
         lines: WARN_LINES + 1,
-      })
+      }),
     ).toBe(
-      '::warning file=src/near_limit.cs::File has 901 lines (approaching limit of 1000). Consider extracting code to keep at or below 900 lines and prevent concurrent PR merge limit violations.'
+      '::warning file=src/near_limit.cs::File has 901 lines (approaching limit of 1000). Consider extracting code to keep at or below 900 lines and prevent concurrent PR merge limit violations.',
     );
   });
 
@@ -121,10 +110,7 @@ describe('check-file-size thresholds', () => {
     try {
       const srcDir = path.join(repo, 'src');
       mkdirSync(srcDir, { recursive: true });
-      writeCSharpFileWithLines(
-        path.join(srcDir, 'near_limit.cs'),
-        WARN_LINES + 1
-      );
+      writeCSharpFileWithLines(path.join(srcDir, 'near_limit.cs'), WARN_LINES + 1);
 
       const { result, output } = captureConsoleLog(() => main(repo));
 

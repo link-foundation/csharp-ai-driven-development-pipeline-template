@@ -1,74 +1,103 @@
-/**
- * Select trusted publishing or verify the legacy API key without uploading a
- * package. NuGet's symbol verification endpoints check validity first, then
- * the package's owner and glob. Neither call publishes a package.
- */
-export const NUGET_AUTH_HINT = 'Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.';
+/** @type {import('./process-types.js').Fetch} */
+const request = fetch;
+/** Credential selection is separate from proof of package authorization. */
+export const NUGET_AUTH_HINT =
+  'Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.';
+
+export function selectNugetCredential({
+  oidcOutcome = 'skipped',
+  oidcKey = '',
+  apiKey = '',
+} = {}) {
+  if (oidcOutcome === 'success' && oidcKey)
+    return {
+      method: 'trusted-publishing',
+      key: oidcKey,
+      reason: 'Official NuGet/login exchange succeeded.',
+    };
+  const reason =
+    oidcOutcome === 'failure'
+      ? 'Official NuGet/login exchange failed; inspect its sanitized diagnostics.'
+      : 'Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy.';
+  if (apiKey) return { method: 'token-fallback', key: apiKey, reason };
+  return {
+    method: 'none',
+    key: '',
+    reason: `${reason} No NUGET_API_KEY fallback is configured. ${NUGET_AUTH_HINT}`,
+  };
+}
 
 export async function checkNugetAuthentication({
-  nugetUser = '', apiKey = '', packageId = '', publishedVersion = '',
-  visibilityKnown = true, fetchImpl = fetch,
+  oidcOutcome = 'skipped',
+  oidcKey = '',
+  apiKey = '',
+  packageId = '',
+  nugetUser: _nugetUser = '',
+  publishedVersion: _publishedVersion = '',
+  fetchImpl = request,
 } = {}) {
-  if (nugetUser.trim()) {
+  const selected = selectNugetCredential({ oidcOutcome, oidcKey, apiKey });
+  const result = {
+    auth: selected.method,
+    authenticated: 'unknown',
+    authorized: 'unknown',
+  };
+  if (selected.method === 'none')
+    return { ...result, status: 'failed', detail: selected.reason };
+  if (selected.method === 'trusted-publishing') {
     return {
-      status: 'ok', auth: 'trusted-publishing',
-      detail: 'NUGET_USER selects trusted publishing; NuGet/login will validate the repository/workflow policy and obtain a temporary key immediately before publishing.',
+      ...result,
+      status: 'ok',
+      authenticated: true,
+      detail:
+        'Official OIDC exchange authenticated the workflow. Exact package push authorization is unverified until publication.',
     };
   }
-  const auth = apiKey ? 'api-key' : 'none';
-  if (!apiKey) {
-    return { status: 'failed', auth, detail: `NUGET_API_KEY is not configured. Publishing cannot proceed; no dotnet add package can find an unpublished release. ${NUGET_AUTH_HINT}` };
-  }
-  if (!packageId) {
-    return { status: 'unknown', auth, detail: 'Package id is unresolved; API key validity and scope cannot be verified.' };
-  }
-
-  const id = encodeURIComponent(packageId);
-  const createUrl = `https://www.nuget.org/api/v2/package/create-verification-key/${id}`;
+  if (!packageId)
+    return {
+      ...result,
+      status: 'unknown',
+      detail: `${selected.reason} Package identity unresolved; cannot probe fallback.`,
+    };
   try {
-    const response = await fetchImpl(createUrl, {
-      method: 'POST', redirect: 'error',
-      headers: { 'X-NuGet-ApiKey': apiKey, 'Content-Length': '0' }, body: '',
-      signal: AbortSignal.timeout(20000),
-    });
+    const response = await fetchImpl(
+      `https://www.nuget.org/api/v2/package/create-verification-key/${encodeURIComponent(packageId)}`,
+      {
+        method: 'POST',
+        redirect: 'error',
+        headers: { 'X-NuGet-ApiKey': apiKey, 'Content-Length': '0' },
+        body: '',
+        signal: AbortSignal.timeout(20000),
+      },
+    );
     if (!response.ok) {
       await response.body?.cancel?.();
       return {
-        status: [401, 403].includes(response.status) ? 'failed' : 'unknown', auth,
-        detail: `NuGet API key verification returned HTTP ${response.status}. ${NUGET_AUTH_HINT}`,
+        ...result,
+        status: response.status === 401 ? 'failed' : 'unknown',
+        detail: `${selected.reason} Fallback verification HTTP ${response.status}. This probe may require PackageVerify scope; unsupported verification is not evidence of push rejection. ${NUGET_AUTH_HINT}`,
       };
     }
-    const { Key: verificationKey } = await response.json();
-    if (typeof verificationKey !== 'string' || !verificationKey) {
-      return { status: 'unknown', auth, detail: 'NuGet did not return a verification key.' };
-    }
-    if (!visibilityKnown) {
-      return { status: 'unknown', auth, detail: 'API key validity verified, but the package index was unavailable; package scope could not be verified.' };
-    }
-    if (!publishedVersion) {
+    const payload = await response.json();
+    if (typeof payload.Key !== 'string' || !payload.Key)
       return {
-        status: 'ok', auth,
-        detail: 'API key validity verified. Before the first publish no existing package version is available to verify owner/glob; the push will enforce that scope.',
+        ...result,
+        status: 'unknown',
+        detail:
+          'NuGet returned no verification key; authentication remains unverified.',
       };
-    }
-    const verification = await fetchImpl(
-      `https://www.nuget.org/api/v2/verifykey/${id}/${encodeURIComponent(publishedVersion)}`,
-      {
-        method: 'GET', redirect: 'error',
-        headers: { 'X-NuGet-ApiKey': verificationKey },
-        signal: AbortSignal.timeout(20000),
-      }
-    );
-    await verification.body?.cancel?.();
     return {
-      status: verification.ok ? 'ok' : [401, 403].includes(verification.status) ? 'failed' : 'unknown',
-      auth,
-      detail: verification.ok
-        ? 'API key validity and package owner/glob verified using a one-time verification key.'
-        : `NuGet package owner/glob verification returned HTTP ${verification.status}. ${NUGET_AUTH_HINT}`,
+      ...result,
+      status: 'ok',
+      authenticated: true,
+      detail: `${selected.reason} Fallback key validity checked. A derived verification key does not prove the original key package glob; publication must enforce push authorization.`,
     };
   } catch {
-    // Request errors can include headers; never log an exception holding a key.
-    return { status: 'unknown', auth, detail: 'NuGet verification request failed or timed out; API key validity/scope could not be verified.' };
+    return {
+      ...result,
+      status: 'unknown',
+      detail:
+        'Fallback verification unavailable or malformed; authentication and push authorization remain unverified.',
+    };
   }
 }

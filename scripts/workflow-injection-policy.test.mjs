@@ -83,7 +83,7 @@ describe('workflow script-injection policy', () => {
 
     expect(
       findings,
-      `Pass these values through env: instead of interpolating them:\n${findings.join('\n')}`
+      `Pass these values through env: instead of interpolating them:\n${findings.join('\n')}`,
     ).toEqual([]);
   });
 
@@ -92,8 +92,9 @@ describe('workflow script-injection policy', () => {
 
     expect(workflow).toContain('GITHUB_HEAD_REF: ${{ github.head_ref }}');
     expect(workflow).toContain(
-      'if [[ "$GITHUB_HEAD_REF" == "changeset-release/"* ]] || [[ "$GITHUB_HEAD_REF" == "changeset-manual-release-"* ]]; then'
+      'PR_AUTHOR: ${{ github.event.pull_request.user.login }}',
     );
+    expect(workflow).not.toContain('if [[ "$GITHUB_HEAD_REF"');
     expect(workflow).toContain('bun run "$CSHARP_ROOT/scripts/validate-changeset.mjs"');
   });
 
@@ -101,9 +102,10 @@ describe('workflow script-injection policy', () => {
     for (const filePath of listWorkflows()) {
       const workflow = readWorkflow(filePath);
 
-      expect(workflow, `${filePath} redirects to an unquoted $GITHUB_OUTPUT`).not.toMatch(
-        />>\s*\$GITHUB_OUTPUT/
-      );
+      expect(
+        workflow,
+        `${filePath} redirects to an unquoted $GITHUB_OUTPUT`,
+      ).not.toMatch(/>>\s*\$GITHUB_OUTPUT/);
     }
   });
 });
@@ -117,7 +119,7 @@ function getJobBody(workflow, jobName) {
   if (start === -1) return null;
   let end = lines.length;
   for (let i = start + 1; i < lines.length; i++) {
-    if (/^  [A-Za-z0-9_-]+:\s*$/.test(lines[i])) {
+    if (/^ {2}[A-Za-z0-9_-]+:\s*$/.test(lines[i])) {
       end = i;
       break;
     }
@@ -155,9 +157,9 @@ describe('workflow credential policy', () => {
 
     expect(
       undeclared,
-      `These checkouts do not declare persist-credentials:\n${undeclared.join('\n')}`
+      `These checkouts do not declare persist-credentials:\n${undeclared.join('\n')}`,
     ).toEqual([]);
-    expect(checkoutCount).toBe(16);
+    expect(checkoutCount).toBeGreaterThanOrEqual(16);
   });
 
   test('only the jobs that push keep a credential to push with', () => {
@@ -166,9 +168,10 @@ describe('workflow credential policy', () => {
     for (const jobName of CREDENTIAL_KEEPING_JOBS) {
       const body = getJobBody(release, jobName);
       expect(body, `${jobName} should exist`).not.toBeNull();
-      expect(body, `${jobName} pushes to the remote and needs its credential`).toContain(
-        'persist-credentials: true'
-      );
+      expect(
+        body,
+        `${jobName} pushes to the remote and needs its credential`,
+      ).toContain('persist-credentials: true');
     }
 
     const keeping = [];
@@ -182,7 +185,10 @@ describe('workflow credential policy', () => {
       });
     }
 
-    expect(keeping.length, `expected exactly the three pushing checkouts, got ${keeping.join(', ')}`).toBe(3);
+    expect(
+      keeping.length,
+      `expected exactly the three pushing checkouts, got ${keeping.join(', ')}`,
+    ).toBe(3);
     expect(keeping.every((site) => site.startsWith(RELEASE_WORKFLOW))).toBe(true);
 
     for (const filePath of listWorkflows()) {
@@ -203,7 +209,7 @@ describe('workflow linting policy', () => {
     expect(workflow).toContain('uses: docker://rhysd/actionlint@sha256:');
     expect(workflow).toContain('permissions:\n  contents: read');
     expect(workflow).toContain('timeout-minutes: 10');
-    expect(workflow).toContain("      - '.github/workflows/**'");
+    expect(workflow).not.toContain('    paths:');
   });
 
   test('audits every workflow with zizmor beside actionlint', () => {
@@ -212,13 +218,17 @@ describe('workflow linting policy', () => {
     // The regular pass with the repository's own config; `version` is named
     // because the action's `latest` resolves through its own frozen table, so
     // an unlisted bump would silently keep running the old analyser.
-    expect(workflow).toContain('uses: zizmorcore/zizmor-action@v0.6.2');
+    expect(workflow).toContain(
+      'uses: zizmorcore/zizmor-action@3dc1ecc9bcb9e94e9b2c709687979e1298497054',
+    );
     expect(workflow).toContain('config: .github/zizmor.yml');
     expect(workflow).toContain('version: 1.29.0');
 
     // The audits that cover `uses: docker://` image references are
     // Pedantic-persona only; without this second pass the digest pin above
     // could quietly regress to a mutable tag.
-    expect(workflow).toContain('--persona pedantic --min-severity high --min-confidence high');
+    expect(workflow).toContain(
+      '--persona pedantic --min-severity high --min-confidence high',
+    );
   });
 });

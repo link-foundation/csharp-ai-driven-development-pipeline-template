@@ -22,7 +22,7 @@ function createDotnetRunner({ failedAddsBeforeSuccess = 0 } = {}) {
   return {
     calls,
     run: (command, args, options) => {
-      calls.push({ args, command, cwd: options.cwd });
+      calls.push({ args, command, cwd: options.cwd, env: options.env });
 
       if (command !== 'dotnet') {
         return {
@@ -56,7 +56,7 @@ describe('smoke-test-nuget-package parseArgs()', () => {
   test('defaults to a NuGet consumer smoke test for MyPackage', () => {
     const config = parseArgs(
       ['--package-id', 'MyPackage', '--release-version', '1.2.3'],
-      {}
+      {},
     );
 
     expect(config.packageId).toBe('MyPackage');
@@ -86,7 +86,7 @@ describe('smoke-test-nuget-package parseArgs()', () => {
       ],
       {
         NUGET_SMOKE_SOURCE: 'https://example.invalid/v3/index.json',
-      }
+      },
     );
 
     expect(config).toEqual({
@@ -124,6 +124,7 @@ describe('smoke-test-nuget-package smokeTestNugetPackage()', () => {
 
     try {
       await smokeTestNugetPackage({
+        verifyDownloadedPackage: async () => 'test-digest',
         config: {
           framework: 'net8.0',
           libraryNamespace: 'MyPackage',
@@ -149,6 +150,13 @@ describe('smoke-test-nuget-package smokeTestNugetPackage()', () => {
         'run',
       ]);
       expect(sleeps).toEqual([7]);
+      for (const call of runner.calls) {
+        expect(call.env.NUGET_PACKAGES).toStartWith(tempDir);
+        expect(call.env.NUGET_API_KEY).toBeUndefined();
+        expect(call.env.GITHUB_TOKEN).toBeUndefined();
+        expect(call.env.NUGET_PLUGIN_PATHS).toBeUndefined();
+        expect(call.env.HOME).toBe(path.join(tempDir, 'home'));
+      }
     } finally {
       rmSync(tempDir, { force: true, recursive: true });
     }
@@ -161,6 +169,7 @@ describe('smoke-test-nuget-package smokeTestNugetPackage()', () => {
     try {
       await expect(
         smokeTestNugetPackage({
+          verifyDownloadedPackage: async () => 'test-digest',
           config: {
             framework: 'net8.0',
             libraryNamespace: 'MyPackage',
@@ -174,14 +183,10 @@ describe('smoke-test-nuget-package smokeTestNugetPackage()', () => {
           runCommand: runner.run,
           sleepFn: async () => {},
           stdout: () => {},
-        })
+        }),
       ).rejects.toThrow(/Unable to install MyPackage@1.2.3/);
 
-      expect(runner.calls.map((call) => call.args[0])).toEqual([
-        'new',
-        'add',
-        'add',
-      ]);
+      expect(runner.calls.map((call) => call.args[0])).toEqual(['new', 'add', 'add']);
     } finally {
       rmSync(tempDir, { force: true, recursive: true });
     }
