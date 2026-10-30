@@ -53,4 +53,22 @@ describe('security workflow policy', () => {
     expect(workflow).toContain('timeout-minutes: 10');
     expect(workflow).toContain('cancel-in-progress: true');
   });
+
+  test('downloads the actual filename registered by an unarchived upload', () => {
+    const workflow = readWorkflow();
+    const upload = workflow
+      .split('  artifact-upload:')[1]
+      .split('  artifact-download:')[0];
+    const download = workflow
+      .split('  artifact-download:')[1]
+      .split('  security-status:')[0];
+    // upload-artifact v7 ignores name when archive:false and registers the basename.
+    const uploadedFile = upload.match(/path: (\S+)\s+archive: false/)[1];
+    const downloadedName = download.match(/with:\s+name: (\S+)/)[1];
+    expect(downloadedName).toBe(uploadedFile.split('/').at(-1));
+    expect(download).toContain('skip-decompress: true');
+    expect(download).toContain('digest-mismatch: error');
+    expect(download).toContain('sha256sum --check');
+    expect(download).toContain('node --throw-deprecation scripts/zip-archive.mjs');
+  });
 });

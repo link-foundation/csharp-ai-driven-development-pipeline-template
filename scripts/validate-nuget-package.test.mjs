@@ -1,9 +1,12 @@
-import { test, expect } from 'bun:test';
+import { test, expect, setDefaultTimeout } from 'bun:test';
 import { mkdtempSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { makeZip } from '../experiments/issue-82/zip-fixture.mjs';
 import { validatePackage } from './validate-nuget-package.mjs';
+// Cold Roslyn inline-task compilation can exceed Bun's five-second default.
+// Bun 1.4.4 ignores test.timeout in bunfig; set a finite limit for this file.
+setDefaultTimeout(30000);
 const spec =
   '<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd"><metadata><id>Example.Package</id><version>1.2.3</version><authors>Example Owner</authors><description>Example library</description><license type="expression">Unlicense</license></metadata></package>';
 function fixture(xml, license, run) {

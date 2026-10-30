@@ -44,6 +44,9 @@ Base: `4cc372ebf2075a0c948b46881143f7d66f0f0e7e`.
 - [Artifact v8 behavior](https://github.com/actions/download-artifact/releases/tag/v8.0.0)
   verifies digests by default and supports raw download. Review actual pinned source
   before selecting extraction; never suppress runtime deprecation warnings.
+- [Pinned upload-artifact v7 inputs](https://github.com/actions/upload-artifact/blob/cf430e030ddbb5b0abf93d22962f4752f3646cd9/README.md#inputs)
+  specify that `archive: false` ignores `name` and registers the original filename.
+  The download probe must request `probe.zip` explicitly.
 - Existing repository Bun tests, retry helpers, release recovery, consumer smoke
   helper and workflow policy tests are the starting point. No application runtime
   dependency is needed for the small JS fixes. Use pinned ESLint recommended rules, Prettier and TypeScript checkJs for all
@@ -59,7 +62,7 @@ Base: `4cc372ebf2075a0c948b46881143f7d66f0f0e7e`.
 - [x] Add failing reproductions before fixes; save experiment scripts under experiments/.
 - [x] Implement script and workflow fixes in independently useful commits.
 - [x] Run local helper, format, build, C# test, audit and lint checks sequentially under memory limit.
-- [ ] Push only prepared branch; update PR with full evidence and closing references.
+- [x] Push only prepared branch; update PR with full evidence and closing references.
 - [ ] Download nonpassing CI logs under ci-logs/, inspect errors with line numbers,
       fix causes, and verify latest SHA and terminal gates.
 - [ ] Review complete PR diff, feedback, current main ancestry and clean working tree.
@@ -76,7 +79,8 @@ cases, and conflicting ZIP local-header metadata). Experiment sources are in
 - `bun install --frozen-lockfile` and `bun run check`: pass. Exact pinned
   ESLint recommended rules, Prettier and TypeScript checkJs cover maintained
   helpers/tests/experiments; no source-wide suppression.
-- `bun test scripts/*.test.mjs`: 295 pass, zero failures.
+- `GITHUB_EVENT_NAME=pull_request bun test scripts/*.test.mjs`: 296 pass,
+  zero failures, including the hosted-environment and artifact-name regressions.
 - `bash experiments/issue-82/verify-local-package.sh`: locked restore,
   Release build with warnings fatal, 21 C# tests, pack, actual metadata/license
   validation, fresh isolated consumer install/build/execute all pass.
@@ -98,3 +102,23 @@ not the blocked real package identity, publisher policy or main publication
 acceptance in #80. Required new main SHA/run URL, selected credential method,
 public exact package/version consumer, GitHub release and configured docs
 verification remain unfinished until that external setup is supplied.
+
+## First hosted run investigation
+
+All five runs were created at 2026-10-30 01:34:47 UTC for commit
+`550059b09681b6306bb4d94abb262b105d126d1d`. Workflow lint, docs and links
+passed. All three CodeQL languages passed the strict SARIF gate; dependency
+review, full NuGet audit and all three C# platforms passed. The security and
+pipeline terminal gates correctly rejected these failures:
+
+| Evidence | Root cause | Reproduction and correction |
+| --- | --- | --- |
+| [Helper log](../ci-logs/helper-checks-40986681017.log), lines 492–529; [lint log](../ci-logs/lint-40986680962.log), lines 591–629 | Two local changeset fixtures inherited hosted `GITHUB_EVENT_NAME=pull_request`, so the strict validator refused their unverified PR diff. | Running the fixture with that event reproduced two failures. Set explicit local fixture context; actual PR validation remains strict. |
+| Helper log, lines 766–806 | Cold Roslyn metadata compilation crossed Bun's 5-second default. Bun 1.4.4 silently ignored `[test] timeout` in bunfig. | Retained finite `experiments/issue-82/reproduce-bun-timeout.mjs` proves the ignored setting and the supported explicit timeout. Remove the ineffective config; set a bounded 30-second default only in the metadata-test file. |
+| [Upload log](../ci-logs/artifact-upload-40986681017.log), lines 177–185; [download log](../ci-logs/artifact-download-40986681017.log), line 168 | Raw upload registered `probe.zip`; download requested the ignored custom name `integrity-probe`. | New policy regression fails before correction and passes after matching the actual filename. Raw download, fatal deprecations, digest verification and safe extraction remain required. |
+
+Full failed-run logs were also downloaded to `ci-logs/security-40986681017.log`
+and `ci-logs/pipeline-40986680962.log` locally; the focused job logs above are
+committed for review. Run URLs:
+[Security](https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/actions/runs/40986681017),
+[CI/CD](https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/actions/runs/40986680962).

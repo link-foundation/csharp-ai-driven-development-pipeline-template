@@ -117,7 +117,15 @@ function expectBracketed(output, payload) {
 function runScript(scriptPath, cwd, env = {}) {
   return spawnSync('bun', ['run', scriptPath], {
     cwd,
-    env: { ...process.env, GITHUB_ACTIONS: 'true', ...env },
+    env: {
+      ...process.env,
+      GITHUB_ACTIONS: 'true',
+      GITHUB_EVENT_NAME: 'local',
+      PR_AUTHOR: 'fixture-author',
+      BASE_SHA: '',
+      HEAD_SHA: '',
+      ...env,
+    },
     encoding: 'utf-8',
   });
 }

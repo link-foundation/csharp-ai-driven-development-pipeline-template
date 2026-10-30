@@ -141,7 +141,8 @@ jobs:
         env:
           NODE_OPTIONS: --throw-deprecation
         with:
-          name: integrity-probe
+          # archive:false registers the original filename, ignoring name.
+          name: probe.zip
           path: probe.zip
           archive: false
           if-no-files-found: error
@@ -159,7 +160,7 @@ jobs:
         env:
           NODE_OPTIONS: --throw-deprecation
         with:
-          name: integrity-probe
+          name: probe.zip
           path: downloaded
           skip-decompress: true
           digest-mismatch: error

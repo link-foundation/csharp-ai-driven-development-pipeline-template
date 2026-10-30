@@ -20,7 +20,6 @@ describe('broken-link workflow policy', () => {
     });
     expect(config.accept).toBeUndefined();
     /** @type {Record<string, any>} */
-    /** @type {Record<string, any>} */
     const workflow = Bun.YAML.parse(readWorkflow());
     for (const event of ['push', 'pull_request']) {
       expect(workflow.on[event].paths).toContain('lychee.toml');
