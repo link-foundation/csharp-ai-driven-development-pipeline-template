@@ -17,7 +17,7 @@ Base: `4cc372ebf2075a0c948b46881143f7d66f0f0e7e`.
 | #76 | Shared bounded retry for network errors, 429, 5xx; exponential backoff and per-request deadline; 404 remains immediate; retain network cause and attempt count. | Both registry probes: recovery, exhaustion, 404, 429/5xx, permanent errors. |
 | #77 | Retry Wayback network/timeout/429/5xx/unreadable responses. Separate confirmed absence from failed/unknown lookup, with rerun guidance and false `all_archived`. Update terminal link messages consistently. | Snapshot recovery, definite absence, permanent HTTP errors, malformed answers, exhausted lookups and CLI annotations. |
 | #78 | Both changeset consumers reject any invalid file before mutation, deletion, commit or push. Validate modified pending changesets too; use one strict parser. | Mixed valid/invalid files retain all bytes, version, changelog, refs and tags in bare-remote regression; valid merge/bump still works. |
-| #80 authentication | Official pinned NuGet/login first in each trusted preflight/publishing job; fresh keys near use; tolerate only login attempt failure. Explicit method/outcome selects temporary key, then deliberate stored `NUGET_API_KEY` fallback. Username alone proves configuration only. Preserve separate authenticated/authorized/unknown states; PackageVerify HTTP 400 and derived keys cannot prove original push scope. Report sanitized reasons; no keys cross jobs. | OIDC success without fallback or with invalid unused fallback; unavailable/failed OIDC with valid fallback; both fail; missing username/policy/expired temporary key; realistic verify limitations; fork/report mode; both release paths. |
+| #80 authentication | Official pinned NuGet/login first in each trusted preflight/publishing job; lint and test must wait for preflight before expensive work; fresh keys near use; tolerate only login attempt failure. Explicit method/outcome selects temporary key, then deliberate stored `NUGET_API_KEY` fallback. Username alone proves configuration only. Preserve separate authenticated/authorized/unknown states; PackageVerify HTTP 400 and derived keys cannot prove original push scope. Report sanitized reasons; no keys cross jobs. | OIDC success without fallback or with invalid unused fallback; unavailable/failed OIDC with valid fallback; both fail; missing username/policy/expired temporary key; realistic verify limitations; fork/report mode; both release paths and preflight dependency ordering. |
 | #80 publication | At most one same-artifact fallback on real push HTTP 401/403, after anonymous exact-version lookup. HTTP 400, transport/build/test/docs failures stay fatal. Validate actual nupkg identity/version/SPDX/license bytes; test release-built package before publishing. Preserve indexing and anonymous install/execute. Preserve existing nonempty public assets; repair missing/empty/draft assets only; verify required release assets. Never promote after failed publication/consumer checks. | Authentication classification and duplicate-safe retry tests; generated package fixtures; public rerun byte preservation; protected writes; failed-publication gates. Live template/generated main run with SHA/URL, method, exact identity/version and anonymous consumer evidence remains required. |
 | #80 setup | Document actual profile, exact package/owner/repository/workflow policy, official tools, fallback preservation, no wildcard/placeholder registration or automatic key rotation. Management-tool issues are references, not new product scope here. | Configuration validation and setup documentation. **External blocker:** template identity is `MyPackage` / `Your Name`; #80 explicitly forbids registering that placeholder against unrelated public packages. No intended real package/owner is supplied. Do not manufacture live publication evidence. |
 | #81 scan verdict | Retain original SARIF; fatal gate rejects all findings (including notes), failed/warning diagnostics, missing/empty/malformed reports/runs/results/invocations and unknown execution. Empty result list is valid only for a complete successful scan. | Clean/finding/incomplete/malformed fixture matrix and terminal required gate. |
@@ -63,9 +63,9 @@ Base: `4cc372ebf2075a0c948b46881143f7d66f0f0e7e`.
 - [x] Implement script and workflow fixes in independently useful commits.
 - [x] Run local helper, format, build, C# test, audit and lint checks sequentially under memory limit.
 - [x] Push only prepared branch; update PR with full evidence and closing references.
-- [ ] Download nonpassing CI logs under ci-logs/, inspect errors with line numbers,
+- [x] Download nonpassing CI logs under ci-logs/, inspect errors with line numbers,
       fix causes, and verify latest SHA and terminal gates.
-- [ ] Review complete PR diff, feedback, current main ancestry and clean working tree.
+- [x] Review complete PR diff, feedback, current main ancestry and clean working tree.
 - [ ] Mark PR ready; record externally blocked live-publication acceptance honestly.
 
 ## Local verification record
@@ -94,7 +94,7 @@ cases, and conflicting ZIP local-header metadata). Experiment sources are in
 - Pinned download-artifact v8 still contains `MatcherStream`'s deprecated
   `new Buffer('')`. The finite retained experiment fails with DEP0005 under
   `--throw-deprecation`; the workflow uses raw verified download plus safe
-  extraction instead. The actual hosted round trip still requires CI evidence.
+  extraction instead. The actual hosted round trip passed; see evidence below.
 
 The local package is the unpublished **template test fixture** `MyPackage`
 0.3.16. It is never uploaded publicly. This proves package/consumer code locally,
@@ -122,3 +122,35 @@ and `ci-logs/pipeline-40986680962.log` locally; the focused job logs above are
 committed for review. Run URLs:
 [Security](https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/actions/runs/40986681017),
 [CI/CD](https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/actions/runs/40986680962).
+
+## Hosted verification after corrections
+
+All five workflows passed for head `d0fd6b8e4a1d281214da6b869150da0b58ce9e3a`,
+created 2026-10-30 01:47:49 UTC:
+[CI/CD](https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/actions/runs/40987944970),
+[Security](https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/actions/runs/40987944930),
+[Workflows](https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/actions/runs/40987944981),
+[docs](https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/actions/runs/40987944815),
+[links](https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/actions/runs/40987944912).
+This includes both required terminal gates, all three CodeQL languages, all
+three C# platforms, 296 helper tests, full dependency audits, real local pack
+and isolated consumer checks, and the real artifact upload/download probe.
+
+The PR merge ref tested was `180c6c50f1e246d84ef338dd9f9ae251793fcb70`.
+Artifact ID `12947673186` contains 141 raw ZIP bytes, SHA-256
+`9fa07d16b5fea13271a1b6e16a40c25c902b5d51245c0598eaef68d9574b225b`;
+the extracted text is SHA-256
+`8b98ff7e12ce2772da378acf1b6c21f885e982471cf06a0d2733908b620e5911`.
+The retained `artifact-integrity-180c6c50f1e246d84ef338dd9f9ae251793fcb70`
+artifact records both hashes, run URL and merge SHA. Upload and download use
+`NODE_OPTIONS=--throw-deprecation`; extraction additionally passes
+`node --throw-deprecation`. No deprecation suppression is used.
+
+Final review added a failing workflow regression for preflight ordering:
+lint and matrix tests previously ran independently of preflight. Both now
+require its successful verdict before expensive work. Their manual-dispatch
+status conditions still handle the deliberately skipped change detector.
+This final change passes local helper/quality/actionlint/zizmor checks;
+latest-head hosted results and final PR readiness are recorded in PR #83.
+Only GitHub's automated code-scanning setup notice was added during review;
+there are no inline review requests or human review changes to resolve.

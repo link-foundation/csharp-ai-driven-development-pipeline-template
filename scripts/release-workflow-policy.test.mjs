@@ -135,7 +135,6 @@ function getStepBlock(jobBlock, stepName) {
 describe('release workflow policy', () => {
   test('both publishers request OIDC just before push and explicitly select bounded fallback after login failure', () => {
     /** @type {Record<string, any>} */
-    /** @type {Record<string, any>} */
     const workflow = Bun.YAML.parse(readWorkflow(RELEASE_WORKFLOW));
     expect(workflow.jobs['release-preflight'].steps.at(-1).env.NUGET_USER).toBe(
       '${{ vars.NUGET_USER }}',
@@ -170,7 +169,6 @@ describe('release workflow policy', () => {
     }
   });
   test('queues every writer independently from readers', () => {
-    /** @type {Record<string, any>} */
     /** @type {Record<string, any>} */
     const workflow = Bun.YAML.parse(readWorkflow(RELEASE_WORKFLOW));
     expect(workflow.concurrency).toBeUndefined();
@@ -229,9 +227,10 @@ describe('release workflow policy', () => {
       const job = jobBlocks.get(jobName);
       const condition = getJobCondition(job);
 
-      expect(job).toContain('needs: [detect-changes]');
+      expect(job).toContain('needs: [detect-changes, release-preflight]');
       expect(condition).toContain('always()');
       expect(condition).toContain('!cancelled()');
+      expect(condition).toContain("needs.release-preflight.result == 'success'");
       expect(condition).toContain("github.event_name == 'workflow_dispatch'");
       expect(condition).toContain(
         "needs.detect-changes.outputs.any-code-changed == 'true'",
