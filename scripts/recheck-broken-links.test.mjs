@@ -22,10 +22,7 @@ import {
 } from './recheck-broken-links.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
-const report = readFileSync(
-  join(here, 'fixtures', 'lychee-report.md'),
-  'utf-8'
-);
+const report = readFileSync(join(here, 'fixtures', 'lychee-report.md'), 'utf-8');
 
 // Builds a fetch stub from a resolver: per call it receives (url, callNumber)
 // and returns a status number, or throws when handed an Error.
@@ -87,13 +84,9 @@ describe('lychee failure classification', () => {
       '* [UNKNOWN] <https://dns.example/> (at 4:1) | DNS resolution error',
     ].join('\n');
 
-    const { final, unanswered } = classifyFailures(
-      parseLycheeFailures(synthetic)
-    );
+    const { final, unanswered } = classifyFailures(parseLycheeFailures(synthetic));
 
-    expect(final.map((failure) => failure.url)).toEqual([
-      'https://gone.example/',
-    ]);
+    expect(final.map((failure) => failure.url)).toEqual(['https://gone.example/']);
     expect(unanswered.map((failure) => failure.url)).toEqual([
       'https://reset.example/',
       'https://slow.example/',
@@ -115,11 +108,17 @@ describe('lychee failure classification', () => {
   test('429 and every 5xx are retryable while client failures remain final', () => {
     const statuses = [401, 403, 404, 410, 429, 500, 502, 503, 504, 599];
     const failures = statuses.map((status) => ({
-      marker: String(status), url: `https://example.com/${status}`, detail: '',
+      marker: String(status),
+      url: `https://example.com/${status}`,
+      detail: '',
     }));
     const { final, unanswered } = classifyFailures(failures);
-    expect(final.map((failure) => Number(failure.marker))).toEqual([401, 403, 404, 410]);
-    expect(unanswered.map((failure) => Number(failure.marker))).toEqual([429, 500, 502, 503, 504, 599]);
+    expect(final.map((failure) => Number(failure.marker))).toEqual([
+      401, 403, 404, 410,
+    ]);
+    expect(unanswered.map((failure) => Number(failure.marker))).toEqual([
+      429, 500, 502, 503, 504, 599,
+    ]);
   });
 
   test('a non-http failure is final without being re-asked', () => {
@@ -127,9 +126,7 @@ describe('lychee failure classification', () => {
       '## Errors per input\n\n' +
       '* [ERROR] <file:///repo/missing.yml> (at 1:1) | File not found\n';
 
-    const { final, unanswered } = classifyFailures(
-      parseLycheeFailures(synthetic)
-    );
+    const { final, unanswered } = classifyFailures(parseLycheeFailures(synthetic));
 
     expect(final).toHaveLength(1);
     expect(unanswered).toEqual([]);
@@ -266,11 +263,22 @@ describe('recheckAll', () => {
         counts.set(url, count);
         return url.endsWith('/gone') ? 404 : count < 3 ? status : 200;
       });
-      const results = await recheckAll(['https://example.com/flaky', 'https://example.com/gone'], {
-        fetchImpl, waitMs: 5, sleep: async (ms) => waits.push(ms),
+      const results = await recheckAll(
+        ['https://example.com/flaky', 'https://example.com/gone'],
+        {
+          fetchImpl,
+          waitMs: 5,
+          sleep: async (ms) => waits.push(ms),
+        },
+      );
+      expect(results.get('https://example.com/flaky')).toMatchObject({
+        outcome: 'alive',
+        attempts: 3,
       });
-      expect(results.get('https://example.com/flaky')).toMatchObject({ outcome: 'alive', attempts: 3 });
-      expect(results.get('https://example.com/gone')).toMatchObject({ outcome: 'rejected', attempts: 1 });
+      expect(results.get('https://example.com/gone')).toMatchObject({
+        outcome: 'rejected',
+        attempts: 1,
+      });
       expect(calls.filter((call) => call.url.endsWith('/gone'))).toHaveLength(1);
       expect(waits).toEqual([5, 10]);
     });
@@ -278,9 +286,15 @@ describe('recheckAll', () => {
 
   test('persistent transient statuses exhaust retries without being called recovered', async () => {
     const { fetchImpl, calls } = stubFetch(() => 503);
-    const results = await recheckAll(['https://example.com/outage'], { fetchImpl, sleep: async () => {} });
+    const results = await recheckAll(['https://example.com/outage'], {
+      fetchImpl,
+      sleep: async () => {},
+    });
     expect(calls).toHaveLength(3);
-    expect(results.get('https://example.com/outage')).toMatchObject({ outcome: 'transient', attempts: 3 });
+    expect(results.get('https://example.com/outage')).toMatchObject({
+      outcome: 'transient',
+      attempts: 3,
+    });
   });
 
   test('honors Retry-After without exceeding the total wait budget', async () => {
@@ -292,8 +306,12 @@ describe('recheckAll', () => {
         calls.push(url);
         return { status: 429, headers: new Headers({ 'Retry-After': '120' }) };
       },
-      budgetMs: 1000, now: () => elapsed,
-      sleep: async (ms) => { waits.push(ms); elapsed += ms; },
+      budgetMs: 1000,
+      now: () => elapsed,
+      sleep: async (ms) => {
+        waits.push(ms);
+        elapsed += ms;
+      },
     });
     expect(calls).toHaveLength(1);
     expect(waits).toEqual([1000]);
@@ -312,7 +330,7 @@ describe('recheckAll', () => {
 
     const results = await recheckAll(
       ['https://flappy.example/', 'https://gone.example/'],
-      { fetchImpl, attempts: 4, waitMs: 1, sleep: async () => {} }
+      { fetchImpl, attempts: 4, waitMs: 1, sleep: async () => {} },
     );
 
     expect(results.get('https://flappy.example/')).toMatchObject({
@@ -324,17 +342,21 @@ describe('recheckAll', () => {
       attempts: 1,
     });
     // A rejected link is a host's answer: no second request is spent on it.
-    expect(calls.filter((call) => call.url === 'https://gone.example/')).toHaveLength(1);
-    expect(calls.filter((call) => call.url === 'https://flappy.example/')).toHaveLength(3);
+    expect(calls.filter((call) => call.url === 'https://gone.example/')).toHaveLength(
+      1,
+    );
+    expect(calls.filter((call) => call.url === 'https://flappy.example/')).toHaveLength(
+      3,
+    );
   });
 
   test('duplicate urls share one probe slot', async () => {
     const { fetchImpl, calls } = stubFetch(() => 200);
 
-    const results = await recheckAll(
-      ['https://a.example/', 'https://a.example/'],
-      { fetchImpl, sleep: async () => {} }
-    );
+    const results = await recheckAll(['https://a.example/', 'https://a.example/'], {
+      fetchImpl,
+      sleep: async () => {},
+    });
 
     expect(calls).toHaveLength(1);
     expect(results.size).toBe(1);
@@ -389,7 +411,7 @@ describe('main', () => {
         GITHUB_OUTPUT: githubOutput,
         RECOVERED_OUTPUT: join(dir, 'recovered.txt'),
       },
-      () => main()
+      () => main(),
     );
 
     const outputs = readOutputs(githubOutput);
@@ -413,11 +435,11 @@ describe('main', () => {
         '* [404] <https://gone.example/x> (at 1:1) | Rejected status code: 404 Not Found',
         '* [ERROR] <https://flappy.example/y> (at 2:1) | Network error: Connection reset by peer (os error 104)',
         '',
-      ].join('\n')
+      ].join('\n'),
     );
 
-    const { fetchImpl, calls } = stubFetch(
-      (url) => (url === 'https://flappy.example/y' ? 200 : 500)
+    const { fetchImpl, calls } = stubFetch((url) =>
+      url === 'https://flappy.example/y' ? 200 : 500,
     );
 
     await withEnv(
@@ -426,14 +448,14 @@ describe('main', () => {
         GITHUB_OUTPUT: githubOutput,
         RECOVERED_OUTPUT: recoveredOutput,
       },
-      () => main({ fetchImpl })
+      () => main({ fetchImpl }),
     );
 
     // Only the never-answered link was asked; the 404 kept its verdict and
     // still reaches the archive step, so it can never be silenced here.
     expect(calls.map((call) => call.url)).toEqual(['https://flappy.example/y']);
     expect(readFileSync(recoveredOutput, 'utf-8')).toContain(
-      'https://flappy.example/y'
+      'https://flappy.example/y',
     );
 
     const outputs = readOutputs(githubOutput);
@@ -455,7 +477,7 @@ describe('main', () => {
         '',
         '* [ERROR] <https://flappy.example/y> (at 2:1) | Network error: Connection reset by peer (os error 104)',
         '',
-      ].join('\n')
+      ].join('\n'),
     );
 
     const { fetchImpl } = stubFetch(() => 200);
@@ -466,7 +488,7 @@ describe('main', () => {
         GITHUB_OUTPUT: githubOutput,
         RECOVERED_OUTPUT: join(dir, 'recovered.txt'),
       },
-      () => main({ fetchImpl })
+      () => main({ fetchImpl }),
     );
 
     const outputs = readOutputs(githubOutput);

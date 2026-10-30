@@ -29,8 +29,8 @@ describe('lychee report parsing', () => {
   test('a report without an errors section yields nothing', () => {
     expect(
       extractErrorsSection(
-        '# Report\n\n## Redirects per input\n\n* https://example.com --[301]--> https://example.org\n'
-      )
+        '# Report\n\n## Redirects per input\n\n* https://example.com --[301]--> https://example.org\n',
+      ),
     ).toBe('');
   });
 
@@ -76,10 +76,7 @@ describe('recovered url splitting', () => {
   const urls = ['https://a.example/1', 'https://b.example/2'];
 
   test('a URL the re-check found healthy leaves the archive report', () => {
-    const { remaining, recovered } = splitRecoveredUrls(
-      urls,
-      'https://a.example/1\n'
-    );
+    const { remaining, recovered } = splitRecoveredUrls(urls, 'https://a.example/1\n');
 
     expect(remaining).toEqual(['https://b.example/2']);
     expect(recovered).toEqual(['https://a.example/1']);
@@ -88,7 +85,7 @@ describe('recovered url splitting', () => {
   test('blank lines and stray whitespace are tolerated', () => {
     const { remaining, recovered } = splitRecoveredUrls(
       urls,
-      '\n  https://b.example/2  \n\n'
+      '\n  https://b.example/2  \n\n',
     );
 
     expect(remaining).toEqual(['https://a.example/1']);

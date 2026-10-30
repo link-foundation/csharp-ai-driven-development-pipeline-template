@@ -17,10 +17,11 @@
  */
 
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { verifyAnonymousPackage } from './anonymous-package.mjs';
 
 export const DEFAULT_SOURCE = 'https://api.nuget.org/v3/index.json';
 export const DEFAULT_FRAMEWORK = 'net8.0';
@@ -67,10 +68,7 @@ export function parseArgs(argv, env = process.env) {
   const cliOptions = readCliOptions(argv);
 
   return {
-    framework:
-      cliOptions.framework ||
-      env.NUGET_SMOKE_FRAMEWORK ||
-      DEFAULT_FRAMEWORK,
+    framework: cliOptions.framework || env.NUGET_SMOKE_FRAMEWORK || DEFAULT_FRAMEWORK,
     libraryNamespace:
       cliOptions['library-namespace'] ||
       env.NUGET_SMOKE_LIBRARY_NAMESPACE ||
@@ -81,7 +79,7 @@ export function parseArgs(argv, env = process.env) {
         env.NUGET_SMOKE_MAX_ATTEMPTS ||
         env.MAX_ATTEMPTS ||
         String(DEFAULT_MAX_ATTEMPTS),
-      '--max-attempts'
+      '--max-attempts',
     ),
     packageId: cliOptions['package-id'] || env.PACKAGE_ID || '',
     releaseVersion:
@@ -95,13 +93,10 @@ export function parseArgs(argv, env = process.env) {
         env.NUGET_SMOKE_SLEEP_SECONDS ||
         env.SLEEP_SECONDS ||
         String(DEFAULT_SLEEP_SECONDS),
-      '--sleep-seconds'
+      '--sleep-seconds',
     ),
     source:
-      cliOptions.source ||
-      env.NUGET_SMOKE_SOURCE ||
-      env.NUGET_SOURCE ||
-      DEFAULT_SOURCE,
+      cliOptions.source || env.NUGET_SMOKE_SOURCE || env.NUGET_SOURCE || DEFAULT_SOURCE,
   };
 }
 
@@ -157,7 +152,7 @@ function defaultRunCommand(command, args, options = {}) {
   const result = spawnSync(command, args, {
     cwd: options.cwd,
     encoding: 'utf-8',
-    env: options.env ? { ...process.env, ...options.env } : process.env,
+    env: options.env,
     maxBuffer: 20 * 1024 * 1024,
   });
 
@@ -236,13 +231,7 @@ function runCheckedCommand({ args, command = 'dotnet', cwd, runCommand, stdout }
   return result;
 }
 
-async function installPackageWithRetries({
-  config,
-  cwd,
-  runCommand,
-  sleepFn,
-  stdout,
-}) {
+async function installPackageWithRetries({ config, cwd, runCommand, sleepFn, stdout }) {
   const args = [
     'add',
     'package',
@@ -257,7 +246,7 @@ async function installPackageWithRetries({
   for (let attempt = 1; attempt <= config.maxAttempts; attempt++) {
     stdout(
       `Installing ${config.packageId}@${config.releaseVersion} ` +
-        `(attempt ${attempt}/${config.maxAttempts})`
+        `(attempt ${attempt}/${config.maxAttempts})`,
     );
 
     const result = runCommand('dotnet', args, { cwd });
@@ -277,23 +266,65 @@ async function installPackageWithRetries({
   throw new Error(
     `Unable to install ${config.packageId}@${config.releaseVersion} ` +
       `after ${config.maxAttempts} attempt(s).\n` +
-      formatCommandFailure('dotnet', args, lastResult)
+      formatCommandFailure('dotnet', args, lastResult),
   );
 }
 
+/** @param {{config: ReturnType<typeof parseArgs>, makeTempDir?: () => string, runCommand?: typeof defaultRunCommand, sleepFn?: typeof sleep, stdout?: (message: string) => void, verifyDownloadedPackage?: typeof verifyAnonymousPackage}} options */
 export async function smokeTestNugetPackage({
   config,
   makeTempDir = () => mkdtempSync(path.join(tmpdir(), 'nuget-consumer-smoke-')),
   runCommand = defaultRunCommand,
   sleepFn = sleep,
   stdout = console.log,
-} = {}) {
+  verifyDownloadedPackage = verifyAnonymousPackage,
+}) {
   const tempDir = makeTempDir();
   stdout(`Created throwaway NuGet consumer project at ${tempDir}`);
 
   try {
+    await verifyDownloadedPackage({ config, directory: tempDir, log: stdout });
+    const source = /^https?:/i.test(config.source)
+      ? new URL(config.source).href
+      : path.resolve(config.source);
+    const escapedSource = source
+      .replaceAll('&', '&amp;')
+      .replaceAll('"', '&quot;')
+      .replaceAll('<', '&lt;');
+    writeFileSync(
+      path.join(tempDir, 'NuGet.Config'),
+      `<configuration><packageSources><clear/><add key="anonymous" value="${escapedSource}"/></packageSources></configuration>`,
+    );
+    const isolatedHome = path.join(tempDir, 'home');
+    mkdirSync(isolatedHome);
+    // Allow only runtime/OS settings: no inherited tokens, credential providers,
+    // user NuGet.Config, packages cache, MSBuild targets or plugin paths.
+    const cleanEnv = Object.fromEntries(
+      ['PATH', 'SystemRoot', 'WINDIR', 'TMP', 'TEMP', 'TMPDIR', 'DOTNET_ROOT']
+        .filter((key) => process.env[key])
+        .map((key) => [key, process.env[key]]),
+    );
+    Object.assign(cleanEnv, {
+      HOME: isolatedHome,
+      USERPROFILE: isolatedHome,
+      DOTNET_CLI_HOME: isolatedHome,
+      NUGET_PACKAGES: path.join(tempDir, 'packages'),
+      NUGET_HTTP_CACHE_PATH: path.join(tempDir, 'http-cache'),
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: '1',
+    });
+    const originalRunner = runCommand;
+    runCommand = (command, args, options = {}) =>
+      originalRunner(command, args, { ...options, env: cleanEnv });
     runCheckedCommand({
-      args: ['new', 'console', '--framework', config.framework, '--output', '.'],
+      args: [
+        'new',
+        'console',
+        '--framework',
+        config.framework,
+        '--output',
+        '.',
+        '--no-restore',
+      ],
       cwd: tempDir,
       runCommand,
       stdout,
@@ -312,7 +343,7 @@ export async function smokeTestNugetPackage({
       buildSmokeTestProgram({
         expectedVersion: getExpectedPackageInfoVersion(config.releaseVersion),
         libraryNamespace: config.libraryNamespace,
-      })
+      }),
     );
 
     runCheckedCommand({
@@ -349,7 +380,7 @@ export async function main({
     await smokeTestNugetPackage({ config, stdout });
     stdout(
       `NuGet consumer smoke test passed for ` +
-        `${config.packageId}@${config.releaseVersion}`
+        `${config.packageId}@${config.releaseVersion}`,
     );
     return 0;
   } catch (error) {
@@ -358,8 +389,8 @@ export async function main({
   }
 }
 
-const invokedDirectly = process.argv[1]
-  && fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
+const invokedDirectly =
+  process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
 
 if (invokedDirectly) {
   process.exitCode = await main();

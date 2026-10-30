@@ -31,7 +31,7 @@
  *   - any-code-changed: 'true' if any code files changed after applying the exclusion policy
  */
 
-import { execSync } from 'child_process';
+import { execFileSync } from 'child_process';
 import { appendFileSync } from 'fs';
 
 const CSHARP_ROOT = String(process.env.CSHARP_ROOT ?? '')
@@ -43,19 +43,8 @@ function prefixCsharpRoot(folder) {
   return CSHARP_ROOT && CSHARP_ROOT !== '.' ? `${CSHARP_ROOT}/${folder}` : folder;
 }
 
-/**
- * Execute a shell command and return trimmed output
- * @param {string} command - The command to execute
- * @returns {string} - The trimmed command output
- */
-function exec(command) {
-  try {
-    return execSync(command, { encoding: 'utf-8' }).trim();
-  } catch (error) {
-    console.error(`Error executing command: ${command}`);
-    console.error(error.message);
-    return '';
-  }
+function git(args) {
+  return execFileSync('git', args, { encoding: 'utf8' }).trim();
 }
 
 /**
@@ -75,42 +64,33 @@ function setOutput(name, value) {
  * Get the list of changed files between two commits
  * @returns {string[]} Array of changed file paths
  */
-function getChangedFiles() {
-  const eventName = process.env.GITHUB_EVENT_NAME || 'local';
-
-  if (eventName === 'pull_request') {
-    const baseSha = process.env.GITHUB_BASE_SHA;
-    const headSha = process.env.GITHUB_HEAD_SHA;
-
-    if (baseSha && headSha) {
-      console.log(`Comparing PR: ${baseSha}...${headSha}`);
-      try {
-        // Ensure we have the base commit
-        try {
-          execSync(`git cat-file -e ${baseSha}`, { stdio: 'ignore' });
-        } catch {
-          console.log('Base commit not available locally, attempting fetch...');
-          execSync(`git fetch origin ${baseSha}`, { stdio: 'inherit' });
-        }
-        const output = exec(`git diff --name-only ${baseSha} ${headSha}`);
-        return output ? output.split('\n').filter(Boolean) : [];
-      } catch (error) {
-        console.error(`Git diff failed: ${error.message}`);
-      }
+export function getChangedFiles() {
+  if (process.env.GITHUB_EVENT_NAME === 'pull_request') {
+    const base = process.env.GITHUB_BASE_SHA || '';
+    const head = process.env.GITHUB_HEAD_SHA || '';
+    if (![base, head].every((sha) => /^[a-f0-9]{40,64}$/i.test(sha)))
+      throw Error('Invalid or missing PR commit identity');
+    try {
+      git(['cat-file', '-e', base]);
+    } catch {
+      git(['fetch', 'origin', base]);
     }
+    return git(['diff', '--name-only', base, head, '--']).split('\n').filter(Boolean);
   }
-
-  // For push events or fallback
-  console.log('Comparing HEAD^ to HEAD');
+  // Only a genuinely absent parent permits the initial-commit path.
+  let hasParent = true;
   try {
-    const output = exec('git diff --name-only HEAD^ HEAD');
-    return output ? output.split('\n').filter(Boolean) : [];
+    git(['rev-parse', '--verify', 'HEAD^']);
   } catch {
-    // If HEAD^ doesn't exist (first commit), list all files in HEAD
-    console.log('HEAD^ not available, listing all files in HEAD');
-    const output = exec('git ls-tree --name-only -r HEAD');
-    return output ? output.split('\n').filter(Boolean) : [];
+    hasParent = false;
   }
+  return git(
+    hasParent
+      ? ['diff', '--name-only', 'HEAD^', 'HEAD', '--']
+      : ['ls-tree', '--name-only', '-r', 'HEAD'],
+  )
+    .split('\n')
+    .filter(Boolean);
 }
 
 /**
@@ -153,10 +133,9 @@ export function isExcludedFromCodeChanges(filePath) {
  * @returns {{ 'any-code-changed': string }} GitHub Actions output values
  */
 export function detectChangeOutputs(changedFiles) {
-  const includedFiles = changedFiles.filter(
-    (file) => !isExcludedFromCodeChanges(file)
-  );
-  const codePattern = /\.(cs|csproj|sln|props|mjs|json|yml|yaml|toml)$|\.github\/workflows\//;
+  const includedFiles = changedFiles.filter((file) => !isExcludedFromCodeChanges(file));
+  const codePattern =
+    /\.(cs|csproj|sln|props|mjs|js|ts|sh|json|yml|yaml|toml|lock)$|\.github\/workflows\//;
   const codeChanged = includedFiles.some((file) => codePattern.test(file));
 
   return { 'any-code-changed': codeChanged ? 'true' : 'false' };
@@ -180,7 +159,7 @@ function detectChanges() {
 
   // Apply the exclusion policy before computing every job-gating output.
   const codeChangedFiles = changedFiles.filter(
-    (file) => !isExcludedFromCodeChanges(file)
+    (file) => !isExcludedFromCodeChanges(file),
   );
 
   console.log('\nFiles considered as code changes:');

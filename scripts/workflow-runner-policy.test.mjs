@@ -25,6 +25,7 @@ function floatingRunners(workflow) {
 
 describe('workflow runner policy', () => {
   test('rejects floating runners in scalars, lists, label objects, and matrix includes', () => {
+    /** @type {Record<string, any>} */
     const workflow = Bun.YAML.parse(`
 jobs:
   scalar:
@@ -49,18 +50,28 @@ jobs:
   test('pins runners in every workflow, including multiline matrices', () => {
     const findings = readdirSync(WORKFLOW_DIR)
       .filter((name) => /\.ya?ml$/.test(name))
-      .flatMap((name) => floatingRunners(
-        Bun.YAML.parse(readFileSync(join(WORKFLOW_DIR, name), 'utf-8'))
-      ).map((finding) => `${name}: ${finding}`));
+      .flatMap((name) =>
+        floatingRunners(
+          Bun.YAML.parse(readFileSync(join(WORKFLOW_DIR, name), 'utf-8')),
+        ).map((finding) => `${name}: ${finding}`),
+      );
     expect(findings, findings.join('\n')).toEqual([]);
   });
 
   test('keeps all three pinned platforms and .NET 8 in the release matrix', () => {
-    const workflow = Bun.YAML.parse(readFileSync(join(WORKFLOW_DIR, 'release.yml'), 'utf-8'));
+    /** @type {Record<string, any>} */
+    const workflow = Bun.YAML.parse(
+      readFileSync(join(WORKFLOW_DIR, 'release.yml'), 'utf-8'),
+    );
     expect(workflow.jobs.test.strategy.matrix.os).toEqual([
-      'ubuntu-24.04', 'macos-15', 'windows-2025',
+      'ubuntu-24.04',
+      'macos-15',
+      'windows-2025',
     ]);
-    expect(workflow.jobs.test.steps.find((step) => step.uses?.startsWith('actions/setup-dotnet@'))
-      .with['dotnet-version']).toBe('8.0.x');
+    expect(
+      workflow.jobs.test.steps.find((step) =>
+        step.uses?.startsWith('actions/setup-dotnet@'),
+      ).with['dotnet-version'],
+    ).toBe('8.0.x');
   });
 });

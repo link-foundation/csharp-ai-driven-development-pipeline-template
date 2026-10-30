@@ -91,6 +91,7 @@ signal_tree() {
   kill "-$1" -- "-${command_pid}" 2>/dev/null || kill "-$1" "${command_pid}" 2>/dev/null || true
 }
 
+# shellcheck disable=SC2329 # Called indirectly by trap.
 forward() {
   signal_tree TERM
   exit 143

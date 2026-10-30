@@ -46,14 +46,14 @@ function setupRepo({ startingVersion, changesetBump, csharpRoot = '.' }) {
   mkdirSync(path.join(packageRoot, 'src', 'MyPackage'), { recursive: true });
   writeFileSync(
     path.join(packageRoot, 'src', 'MyPackage', 'MyPackage.csproj'),
-    `<Project Sdk="Microsoft.NET.Sdk">\n  <PropertyGroup>\n    <Version>${startingVersion}</Version>\n  </PropertyGroup>\n</Project>\n`
+    `<Project Sdk="Microsoft.NET.Sdk">\n  <PropertyGroup>\n    <Version>${startingVersion}</Version>\n  </PropertyGroup>\n</Project>\n`,
   );
 
   mkdirSync(path.join(packageRoot, '.changeset'), { recursive: true });
   if (changesetBump) {
     writeFileSync(
       path.join(packageRoot, '.changeset', 'feature.md'),
-      `---\n'MyPackage': ${changesetBump}\n---\n\nAdd a feature\n`
+      `---\n'MyPackage': ${changesetBump}\n---\n\nAdd a feature\n`,
     );
   }
 
@@ -81,7 +81,7 @@ function runScript(repo, extraArgs = ['--mode', 'changeset']) {
       .map((line) => {
         const eq = line.indexOf('=');
         return [line.slice(0, eq), line.slice(eq + 1)];
-      })
+      }),
   );
 
   return {
@@ -106,7 +106,7 @@ describe('version-and-commit', () => {
       const probe = spawnSync(
         'git',
         ['rev-parse', '--verify', '--quiet', 'refs/tags/v2.4.0'],
-        { cwd: repo, encoding: 'utf-8' }
+        { cwd: repo, encoding: 'utf-8' },
       );
       expect(probe.status).not.toBe(0);
 
@@ -123,7 +123,7 @@ describe('version-and-commit', () => {
 
       const csproj = readFileSync(
         path.join(repo, 'src', 'MyPackage', 'MyPackage.csproj'),
-        'utf-8'
+        'utf-8',
       );
       expect(csproj).toContain('<Version>2.4.0</Version>');
 
@@ -177,7 +177,7 @@ describe('version-and-commit', () => {
 
       const csproj = readFileSync(
         path.join(packageRoot, 'src', 'MyPackage', 'MyPackage.csproj'),
-        'utf-8'
+        'utf-8',
       );
       expect(csproj).toContain('<Version>2.4.0</Version>');
 
@@ -218,7 +218,7 @@ function setupGitStub(root) {
       'fi',
       'exit 0',
       '',
-    ].join('\n')
+    ].join('\n'),
   );
   chmodSync(stub, 0o755);
   return bin;
@@ -236,13 +236,12 @@ describe('version-and-commit argv injection (issue #61)', () => {
       mkdirSync(path.join(root, 'src', 'MyPackage'), { recursive: true });
       writeFileSync(
         path.join(root, 'src', 'MyPackage', 'MyPackage.csproj'),
-        '<Project Sdk="Microsoft.NET.Sdk">\n  <PropertyGroup>\n    <Version>2.3.0</Version>\n  </PropertyGroup>\n</Project>\n'
+        '<Project Sdk="Microsoft.NET.Sdk">\n  <PropertyGroup>\n    <Version>2.3.0</Version>\n  </PropertyGroup>\n</Project>\n',
       );
 
       // The exact shape the issue demonstrates: operator text from the
       // workflow_dispatch release form, carrying a command substitution.
-      const payload =
-        '$(printf INJECTED >> injected.txt) "quotes" && `backticks`';
+      const payload = '$(printf INJECTED >> injected.txt) "quotes" && `backticks`';
 
       const result = spawnSync(
         'bun',
@@ -265,22 +264,16 @@ describe('version-and-commit argv injection (issue #61)', () => {
             GITHUB_OUTPUT: outputFile,
           },
           encoding: 'utf-8',
-        }
+        },
       );
 
       expect(result.status).toBe(0);
 
       // The payload must have reached git as text, not the shell as code.
       const log = readFileSync(stubLog, 'utf-8');
-      expect(log).toContain(
-        `git rev-parse --verify --quiet refs/tags/v2.3.1`
-      );
-      expect(log).toContain(
-        `git commit -m chore: release v2.3.1\n\n${payload}`
-      );
-      expect(log).toContain(
-        `git tag -a v2.3.1 -m Release v2.3.1\n\n${payload}`
-      );
+      expect(log).toContain(`git rev-parse --verify --quiet refs/tags/v2.3.1`);
+      expect(log).toContain(`git commit -m chore: release v2.3.1\n\n${payload}`);
+      expect(log).toContain(`git tag -a v2.3.1 -m Release v2.3.1\n\n${payload}`);
 
       expect(existsSync(path.join(root, 'injected.txt'))).toBe(false);
     } finally {

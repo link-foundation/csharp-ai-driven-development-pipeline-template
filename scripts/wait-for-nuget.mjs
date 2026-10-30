@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+/** @type {import('./process-types.js').Fetch} */
+const request = fetch;
+
 /**
  * Wait for a NuGet package version to become available from the flat-container API.
  *
@@ -87,7 +90,7 @@ export function parseArgs(argv, env = process.env) {
         env.NUGET_WAIT_MAX_ATTEMPTS ||
         env.MAX_ATTEMPTS ||
         String(DEFAULT_MAX_ATTEMPTS),
-      '--max-attempts'
+      '--max-attempts',
     ),
     packageId: cliOptions['package-id'] || env.PACKAGE_ID || '',
     releaseVersion:
@@ -101,7 +104,7 @@ export function parseArgs(argv, env = process.env) {
         env.NUGET_WAIT_SLEEP_SECONDS ||
         env.SLEEP_SECONDS ||
         String(DEFAULT_SLEEP_SECONDS),
-      '--sleep-seconds'
+      '--sleep-seconds',
     ),
   };
 }
@@ -118,7 +121,7 @@ export function createNugetNuspecUrl({
 }
 
 export async function checkNugetPackageVersion({
-  fetchImpl = fetch,
+  fetchImpl = request,
   flatContainerUrl = DEFAULT_FLAT_CONTAINER_URL,
   packageId,
   version,
@@ -156,6 +159,7 @@ function setOutput(name, value) {
   console.log(`Output: ${name}=${value}`);
 }
 
+/** @param {{checkAvailability?: (options: {flatContainerUrl: string, packageId: string, version: string}) => Promise<{available: boolean, status: string|number, error?: string}>, flatContainerUrl?: string, maxAttempts?: number, packageId: string, sleepFn?: typeof sleep, sleepSeconds?: number, stdout?: (text: string) => void, version: string}} options */
 export async function waitForNugetPackage({
   checkAvailability = checkNugetPackageVersion,
   flatContainerUrl = DEFAULT_FLAT_CONTAINER_URL,
@@ -175,7 +179,7 @@ export async function waitForNugetPackage({
 
     stdout(
       `NuGet availability for ${packageId}@${version}: ${result.status} ` +
-        `(attempt ${attempt}/${maxAttempts})`
+        `(attempt ${attempt}/${maxAttempts})`,
     );
 
     if (result.available) {
@@ -205,14 +209,14 @@ export async function main({
     const config = parseArgs(argv, env);
     if (!config.packageId || !config.releaseVersion) {
       stderr(
-        'Error: --package-id and --release-version are required for NuGet availability checks'
+        'Error: --package-id and --release-version are required for NuGet availability checks',
       );
       return 1;
     }
 
     stdout(
       `Waiting for ${config.packageId}@${config.releaseVersion} on NuGet ` +
-        `(${config.maxAttempts} attempts, ${config.sleepSeconds}s interval)`
+        `(${config.maxAttempts} attempts, ${config.sleepSeconds}s interval)`,
     );
 
     const available = await waitForNugetPackage({
@@ -228,7 +232,7 @@ export async function main({
 
     if (!available) {
       stderr(
-        `${config.packageId}@${config.releaseVersion} did not become available on NuGet`
+        `${config.packageId}@${config.releaseVersion} did not become available on NuGet`,
       );
       return 1;
     }
@@ -241,8 +245,8 @@ export async function main({
   }
 }
 
-const invokedDirectly = process.argv[1]
-  && fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
+const invokedDirectly =
+  process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
 
 if (invokedDirectly) {
   process.exitCode = await main();

@@ -16,7 +16,7 @@ import {
  * endpoint with the right headers — the whole point of the preflight is
  * that the probe is real, so the test pins what "real" means.
  * @param {Record<string, { status: number, body?: unknown }>} routes
- * @returns {{ fetchImpl: typeof fetch, calls: Array<{ method: string, url: string, headers: Record<string, string> }> }}
+ * @returns {{ fetchImpl: import('./process-types.js').Fetch, calls: Array<{ method: string, url: string, headers: Record<string, string> }> }}
  */
 function stubFetch(routes) {
   const calls = [];
@@ -37,11 +37,11 @@ function stubFetch(routes) {
 }
 
 describe('GitHub push permission probe', () => {
-  test('verifies push permission from the repository API', async () => {
+  test('verifies readable identity without claiming protected write authorization', async () => {
     const { fetchImpl, calls } = stubFetch({
       'GET https://api.github.com/repos/owner/repo': {
         status: 200,
-        body: { permissions: { push: true } },
+        body: { full_name: 'owner/repo', permissions: { push: true } },
       },
     });
 
@@ -52,7 +52,8 @@ describe('GitHub push permission probe', () => {
     });
 
     expect(result.status).toBe('ok');
-    expect(result.detail).toMatch(/can push/);
+    expect(result.detail).toMatch(/write authorization/);
+    expect(result.writeCapability).toBe('unverified');
     expect(calls).toHaveLength(1);
     expect(calls[0].method).toBe('GET');
     expect(calls[0].url).toBe('https://api.github.com/repos/owner/repo');
@@ -60,11 +61,11 @@ describe('GitHub push permission probe', () => {
     expect(calls[0].headers.Accept).toBe('application/vnd.github+json');
   });
 
-  test('fails loud when the token may not push', async () => {
+  test('false user-role field does not establish installation-token write permissions', async () => {
     const { fetchImpl } = stubFetch({
       'GET https://api.github.com/repos/owner/repo': {
         status: 200,
-        body: { permissions: { push: false } },
+        body: { full_name: 'owner/repo', permissions: { push: false } },
       },
     });
 
@@ -74,15 +75,15 @@ describe('GitHub push permission probe', () => {
       fetchImpl,
     });
 
-    expect(result.status).toBe('failed');
-    expect(result.detail).toMatch(/Workflow permissions/);
+    expect(result.status).toBe('ok');
+    expect(result.detail).toMatch(/write authorization/);
   });
 
   test('treats an anonymous probe honestly: no token, no push', async () => {
     const { fetchImpl } = stubFetch({
       'GET https://api.github.com/repos/owner/repo': {
         status: 200,
-        body: { permissions: {} },
+        body: { full_name: 'owner/repo', permissions: {} },
       },
     });
 
@@ -92,7 +93,7 @@ describe('GitHub push permission probe', () => {
       fetchImpl,
     });
 
-    expect(result.status).toBe('failed');
+    expect(result.status).toBe('ok');
   });
 
   test('reports rate limiting as unknown, never as a pass', async () => {
@@ -198,22 +199,47 @@ describe('preflight authentication integration', () => {
       const directory = mkdtempSync(join(tmpdir(), 'preflight-test-'));
       const outputFile = join(directory, 'outputs');
       const overrides = {
-        NUGET_USER: nugetUser, NUGET_API_KEY: apiKey, PREFLIGHT_MODE: mode,
-        GITHUB_REPOSITORY: 'owner/repo', GITHUB_TOKEN: 'token',
-        GITHUB_OUTPUT: outputFile, GITHUB_STEP_SUMMARY: join(directory, 'summary'),
+        NUGET_USER: nugetUser,
+        NUGET_API_KEY: apiKey,
+        PREFLIGHT_MODE: mode,
+        NUGET_OIDC_OUTCOME: nugetUser ? 'success' : 'skipped',
+        NUGET_OIDC_KEY: nugetUser ? 'temporary' : '',
+        GITHUB_REPOSITORY: 'owner/repo',
+        GITHUB_TOKEN: 'token',
+        GITHUB_OUTPUT: outputFile,
+        GITHUB_STEP_SUMMARY: join(directory, 'summary'),
       };
-      const saved = Object.fromEntries(Object.keys(overrides).map((key) => [key, process.env[key]]));
+      const saved = Object.fromEntries(
+        Object.keys(overrides).map((key) => [key, process.env[key]]),
+      );
       try {
         Object.assign(process.env, overrides);
         const { fetchImpl, calls } = stubFetch({
-          'GET https://api.github.com/repos/owner/repo': { status: 200, body: { permissions: { push: true } } },
-          'GET https://api.nuget.org/v3-flatcontainer/mypackage/index.json': { status: 200, body: { versions: ['0.3.16'] } },
-          'POST https://www.nuget.org/api/v2/package/create-verification-key/MyPackage': { status: 403 },
+          'GET https://api.github.com/repos/owner/repo': {
+            status: 200,
+            body: { full_name: 'owner/repo', permissions: { push: true } },
+          },
+          'GET https://api.nuget.org/v3-flatcontainer/mypackage/index.json': {
+            status: 200,
+            body: { versions: ['0.3.16'] },
+          },
+          'POST https://www.nuget.org/api/v2/package/create-verification-key/MyPackage':
+            { status: 401 },
         });
-        const decision = await main({ fetchImpl });
-        expect(decision.passed).toBe(expected);
-        expect(readFileSync(outputFile, 'utf-8')).toContain(`preflight_result=${expected ? 'passed' : 'failed'}`);
-        expect(readFileSync(outputFile, 'utf-8')).toContain(`auth=${nugetUser ? 'trusted-publishing' : apiKey ? 'api-key' : 'none'}`);
+        const decision = await main({
+          fetchImpl,
+          configurationCheck: () => ({
+            status: 'ok',
+            detail: 'Test package configured',
+          }),
+        });
+        expect(decision.passed).toBe(Boolean(expected));
+        expect(readFileSync(outputFile, 'utf-8')).toContain(
+          `preflight_result=${expected ? 'passed' : 'failed'}`,
+        );
+        expect(readFileSync(outputFile, 'utf-8')).toContain(
+          `auth=${nugetUser ? 'trusted-publishing' : apiKey ? 'token-fallback' : 'none'}`,
+        );
         if (nugetUser) expect(calls.some((call) => call.method === 'POST')).toBe(false);
       } finally {
         for (const [key, value] of Object.entries(saved)) {
@@ -234,13 +260,20 @@ describe('preflight decision', () => {
   ];
 
   test('release mode passes only when every required probe verified', () => {
-    expect(decidePreflight({ mode: 'release', checks: passingChecks }).passed).toBe(true);
+    expect(decidePreflight({ mode: 'release', checks: passingChecks }).passed).toBe(
+      true,
+    );
   });
 
   test('release mode fails on any failed probe and names it', () => {
     const checks = [
       passingChecks[0],
-      { name: 'key', required: true, status: 'failed', detail: 'NUGET_API_KEY is not configured.' },
+      {
+        name: 'key',
+        required: true,
+        status: 'failed',
+        detail: 'NUGET_API_KEY is not configured.',
+      },
       passingChecks[2],
     ];
     const decision = decidePreflight({ mode: 'release', checks });
@@ -273,7 +306,12 @@ describe('preflight decision', () => {
 
   test('report mode reports without blocking', () => {
     const checks = [
-      { name: 'push', required: true, status: 'failed', detail: 'no push for a fork token' },
+      {
+        name: 'push',
+        required: true,
+        status: 'failed',
+        detail: 'no push for a fork token',
+      },
       { name: 'key', required: true, status: 'failed', detail: 'absent' },
     ];
     const decision = decidePreflight({ mode: 'report', checks });

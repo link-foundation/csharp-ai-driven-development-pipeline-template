@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+/** @type {import('./process-types.js').Fetch} */
+const request = fetch;
+
 /**
  * Re-check transport failures, rate limits and server outages (issues #58, #68).
  *
@@ -46,13 +49,7 @@
  * `!= 'true'` gates treat the run as not recovered.
  */
 
-import {
-  appendFileSync,
-  existsSync,
-  mkdirSync,
-  readFileSync,
-  writeFileSync,
-} from 'fs';
+import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { dirname, resolve } from 'path';
 import { pathToFileURL, fileURLToPath } from 'url';
 
@@ -118,12 +115,13 @@ export function classifyFailures(failures) {
   const unanswered = [];
 
   for (const failure of failures) {
-    const status = Number(/^\d{3}$/.test(failure.marker)
-      ? failure.marker
-      : /rejected status code:\s*(\d{3})/i.exec(failure.detail)?.[1]);
+    const status = Number(
+      /^\d{3}$/.test(failure.marker)
+        ? failure.marker
+        : /rejected status code:\s*(\d{3})/i.exec(failure.detail)?.[1],
+    );
     const hostAnswered =
-      /^\d{3}$/.test(failure.marker) ||
-      /rejected status code/i.test(failure.detail);
+      /^\d{3}$/.test(failure.marker) || /rejected status code/i.test(failure.detail);
     const isHttp = /^https?:\/\//i.test(failure.url);
     if (!isHttp || (hostAnswered && !isTransientStatus(status))) {
       final.push(failure);
@@ -193,10 +191,7 @@ export function extractLycheeRequestOptions(workflowText) {
   const accept = /--accept[=\s]+"?([^\s"']+)/.exec(workflowText ?? '');
   const userAgent = /--user-agent[=\s]+"?([^\s"']+)/.exec(workflowText ?? '');
 
-  return [
-    accept?.[1] ?? ACCEPT_DEFAULT,
-    userAgent?.[1] ?? USER_AGENT_DEFAULT,
-  ];
+  return [accept?.[1] ?? ACCEPT_DEFAULT, userAgent?.[1] ?? USER_AGENT_DEFAULT];
 }
 
 /**
@@ -212,7 +207,8 @@ export function extractLycheeRequestOptions(workflowText) {
  *
  * @param {string} url
  * @param {object} [options]
- * @param {typeof fetch} [options.fetchImpl]
+ * @param {import('./process-types.js').Fetch} [options.fetchImpl]
+ * @param {() => number} [options.now]
  * @param {number} [options.timeoutMs]
  * @param {Set<number>} [options.accept]
  * @param {string} [options.userAgent]
@@ -220,7 +216,7 @@ export function extractLycheeRequestOptions(workflowText) {
  */
 export async function probe(url, options = {}) {
   const {
-    fetchImpl = fetch,
+    fetchImpl = request,
     timeoutMs = 20000,
     accept = parseAcceptRanges(ACCEPT_DEFAULT),
     userAgent = USER_AGENT_DEFAULT,
@@ -243,9 +239,10 @@ export async function probe(url, options = {}) {
 
     if (!accept.has(response.status) && isTransientStatus(response.status)) {
       const retryAfter = response.headers?.get?.('Retry-After');
-      const retryAfterMs = retryAfter && /^\d+$/.test(retryAfter)
-        ? Number(retryAfter) * 1000
-        : Math.max(0, Date.parse(retryAfter) - now()) || 0;
+      const retryAfterMs =
+        retryAfter && /^\d+$/.test(retryAfter)
+          ? Number(retryAfter) * 1000
+          : Math.max(0, Date.parse(retryAfter) - now()) || 0;
       return { outcome: 'transient', detail: `HTTP ${response.status}`, retryAfterMs };
     }
     return accept.has(response.status)
@@ -279,7 +276,7 @@ export async function probe(url, options = {}) {
  */
 export async function recheckAll(urls, options = {}) {
   const {
-    fetchImpl = fetch,
+    fetchImpl = request,
     attempts = 3,
     waitMs = 5000,
     timeoutMs = 20000,
@@ -301,7 +298,7 @@ export async function recheckAll(urls, options = {}) {
         detail: 'the re-check budget ran out before this URL was asked',
         attempts: 0,
       },
-    ])
+    ]),
   );
 
   let pending = [...unique];
@@ -311,7 +308,9 @@ export async function recheckAll(urls, options = {}) {
     if (round > 1) {
       const remainingMs = budgetMs - (now() - started);
       if (remainingMs <= 0) break;
-      await sleep(Math.min(Math.max(waitMs * 2 ** (round - 2), retryAfterMs), remainingMs));
+      await sleep(
+        Math.min(Math.max(waitMs * 2 ** (round - 2), retryAfterMs), remainingMs),
+      );
     }
     retryAfterMs = 0;
 
@@ -386,12 +385,11 @@ function setOutput(name, value) {
  * annotate, write -- rather than only its parts.
  *
  * @param {object} [options]
- * @param {typeof fetch} [options.fetchImpl] - Injectable for tests
+ * @param {import('./process-types.js').Fetch} [options.fetchImpl] - Injectable for tests
  */
-export async function main({ fetchImpl = fetch } = {}) {
+export async function main({ fetchImpl = request } = {}) {
   const lycheeOutput = process.env.LYCHEE_OUTPUT || 'lychee/out.md';
-  const recoveredOutput =
-    process.env.RECOVERED_OUTPUT || 'lychee/recovered.txt';
+  const recoveredOutput = process.env.RECOVERED_OUTPUT || 'lychee/recovered.txt';
   const verbose = process.env.RECHECK_VERBOSE === '1';
 
   console.log('=== Re-check of transient link failures ===\n');
@@ -409,7 +407,7 @@ export async function main({ fetchImpl = fetch } = {}) {
   }
 
   const workflowPath = fileURLToPath(
-    new URL('../.github/workflows/links.yml', import.meta.url)
+    new URL('../.github/workflows/links.yml', import.meta.url),
   );
   const workflowText = existsSync(workflowPath)
     ? readFileSync(workflowPath, 'utf-8')
@@ -422,7 +420,7 @@ export async function main({ fetchImpl = fetch } = {}) {
   console.log(
     `lychee reported ${failures.length} failing link(s): ` +
       `${final.length} permanent or non-http failures, ` +
-      `${unanswered.length} transport, rate-limit or server failures.\n`
+      `${unanswered.length} transport, rate-limit or server failures.\n`,
   );
 
   for (const failure of final) {
@@ -439,7 +437,7 @@ export async function main({ fetchImpl = fetch } = {}) {
 
   console.log(
     `\nRe-asking ${unanswered.length} link(s) directly ` +
-      `(accept: ${accept}, user agent: ${userAgent})...\n`
+      `(accept: ${accept}, user agent: ${userAgent})...\n`,
   );
 
   const results = await recheckAll(
@@ -453,7 +451,7 @@ export async function main({ fetchImpl = fetch } = {}) {
       accept: parseAcceptRanges(accept),
       userAgent,
       log: verbose ? (line) => console.log(line) : () => {},
-    }
+    },
   );
 
   const recovered = [];
@@ -476,23 +474,20 @@ export async function main({ fetchImpl = fetch } = {}) {
         `${url} answered ${result.detail} when asked directly, after lychee ` +
         `reported it as "${detail || 'failed with no status code'}".\n` +
         `The transient failure recovered within the retry budget. ` +
-        `This link is not treated as broken.`
+        `This link is not treated as broken.`,
     );
   }
 
   for (const { url, detail, result } of stillFailing) {
     console.log(
       `✗ ${url} still failing: ${result.detail} after ${result.attempts} ` +
-        `direct attempt(s) (lychee: ${detail || 'no detail'})`
+        `direct attempt(s) (lychee: ${detail || 'no detail'})`,
     );
   }
 
   if (recovered.length > 0) {
     mkdirSync(dirname(recoveredOutput), { recursive: true });
-    writeFileSync(
-      recoveredOutput,
-      recovered.map(({ url }) => url).join('\n') + '\n'
-    );
+    writeFileSync(recoveredOutput, recovered.map(({ url }) => url).join('\n') + '\n');
     console.log(`\nRecovered URLs written to ${recoveredOutput}`);
   }
 
@@ -507,7 +502,7 @@ export async function main({ fetchImpl = fetch } = {}) {
   if (remaining === 0) {
     console.log(
       '\nEvery link lychee reported answered a direct request. ' +
-        'Every transient failure recovered.'
+        'Every transient failure recovered.',
     );
   }
 }

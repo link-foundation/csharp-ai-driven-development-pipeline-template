@@ -29,10 +29,6 @@ on:
         required: false
         type: string
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
-
 # Least-privilege default for every job that does not declare its own block
 # (zizmor excessive-permissions); the release jobs below escalate individually.
 permissions:
@@ -49,6 +45,9 @@ env:
 jobs:
   # === DETECT CHANGES - determines which jobs should run ===
   detect-changes:
+    concurrency:
+      group: check-${{ github.workflow }}-${{ github.ref }}-detect-changes
+      cancel-in-progress: true
     name: Detect Changes
     runs-on: ubuntu-24.04
     timeout-minutes: 5
@@ -56,34 +55,19 @@ jobs:
     outputs:
       any-code-changed: ${{ steps.changes.outputs.any-code-changed }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
           fetch-depth: 0
 
       - name: Detect C# layout
         id: csharp_layout
-        shell: bash
-        run: |
-          set -euo pipefail
-          if compgen -G "*.csproj" > /dev/null || compgen -G "*.sln" > /dev/null || find src -maxdepth 5 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
-            CSHARP_ROOT="."
-            MULTI_LANGUAGE="false"
-          elif find csharp -maxdepth 6 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
-            CSHARP_ROOT="csharp"
-            MULTI_LANGUAGE="true"
-          else
-            echo "::error::Could not find a C# project at the repository root or under csharp/"
-            exit 1
-          fi
-          echo "root=$CSHARP_ROOT" >> "$GITHUB_OUTPUT"
-          echo "multi-language=$MULTI_LANGUAGE" >> "$GITHUB_OUTPUT"
-          echo "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"
+        uses: ./.github/actions/csharp-layout
 
       - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
         with:
-          bun-version: latest
+          bun-version: '1.4.4'
 
       - name: Detect changes
         id: changes
@@ -97,40 +81,28 @@ jobs:
   # === CHANGESET CHECK - only runs on PRs with code changes ===
   # Docs-only PRs (./docs folder, markdown files) don't require changesets
   changeset-check:
+    concurrency:
+      group: check-${{ github.workflow }}-${{ github.ref }}-changeset-check
+      cancel-in-progress: true
     name: Changeset Validation
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     needs: [detect-changes]
     if: github.event_name == 'pull_request' && needs.detect-changes.outputs.any-code-changed == 'true'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
           fetch-depth: 0
 
       - name: Detect C# layout
         id: csharp_layout
-        shell: bash
-        run: |
-          set -euo pipefail
-          if compgen -G "*.csproj" > /dev/null || compgen -G "*.sln" > /dev/null || find src -maxdepth 5 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
-            CSHARP_ROOT="."
-            MULTI_LANGUAGE="false"
-          elif find csharp -maxdepth 6 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
-            CSHARP_ROOT="csharp"
-            MULTI_LANGUAGE="true"
-          else
-            echo "::error::Could not find a C# project at the repository root or under csharp/"
-            exit 1
-          fi
-          echo "root=$CSHARP_ROOT" >> "$GITHUB_OUTPUT"
-          echo "multi-language=$MULTI_LANGUAGE" >> "$GITHUB_OUTPUT"
-          echo "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"
+        uses: ./.github/actions/csharp-layout
 
       - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
         with:
-          bun-version: latest
+          bun-version: '1.4.4'
 
       - name: Validate changeset
         env:
@@ -139,15 +111,8 @@ jobs:
           GITHUB_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           CSHARP_ROOT: ${{ steps.csharp_layout.outputs.root }}
           GITHUB_HEAD_REF: ${{ github.head_ref }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
         run: |
-          # Skip changeset check for automated release PRs
-          # Read head_ref through env, never interpolate it into the script:
-          # on a fork PR the branch name is attacker-controlled.
-          if [[ "$GITHUB_HEAD_REF" == "changeset-release/"* ]] || [[ "$GITHUB_HEAD_REF" == "changeset-manual-release-"* ]]; then
-            echo "Skipping changeset check for automated release PR"
-            exit 0
-          fi
-
           # Run changeset validation script
           bun run "$CSHARP_ROOT/scripts/validate-changeset.mjs"
 
@@ -155,6 +120,9 @@ jobs:
   # Lint runs independently of changeset-check - it's a fast check that should always run
   # See: https://github.com/link-foundation/js-ai-driven-development-pipeline-template/pull/18 for why this dependency was removed
   lint:
+    concurrency:
+      group: check-${{ github.workflow }}-${{ github.ref }}-lint
+      cancel-in-progress: true
     name: Lint and Format Check
     runs-on: ubuntu-24.04
     timeout-minutes: 20
@@ -169,38 +137,23 @@ jobs:
         needs.detect-changes.outputs.any-code-changed == 'true'
       )
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
 
       - name: Detect C# layout
         id: csharp_layout
-        shell: bash
-        run: |
-          set -euo pipefail
-          if compgen -G "*.csproj" > /dev/null || compgen -G "*.sln" > /dev/null || find src -maxdepth 5 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
-            CSHARP_ROOT="."
-            MULTI_LANGUAGE="false"
-          elif find csharp -maxdepth 6 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
-            CSHARP_ROOT="csharp"
-            MULTI_LANGUAGE="true"
-          else
-            echo "::error::Could not find a C# project at the repository root or under csharp/"
-            exit 1
-          fi
-          echo "root=$CSHARP_ROOT" >> "$GITHUB_OUTPUT"
-          echo "multi-language=$MULTI_LANGUAGE" >> "$GITHUB_OUTPUT"
-          echo "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"
+        uses: ./.github/actions/csharp-layout
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
         with:
           dotnet-version: '8.0.x'
 
       - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
         with:
-          bun-version: latest
+          bun-version: '1.4.4'
 
       - name: Restore dependencies
         working-directory: ${{ steps.csharp_layout.outputs.root }}
@@ -224,6 +177,9 @@ jobs:
 
   # === TEST ON MULTIPLE OS ===
   test:
+    concurrency:
+      group: check-${{ github.workflow }}-${{ github.ref }}-test-${{ matrix.os }}
+      cancel-in-progress: true
     name: Test (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
@@ -241,31 +197,16 @@ jobs:
       matrix:
         os: [ubuntu-24.04, macos-15, windows-2025]
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
 
       - name: Detect C# layout
         id: csharp_layout
-        shell: bash
-        run: |
-          set -euo pipefail
-          if compgen -G "*.csproj" > /dev/null || compgen -G "*.sln" > /dev/null || find src -maxdepth 5 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
-            CSHARP_ROOT="."
-            MULTI_LANGUAGE="false"
-          elif find csharp -maxdepth 6 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
-            CSHARP_ROOT="csharp"
-            MULTI_LANGUAGE="true"
-          else
-            echo "::error::Could not find a C# project at the repository root or under csharp/"
-            exit 1
-          fi
-          echo "root=$CSHARP_ROOT" >> "$GITHUB_OUTPUT"
-          echo "multi-language=$MULTI_LANGUAGE" >> "$GITHUB_OUTPUT"
-          echo "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"
+        uses: ./.github/actions/csharp-layout
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
         with:
           dotnet-version: '8.0.x'
 
@@ -291,6 +232,21 @@ jobs:
         if: matrix.os == 'ubuntu-24.04' && env.CODECOV_TOKEN == ''
         run: echo "::notice::CODECOV_TOKEN is not configured; skipping Codecov upload."
 
+      - name: Resolve exact coverage reports
+        id: coverage_reports
+        if: matrix.os == 'ubuntu-24.04' && env.CODECOV_TOKEN != ''
+        shell: bash
+        env:
+          CSHARP_ROOT: ${{ steps.csharp_layout.outputs.root }}
+        run: |
+          reports=$(find "$CSHARP_ROOT/tests" -type f -name coverage.cobertura.xml -path '*/TestResults/*')
+          if [ -z "$reports" ]; then
+            echo '::error::No generated Cobertura reports found under tests/TestResults.'
+            exit 1
+          fi
+          files=$(printf '%s\n' "$reports" | paste -sd, -)
+          printf 'files=%s\n' "$files" >> "$GITHUB_OUTPUT"
+
       - name: Upload coverage to Codecov
         # A `uses:` step cannot be wrapped by run-with-budget-warning.sh, so it
         # declares its deadline with a step-level timeout-minutes: an exhausted
@@ -298,45 +254,52 @@ jobs:
         # the job.
         timeout-minutes: 5
         if: matrix.os == 'ubuntu-24.04' && env.CODECOV_TOKEN != ''
-        uses: codecov/codecov-action@v7
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7
         with:
           token: ${{ env.CODECOV_TOKEN }}
           fail_ci_if_error: true
+          directory: ${{ steps.csharp_layout.outputs.root }}/tests
+          plugins: noop
+          files: ${{ steps.coverage_reports.outputs.files }}
+          disable_search: true
+
+  codecov-token:
+    name: Check Codecov token
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Require Codecov configuration on main
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: |
+          if [ -z "$CODECOV_TOKEN" ]; then
+            echo "::error::Set CODECOV_TOKEN in Settings > Secrets and variables > Actions, then rerun. Coverage upload is required on main."
+            exit 1
+          fi
 
   # === BUILD PACKAGE ===
   # Only runs if lint and test pass
   build:
+    concurrency:
+      group: check-${{ github.workflow }}-${{ github.ref }}-build
+      cancel-in-progress: true
     name: Build Package
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     needs: [lint, test]
     if: always() && needs.lint.result == 'success' && needs.test.result == 'success'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
 
       - name: Detect C# layout
         id: csharp_layout
-        shell: bash
-        run: |
-          set -euo pipefail
-          if compgen -G "*.csproj" > /dev/null || compgen -G "*.sln" > /dev/null || find src -maxdepth 5 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
-            CSHARP_ROOT="."
-            MULTI_LANGUAGE="false"
-          elif find csharp -maxdepth 6 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
-            CSHARP_ROOT="csharp"
-            MULTI_LANGUAGE="true"
-          else
-            echo "::error::Could not find a C# project at the repository root or under csharp/"
-            exit 1
-          fi
-          echo "root=$CSHARP_ROOT" >> "$GITHUB_OUTPUT"
-          echo "multi-language=$MULTI_LANGUAGE" >> "$GITHUB_OUTPUT"
-          echo "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"
+        uses: ./.github/actions/csharp-layout
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
         with:
           dotnet-version: '8.0.x'
 
@@ -358,7 +321,7 @@ jobs:
         # step budget fails the step, while an exhausted job cap only cancels
         # the job.
         timeout-minutes: 5
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: nuget-package
           path: ${{ steps.csharp_layout.outputs.root }}/artifacts/*.nupkg
@@ -372,39 +335,62 @@ jobs:
   # fails before the matrix; pull requests report without blocking, because a
   # fork legitimately has no publishing secrets.
   release-preflight:
+    concurrency:
+      group: check-${{ github.workflow }}-${{ github.ref }}-release-preflight
+      cancel-in-progress: true
     name: Release Preflight
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
       contents: read
+      id-token: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
 
+      - name: Detect C# layout
+        id: csharp_layout
+        uses: ./.github/actions/csharp-layout
+
       - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
         with:
-          bun-version: latest
+          bun-version: '1.4.4'
+
+      - name: NuGet login (preflight OIDC)
+        id: nuget-login
+        if: vars.NUGET_USER != '' && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        continue-on-error: true
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0
+        with:
+          user: ${{ vars.NUGET_USER }}
 
       - name: Probe every release precondition
+        working-directory: ${{ steps.csharp_layout.outputs.root }}
         env:
           PREFLIGHT_MODE: >-
             ${{
               (
                 (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
-                github.event_name == 'workflow_dispatch'
+                (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')
               ) && 'release' || 'report'
             }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          NUGET_API_KEY: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && secrets.NUGET_API_KEY || '' }}
           NUGET_USER: ${{ vars.NUGET_USER }}
+          NUGET_OIDC_OUTCOME: ${{ steps.nuget-login.outcome }}
+          NUGET_OIDC_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
         run: bun run scripts/preflight-credentials.mjs
 
   # === AUTOMATIC RELEASE ===
   # Runs on push to main using changesets
   release:
+    concurrency:
+      group: main-writer-${{ github.repository }}
+      cancel-in-progress: false
+      queue: max
     name: Release
     needs: [lint, test, build, release-preflight]
     if: always() && github.ref == 'refs/heads/main' && github.event_name == 'push' && needs.lint.result == 'success' && needs.test.result == 'success' && needs.build.result == 'success' && needs.release-preflight.result == 'success'
@@ -420,40 +406,26 @@ jobs:
       # bump, which needs the token wired into the remote. Every other
       # checkout in this repository sets persist-credentials: false (issue
       # #54).
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: true
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
 
       - name: Detect C# layout
         id: csharp_layout
-        shell: bash
-        run: |
-          set -euo pipefail
-          if compgen -G "*.csproj" > /dev/null || compgen -G "*.sln" > /dev/null || find src -maxdepth 5 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
-            CSHARP_ROOT="."
-            MULTI_LANGUAGE="false"
-          elif find csharp -maxdepth 6 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
-            CSHARP_ROOT="csharp"
-            MULTI_LANGUAGE="true"
-          else
-            echo "::error::Could not find a C# project at the repository root or under csharp/"
-            exit 1
-          fi
-          echo "root=$CSHARP_ROOT" >> "$GITHUB_OUTPUT"
-          echo "multi-language=$MULTI_LANGUAGE" >> "$GITHUB_OUTPUT"
-          echo "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"
+        uses: ./.github/actions/csharp-layout
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
         with:
           dotnet-version: '8.0.x'
 
       - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
         with:
-          bun-version: latest
+          bun-version: '1.4.4'
 
       - name: Check for changesets
         id: check_changesets
@@ -524,8 +496,10 @@ jobs:
         working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: |
           bash scripts/run-with-budget-warning.sh 1200 "Release package build" bash -c '
+            set -euo pipefail
             dotnet restore
             dotnet build --configuration Release
+            dotnet test --no-build --configuration Release
             dotnet pack --no-build --configuration Release --output ./artifacts
           '
 
@@ -549,6 +523,7 @@ jobs:
 
       - name: NuGet login (OIDC)
         id: nuget-login
+        continue-on-error: true
         # Request the one-hour key after building, immediately before pushing.
         if: >-
           vars.NUGET_USER != '' && (
@@ -568,8 +543,11 @@ jobs:
           (steps.check_release.outputs.should_release == 'true' &&
            steps.check_release.outputs.skip_bump == 'true')
         env:
-          # Use the legacy secret only when trusted publishing is unconfigured.
-          NUGET_API_KEY: ${{ vars.NUGET_USER == '' && secrets.NUGET_API_KEY || steps.nuget-login.outputs.NUGET_API_KEY }}
+          NUGET_OIDC_OUTCOME: ${{ steps.nuget-login.outcome }}
+          NUGET_OIDC_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          PACKAGE_ID: ${{ steps.package.outputs.id }}
+          PACKAGE_VERSION: ${{ steps.release_version.outputs.version }}
         working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: |
           bash scripts/run-with-budget-warning.sh 600 "NuGet publish" \
@@ -593,6 +571,7 @@ jobs:
             --release-version "${{ steps.release_version.outputs.version }}"
 
       - name: Smoke-test published NuGet package
+        working-directory: ${{ steps.csharp_layout.outputs.root }}
         # Indexing proves the version exists; this installs it in a clean
         # throwaway project and runs the advertised library entry point before
         # release notes are published. The helper captures command output
@@ -630,6 +609,10 @@ jobs:
   # === MANUAL INSTANT RELEASE ===
   # Triggered via workflow_dispatch with instant mode
   instant-release:
+    concurrency:
+      group: main-writer-${{ github.repository }}
+      cancel-in-progress: false
+      queue: max
     name: Instant Release
     needs: [lint, test, build, release-preflight]
     # Mirror the automatic release job: a status-check function plus explicit
@@ -637,7 +620,7 @@ jobs:
     # detect-changes (an upstream skip) propagated through the needs graph.
     if: |
       always() && !cancelled() &&
-      github.event_name == 'workflow_dispatch' &&
+      github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' &&
       github.event.inputs.release_mode == 'instant' &&
       needs.lint.result == 'success' &&
       needs.test.result == 'success' &&
@@ -655,40 +638,26 @@ jobs:
       # bump, which needs the token wired into the remote. Every other
       # checkout in this repository sets persist-credentials: false (issue
       # #54).
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: true
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
 
       - name: Detect C# layout
         id: csharp_layout
-        shell: bash
-        run: |
-          set -euo pipefail
-          if compgen -G "*.csproj" > /dev/null || compgen -G "*.sln" > /dev/null || find src -maxdepth 5 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
-            CSHARP_ROOT="."
-            MULTI_LANGUAGE="false"
-          elif find csharp -maxdepth 6 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
-            CSHARP_ROOT="csharp"
-            MULTI_LANGUAGE="true"
-          else
-            echo "::error::Could not find a C# project at the repository root or under csharp/"
-            exit 1
-          fi
-          echo "root=$CSHARP_ROOT" >> "$GITHUB_OUTPUT"
-          echo "multi-language=$MULTI_LANGUAGE" >> "$GITHUB_OUTPUT"
-          echo "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"
+        uses: ./.github/actions/csharp-layout
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
         with:
           dotnet-version: '8.0.x'
 
       - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
         with:
-          bun-version: latest
+          bun-version: '1.4.4'
 
       - name: Version and commit
         id: version
@@ -714,8 +683,10 @@ jobs:
         working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: |
           bash scripts/run-with-budget-warning.sh 1200 "Release package build" bash -c '
+            set -euo pipefail
             dotnet restore
             dotnet build --configuration Release
+            dotnet test --no-build --configuration Release
             dotnet pack --no-build --configuration Release --output ./artifacts
           '
 
@@ -737,6 +708,7 @@ jobs:
 
       - name: NuGet login (OIDC)
         id: nuget-login
+        continue-on-error: true
         # Request the one-hour key after building, immediately before pushing.
         if: >-
           vars.NUGET_USER != '' && (
@@ -752,8 +724,11 @@ jobs:
           steps.version.outputs.version_committed == 'true' ||
           steps.version.outputs.already_released == 'true'
         env:
-          # Use the legacy secret only when trusted publishing is unconfigured.
-          NUGET_API_KEY: ${{ vars.NUGET_USER == '' && secrets.NUGET_API_KEY || steps.nuget-login.outputs.NUGET_API_KEY }}
+          NUGET_OIDC_OUTCOME: ${{ steps.nuget-login.outcome }}
+          NUGET_OIDC_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          PACKAGE_ID: ${{ steps.package.outputs.id }}
+          PACKAGE_VERSION: ${{ steps.version.outputs.new_version }}
         working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: |
           bash scripts/run-with-budget-warning.sh 600 "NuGet publish" \
@@ -775,6 +750,7 @@ jobs:
             --release-version "${{ steps.version.outputs.new_version }}"
 
       - name: Smoke-test published NuGet package
+        working-directory: ${{ steps.csharp_layout.outputs.root }}
         # Indexing proves the version exists; this installs it in a clean
         # throwaway project and runs the advertised library entry point before
         # release notes are published. The helper captures command output
@@ -808,8 +784,12 @@ jobs:
   # === MANUAL CHANGESET PR ===
   # Creates a pull request with the changeset for review
   changeset-pr:
+    concurrency:
+      group: main-writer-${{ github.repository }}
+      cancel-in-progress: false
+      queue: max
     name: Create Changeset PR
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.release_mode == 'changeset-pr'
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && github.event.inputs.release_mode == 'changeset-pr'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
@@ -820,34 +800,20 @@ jobs:
       # peter-evans/create-pull-request pushes the changeset branch from this
       # worktree. Every other checkout in this repository sets
       # persist-credentials: false (issue #54).
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: true
           fetch-depth: 0
+          ref: main
 
       - name: Detect C# layout
         id: csharp_layout
-        shell: bash
-        run: |
-          set -euo pipefail
-          if compgen -G "*.csproj" > /dev/null || compgen -G "*.sln" > /dev/null || find src -maxdepth 5 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
-            CSHARP_ROOT="."
-            MULTI_LANGUAGE="false"
-          elif find csharp -maxdepth 6 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then
-            CSHARP_ROOT="csharp"
-            MULTI_LANGUAGE="true"
-          else
-            echo "::error::Could not find a C# project at the repository root or under csharp/"
-            exit 1
-          fi
-          echo "root=$CSHARP_ROOT" >> "$GITHUB_OUTPUT"
-          echo "multi-language=$MULTI_LANGUAGE" >> "$GITHUB_OUTPUT"
-          echo "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"
+        uses: ./.github/actions/csharp-layout
 
       - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
         with:
-          bun-version: latest
+          bun-version: '1.4.4'
 
       - name: Create changeset file
         # The dispatch inputs flow through env and printf arguments, never
@@ -874,7 +840,7 @@ jobs:
           echo "Created changeset: $CHANGESET_FILE"
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v8
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: 'chore: add changeset for manual ${{ github.event.inputs.bump_type }} release'
@@ -899,11 +865,14 @@ jobs:
   # === PIPELINE STATUS ===
   # GitHub reports jobs killed by timeout-minutes as cancelled. Observe every
   # job so a timeout on main becomes a visible failure instead of a grey run,
-  # while a run superseded by a newer commit is recognised as expected churn
-  # (issue #55).
+  # and reject missing or unexpectedly skipped required work.
   pipeline-status:
+    concurrency:
+      group: check-${{ github.workflow }}-${{ github.ref }}-pipeline-status
+      cancel-in-progress: true
     name: Pipeline Status
     needs:
+      - codecov-token
       - detect-changes
       - changeset-check
       - lint
@@ -917,14 +886,21 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
 
+      - name: Detect C# layout
+        id: csharp_layout
+        uses: ./.github/actions/csharp-layout
+
       - name: Check aggregate pipeline status
+        working-directory: ${{ steps.csharp_layout.outputs.root }}
         env:
           NEEDS_JSON: ${{ toJSON(needs) }}
           IS_MAIN: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
-          RUN_SHA: ${{ github.sha }}
+          EVENT_NAME: ${{ github.event_name }}
+          BRANCH_REF_FULL: ${{ github.ref }}
+          RELEASE_MODE: ${{ inputs.release_mode }}
           BRANCH_REF: ${{ github.ref_name }}
         run: bash scripts/check-pipeline-status.sh

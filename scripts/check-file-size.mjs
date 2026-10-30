@@ -6,7 +6,7 @@
  */
 
 import { readFileSync, readdirSync } from 'node:fs';
-import { extname, join, relative, resolve } from 'node:path';
+import { extname, join, relative, resolve, sep } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 export const MAX_LINES = 1000;
@@ -19,8 +19,10 @@ const EXCLUDE_PATTERNS = ['bin', 'obj', '.git', 'node_modules', 'artifacts'];
  * @param {string} path
  * @returns {boolean}
  */
-export function shouldExclude(path) {
-  return EXCLUDE_PATTERNS.some((pattern) => path.includes(pattern));
+export function shouldExclude(path, root = process.cwd()) {
+  return relative(root, path)
+    .split(sep)
+    .some((component) => EXCLUDE_PATTERNS.includes(component));
 }
 
 /**
@@ -37,7 +39,7 @@ export function findCSharpFiles(directory) {
     for (const entry of entries) {
       const fullPath = join(dir, entry.name);
 
-      if (shouldExclude(fullPath)) {
+      if (shouldExclude(fullPath, directory)) {
         continue;
       }
 
@@ -65,9 +67,7 @@ export function countLines(filePath) {
   }
 
   const lineCount = content.split(/\r\n|\r|\n/u).length;
-  return content.endsWith('\n') || content.endsWith('\r')
-    ? lineCount - 1
-    : lineCount;
+  return content.endsWith('\n') || content.endsWith('\r') ? lineCount - 1 : lineCount;
 }
 
 /**
@@ -152,10 +152,7 @@ export function escapeAnnotationProperty(value) {
  * @returns {string}
  */
 export function escapeAnnotationMessage(value) {
-  return value
-    .replaceAll('%', '%25')
-    .replaceAll('\r', '%0D')
-    .replaceAll('\n', '%0A');
+  return value.replaceAll('%', '%25').replaceAll('\r', '%0D').replaceAll('\n', '%0A');
 }
 
 /**
@@ -174,7 +171,7 @@ export function warningAnnotation(finding) {
 
 /**
  * Return the process exit code for a check result.
- * @param {{ violations: Array<{ file: string, lines: number }> }} result
+ * @param {{ warnings?: Array<{ file: string, lines: number }>, violations: Array<{ file: string, lines: number }> }} result
  * @returns {number}
  */
 export function exitCodeForResult(result) {
@@ -193,19 +190,19 @@ function printWarnings(warnings) {
   for (const warning of warnings) {
     console.log(warningAnnotation(warning));
     console.log(
-      `WARNING: ${warning.file} has ${warning.lines} lines (approaching limit of ${MAX_LINES}, warning threshold: ${WARN_LINES})`
+      `WARNING: ${warning.file} has ${warning.lines} lines (approaching limit of ${MAX_LINES}, warning threshold: ${WARN_LINES})`,
     );
   }
 
   console.log();
   console.log(
-    `The following files are approaching the ${MAX_LINES} line limit (>${WARN_LINES} lines):`
+    `The following files are approaching the ${MAX_LINES} line limit (>${WARN_LINES} lines):`,
   );
   for (const warning of warnings) {
     console.log(`  ${warning.file}`);
   }
   console.log(
-    '\nConsider extracting code to prevent concurrent PR merge limit violations.\n'
+    '\nConsider extracting code to prevent concurrent PR merge limit violations.\n',
   );
 }
 
@@ -220,9 +217,7 @@ function printViolations(violations) {
 
   console.log('Found files exceeding the line limit:\n');
   for (const violation of violations) {
-    console.log(
-      `  ${violation.file}: ${violation.lines} lines (exceeds ${MAX_LINES})`
-    );
+    console.log(`  ${violation.file}: ${violation.lines} lines (exceeds ${MAX_LINES})`);
   }
   console.log(`\nPlease refactor these files to be under ${MAX_LINES} lines\n`);
 }
@@ -234,7 +229,7 @@ function printViolations(violations) {
  */
 export function main(cwd = process.cwd()) {
   console.log(
-    `\nChecking C# files for maximum ${MAX_LINES} lines (warning above ${WARN_LINES})...\n`
+    `\nChecking C# files for maximum ${MAX_LINES} lines (warning above ${WARN_LINES})...\n`,
   );
 
   const result = checkDirectory(cwd);

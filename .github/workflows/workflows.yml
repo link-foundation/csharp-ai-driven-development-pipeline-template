@@ -4,14 +4,10 @@ on:
   push:
     branches:
       - main
-    paths:
-      - '.github/workflows/**'
-      - '.github/actions/**'
   pull_request:
     types: [opened, synchronize, reopened]
-    paths:
-      - '.github/workflows/**'
-      - '.github/actions/**'
+  schedule:
+    - cron: '0 6 * * 1'
   workflow_dispatch:
 
 # Least-privilege default; this workflow only ever reads the tree.
@@ -36,7 +32,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
 
@@ -57,7 +53,14 @@ jobs:
       - name: Lint workflow files
         uses: docker://rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667 # v1.7.12
         with:
-          args: -color
+          # GitHub supports queue:max; actionlint 1.7.12 predates that key.
+          # Remove only this obsolete schema exception when upstream #654 ships.
+          args: -color -ignore "unexpected key .queue. for .concurrency. section"
+      - name: Lint standalone shell and verify integrations
+        run: >-
+          docker run --rm -v "$PWD:/repo" -w /repo --entrypoint sh
+          rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667
+          scripts/lint-workflows.sh
 
   zizmor:
     name: zizmor
@@ -69,7 +72,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
 
@@ -82,7 +85,7 @@ jobs:
       # a visible line in the diff rather than a side effect of bumping the
       # action, and documents exactly which analyser reproduces a finding.
       - name: Audit workflow files
-        uses: zizmorcore/zizmor-action@v0.6.2
+        uses: zizmorcore/zizmor-action@3dc1ecc9bcb9e94e9b2c709687979e1298497054 # v0.6.2
         with:
           advanced-security: false
           annotations: true

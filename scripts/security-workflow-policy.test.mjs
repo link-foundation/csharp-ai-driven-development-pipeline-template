@@ -19,10 +19,15 @@ describe('security workflow policy', () => {
   test('analyzes C# and GitHub Actions with CodeQL', () => {
     const workflow = readWorkflow();
 
-    expect(workflow).toContain('language: [csharp, actions]');
-    expect(workflow).toContain('uses: github/codeql-action/init@v4');
-    expect(workflow).toContain('uses: github/codeql-action/autobuild@v4');
-    expect(workflow).toContain('uses: github/codeql-action/analyze@v4');
+    expect(workflow).toContain('language: [csharp, actions, javascript-typescript]');
+    expect(workflow).toContain(
+      'uses: github/codeql-action/init@9b3254085494b55a0f7c4c2b3d2d52cc712ce370',
+    );
+    expect(workflow).not.toContain('codeql-action/autobuild@');
+    expect(workflow).toContain('build-mode: none');
+    expect(workflow).toContain(
+      'uses: github/codeql-action/analyze@9b3254085494b55a0f7c4c2b3d2d52cc712ce370',
+    );
     expect(workflow).toContain('security-events: write');
   });
 
@@ -30,7 +35,9 @@ describe('security workflow policy', () => {
     const workflow = readWorkflow();
 
     expect(workflow).toContain("if: github.event_name == 'pull_request'");
-    expect(workflow).toContain('uses: actions/dependency-review-action@v5');
+    expect(workflow).toContain(
+      'uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294',
+    );
     expect(workflow).toContain('fail-on-severity: high');
     expect(workflow).toContain('comment-summary-in-pr: on-failure');
     expect(workflow).toContain('pull-requests: write');
@@ -39,7 +46,9 @@ describe('security workflow policy', () => {
   test('uses current checkout and bounded jobs', () => {
     const workflow = readWorkflow();
 
-    expect(workflow).toContain('uses: actions/checkout@v6');
+    expect(workflow).toContain(
+      'uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803',
+    );
     expect(workflow).toContain('timeout-minutes: 30');
     expect(workflow).toContain('timeout-minutes: 10');
     expect(workflow).toContain('cancel-in-progress: true');

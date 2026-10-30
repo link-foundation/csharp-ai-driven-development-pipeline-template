@@ -12,9 +12,15 @@ function readWorkflow() {
 
 describe('broken-link workflow policy', () => {
   test('throttles GitHub requests without accepting rate limits as healthy links', () => {
+    /** @type {Record<string, any>} */
     const config = Bun.TOML.parse(readFileSync('lychee.toml', 'utf-8'));
-    expect(config.hosts['github.com']).toMatchObject({ concurrency: 2, request_interval: '1s' });
+    expect(config.hosts['github.com']).toMatchObject({
+      concurrency: 2,
+      request_interval: '1s',
+    });
     expect(config.accept).toBeUndefined();
+    /** @type {Record<string, any>} */
+    /** @type {Record<string, any>} */
     const workflow = Bun.YAML.parse(readWorkflow());
     for (const event of ['push', 'pull_request']) {
       expect(workflow.on[event].paths).toContain('lychee.toml');
@@ -25,11 +31,13 @@ describe('broken-link workflow policy', () => {
   test('checks Markdown and HTML changes with least privilege', () => {
     const workflow = readWorkflow();
 
-    expect(workflow).toContain("name: Broken Link Checker");
+    expect(workflow).toContain('name: Broken Link Checker');
     expect(workflow).toContain("      - '**.md'");
     expect(workflow).toContain("      - '**.html'");
     expect(workflow).toContain('permissions:\n  contents: read');
-    expect(workflow).toContain('uses: lycheeverse/lychee-action@v2');
+    expect(workflow).toContain(
+      'uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8',
+    );
   });
 
   test('excludes copied case studies and parser fixtures but not C# template HTML', () => {
@@ -51,7 +59,7 @@ describe('broken-link workflow policy', () => {
 
     expect(workflow).toContain('timeout-minutes: 10');
     expect(workflow).toContain(
-      'group: check-${{ github.workflow }}-${{ github.ref }}-link-checker'
+      'group: check-${{ github.workflow }}-${{ github.ref }}-link-checker',
     );
     expect(workflow).toContain('cancel-in-progress: true');
     expect(workflow).toContain('fail: false');
@@ -68,7 +76,7 @@ describe('broken-link workflow policy', () => {
     expect(recheckIndex).toBeGreaterThan(-1);
     expect(webarchiveIndex).toBeGreaterThan(recheckIndex);
     expect(workflow).toContain(
-      "if: steps.lychee.outputs.exit_code != 0\n        id: recheck"
+      'if: steps.lychee.outputs.exit_code != 0\n        id: recheck',
     );
     expect(workflow).toContain('run: node scripts/recheck-broken-links.mjs');
     expect(workflow).toContain('LYCHEE_OUTPUT: lychee/out.md');
@@ -78,9 +86,7 @@ describe('broken-link workflow policy', () => {
     // `!= 'true'`, never `== 'false'`: a skipped or crashed re-check leaves
     // the output empty, and only the != form fails safe. Both consumers --
     // the archive lookup and the fail step -- must gate on it.
-    const gates = workflow.match(
-      /steps\.recheck\.outputs\.all_recovered != 'true'/g
-    );
+    const gates = workflow.match(/steps\.recheck\.outputs\.all_recovered != 'true'/g);
     expect(gates).toHaveLength(2);
     expect(workflow).toContain('!cancelled() &&');
   });
@@ -102,8 +108,8 @@ describe('broken-link workflow policy', () => {
     const capSeconds = Number(/timeout-minutes: (\d+)/.exec(workflow)[1]) * 60;
     const budgetSeconds = Number(
       /RECHECK_BUDGET_SECONDS', (\d+)/.exec(
-        readFileSync('scripts/recheck-broken-links.mjs', 'utf-8')
-      )[1]
+        readFileSync('scripts/recheck-broken-links.mjs', 'utf-8'),
+      )[1],
     );
 
     expect(capSeconds).toBe(600);

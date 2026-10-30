@@ -37,7 +37,9 @@ function startNugetMock({ statuses }) {
 
   return new Promise((resolve) => {
     server.listen(0, '127.0.0.1', () => {
-      const { port } = server.address();
+      const address = server.address();
+      if (!address || typeof address === 'string') throw Error('Expected TCP listener');
+      const { port } = address;
       resolve({
         flatContainerUrl: `http://127.0.0.1:${port}`,
         served,
@@ -57,7 +59,7 @@ describe('wait-for-nuget parseArgs()', () => {
   test('defaults to two-minute checks across the NuGet indexing window', () => {
     const config = parseArgs(
       ['--package-id', 'MyPackage', '--release-version', '2.4.0'],
-      {}
+      {},
     );
 
     expect(config.packageId).toBe('MyPackage');
@@ -69,10 +71,7 @@ describe('wait-for-nuget parseArgs()', () => {
   });
 
   test('accepts --version as an alias for --release-version', () => {
-    const config = parseArgs(
-      ['--package-id', 'MyPackage', '--version', '0.2.1'],
-      {}
-    );
+    const config = parseArgs(['--package-id', 'MyPackage', '--version', '0.2.1'], {});
 
     expect(config.releaseVersion).toBe('0.2.1');
   });
@@ -91,7 +90,7 @@ describe('wait-for-nuget parseArgs()', () => {
         '--flat-container-url',
         'http://127.0.0.1:9999',
       ],
-      {}
+      {},
     );
 
     expect(config.maxAttempts).toBe(3);
@@ -118,7 +117,7 @@ describe('wait-for-nuget parseArgs()', () => {
   test('inline --flag=value form is supported', () => {
     const config = parseArgs(
       ['--package-id=MyPackage', '--release-version=2.0.0', '--max-attempts=2'],
-      {}
+      {},
     );
 
     expect(config.packageId).toBe('MyPackage');
@@ -130,8 +129,8 @@ describe('wait-for-nuget parseArgs()', () => {
     expect(() =>
       parseArgs(
         ['--package-id', 'p', '--release-version', '1.0.0', '--max-attempts', '0'],
-        {}
-      )
+        {},
+      ),
     ).toThrow(/--max-attempts must be a positive integer/);
   });
 
@@ -139,13 +138,15 @@ describe('wait-for-nuget parseArgs()', () => {
     expect(() =>
       parseArgs(
         ['--package-id', 'p', '--release-version', '1.0.0', '--sleep-seconds', '-1'],
-        {}
-      )
+        {},
+      ),
     ).toThrow(/--sleep-seconds must be a positive integer/);
   });
 
   test('throws when a flag is missing its value', () => {
-    expect(() => parseArgs(['--package-id'], {})).toThrow(/Missing value for --package-id/);
+    expect(() => parseArgs(['--package-id'], {})).toThrow(
+      /Missing value for --package-id/,
+    );
   });
 });
 
@@ -156,7 +157,7 @@ describe('wait-for-nuget createNugetNuspecUrl()', () => {
         flatContainerUrl: 'https://api.nuget.org/v3-flatcontainer/',
         packageId: 'MyPackage',
         version: '2.4.0',
-      })
+      }),
     ).toBe('https://api.nuget.org/v3-flatcontainer/mypackage/2.4.0/mypackage.nuspec');
   });
 
@@ -166,14 +167,16 @@ describe('wait-for-nuget createNugetNuspecUrl()', () => {
         flatContainerUrl: 'https://api.nuget.org/v3-flatcontainer',
         packageId: 'MyPackage',
         version: '1.0.0-RC.1',
-      })
-    ).toBe('https://api.nuget.org/v3-flatcontainer/mypackage/1.0.0-rc.1/mypackage.nuspec');
+      }),
+    ).toBe(
+      'https://api.nuget.org/v3-flatcontainer/mypackage/1.0.0-rc.1/mypackage.nuspec',
+    );
   });
 
   test('defaults to the official flat-container URL when not specified', () => {
-    expect(
-      createNugetNuspecUrl({ packageId: 'MyPackage', version: '1.0.0' })
-    ).toBe('https://api.nuget.org/v3-flatcontainer/mypackage/1.0.0/mypackage.nuspec');
+    expect(createNugetNuspecUrl({ packageId: 'MyPackage', version: '1.0.0' })).toBe(
+      'https://api.nuget.org/v3-flatcontainer/mypackage/1.0.0/mypackage.nuspec',
+    );
   });
 });
 
@@ -291,7 +294,7 @@ describe('wait-for-nuget checkNugetPackageVersion()', () => {
       expect(result.available).toBe(true);
       expect(result.status).toBe(200);
       expect(result.url).toBe(
-        `${mock.flatContainerUrl}/mypackage/1.0.0/mypackage.nuspec`
+        `${mock.flatContainerUrl}/mypackage/1.0.0/mypackage.nuspec`,
       );
       expect(mock.served).toHaveLength(1);
       expect(mock.served[0].method).toBe('HEAD');

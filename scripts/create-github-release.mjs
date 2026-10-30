@@ -6,14 +6,12 @@
  */
 
 import { spawnSync } from 'node:child_process';
-import {
-  existsSync,
-  readFileSync,
-  readdirSync,
-  statSync,
-} from 'node:fs';
+/** @type {import('./process-types.js').Spawn} */
+const runProcess = spawnSync;
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { reconcileReleaseAssets } from './release-assets.mjs';
 import {
   buildNuGetBadge as buildLayoutNuGetBadge,
   buildReleaseTag as buildLayoutReleaseTag,
@@ -161,19 +159,12 @@ export function buildNuGetBadge(packageId, releaseVersion) {
  * @param {string} releaseVersion
  * @returns {string}
  */
-export function appendNuGetBadgeIfMissing(
-  releaseNotes,
-  packageId,
-  releaseVersion
-) {
+export function appendNuGetBadgeIfMissing(releaseNotes, packageId, releaseVersion) {
   if (!packageId || /img\.shields\.io/i.test(releaseNotes)) {
     return releaseNotes;
   }
 
-  return `${releaseNotes}\n\n---\n\n${buildNuGetBadge(
-    packageId,
-    releaseVersion
-  )}`;
+  return `${releaseNotes}\n\n---\n\n${buildNuGetBadge(packageId, releaseVersion)}`;
 }
 
 /**
@@ -251,10 +242,7 @@ export function limitReleaseNotesBytes({
   })}`;
   const suffixBytes = getUtf8ByteLength(suffix);
   const availableBytes = Math.max(0, maxBytes - suffixBytes);
-  const shortenedNotes = truncateToUtf8Bytes(
-    releaseNotes,
-    availableBytes
-  ).trimEnd();
+  const shortenedNotes = truncateToUtf8Bytes(releaseNotes, availableBytes).trimEnd();
   const limitedNotes = `${shortenedNotes}${suffix}`;
 
   if (getUtf8ByteLength(limitedNotes) <= maxBytes) {
@@ -276,7 +264,7 @@ export function extractReleaseNotes(changelog, version) {
   // Find the section for this version
   const escapedVersion = escapeRegex(semver);
   const pattern = new RegExp(
-    `(?:^|\\n)## \\[?${escapedVersion}\\]?[^\\n]*\\n([\\s\\S]*?)(?=\\n## \\[?\\d|$)`
+    `(?:^|\\n)## \\[?${escapedVersion}\\]?[^\\n]*\\n([\\s\\S]*?)(?=\\n## \\[?\\d|$)`,
   );
   const match = changelog.match(pattern);
 
@@ -305,9 +293,7 @@ export function findPackageId(rootDir = '.') {
     return packageIdMatch[1].trim();
   }
 
-  const assemblyNameMatch = csproj.match(
-    /<AssemblyName>([^<]+)<\/AssemblyName>/
-  );
+  const assemblyNameMatch = csproj.match(/<AssemblyName>([^<]+)<\/AssemblyName>/);
   if (assemblyNameMatch) {
     return assemblyNameMatch[1].trim();
   }
@@ -334,10 +320,11 @@ export function buildReleasePayload({
   const releaseNotes = appendNuGetBadgeIfMissing(
     extractReleaseNotes(changelog, semver),
     packageId,
-    semver
+    semver,
   );
 
   return JSON.stringify({
+    draft: true,
     tag_name: tag,
     name: buildLayoutReleaseTitle(semver, {
       csharpRoot,
@@ -350,17 +337,17 @@ export function buildReleasePayload({
 
 /**
  * Create a GitHub release using gh.
- * @param {{payload: string, repository: string, spawn?: typeof spawnSync}} options
+ * @param {{payload: string, repository: string, spawn?: import('./process-types.js').Spawn}} options
  * @returns {{alreadyExists: boolean}}
  */
-export function createRelease({ payload, repository, spawn = spawnSync }) {
+export function createRelease({ payload, repository, spawn = runProcess }) {
   const result = spawn(
     'gh',
     ['api', `repos/${repository}/releases`, '-X', 'POST', '--input', '-'],
     {
       encoding: 'utf-8',
       input: payload,
-    }
+    },
   );
 
   if (result.error) {
@@ -422,7 +409,7 @@ export function resolveReleaseAssets(assetsGlob, cwd = '.') {
   }
 
   const filePatternRegex = new RegExp(
-    `^${escapeRegex(filePattern).replace(/\\\*/g, '.*')}$`
+    `^${escapeRegex(filePattern).replace(/\\\*/g, '.*')}$`,
   );
 
   return entries
@@ -432,59 +419,15 @@ export function resolveReleaseAssets(assetsGlob, cwd = '.') {
 }
 
 /**
- * Upload release assets using gh.
- * @param {{assetPaths: string[], repository: string, tag: string, spawn?: typeof spawnSync}} options
- * @returns {void}
- */
-export function uploadReleaseAssets({
-  assetPaths,
-  repository,
-  tag,
-  spawn = spawnSync,
-}) {
-  if (assetPaths.length === 0) {
-    return;
-  }
-
-  const result = spawn(
-    'gh',
-    [
-      'release',
-      'upload',
-      tag,
-      ...assetPaths,
-      '--clobber',
-      '--repo',
-      repository,
-    ],
-    { encoding: 'utf-8' }
-  );
-
-  if (result.error) {
-    throw new Error(`gh release upload failed to start: ${result.error.message}`);
-  }
-
-  if (result.status !== 0) {
-    const output = [result.stderr, result.stdout]
-      .filter((value) => typeof value === 'string' && value.trim())
-      .join('\n');
-
-    throw new Error(
-      `gh release upload failed with code ${result.status}: ${output}`
-    );
-  }
-}
-
-/**
  * Run the CLI.
- * @param {{argv?: string[], cwd?: string, env?: NodeJS.ProcessEnv, spawn?: typeof spawnSync, stderr?: typeof console.error, stdout?: typeof console.log}} options
+ * @param {{argv?: string[], cwd?: string, env?: NodeJS.ProcessEnv, spawn?: import('./process-types.js').Spawn, stderr?: typeof console.error, stdout?: typeof console.log}} options
  * @returns {number}
  */
 export function main({
   argv = process.argv.slice(2),
   cwd = process.cwd(),
   env = process.env,
-  spawn = spawnSync,
+  spawn = runProcess,
   stderr = console.error,
   stdout = console.log,
 } = {}) {
@@ -497,8 +440,7 @@ export function main({
       releaseVersion,
       repository,
       tagPrefix,
-    } =
-      parseArgs(argv, env);
+    } = parseArgs(argv, env);
 
     if (!releaseVersion || !repository) {
       stderr('Error: Missing required arguments');
@@ -546,8 +488,10 @@ export function main({
       }
 
       stdout(`Uploading ${assetPaths.length} release asset(s) to ${tag}...`);
-      uploadReleaseAssets({ assetPaths, repository, spawn, tag });
+      reconcileReleaseAssets({ assetPaths, repository, spawn, tag, log: stdout });
       stdout(`Uploaded ${assetPaths.length} release asset(s) to ${tag}`);
+    } else {
+      reconcileReleaseAssets({ assetPaths: [], repository, spawn, tag, log: stdout });
     }
 
     return 0;
