@@ -1,0 +1,259 @@
+Release Preflight	UNKNOWN STEP	﻿2026-10-30T02:00:22.0278193Z Current runner version: '2.338.0'
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0304411Z ##[group]Runner Image Provisioner
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0305501Z Hosted Compute Agent
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0306108Z Version: 20261021.618
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0306855Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0307679Z Build Date: 2026-10-21T00:45:21Z
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0308694Z Worker ID: {5438f6da-3547-45fc-8d6d-5853ba8cbfa1}
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0309529Z Region: eastus
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0310080Z Cloud: Azure
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0310743Z ##[endgroup]
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0312357Z ##[group]Operating System
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0313145Z Ubuntu
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0313727Z 24.04.5
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0314272Z LTS
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0314928Z ##[endgroup]
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0315509Z ##[group]Runner Image
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0316170Z Image: ubuntu-24.04
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0316832Z Version: 20261025.353.1
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0318775Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261025.353/images/ubuntu/Ubuntu2404-Readme.md
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0320433Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261025.353
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0321505Z ##[endgroup]
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0322685Z ##[group]GITHUB_TOKEN Permissions
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0325173Z Contents: read
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0325835Z Metadata: read
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0326408Z ##[endgroup]
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0329118Z Secret source: Actions
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0330139Z Cache mode: write
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0331285Z Prepare workflow directory
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0740213Z Prepare all required actions
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.0790275Z Getting action download info
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.3127305Z Download action repository 'actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803' (SHA:d23441a48e516b6c34aea4fa41551a30e30af803)
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.4448717Z Download action repository 'oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6' (SHA:0c5077e51419868618aeaa5fe8019c62421857d6)
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.5866322Z Download action repository 'NuGet/login@8d196754b4036150537f80ac539e15c2f1028841' (SHA:8d196754b4036150537f80ac539e15c2f1028841)
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.8120864Z Complete job name: Release Preflight
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9017021Z ##[group]Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9018348Z with:
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9018826Z   persist-credentials: false
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9019602Z   repository: link-foundation/csharp-ai-driven-development-pipeline-template
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9023832Z   token: ***
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9024276Z   ssh-strict: true
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9024726Z   ssh-user: git
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9025157Z   clean: true
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9025613Z   sparse-checkout-cone-mode: true
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9026149Z   fetch-depth: 1
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9026595Z   fetch-tags: false
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9027040Z   show-progress: true
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9027506Z   lfs: false
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9028061Z   submodules: false
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9028534Z   set-safe-directory: true
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9029073Z   allow-unsafe-pr-checkout: false
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9029956Z env:
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9030380Z   GIT_CONFIG_COUNT: 1
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9030911Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9031469Z   GIT_CONFIG_VALUE_0: main
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9031985Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9032570Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9033100Z   DOTNET_NOLOGO: true
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:22.9033549Z ##[endgroup]
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.1742787Z Syncing repository: link-foundation/csharp-ai-driven-development-pipeline-template
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.1746074Z ##[group]Getting Git version info
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.1748424Z Working directory is '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template'
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.1751066Z [command]/usr/bin/git version
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.1849420Z git version 2.56.0
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.1882837Z ##[endgroup]
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.1892544Z Temporarily overriding HOME='/home/runner/work/_temp/e6bd7884-797a-423a-a8d7-0f66c605f2cb' before making global git config changes
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.1895489Z Adding repository directory to the temporary git global config as a safe directory
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.1898869Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.1958831Z Deleting the contents of '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template'
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.1965828Z ##[group]Determining repository object format
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.1968121Z ##[endgroup]
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.1969577Z ##[group]Initializing the repository
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.1977128Z [command]/usr/bin/git init /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.2108148Z Initialized empty Git repository in /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.2119873Z [command]/usr/bin/git remote add origin https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.2177209Z ##[endgroup]
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.2178808Z ##[group]Disabling automatic garbage collection
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.2181198Z [command]/usr/bin/git config --local gc.auto 0
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.2221868Z ##[endgroup]
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.2223388Z ##[group]Setting up auth
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.2224415Z Removing SSH command configuration
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.2230213Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.2276332Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.2691215Z Removing HTTP extra header
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.2698912Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.2750126Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.2995792Z Removing includeIf entries pointing to credentials config files
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.3005097Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.3053922Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.3310079Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-10aca4fa-742b-4534-9131-b48bb3d7385b.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.3366510Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path /home/runner/work/_temp/git-credentials-10aca4fa-742b-4534-9131-b48bb3d7385b.config
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.3410079Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-10aca4fa-742b-4534-9131-b48bb3d7385b.config
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.3463841Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-10aca4fa-742b-4534-9131-b48bb3d7385b.config
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.3505949Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-10aca4fa-742b-4534-9131-b48bb3d7385b.config
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.3544773Z ##[endgroup]
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.3545576Z ##[group]Fetching the repository
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.3554397Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +565f4bd6546cb64b6639a34f4354090e455350e3:refs/remotes/origin/main
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.5891666Z From https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.5894508Z  * [new ref]         565f4bd6546cb64b6639a34f4354090e455350e3 -> origin/main
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.5900331Z [command]/usr/bin/git branch --list --remote origin/main
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.5941257Z   origin/main
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.5950375Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.5984839Z 565f4bd6546cb64b6639a34f4354090e455350e3
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.6024517Z ##[endgroup]
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.6026774Z ##[group]Determining the checkout info
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.6029513Z ##[endgroup]
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.6031778Z [command]/usr/bin/git sparse-checkout disable
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.6097744Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.6141927Z ##[group]Checking out the ref
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.6146288Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.6292956Z Reset branch 'main'
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.6299584Z branch 'main' set up to track 'origin/main'.
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.6306479Z ##[endgroup]
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.6366328Z [command]/usr/bin/git log -1 --format=%H
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.6404971Z 565f4bd6546cb64b6639a34f4354090e455350e3
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.6416437Z ##[group]Removing auth
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.6417723Z Removing SSH command configuration
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.6423017Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.6470265Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.6723890Z Removing HTTP extra header
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.6728673Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.6781403Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.7032355Z Removing includeIf entries pointing to credentials config files
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.7040222Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.7085252Z includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.7094283Z includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.7100432Z includeif.gitdir:/github/workspace/.git.path
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.7102889Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.7111477Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.7139677Z /home/runner/work/_temp/git-credentials-10aca4fa-742b-4534-9131-b48bb3d7385b.config
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.7155948Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path /home/runner/work/_temp/git-credentials-10aca4fa-742b-4534-9131-b48bb3d7385b.config
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.7204174Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.7239230Z /home/runner/work/_temp/git-credentials-10aca4fa-742b-4534-9131-b48bb3d7385b.config
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.7252152Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-10aca4fa-742b-4534-9131-b48bb3d7385b.config
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.7306926Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.7342275Z /github/runner_temp/git-credentials-10aca4fa-742b-4534-9131-b48bb3d7385b.config
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.7352405Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-10aca4fa-742b-4534-9131-b48bb3d7385b.config
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.7397579Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.7431217Z /github/runner_temp/git-credentials-10aca4fa-742b-4534-9131-b48bb3d7385b.config
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.7442318Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-10aca4fa-742b-4534-9131-b48bb3d7385b.config
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.7489430Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.7739061Z Removing credentials config '/home/runner/work/_temp/git-credentials-10aca4fa-742b-4534-9131-b48bb3d7385b.config'
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.7746893Z ##[endgroup]
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8203046Z Prepare all required actions
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8336353Z ##[group]Run ./.github/actions/csharp-layout
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8337561Z env:
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8338570Z   GIT_CONFIG_COUNT: 1
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8339521Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8340631Z   GIT_CONFIG_VALUE_0: main
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8341653Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8342830Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8343897Z   DOTNET_NOLOGO: true
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8344752Z ##[endgroup]
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8410194Z ##[start-action display=Run set -euo pipefail;id=csharp_layout.layout]
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8474236Z ##[group]Run set -euo pipefail
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8475440Z ^[[36;1mset -euo pipefail^[[0m
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8477808Z ^[[36;1mif compgen -G "*.csproj" > /dev/null || compgen -G "*.sln" > /dev/null || find src -maxdepth 5 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then^[[0m
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8480970Z ^[[36;1m  CSHARP_ROOT="."^[[0m
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8481996Z ^[[36;1m  MULTI_LANGUAGE="false"^[[0m
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8483717Z ^[[36;1melif find csharp -maxdepth 6 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then^[[0m
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8485498Z ^[[36;1m  CSHARP_ROOT="csharp"^[[0m
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8486507Z ^[[36;1m  MULTI_LANGUAGE="true"^[[0m
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8487496Z ^[[36;1melse^[[0m
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8489207Z ^[[36;1m  echo "::error::Could not find a C# project at the repository root or under csharp/"^[[0m
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8490862Z ^[[36;1m  exit 1^[[0m
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8491656Z ^[[36;1mfi^[[0m
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8492586Z ^[[36;1mecho "root=$CSHARP_ROOT" >> "$GITHUB_OUTPUT"^[[0m
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8494089Z ^[[36;1mecho "multi-language=$MULTI_LANGUAGE" >> "$GITHUB_OUTPUT"^[[0m
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8495973Z ^[[36;1mecho "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"^[[0m
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8523787Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8525094Z env:
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8525850Z   GIT_CONFIG_COUNT: 1
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8526744Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8527801Z   GIT_CONFIG_VALUE_0: main
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8529021Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8530159Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8531163Z   DOTNET_NOLOGO: true
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8532023Z ##[endgroup]
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8614515Z Detected C# layout: root=., multi-language=false
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8657164Z ##[end-action id=csharp_layout.layout;outcome=success;conclusion=success;duration_ms=24]
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8873280Z ##[group]Run oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8874752Z with:
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8875492Z   bun-version: 1.4.4
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8876326Z   no-cache: false
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8885463Z   token: ***
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8886226Z env:
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8886954Z   GIT_CONFIG_COUNT: 1
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8887831Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8888989Z   GIT_CONFIG_VALUE_0: main
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8889950Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8891060Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8892051Z   DOTNET_NOLOGO: true
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:23.8892903Z ##[endgroup]
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:24.1769586Z Downloading a new version of Bun: https://github.com/oven-sh/bun/releases/download/bun-v1.4.4/bun-linux-x64.zip
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:24.4961122Z [command]/usr/bin/unzip -o -q /home/runner/work/_temp/92209c91-6ee1-4273-88f1-6e1a3bf55db2.zip
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:25.3686924Z [command]/home/runner/.bun/bin/bun --revision
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:25.3755166Z 1.4.4+38afee6c8
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:25.3981358Z ##[group]Run NuGet/login@8d196754b4036150537f80ac539e15c2f1028841
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:25.3981810Z with:
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:25.3982060Z   user: konard
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:25.3982406Z   token-service-url: https://www.nuget.org/api/v2/token
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:25.3982814Z   audience: https://www.nuget.org
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:25.3983117Z env:
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:25.3983348Z   GIT_CONFIG_COUNT: 1
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:25.3983629Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:25.3983951Z   GIT_CONFIG_VALUE_0: main
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:25.3984278Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:25.3984617Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:25.3984923Z   DOTNET_NOLOGO: true
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:25.3985206Z ##[endgroup]
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.6816435Z ##[error]Token exchange failed (HTTP 401) at https://www.nuget.org/api/v2/token. Make sure you are using the username of the policy creator, not the policy owner: No matching trust policy owned by user 'konard' was found.
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.6929572Z ##[group]Run bun run scripts/preflight-credentials.mjs
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.6930046Z ^[[36;1mbun run scripts/preflight-credentials.mjs^[[0m
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.6951303Z shell: /usr/bin/bash -e {0}
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.6951579Z env:
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.6951777Z   GIT_CONFIG_COUNT: 1
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.6952025Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.6952314Z   GIT_CONFIG_VALUE_0: main
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.6952571Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.6952875Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.6953131Z   DOTNET_NOLOGO: true
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.6953358Z   PREFLIGHT_MODE: release
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.6953776Z   GITHUB_REPOSITORY: link-foundation/csharp-ai-driven-development-pipeline-template
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.6956739Z   GITHUB_TOKEN: ***
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.6957104Z   NUGET_API_KEY: ***
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.6957374Z   NUGET_USER: konard
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.6957604Z   NUGET_OIDC_OUTCOME: failure
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.6957874Z   NUGET_OIDC_KEY:
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.6958530Z ##[endgroup]
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.7116334Z Preflight mode: release
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.7117789Z Repository:     link-foundation/csharp-ai-driven-development-pipeline-template
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.7119270Z Package id:     MyPackage
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.7120601Z Fetching https://api.github.com/repos/link-foundation/csharp-ai-driven-development-pipeline-template
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:27.9481697Z Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.2196459Z Output: auth=token-fallback
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.2208957Z ##[error]Publishing identity: Publishing identity is unset or still a template placeholder. Set a unique PackageId and real Authors, confirm the NuGet owner, and configure the exact release.yml publisher policy before publishing. Never register MyPackage or a broad wildcard.
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.2212384Z [FAIL] Publishing identity: Publishing identity is unset or still a template placeholder. Set a unique PackageId and real Authors, confirm the NuGet owner, and configure the exact release.yml publisher policy before publishing. Never register MyPackage or a broad wildcard.
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.2215190Z [PASS] GitHub repository access (write unverified): Repository identity and read access verified. User-role permissions.push=false does not prove installation-token or protected-branch write authorization; actual writes remain fatal.
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.2220227Z ##[error]release preflight failed — Publishing identity: Publishing identity is unset or still a template placeholder. Set a unique PackageId and real Authors, confirm the NuGet owner, and configure the exact release.yml publisher policy before publishing. Never register MyPackage or a broad wildcard.
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.2222592Z [PASS] NuGet authentication: Official NuGet/login exchange failed; inspect its sanitized diagnostics. Fallback key validity checked. A derived verification key does not prove the original key package glob; publication must enforce push authorization.
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.2223787Z [PASS] NuGet package visibility: "MyPackage" is public on nuget.org with 1 published version(s)
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.2224269Z Output: preflight_result=failed
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.2224854Z Release preflight failed; no build or publish job will run. Fix the probes above and push again.
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.2244770Z ##[error]Process completed with exit code 1.
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.2385158Z Post job cleanup.
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.3340515Z [command]/usr/bin/git version
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.3390739Z git version 2.56.0
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.3442216Z Temporarily overriding HOME='/home/runner/work/_temp/255a3a4b-2d83-4ec6-88d2-4e5491f25570' before making global git config changes
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.3444170Z Adding repository directory to the temporary git global config as a safe directory
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.3449892Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.3489800Z Removing SSH command configuration
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.3497739Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.3548315Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.3854167Z Removing HTTP extra header
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.3855351Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.3897408Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.4194539Z Removing includeIf entries pointing to credentials config files
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.4205908Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.4260064Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Release Preflight	UNKNOWN STEP	2026-10-30T02:00:28.4673477Z Cleaning up orphan processes
