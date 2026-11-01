@@ -1,0 +1,48 @@
+Check Codecov token	UNKNOWN STEP	﻿2026-10-30T02:00:21.9158300Z Current runner version: '2.338.0'
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9187203Z ##[group]Runner Image Provisioner
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9188187Z Hosted Compute Agent
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9188895Z Version: 20261021.618
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9189586Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9190345Z Build Date: 2026-10-21T00:45:21Z
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9191092Z Worker ID: {5dd3003e-5f53-4bbb-bd8e-686ca8f98100}
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9192244Z Region: eastus2
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9192853Z Cloud: Azure
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9193869Z ##[endgroup]
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9195602Z ##[group]Operating System
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9196250Z Ubuntu
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9196884Z 24.04.5
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9197401Z LTS
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9197985Z ##[endgroup]
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9198580Z ##[group]Runner Image
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9199178Z Image: ubuntu-24.04
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9199825Z Version: 20261025.353.1
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9201105Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261025.353/images/ubuntu/Ubuntu2404-Readme.md
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9202799Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261025.353
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9203998Z ##[endgroup]
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9205244Z ##[group]GITHUB_TOKEN Permissions
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9207675Z Contents: read
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9208314Z Metadata: read
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9208904Z ##[endgroup]
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9211348Z Secret source: Actions
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9212296Z Cache mode: write
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9213671Z Prepare workflow directory
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9627224Z Prepare all required actions
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:21.9699496Z Complete job name: Check Codecov token
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:22.0828248Z ##[group]Run if [ -z "$CODECOV_TOKEN" ]; then
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:22.0829308Z ^[[36;1mif [ -z "$CODECOV_TOKEN" ]; then^[[0m
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:22.0830561Z ^[[36;1m  echo "::error::Set CODECOV_TOKEN in Settings > Secrets and variables > Actions, then rerun. Coverage upload is required on main."^[[0m
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:22.0832062Z ^[[36;1m  exit 1^[[0m
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:22.0832735Z ^[[36;1mfi^[[0m
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:22.1276943Z shell: /usr/bin/bash -e {0}
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:22.1279093Z env:
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:22.1279810Z   GIT_CONFIG_COUNT: 1
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:22.1280450Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:22.1281355Z   GIT_CONFIG_VALUE_0: main
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:22.1282047Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:22.1282799Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:22.1283728Z   DOTNET_NOLOGO: true
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:22.1284349Z   CODECOV_TOKEN:
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:22.1285005Z ##[endgroup]
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:22.1606387Z ##[error]Set CODECOV_TOKEN in Settings > Secrets and variables > Actions, then rerun. Coverage upload is required on main.
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:22.1630442Z ##[error]Process completed with exit code 1.
+Check Codecov token	UNKNOWN STEP	2026-10-30T02:00:22.1794259Z Cleaning up orphan processes
