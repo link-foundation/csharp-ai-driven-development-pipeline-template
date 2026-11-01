@@ -108,6 +108,14 @@ before the fix and passed afterward. A second test runs real ESLint discovery
 over nested `.mjs`/`.js` fixtures and confirms both findings and ignored paths.
 No stress input or vulnerability-scanner exception is needed.
 
+The first complete lint run at head `b5b5546` exposed an integration gap in this
+change: unlike Helper Checks, the release workflow's lint job ran helper tests
+without installing JavaScript dependencies. Its
+[job log](https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/actions/runs/41282572347/job/124777888549)
+reports `Cannot find package 'eslint'` at line 578. Install with the frozen lock
+before that test command. The added workflow-order regression failed before
+this repair and verifies both workflows install dependencies before helper tests.
+
 Local verification on Bun 1.4.4 / Node 26.13.0:
 
 - The existing `node scripts/audit-javascript.mjs` failed on the original lock

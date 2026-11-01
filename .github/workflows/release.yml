@@ -167,6 +167,10 @@ jobs:
         working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: bash scripts/run-with-budget-warning.sh 700 "dotnet build (lint)" dotnet build --no-restore --configuration Release /warnaserror
 
+      - name: Install helper dependencies
+        working-directory: ${{ steps.csharp_layout.outputs.root }}
+        run: bun install --frozen-lockfile
+
       - name: Run script tests
         working-directory: ${{ steps.csharp_layout.outputs.root }}
         run: bash scripts/run-with-budget-warning.sh 300 "Script tests" bun test scripts/*.test.mjs

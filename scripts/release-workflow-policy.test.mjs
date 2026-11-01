@@ -133,6 +133,21 @@ function getStepBlock(jobBlock, stepName) {
 }
 
 describe('release workflow policy', () => {
+  test('installs locked helper dependencies before every CI helper test command', () => {
+    for (const path of [RELEASE_WORKFLOW, '.github/workflows/security.yml']) {
+      /** @type {Record<string, any>} */
+      const workflow = Bun.YAML.parse(readWorkflow(path));
+      for (const [name, job] of Object.entries(workflow.jobs)) {
+        const commands = job.steps.map((step) => step.run ?? '').join('\n');
+        const testsIndex = commands.indexOf('bun test ');
+        if (testsIndex === -1) continue;
+        expect(commands.slice(0, testsIndex), `${path}: ${name}`).toContain(
+          'bun install --frozen-lockfile',
+        );
+      }
+    }
+  });
+
   test('both publishers request OIDC just before push and explicitly select bounded fallback after login failure', () => {
     /** @type {Record<string, any>} */
     const workflow = Bun.YAML.parse(readWorkflow(RELEASE_WORKFLOW));
