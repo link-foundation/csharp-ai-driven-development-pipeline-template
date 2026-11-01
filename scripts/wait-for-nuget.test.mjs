@@ -48,7 +48,7 @@ function startNugetMock({ statuses }) {
             for (const socket of sockets) {
               socket.destroy();
             }
-            server.close(() => r());
+            server.close(() => r(undefined));
           }),
       });
     });

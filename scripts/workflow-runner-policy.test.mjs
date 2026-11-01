@@ -58,7 +58,7 @@ jobs:
     expect(findings, findings.join('\n')).toEqual([]);
   });
 
-  test('keeps all three pinned platforms and .NET 8 in the release matrix', () => {
+  test('keeps all three pinned platforms and .NET SDK from global.json in the release matrix', () => {
     /** @type {Record<string, any>} */
     const workflow = Bun.YAML.parse(
       readFileSync(join(WORKFLOW_DIR, 'release.yml'), 'utf-8'),
@@ -71,7 +71,7 @@ jobs:
     expect(
       workflow.jobs.test.steps.find((step) =>
         step.uses?.startsWith('actions/setup-dotnet@'),
-      ).with['dotnet-version'],
-    ).toBe('8.0.x');
+      ).with['global-json-file'],
+    ).toBe('global.json');
   });
 });

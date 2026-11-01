@@ -62,7 +62,7 @@ describe('smoke-test-nuget-package parseArgs()', () => {
     expect(config.packageId).toBe('MyPackage');
     expect(config.releaseVersion).toBe('1.2.3');
     expect(config.source).toBe('https://api.nuget.org/v3/index.json');
-    expect(config.framework).toBe('net8.0');
+    expect(config.framework).toBe('net10.0');
     expect(config.libraryNamespace).toBe('MyPackage');
     expect(config.maxAttempts).toBe(DEFAULT_MAX_ATTEMPTS);
     expect(config.sleepSeconds).toBe(DEFAULT_SLEEP_SECONDS);
@@ -126,7 +126,7 @@ describe('smoke-test-nuget-package smokeTestNugetPackage()', () => {
       await smokeTestNugetPackage({
         verifyDownloadedPackage: async () => 'test-digest',
         config: {
-          framework: 'net8.0',
+          framework: 'net10.0',
           libraryNamespace: 'MyPackage',
           maxAttempts: 3,
           packageId: 'MyPackage',
@@ -171,7 +171,7 @@ describe('smoke-test-nuget-package smokeTestNugetPackage()', () => {
         smokeTestNugetPackage({
           verifyDownloadedPackage: async () => 'test-digest',
           config: {
-            framework: 'net8.0',
+            framework: 'net10.0',
             libraryNamespace: 'MyPackage',
             maxAttempts: 2,
             packageId: 'MyPackage',

@@ -1,0 +1,124 @@
+Check Codecov token	Require Codecov configuration on main	﻿2026-11-01T10:54:57.5902533Z ##[group]Run if [ -z "$CODECOV_TOKEN" ]; then
+Check Codecov token	Require Codecov configuration on main	2026-11-01T10:54:57.5903589Z ^[[36;1mif [ -z "$CODECOV_TOKEN" ]; then^[[0m
+Check Codecov token	Require Codecov configuration on main	2026-11-01T10:54:57.5904830Z ^[[36;1m  echo "::error::Set CODECOV_TOKEN in Settings > Secrets and variables > Actions, then rerun. Coverage upload is required on main."^[[0m
+Check Codecov token	Require Codecov configuration on main	2026-11-01T10:54:57.5906203Z ^[[36;1m  exit 1^[[0m
+Check Codecov token	Require Codecov configuration on main	2026-11-01T10:54:57.5906860Z ^[[36;1mfi^[[0m
+Check Codecov token	Require Codecov configuration on main	2026-11-01T10:54:57.6177005Z shell: /usr/bin/bash -e {0}
+Check Codecov token	Require Codecov configuration on main	2026-11-01T10:54:57.6178167Z env:
+Check Codecov token	Require Codecov configuration on main	2026-11-01T10:54:57.6178763Z   GIT_CONFIG_COUNT: 1
+Check Codecov token	Require Codecov configuration on main	2026-11-01T10:54:57.6179486Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Check Codecov token	Require Codecov configuration on main	2026-11-01T10:54:57.6180174Z   GIT_CONFIG_VALUE_0: main
+Check Codecov token	Require Codecov configuration on main	2026-11-01T10:54:57.6180812Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Check Codecov token	Require Codecov configuration on main	2026-11-01T10:54:57.6181859Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Check Codecov token	Require Codecov configuration on main	2026-11-01T10:54:57.6182549Z   DOTNET_NOLOGO: true
+Check Codecov token	Require Codecov configuration on main	2026-11-01T10:54:57.6183236Z   CODECOV_TOKEN: 
+Check Codecov token	Require Codecov configuration on main	2026-11-01T10:54:57.6183809Z ##[endgroup]
+Check Codecov token	Require Codecov configuration on main	2026-11-01T10:54:57.6393986Z ##[error]Set CODECOV_TOKEN in Settings > Secrets and variables > Actions, then rerun. Coverage upload is required on main.
+Check Codecov token	Require Codecov configuration on main	2026-11-01T10:54:57.6411917Z ##[error]Process completed with exit code 1.
+Release Preflight	Probe every release precondition	﻿2026-11-01T10:55:09.4314957Z ##[group]Run bun run scripts/preflight-credentials.mjs
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.4315424Z ^[[36;1mbun run scripts/preflight-credentials.mjs^[[0m
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.4336442Z shell: /usr/bin/bash -e {0}
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.4336708Z env:
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.4336918Z   GIT_CONFIG_COUNT: 1
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.4337419Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.4337704Z   GIT_CONFIG_VALUE_0: main
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.4337995Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.4338347Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.4338615Z   DOTNET_NOLOGO: true
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.4338854Z   PREFLIGHT_MODE: release
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.4339256Z   GITHUB_REPOSITORY: link-foundation/csharp-ai-driven-development-pipeline-template
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.4341804Z   GITHUB_TOKEN: ***
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.4342161Z   NUGET_API_KEY: ***
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.4342399Z   NUGET_USER: konard
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.4342622Z   NUGET_OIDC_OUTCOME: failure
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.4342862Z   NUGET_OIDC_KEY: 
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.4343107Z ##[endgroup]
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.4508084Z Preflight mode: release
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.4538142Z Repository:     link-foundation/csharp-ai-driven-development-pipeline-template
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.4539144Z Package id:     MyPackage
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.4540029Z Fetching https://api.github.com/repos/link-foundation/csharp-ai-driven-development-pipeline-template
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.7020035Z Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.9885603Z Output: auth=token-fallback
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.9899641Z ##[error]Publishing identity: Publishing identity is unset or still a template placeholder. Set a unique PackageId and real Authors, confirm the NuGet owner, and configure the exact release.yml publisher policy before publishing. Never register MyPackage or a broad wildcard.
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.9902826Z [FAIL] Publishing identity: Publishing identity is unset or still a template placeholder. Set a unique PackageId and real Authors, confirm the NuGet owner, and configure the exact release.yml publisher policy before publishing. Never register MyPackage or a broad wildcard.
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.9906639Z ##[error]release preflight failed — Publishing identity: Publishing identity is unset or still a template placeholder. Set a unique PackageId and real Authors, confirm the NuGet owner, and configure the exact release.yml publisher policy before publishing. Never register MyPackage or a broad wildcard.
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.9910023Z [PASS] GitHub repository access (write unverified): Repository identity and read access verified. User-role permissions.push=false does not prove installation-token or protected-branch write authorization; actual writes remain fatal.
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.9911203Z Release preflight failed; no build or publish job will run. Fix the probes above and push again.
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.9912870Z [WARN] NuGet authentication: Official NuGet/login exchange failed; inspect its sanitized diagnostics. Fallback verification HTTP 403. This probe may require PackageVerify scope; unsupported verification is not evidence of push rejection. Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.9914543Z [PASS] NuGet package visibility: "MyPackage" is public on nuget.org with 1 published version(s)
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.9915018Z Output: preflight_result=failed
+Release Preflight	Probe every release precondition	2026-11-01T10:55:09.9945454Z ##[error]Process completed with exit code 1.
+Pipeline Status	Check aggregate pipeline status	﻿2026-11-01T10:55:17.0020765Z ##[group]Run bash scripts/check-pipeline-status.sh
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.0021605Z ^[[36;1mbash scripts/check-pipeline-status.sh^[[0m
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.0039471Z shell: /usr/bin/bash -e {0}
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.0040149Z env:
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.0040585Z   GIT_CONFIG_COUNT: 1
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.0041107Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.0041713Z   GIT_CONFIG_VALUE_0: main
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.0042272Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.0042909Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.0043675Z   DOTNET_NOLOGO: true
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.0047549Z   NEEDS_JSON: {
+Pipeline Status	Check aggregate pipeline status	  "codecov-token": {
+Pipeline Status	Check aggregate pipeline status	    "result": "failure",
+Pipeline Status	Check aggregate pipeline status	    "outputs": {}
+Pipeline Status	Check aggregate pipeline status	  },
+Pipeline Status	Check aggregate pipeline status	  "detect-changes": {
+Pipeline Status	Check aggregate pipeline status	    "result": "success",
+Pipeline Status	Check aggregate pipeline status	    "outputs": {
+Pipeline Status	Check aggregate pipeline status	      "any-code-changed": "true"
+Pipeline Status	Check aggregate pipeline status	    }
+Pipeline Status	Check aggregate pipeline status	  },
+Pipeline Status	Check aggregate pipeline status	  "changeset-check": {
+Pipeline Status	Check aggregate pipeline status	    "result": "skipped",
+Pipeline Status	Check aggregate pipeline status	    "outputs": {}
+Pipeline Status	Check aggregate pipeline status	  },
+Pipeline Status	Check aggregate pipeline status	  "lint": {
+Pipeline Status	Check aggregate pipeline status	    "result": "skipped",
+Pipeline Status	Check aggregate pipeline status	    "outputs": {}
+Pipeline Status	Check aggregate pipeline status	  },
+Pipeline Status	Check aggregate pipeline status	  "test": {
+Pipeline Status	Check aggregate pipeline status	    "result": "skipped",
+Pipeline Status	Check aggregate pipeline status	    "outputs": {}
+Pipeline Status	Check aggregate pipeline status	  },
+Pipeline Status	Check aggregate pipeline status	  "build": {
+Pipeline Status	Check aggregate pipeline status	    "result": "skipped",
+Pipeline Status	Check aggregate pipeline status	    "outputs": {}
+Pipeline Status	Check aggregate pipeline status	  },
+Pipeline Status	Check aggregate pipeline status	  "release-preflight": {
+Pipeline Status	Check aggregate pipeline status	    "result": "failure",
+Pipeline Status	Check aggregate pipeline status	    "outputs": {}
+Pipeline Status	Check aggregate pipeline status	  },
+Pipeline Status	Check aggregate pipeline status	  "release": {
+Pipeline Status	Check aggregate pipeline status	    "result": "skipped",
+Pipeline Status	Check aggregate pipeline status	    "outputs": {}
+Pipeline Status	Check aggregate pipeline status	  },
+Pipeline Status	Check aggregate pipeline status	  "instant-release": {
+Pipeline Status	Check aggregate pipeline status	    "result": "skipped",
+Pipeline Status	Check aggregate pipeline status	    "outputs": {}
+Pipeline Status	Check aggregate pipeline status	  },
+Pipeline Status	Check aggregate pipeline status	  "changeset-pr": {
+Pipeline Status	Check aggregate pipeline status	    "result": "skipped",
+Pipeline Status	Check aggregate pipeline status	    "outputs": {}
+Pipeline Status	Check aggregate pipeline status	  }
+Pipeline Status	Check aggregate pipeline status	}
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.0051547Z   IS_MAIN: true
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.0052004Z   EVENT_NAME: push
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.0052495Z   BRANCH_REF_FULL: refs/heads/main
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.0053204Z   RELEASE_MODE: 
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.0053695Z   BRANCH_REF: main
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.0054160Z ##[endgroup]
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.1511606Z file:///home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/scripts/security-gates.mjs:102
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.1514604Z       throw Error(`Required job ${name}: ${needs[name]?.result ?? 'missing'}`);
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.1515430Z             ^
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.1515816Z 
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.1516212Z Error: Required job release-preflight: failure
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.1518910Z     at validateJobResults (file:///home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/scripts/security-gates.mjs:102:13)
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.1523303Z     at checkPipeline (file:///home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/scripts/pipeline-gate.mjs:11:5)
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.1527167Z     at file:///home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/scripts/pipeline-gate.mjs:59:3
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.1529680Z     at ModuleJob.run (node:internal/modules/esm/module_job:343:25)
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.1531240Z     at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.1533034Z     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.1534356Z 
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.1534642Z Node.js v22.23.4
+Pipeline Status	Check aggregate pipeline status	2026-11-01T10:55:17.1561650Z ##[error]Process completed with exit code 1.

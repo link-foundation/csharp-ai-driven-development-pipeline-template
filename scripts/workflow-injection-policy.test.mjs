@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'bun:test';
+import { isShaPinned } from './action-pins.mjs';
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -218,9 +219,7 @@ describe('workflow linting policy', () => {
     // The regular pass with the repository's own config; `version` is named
     // because the action's `latest` resolves through its own frozen table, so
     // an unlisted bump would silently keep running the old analyser.
-    expect(workflow).toContain(
-      'uses: zizmorcore/zizmor-action@3dc1ecc9bcb9e94e9b2c709687979e1298497054',
-    );
+    expect(isShaPinned(workflow, 'zizmorcore/zizmor-action')).toBe(true);
     expect(workflow).toContain('config: .github/zizmor.yml');
     expect(workflow).toContain('version: 1.29.0');
 

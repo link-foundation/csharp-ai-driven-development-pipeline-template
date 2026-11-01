@@ -108,7 +108,7 @@ export function parseLycheeFailures(content) {
  * retry candidates, including transient HTTP responses.
  *
  * @param {{marker: string, url: string, detail: string}[]} failures
- * @returns {{final: object[], unanswered: object[]}}
+ * @returns {{final: {marker: string, url: string, detail: string}[], unanswered: {marker: string, url: string, detail: string}[]}}
  */
 export function classifyFailures(failures) {
   const final = [];
@@ -272,6 +272,16 @@ export async function probe(url, options = {}) {
  *
  * @param {string[]} urls
  * @param {object} [options] - Injectable clock, sleep and fetch, for tests
+ * @param {typeof request} [options.fetchImpl]
+ * @param {number} [options.attempts]
+ * @param {number} [options.waitMs]
+ * @param {number} [options.timeoutMs]
+ * @param {number} [options.budgetMs]
+ * @param {() => number} [options.now]
+ * @param {(ms: number) => Promise<unknown>} [options.sleep]
+ * @param {Set<number>} [options.accept]
+ * @param {string} [options.userAgent]
+ * @param {(message: string) => void} [options.log]
  * @returns {Promise<Map<string, {outcome: string, detail: string, attempts: number}>>}
  */
 export async function recheckAll(urls, options = {}) {

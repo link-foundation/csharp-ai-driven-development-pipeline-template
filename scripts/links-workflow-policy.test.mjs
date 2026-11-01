@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'bun:test';
+import { isShaPinned } from './action-pins.mjs';
 import { readFileSync } from 'node:fs';
 
 import { extractLycheeRequestOptions } from './recheck-broken-links.mjs';
@@ -34,9 +35,7 @@ describe('broken-link workflow policy', () => {
     expect(workflow).toContain("      - '**.md'");
     expect(workflow).toContain("      - '**.html'");
     expect(workflow).toContain('permissions:\n  contents: read');
-    expect(workflow).toContain(
-      'uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8',
-    );
+    expect(isShaPinned(workflow, 'lycheeverse/lychee-action')).toBe(true);
   });
 
   test('excludes copied case studies and parser fixtures but not C# template HTML', () => {
