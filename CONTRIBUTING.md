@@ -13,7 +13,7 @@ Thank you for your interest in contributing! This document provides guidelines a
 
 2. **Install .NET SDK**
 
-   Install .NET 8.0 SDK from [dotnet.microsoft.com](https://dotnet.microsoft.com/download).
+   Install the .NET 10 SDK (see `global.json`) from [dotnet.microsoft.com](https://dotnet.microsoft.com/download).
 
 3. **Install Bun 1.4.4** (for helper scripts)
 

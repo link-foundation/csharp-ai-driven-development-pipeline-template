@@ -10,7 +10,7 @@
  *
  * Optional arguments:
  *   --source <url-or-path>           Defaults to NuGet.org.
- *   --framework <tfm>                Defaults to net8.0.
+ *   --framework <tfm>                Defaults to net10.0.
  *   --library-namespace <namespace>  Defaults to MyPackage.
  *   --max-attempts <count>           Defaults to 5.
  *   --sleep-seconds <count>          Defaults to 60.
@@ -24,7 +24,7 @@ import { fileURLToPath } from 'node:url';
 import { verifyAnonymousPackage } from './anonymous-package.mjs';
 
 export const DEFAULT_SOURCE = 'https://api.nuget.org/v3/index.json';
-export const DEFAULT_FRAMEWORK = 'net8.0';
+export const DEFAULT_FRAMEWORK = 'net10.0';
 export const DEFAULT_LIBRARY_NAMESPACE = 'MyPackage';
 export const DEFAULT_MAX_ATTEMPTS = 5;
 export const DEFAULT_SLEEP_SECONDS = 60;

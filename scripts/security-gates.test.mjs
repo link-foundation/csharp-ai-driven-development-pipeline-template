@@ -45,7 +45,7 @@ const graph = () => ({
       path: 'tests/Test.csproj',
       frameworks: [
         {
-          framework: 'net8.0',
+          framework: 'net10.0',
           topLevelPackages: [{ id: 'Direct', resolvedVersion: '1.0.0' }],
           transitivePackages: [{ id: 'Transitive', resolvedVersion: '1.0.0' }],
         },
@@ -55,7 +55,7 @@ const graph = () => ({
 });
 const audit = () => ({
   version: 1,
-  projects: [{ path: 'tests/Test.csproj', frameworks: [{ framework: 'net8.0' }] }],
+  projects: [{ path: 'tests/Test.csproj', frameworks: [{ framework: 'net10.0' }] }],
 });
 test('full direct/transitive dependency graph and clean validated audit pass', () => {
   expect(() => validateAudit(audit(), graph(), ['tests/Test.csproj'])).not.toThrow();

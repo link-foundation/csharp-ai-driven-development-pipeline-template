@@ -18,7 +18,7 @@ function fixture(xml, license, run) {
       makeZip([
         { name: 'Example.Package.nuspec', bytes: xml },
         { name: 'LICENSE', bytes: license ?? readFileSync('LICENSE') },
-        { name: 'lib/net8.0/Example.Package.dll', bytes: 'fixture' },
+        { name: 'lib/net10.0/Example.Package.dll', bytes: 'fixture' },
       ]),
     );
     run({ packagePath: file, packageId: 'Example.Package', version: '1.2.3' });

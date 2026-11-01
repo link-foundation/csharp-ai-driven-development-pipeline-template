@@ -80,7 +80,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
-          dotnet-version: '8.0.x'
+          global-json-file: global.json
       - name: Audit every project and all transitive dependencies
         run: node scripts/audit-dependencies.mjs
       - name: Retain exact dependency graph and audit
@@ -104,7 +104,7 @@ jobs:
           bun-version: '1.4.4'
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
-          dotnet-version: '8.0.x'
+          global-json-file: global.json
       - name: Run helper regressions and quality policy
         run: |
           bun install --frozen-lockfile

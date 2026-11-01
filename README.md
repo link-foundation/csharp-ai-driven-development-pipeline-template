@@ -8,7 +8,7 @@ A comprehensive template for AI-driven C# development with full CI/CD pipeline s
 
 ## Features
 
-- **.NET 8.0 support**: Works with the latest .NET LTS version
+- **.NET 10 support**: Targets the current .NET LTS (`net10.0`); the SDK is pinned once in `global.json`
 - **Cross-platform testing**: CI runs on Ubuntu, macOS, and Windows
 - **Comprehensive testing**: xUnit tests with coverage reporting
 - **Code quality**: EditorConfig + .NET analyzers with warnings as errors
@@ -185,7 +185,7 @@ The GitHub Actions workflow provides:
 
 1. **Changeset validation**: Ensures PRs include a changeset file
 2. **Linting**: dotnet format and build with warnings as errors
-3. **Test matrix**: Ubuntu 24.04, macOS 15, and Windows Server 2025 with .NET 8.0
+3. **Test matrix**: Ubuntu 24.04, macOS 15, and Windows Server 2025 with the .NET SDK from `global.json`
 4. **Building**: Release build and package validation
 5. **Release**: Automated versioning, NuGet publishing, and GitHub releases
 
@@ -288,7 +288,7 @@ Release naming adapts to the repository layout automatically. A normal C# reposi
 Hosted OS labels are pinned in all workflows. Review
 [`actions/runner-images`](https://github.com/actions/runner-images) every
 quarter and before an image's announced retirement. Migrate labels in a PR
-and require the full .NET 8 matrix to pass before merging. Versioned OS labels
+and require the full .NET matrix to pass before merging. Versioned OS labels
 still receive software updates; they prevent automatic OS-version migrations.
 Repository-wide policy tests reject floating `-latest` runner labels and require
 `init.defaultBranch=main` to be configured before every checkout.
