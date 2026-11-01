@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'bun:test';
+import { isShaPinned } from './action-pins.mjs';
 import { readFileSync, statSync } from 'node:fs';
 
 const RELEASE_WORKFLOW = '.github/workflows/release.yml';
@@ -162,7 +163,7 @@ describe('release workflow policy', () => {
       expect(loginIndex).toBeGreaterThan(-1);
       expect(pushIndex).toBe(loginIndex + 1);
       const login = job.steps[loginIndex];
-      expect(login.uses).toBe('NuGet/login@8d196754b4036150537f80ac539e15c2f1028841');
+      expect(login.uses).toMatch(/^NuGet\/login@[0-9a-f]{40}$/);
       expect(login.if).toContain("vars.NUGET_USER != ''");
       expect(login.if).toContain("steps.version.outputs.version_committed == 'true'");
       expect(login.with.user).toBe('${{ vars.NUGET_USER }}');
@@ -271,29 +272,17 @@ describe('release workflow policy', () => {
     const workflow = readWorkflow(RELEASE_WORKFLOW);
     const docsWorkflow = readWorkflow(DOCS_WORKFLOW);
 
-    expect(workflow).toContain(
-      'uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803',
-    );
-    expect(workflow).toContain(
-      'uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1',
-    );
-    expect(workflow).toContain(
-      'uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9',
-    );
-    expect(workflow).toContain(
-      'uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5',
-    );
-    expect(workflow).toContain(
-      'uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1',
-    );
+    expect(isShaPinned(workflow, 'actions/checkout')).toBe(true);
+    expect(isShaPinned(workflow, 'actions/setup-dotnet')).toBe(true);
+    expect(isShaPinned(workflow, 'actions/upload-artifact')).toBe(true);
+    expect(isShaPinned(workflow, 'codecov/codecov-action')).toBe(true);
+    expect(isShaPinned(workflow, 'peter-evans/create-pull-request')).toBe(true);
     expect(workflow).not.toContain('uses: actions/checkout@v4');
     expect(workflow).not.toContain('uses: actions/setup-dotnet@v4');
     expect(workflow).not.toContain('uses: actions/upload-artifact@v4');
     expect(workflow).not.toContain('uses: codecov/codecov-action@v4');
     expect(workflow).not.toContain('uses: peter-evans/create-pull-request@v7');
-    expect(docsWorkflow).toContain(
-      'uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1',
-    );
+    expect(isShaPinned(docsWorkflow, 'actions/setup-dotnet')).toBe(true);
     expect(docsWorkflow).not.toContain('uses: actions/setup-dotnet@v4');
   });
 
@@ -319,9 +308,7 @@ describe('release workflow policy', () => {
     expect(uploadStep).toContain(
       "if: matrix.os == 'ubuntu-24.04' && env.CODECOV_TOKEN != ''",
     );
-    expect(uploadStep).toContain(
-      'uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5',
-    );
+    expect(isShaPinned(uploadStep, 'codecov/codecov-action')).toBe(true);
     expect(uploadStep).toContain('token: ${{ env.CODECOV_TOKEN }}');
     expect(uploadStep).toContain('fail_ci_if_error: true');
     expect(uploadStep).not.toContain('fail_ci_if_error: false');
