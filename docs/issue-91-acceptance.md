@@ -85,9 +85,10 @@ at 2026-11-01 06:40:39 UTC. Its tested PR merge SHA was
 quality checks passed, then the full JavaScript audit correctly failed.
 The downloaded Helper Checks job log, saved locally as
 `ci-logs/issue-91-initial-helper-124775005732.log`, records the failure at lines
-773–781. The retained
-[helper artifact](https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/actions/runs/41281784926/artifacts/13074215076)
-and [copied audit JSON](../ci-logs/issue-91-javascript-audit-before.json) identify
+773–781. The
+[Helper Checks job](https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/actions/runs/41281784926/job/124775005732)
+retained artifact `13074215076`; its
+[copied audit JSON](../ci-logs/issue-91-javascript-audit-before.json) identifies
 the transitive ESLint dependency `minimatch` 10.2.6 and
 [GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249).
 The advisory affects versions below 11.0.1; updating only ESLint to its currently
