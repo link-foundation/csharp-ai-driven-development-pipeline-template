@@ -1,0 +1,59 @@
+name: Rerun infrastructure failures
+
+# Issue #96: when GitHub has no hosted runner to hand out (usually macOS
+# arm64), it cancels the queued job with "The job was not acquired by Runner
+# of type hosted even after multiple attempts". No code ran, but the release
+# and Pipeline Status gates see a failed job and nothing retries it, so a push
+# to main silently produced no release.
+#
+# This workflow reruns such a run with "rerun failed jobs" (which also reruns
+# the release and status gates that depended on the job), at most twice
+# (attempts 2 and 3). A job that reached a runner and failed is never rerun;
+# scripts/runner-acquisition.mjs requires the not-acquired annotation, because
+# a job cancelled by concurrency while queued also has no runner and no steps.
+# Superseded runs (a newer run of the same branch and event) are left alone.
+#
+# workflow_run is safe here: the checkout is the default branch (github.sha
+# of a workflow_run event), nothing from the triggering run is executed, and
+# the only input taken from the event is its numeric run id.
+on: # zizmor: ignore[dangerous-triggers] -- trusted default-branch code, reads only the numeric run id
+  workflow_run:
+    workflows: ['CI/CD Pipeline']
+    types: [completed]
+
+permissions:
+  contents: read
+
+env:
+  GIT_CONFIG_COUNT: '1'
+  GIT_CONFIG_KEY_0: init.defaultBranch
+  GIT_CONFIG_VALUE_0: main
+
+jobs:
+  rerun:
+    name: Rerun jobs that never got a runner
+    # The attempt cap (3) is enforced by the script so that the last attempt
+    # still runs and reports, in red, the manual rerun command.
+    if: github.event.workflow_run.conclusion == 'failure'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    concurrency:
+      group: rerun-${{ github.event.workflow_run.id }}
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      # Read jobs and check-run annotations, request "rerun failed jobs".
+      actions: write
+      checks: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: Rerun jobs that GitHub never handed to a runner
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: node scripts/runner-acquisition.mjs rerun
