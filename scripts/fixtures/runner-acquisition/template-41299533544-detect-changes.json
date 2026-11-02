@@ -1,0 +1,26 @@
+{
+  "source": "https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/actions/runs/41299533544/job/124827419102",
+  "job": {
+    "id": 124827419102,
+    "run_id": 41299533544,
+    "run_attempt": 1,
+    "name": "Detect Changes",
+    "status": "completed",
+    "conclusion": "cancelled",
+    "started_at": "2026-11-01T10:54:48Z",
+    "completed_at": "2026-11-01T10:54:51Z",
+    "steps": [],
+    "labels": [
+      "ubuntu-24.04"
+    ],
+    "runner_id": 0,
+    "runner_name": "",
+    "html_url": "https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/actions/runs/41299533544/job/124827419102"
+  },
+  "annotations": [
+    {
+      "annotation_level": "failure",
+      "message": "Canceling since a higher priority waiting request for check-CI/CD Pipeline-refs/heads/main-detect-changes exists"
+    }
+  ]
+}

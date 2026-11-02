@@ -188,6 +188,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     needs: [detect-changes, release-preflight]
+    # Opt-in (issue #96): set the repository variable NON_BLOCKING_MACOS=true
+    # to keep releasing when only the macOS leg fails, e.g. while hosted macOS
+    # capacity is constrained. Off by default: every leg blocks the release.
+    # When it is on, needs.test.result reads success even if the macOS leg
+    # failed, so Pipeline Status annotates that leg as a non-blocking failure.
+    continue-on-error: ${{ matrix.os == 'macos-15' && vars.NON_BLOCKING_MACOS == 'true' }}
     env:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
     # Run tests only for events or file changes that affect runtime behavior.
@@ -887,6 +893,13 @@ jobs:
     if: always()
     runs-on: ubuntu-24.04
     timeout-minutes: 5
+    # actions: read lets the gate name jobs GitHub never gave a runner and
+    # non-blocking legs that failed (issue #96); checks: read covers the
+    # check-run annotations that tell a missing runner from a cancellation.
+    permissions:
+      contents: read
+      actions: read
+      checks: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -905,4 +918,5 @@ jobs:
           BRANCH_REF_FULL: ${{ github.ref }}
           RELEASE_MODE: ${{ inputs.release_mode }}
           BRANCH_REF: ${{ github.ref_name }}
+          GH_TOKEN: ${{ github.token }}
         run: bash scripts/check-pipeline-status.sh

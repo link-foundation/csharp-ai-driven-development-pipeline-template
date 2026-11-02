@@ -92,7 +92,8 @@ dotnet format --verify-no-changes && dotnet build --configuration Release /warna
 ├── .github/
 │   └── workflows/
 │       ├── docs.yml            # DocFX build + GitHub Pages deployment
-│       └── release.yml         # CI/CD pipeline configuration
+│       ├── release.yml         # CI/CD pipeline configuration
+│       └── rerun-infrastructure-failures.yml # Reruns jobs GitHub never gave a runner
 ├── docs/                       # DocFX content (conceptual docs, TOC)
 ├── docfx.json                  # DocFX project configuration
 ├── examples/
@@ -188,6 +189,9 @@ The GitHub Actions workflow provides:
 3. **Test matrix**: Ubuntu 24.04, macOS 15, and Windows Server 2025 with the .NET SDK from `global.json`
 4. **Building**: Release build and package validation
 5. **Release**: Automated versioning, NuGet publishing, and GitHub releases
+6. **Infrastructure-failure reruns**: a job that GitHub never handed to a
+   hosted runner (for example macOS during capacity constraints) is rerun
+   automatically, at most twice
 
 ### Documentation Site
 
@@ -301,6 +305,34 @@ an accepted HTTP response. Permanent errors such as 404 and missing local
 files retain the existing Web Archive reporting and failure behavior.
 Configuration, ignore-list, and link-check script changes also trigger the
 link workflow.
+
+#### Jobs that never get a hosted runner
+
+When hosted capacity runs out (usually macOS arm64), GitHub cancels a queued
+job with "The job was not acquired by Runner of type hosted even after
+multiple attempts". The job has no runner and no steps, so no code ran, yet
+the release and Pipeline Status gates see a failed job.
+
+- [`rerun-infrastructure-failures.yml`](.github/workflows/rerun-infrastructure-failures.yml)
+  runs after every failed `CI/CD Pipeline` run and, through
+  [`scripts/runner-acquisition.mjs`](scripts/runner-acquisition.mjs), reruns
+  the failed jobs (and the release and status gates that depended on them)
+  only when a job is runnerless, stepless **and** carries the not-acquired
+  annotation. A job cancelled by concurrency while queued also has no runner
+  and no steps; the annotation tells the two apart. Jobs that ran and failed
+  are never rerun, superseded runs are left alone, and after attempt 3 the
+  workflow fails with the `gh run rerun <id> --failed` command to use later.
+- Pipeline Status stays red when a job was not acquired (nothing was tested)
+  but names it with a `Hosted runner not acquired` error annotation.
+- To release while only the macOS leg fails, set the repository variable
+  `NON_BLOCKING_MACOS=true`. The leg then uses `continue-on-error`, and
+  Pipeline Status annotates it as `Non-blocking job did not succeed`. The
+  default keeps every leg blocking.
+
+The rerun workflow uses the `workflow_run` trigger, which GitHub only reads
+from the default branch, so it starts working once merged into `main`.
+Check a run offline with
+`GH_TOKEN=$(gh auth token) node experiments/issue-96/dry-run-rerun.mjs <owner/repo> <run-id>`.
 
 ## Configuration
 
