@@ -84,8 +84,9 @@ export function parseLycheeFailures(content) {
   const section = extractErrorsSection(content);
   const failures = [];
 
+  // Horizontal whitespace keeps every record and its detail on one line.
   const entryPattern =
-    /^\s*(?:\*|-)\s+\[([^\]]+)\]\s*<?([^\s>|)]+)>?(?:\s+\(at [^)]*\))?\s*\|?\s*(.*)$/gm;
+    /^[ \t]*(?:\*|-)[ \t]+\[([^\]\r\n]+)\][ \t]*<?([^\s>|)]+)>?(?:[ \t]+\(at [^)\r\n]*\))?[ \t]*\|?[ \t]*([^\r\n]*)$/gm;
   let match;
   while ((match = entryPattern.exec(section)) !== null) {
     const marker = match[1].trim();

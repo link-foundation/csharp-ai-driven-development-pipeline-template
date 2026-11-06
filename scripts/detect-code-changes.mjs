@@ -65,6 +65,7 @@ function setOutput(name, value) {
  * @returns {string[]} Array of changed file paths
  */
 export function getChangedFiles() {
+  // Keep deleted source paths when files move into folders excluded below.
   if (process.env.GITHUB_EVENT_NAME === 'pull_request') {
     const base = process.env.GITHUB_BASE_SHA || '';
     const head = process.env.GITHUB_HEAD_SHA || '';
@@ -75,7 +76,9 @@ export function getChangedFiles() {
     } catch {
       git(['fetch', 'origin', base]);
     }
-    return git(['diff', '--name-only', base, head, '--']).split('\n').filter(Boolean);
+    return git(['diff', '--no-renames', '--name-only', base, head, '--'])
+      .split('\n')
+      .filter(Boolean);
   }
   // Only a genuinely absent parent permits the initial-commit path.
   let hasParent = true;
@@ -86,7 +89,7 @@ export function getChangedFiles() {
   }
   return git(
     hasParent
-      ? ['diff', '--name-only', 'HEAD^', 'HEAD', '--']
+      ? ['diff', '--no-renames', '--name-only', 'HEAD^', 'HEAD', '--']
       : ['ls-tree', '--name-only', '-r', 'HEAD'],
   )
     .split('\n')
