@@ -64,6 +64,71 @@ function readOutputs(path) {
 }
 
 describe('lychee failure classification', () => {
+  test.each([
+    [
+      'bare URLs',
+      '* [404] https://example.com/missing',
+      '* [ERROR] https://example.com/reset',
+    ],
+    [
+      'angle brackets',
+      '- [404] <https://example.com/missing>',
+      '- [ERROR] <https://example.com/reset>',
+    ],
+    [
+      'locations',
+      '* [404] <https://example.com/missing> (at 1:1)',
+      '* [ERROR] <https://example.com/reset> (at 2:1)',
+    ],
+    [
+      'horizontal whitespace',
+      '\t* [404] https://example.com/missing \t| \t',
+      '\t* [ERROR] https://example.com/reset\t| Network error: reset',
+    ],
+  ])('preserves adjacent failures with %s', (_name, first, second) => {
+    for (const newline of ['\n', '\r\n']) {
+      const failures = parseLycheeFailures(
+        ['## Errors per input', first, second].join(newline),
+      );
+      expect(failures).toEqual([
+        { marker: '404', url: 'https://example.com/missing', detail: '' },
+        {
+          marker: 'ERROR',
+          url: 'https://example.com/reset',
+          detail: second.includes('Network') ? 'Network error: reset' : '',
+        },
+      ]);
+      const { final, unanswered } = classifyFailures(failures);
+      expect(final.map((failure) => failure.url)).toEqual([
+        'https://example.com/missing',
+      ]);
+      expect(unanswered.map((failure) => failure.url)).toEqual([
+        'https://example.com/reset',
+      ]);
+    }
+  });
+
+  test('reads only failures in the Errors section, including input subheadings', () => {
+    const failures = parseLycheeFailures(
+      [
+        '* [ERROR] https://example.com/before',
+        '## Errors per input',
+        '### Errors in README.md',
+        '* [404] https://example.com/missing',
+        '',
+        '### Errors in docs/index.md',
+        '* [ERROR] https://example.com/reset',
+        '## Redirects per input',
+        '* [ERROR] https://example.com/after',
+      ].join('\n'),
+    );
+    expect(failures.map((failure) => failure.url)).toEqual([
+      'https://example.com/missing',
+      'https://example.com/reset',
+    ]);
+    expect(parseLycheeFailures('* [ERROR] https://example.com/outside')).toEqual([]);
+  });
+
   test('the real fixture leaves nothing to re-ask: 404s answered, locals unprovable', () => {
     const failures = parseLycheeFailures(report);
     const { final, unanswered } = classifyFailures(failures);
@@ -432,8 +497,8 @@ describe('main', () => {
         '',
         '## Errors per input',
         '',
-        '* [404] <https://gone.example/x> (at 1:1) | Rejected status code: 404 Not Found',
-        '* [ERROR] <https://flappy.example/y> (at 2:1) | Network error: Connection reset by peer (os error 104)',
+        '* [404] https://gone.example/x',
+        '* [ERROR] https://flappy.example/y',
         '',
       ].join('\n'),
     );
@@ -475,7 +540,7 @@ describe('main', () => {
         '',
         '## Errors per input',
         '',
-        '* [ERROR] <https://flappy.example/y> (at 2:1) | Network error: Connection reset by peer (os error 104)',
+        '* [ERROR] https://flappy.example/y',
         '',
       ].join('\n'),
     );
