@@ -193,6 +193,8 @@ describe('preflight authentication integration', () => {
   for (const [nugetUser, apiKey, mode, expected] of [
     ['publisher', '', 'release', true],
     ['', 'expired', 'release', false],
+    ['', 'unlist-only', 'release', false],
+    ['', 'unlist-only', 'report', true],
     ['', '', 'report', true],
   ]) {
     test(`${mode} mode with auth user=${nugetUser || '(none)'} key=${apiKey || '(none)'}`, async () => {
@@ -224,7 +226,7 @@ describe('preflight authentication integration', () => {
             body: { versions: ['0.3.16'] },
           },
           'POST https://www.nuget.org/api/v2/package/create-verification-key/MyPackage':
-            { status: 401 },
+            { status: apiKey === 'unlist-only' ? 403 : 401 },
         });
         const decision = await main({
           fetchImpl,

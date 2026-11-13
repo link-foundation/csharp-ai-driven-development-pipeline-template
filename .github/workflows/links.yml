@@ -22,6 +22,8 @@ on:
       - '.lycheeignore'
       - 'scripts/recheck-broken-links.mjs'
       - 'scripts/check-web-archive.mjs'
+  schedule:
+    - cron: '17 6 * * 1'
   workflow_dispatch:
 
 # Least-privilege default; jobs escalate individually when needed.
@@ -54,7 +56,7 @@ jobs:
 
       - name: Check links with lychee
         id: lychee
-        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
           # Check all Markdown and HTML files
           # Exclude case-studies directory - these are research documents from
@@ -91,6 +93,7 @@ jobs:
         if: steps.lychee.outputs.exit_code != 0
         id: recheck
         env:
+          LYCHEE_EXIT_CODE: ${{ steps.lychee.outputs.exit_code }}
           LYCHEE_OUTPUT: lychee/out.md
           RECOVERED_OUTPUT: lychee/recovered.txt
         run: node scripts/recheck-broken-links.mjs
@@ -104,6 +107,7 @@ jobs:
         id: webarchive
         run: node scripts/check-web-archive.mjs
         env:
+          LYCHEE_EXIT_CODE: ${{ steps.lychee.outputs.exit_code }}
           LYCHEE_OUTPUT: lychee/out.md
           RECOVERED_URLS: lychee/recovered.txt
 

@@ -53,7 +53,7 @@ import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } fr
 import { dirname, resolve } from 'path';
 import { pathToFileURL, fileURLToPath } from 'url';
 
-import { extractErrorsSection } from './check-web-archive.mjs';
+import { extractFailureSections, validateLycheeReport } from './check-web-archive.mjs';
 
 /**
  * lychee's documented default `--accept` list. Used only when
@@ -81,7 +81,7 @@ export const USER_AGENT_DEFAULT = 'lychee';
  * @returns {{marker: string, url: string, detail: string}[]}
  */
 export function parseLycheeFailures(content) {
-  const section = extractErrorsSection(content);
+  const section = extractFailureSections(content);
   const failures = [];
 
   // Horizontal whitespace keeps every record and its detail on one line.
@@ -425,7 +425,9 @@ export async function main({ fetchImpl = request } = {}) {
     : '';
   const [accept, userAgent] = extractLycheeRequestOptions(workflowText);
 
-  const failures = parseLycheeFailures(readFileSync(lycheeOutput, 'utf-8'));
+  const content = readFileSync(lycheeOutput, 'utf-8');
+  validateLycheeReport(content);
+  const failures = parseLycheeFailures(content);
   const { final, unanswered } = classifyFailures(failures);
 
   console.log(

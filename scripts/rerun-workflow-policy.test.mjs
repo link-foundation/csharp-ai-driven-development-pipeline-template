@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 
 /** @returns {Record<string, any>} */
 const parse = (path) => Bun.YAML.parse(readFileSync(path, 'utf-8'));
@@ -11,7 +11,16 @@ const release = parse('.github/workflows/release.yml');
 describe('infrastructure-failure rerun workflow (issue #96)', () => {
   test('listens to the completed CI/CD pipeline by its exact name', () => {
     expect(rerun.on.workflow_run).toEqual({
-      workflows: [release.name],
+      workflows: readdirSync('.github/workflows')
+        .filter((file) => /\.ya?ml$/.test(file))
+        .map((file) => parse(`.github/workflows/${file}`))
+        .filter((workflow) =>
+          Object.values(workflow.jobs).some(
+            (job) => job.needs && job.if === 'always()',
+          ),
+        )
+        .map((workflow) => workflow.name)
+        .sort(),
       types: ['completed'],
     });
     expect(rerun.jobs.rerun.if).toBe(

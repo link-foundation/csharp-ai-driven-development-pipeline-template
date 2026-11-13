@@ -61,9 +61,11 @@ function setOutput(name, value) {
  * @param {string} content - The markdown content from lychee
  * @returns {string} The errors section, or an empty string when there is none
  */
-function extractErrorsSection(content) {
-  const lines = content.split('\n');
-  const start = lines.findIndex((line) => /^#+\s+Errors per input\s*$/.test(line));
+function extractErrorsSection(content, kind = 'Errors') {
+  const lines = content.split(/\r?\n/);
+  const start = lines.findIndex((line) =>
+    new RegExp(`^#+[ \t]+${kind} per input[ \t]*$`).test(line),
+  );
   if (start === -1) {
     return '';
   }
@@ -80,6 +82,68 @@ function extractErrorsSection(content) {
 }
 
 /**
+ * Both sections that list failed links. lychee writes timed-out links under
+ * "## Timeouts per input", not under the errors, and exits non-zero for
+ * them. Reading only the errors section ignored every timeout: a report with
+ * one recovered 503 and one unverified timeout was declared fully recovered,
+ * and a report with only timeouts was not rechecked (issue #100).
+ * @param {string} content - The markdown content from lychee
+ * @returns {string} The errors and timeouts sections, joined
+ */
+function extractFailureSections(content) {
+  return [
+    extractErrorsSection(content),
+    extractErrorsSection(content, 'Timeouts'),
+  ].join('\n');
+}
+
+// A fresh global RegExp per caller, so no `lastIndex` is shared between them.
+const LYCHEE_ENTRY_PATTERN = () =>
+  /^[ \t]*(?:\*|-)[ \t]+\[(?:4\d\d|5\d\d|ERROR|TIMEOUT|UNKNOWN)\][ \t]+<?([^\s>|)]+)>?/gim;
+
+/** Validate before either archive or recovery code emits a successful verdict. */
+export function validateLycheeReport(content, exitCode = process.env.LYCHEE_EXIT_CODE) {
+  const count = (kind) => {
+    const section = extractErrorsSection(content, kind);
+    const entries = section.match(LYCHEE_ENTRY_PATTERN());
+    const bullets = section.match(/^[ \t]*(?:\*|-)[ \t]+\[/gm);
+    const reported = new RegExp(`\\|[^|\\n]*${kind}\\s*\\|\\s*(\\d+)\\s*\\|`).exec(
+      content,
+    );
+    return {
+      entries: entries?.length ?? 0,
+      bullets: bullets?.length ?? 0,
+      reported: reported ? Number(reported[1]) : undefined,
+    };
+  };
+  const errors = count('Errors');
+  const timeouts = count('Timeouts');
+  const entries = errors.entries + timeouts.entries;
+  const failed = exitCode !== undefined && exitCode !== '0';
+  // lychee exits 2 when links fail. Any other non-zero code (1: runtime
+  // error, 3: config error) means the check itself broke, so recovering the
+  // links its partial report lists must not pass the job (issue #100).
+  if (failed && exitCode !== '2') {
+    throw new Error(
+      `lychee exited with ${exitCode}, not a link-failure result; fix the run`,
+    );
+  }
+  if (
+    !content.trim() ||
+    [errors, timeouts].some(
+      (kind) =>
+        kind.entries !== kind.bullets ||
+        (kind.reported !== undefined && kind.reported !== kind.entries),
+    ) ||
+    (entries === 0 && (failed || errors.reported !== 0))
+  ) {
+    throw new Error(
+      'Missing, empty, malformed or incomplete lychee report; re-run the link checker',
+    );
+  }
+}
+
+/**
  * Extract broken links from lychee markdown output.
  * Lychee markdown format includes lines like:
  *   * [404] https://example.com/broken-link
@@ -90,13 +154,12 @@ function extractErrorsSection(content) {
  *   unresolvable root-relative links, ...)
  */
 function extractBrokenLinks(content) {
-  const section = extractErrorsSection(content);
+  const section = extractFailureSections(content);
   const urls = [];
   const others = [];
 
   // One bullet per broken link; the status marker is always present.
-  const entryPattern =
-    /^\s*(?:\*|-)\s+\[(?:4\d\d|5\d\d|ERROR|TIMEOUT|UNKNOWN)\]\s+<?([^\s>|)]+)>?/gim;
+  const entryPattern = LYCHEE_ENTRY_PATTERN();
   let match;
   while ((match = entryPattern.exec(section)) !== null) {
     const link = match[1].trim().replace(/[.,;!?]+$/, '');
@@ -232,12 +295,11 @@ async function main() {
   console.log(`Reading lychee output from: ${lycheeOutput}\n`);
 
   if (!existsSync(lycheeOutput)) {
-    console.log('No lychee output file found. Skipping web archive check.');
-    setOutput('all_archived', 'true');
-    process.exit(0);
+    throw new Error('Missing lychee output; cannot verify failures.');
   }
 
   const content = readFileSync(lycheeOutput, 'utf-8');
+  validateLycheeReport(content);
   const { urls: brokenUrls, others: unarchivableLinks } = extractBrokenLinks(content);
 
   // URLs the re-check step found healthy again never reach the archive
@@ -392,7 +454,7 @@ async function main() {
   }
 }
 
-export { extractErrorsSection, extractBrokenLinks, main };
+export { extractFailureSections, extractErrorsSection, extractBrokenLinks, main };
 
 // Only run when executed directly, so the unit tests can import the parsers.
 const entryPath = process.argv[1];
