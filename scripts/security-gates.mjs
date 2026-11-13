@@ -1,6 +1,7 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { printUntrusted } from './print-untrusted.mjs';
 
 const object = (x) => x !== null && typeof x === 'object' && !Array.isArray(x);
 const array = (x, name, nonempty = false) => {
@@ -8,27 +9,83 @@ const array = (x, name, nonempty = false) => {
     throw Error(`Missing/malformed ${name}`);
   return x;
 };
-export function validateSarif(data) {
-  if (data?.version !== '2.1.0') throw Error('Unknown SARIF version');
-  for (const run of array(data.runs, 'SARIF runs', true)) {
-    if (!run?.tool?.driver?.name) throw Error('Missing SARIF tool');
-    if (array(run.results, 'SARIF results').length)
-      throw Error('CodeQL findings detected (all levels are fatal)');
-    for (const invocation of array(run.invocations, 'SARIF invocations', true)) {
+/** Collect all structural problems, diagnostics and findings without stopping a scan. */
+export function collectSarifProblems(data) {
+  const problems = [];
+  const list = (value, name, nonempty = false) => {
+    if (!Array.isArray(value) || (nonempty && !value.length)) {
+      problems.push(`Missing/malformed ${name}`);
+      return [];
+    }
+    return value;
+  };
+  const describe = (item) =>
+    JSON.stringify({
+      rule: item?.ruleId ?? item?.descriptor?.id ?? 'unknown',
+      level: item?.level ?? 'unknown',
+      locations: (Array.isArray(item?.locations) ? item.locations : []).map(
+        (location) => ({
+          file: location?.physicalLocation?.artifactLocation?.uri ?? 'unknown',
+          line: location?.physicalLocation?.region?.startLine ?? 'unknown',
+          column: location?.physicalLocation?.region?.startColumn ?? 'unknown',
+        }),
+      ),
+      message: item?.message?.text ?? item?.message?.markdown ?? 'Missing message',
+    });
+  if (data?.version !== '2.1.0') problems.push('Unknown SARIF version');
+  for (const [index, run] of list(data?.runs, 'SARIF runs', true).entries()) {
+    const context = `run ${index}`;
+    if (typeof run?.tool?.driver?.name !== 'string' || !run.tool.driver.name)
+      problems.push(`${context}: Missing SARIF tool`);
+    for (const finding of list(run?.results, `${context} SARIF results`))
+      problems.push(
+        `${context}: CodeQL finding (all levels are fatal): ${describe(finding)}`,
+      );
+    for (const [invocationIndex, invocation] of list(
+      run?.invocations,
+      `${context} SARIF invocations`,
+      true,
+    ).entries()) {
+      const label = `${context} invocation ${invocationIndex}`;
       if (invocation?.executionSuccessful !== true)
-        throw Error('Incomplete/failed CodeQL execution');
+        problems.push(`${label}: Incomplete/failed CodeQL execution`);
       for (const key of [
         'toolExecutionNotifications',
         'toolConfigurationNotifications',
       ]) {
-        if (invocation[key] === undefined) continue;
-        for (const diagnostic of array(invocation[key], key)) {
+        if (invocation?.[key] === undefined) continue;
+        for (const diagnostic of list(invocation[key], `${label} ${key}`)) {
           if (!object(diagnostic) || !['note', 'none'].includes(diagnostic.level))
-            throw Error('CodeQL warning/error/unknown diagnostic');
+            problems.push(
+              `${label}: CodeQL warning/error/unknown diagnostic: ${describe(diagnostic)}`,
+            );
         }
       }
     }
   }
+  return problems;
+}
+
+export function validateSarif(data) {
+  const problems = collectSarifProblems(data);
+  if (problems.length) throw Error(problems.join('\n'));
+}
+
+/** Read every file even when another file is malformed or has findings. */
+export function collectSarifDirectoryProblems(directory) {
+  const files = readdirSync(directory)
+    .filter((file) => file.endsWith('.sarif'))
+    .sort();
+  if (!files.length) return ['Missing SARIF reports'];
+  return files.flatMap((file) => {
+    try {
+      return collectSarifProblems(
+        JSON.parse(readFileSync(join(directory, file), 'utf8')),
+      ).map((problem) => `${JSON.stringify(file)}: ${problem}`);
+    } catch {
+      return [`${JSON.stringify(file)}: Unreadable/malformed SARIF JSON`];
+    }
+  });
 }
 
 function projects(data, expected, kind) {
@@ -119,10 +176,14 @@ if (
 ) {
   const read = (file) => JSON.parse(readFileSync(file, 'utf8'));
   if (process.argv[2] === 'sarif') {
-    const directory = process.argv[3];
-    const files = readdirSync(directory).filter((f) => f.endsWith('.sarif'));
-    if (!files.length) throw Error('Missing SARIF reports');
-    for (const file of files) validateSarif(read(join(directory, file)));
+    const problems = collectSarifDirectoryProblems(process.argv[3]);
+    if (problems.length) {
+      // Quoting keeps each value on a single line. Disable command parsing too:
+      // GitHub's legacy ##[command] syntax can be recognized inside a line.
+      printUntrusted(problems.join('\n'), console.error);
+      console.error(`CodeQL gate failed: ${problems.length} problem(s)`);
+      process.exitCode = 1;
+    }
   } else if (process.argv[2] === 'audit')
     validateAudit(read(process.argv[3]), read(process.argv[4]), findProjects());
   else if (process.argv[2] === 'jobs')

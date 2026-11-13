@@ -44,8 +44,11 @@ for (const status of [400, 401, 403, 500]) {
       packageId: 'Example.Package',
       fetchImpl: async () => ({ ok: false, status, body: { cancel: async () => {} } }),
     });
-    expect(result.status).toBe(status === 401 ? 'failed' : 'unknown');
-    expect(result.authorized).toBe('unknown');
+    expect(result.status).toBe([401, 403].includes(status) ? 'failed' : 'unknown');
+    expect(result.authorized).toBe(status === 403 ? false : 'unknown');
+    expect(result.authenticated).toBe(
+      status === 401 ? false : status === 403 ? true : 'unknown',
+    );
     expect(result.detail).not.toContain('provided');
   });
 }
@@ -74,4 +77,20 @@ test('both methods unavailable fail with both remedies and redacted diagnostics'
   expect(result.status).toBe('failed');
   expect(result.detail).toContain('NUGET_API_KEY');
   expect(result.detail).toContain('NUGET_USER');
+});
+
+test('NuGet denial includes the safely quoted server warning without the API key', async () => {
+  const result = await checkNugetAuthentication({
+    apiKey: 'secret-value',
+    packageId: 'Example',
+    fetchImpl: async () => ({
+      status: 403,
+      ok: false,
+      headers: { get: () => 'expired\nsecret-value' },
+    }),
+  });
+  expect(result.detail).toContain('x-nuget-warning');
+  expect(result.detail).toContain('expired\\n');
+  expect(result.detail).not.toContain('secret-value');
+  expect(result.detail).toContain('authenticates but has no push scope');
 });

@@ -243,10 +243,14 @@ describe('release workflow policy', () => {
       const job = jobBlocks.get(jobName);
       const condition = getJobCondition(job);
 
-      expect(job).toContain('needs: [detect-changes, release-preflight]');
+      expect(job).toContain(
+        jobName === 'lint'
+          ? 'needs: [detect-changes]'
+          : 'needs: [detect-changes, lint]',
+      );
       expect(condition).toContain('always()');
       expect(condition).toContain('!cancelled()');
-      expect(condition).toContain("needs.release-preflight.result == 'success'");
+      expect(condition).not.toContain('release-preflight');
       expect(condition).toContain("github.event_name == 'workflow_dispatch'");
       expect(condition).toContain(
         "needs.detect-changes.outputs.any-code-changed == 'true'",

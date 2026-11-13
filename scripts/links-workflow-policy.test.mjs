@@ -114,3 +114,15 @@ describe('broken-link workflow policy', () => {
     expect(budgetSeconds * 100).toBeLessThanOrEqual(capSeconds * 70);
   });
 });
+
+test('scheduled checks and failure validation receive lychee exit status', () => {
+  /** @type {Record<string, any>} */
+  const workflow = Bun.YAML.parse(readWorkflow());
+  expect(workflow.on.schedule).toEqual([{ cron: '17 6 * * 1' }]);
+  for (const id of ['recheck', 'webarchive']) {
+    expect(
+      workflow.jobs['link-checker'].steps.find((step) => step.id === id).env
+        .LYCHEE_EXIT_CODE,
+    ).toBe('${{ steps.lychee.outputs.exit_code }}');
+  }
+});

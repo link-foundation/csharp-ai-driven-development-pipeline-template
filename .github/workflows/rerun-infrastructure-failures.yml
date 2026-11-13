@@ -18,7 +18,7 @@ name: Rerun infrastructure failures
 # the only input taken from the event is its numeric run id.
 on: # zizmor: ignore[dangerous-triggers] -- trusted default-branch code, reads only the numeric run id
   workflow_run:
-    workflows: ['CI/CD Pipeline']
+    workflows: ['CI/CD Pipeline', 'Security']
     types: [completed]
 
 permissions:

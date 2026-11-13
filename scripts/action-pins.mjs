@@ -38,6 +38,9 @@ export function isShaPinned(text, action) {
   const refs = actionReferences(text).filter((ref) => ref.action === action);
   return (
     refs.length > 0 &&
-    refs.every((ref) => /^[0-9a-f]{40}$/.test(ref.ref) && Boolean(ref.comment))
+    refs.every(
+      (ref) =>
+        /^[0-9a-f]{40}$/.test(ref.ref) && /^v\d+\.\d+\.\d+$/.test(ref.comment ?? ''),
+    )
   );
 }

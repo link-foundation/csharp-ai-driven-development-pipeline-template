@@ -345,7 +345,7 @@ export async function main({
 
   if (!decision.passed) {
     console.error(
-      'Release preflight failed; no build or publish job will run. Fix the probes above and push again.',
+      'Release preflight failed; publishing is blocked; lint, tests and build still run. Fix the probes above and push again.',
     );
   }
   return decision;

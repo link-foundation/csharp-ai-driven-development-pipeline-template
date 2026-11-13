@@ -4,7 +4,7 @@
 // the re-check from hiding real breakage: permanent failures remain final,
 // while transport errors, 429 and 5xx receive bounded retries.
 import { describe, expect, test } from 'bun:test';
-import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -561,4 +561,33 @@ describe('main', () => {
     expect(outputs.recovered).toBe('1');
     expect(outputs.remaining).toBe('0');
   });
+});
+
+test('recovered error plus timeout still reports an unresolved failure', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'recheck-mixed-'));
+  try {
+    const input = join(dir, 'out.md');
+    const output = join(dir, 'outputs');
+    writeFileSync(
+      input,
+      '## Errors per input\n* [503] https://flappy.example/\n## Timeouts per input\n* [TIMEOUT] https://timeout.example/\n',
+    );
+    const { fetchImpl, calls } = stubFetch((url) =>
+      url.includes('flappy') ? 200 : 404,
+    );
+    await withEnv(
+      {
+        LYCHEE_OUTPUT: input,
+        GITHUB_OUTPUT: output,
+        RECOVERED_OUTPUT: join(dir, 'recovered'),
+        LYCHEE_EXIT_CODE: '2',
+      },
+      () => main({ fetchImpl }),
+    );
+    expect(calls).toHaveLength(2);
+    expect(readOutputs(output).all_recovered).toBe('false');
+    expect(readOutputs(output).remaining).toBe('1');
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
 });

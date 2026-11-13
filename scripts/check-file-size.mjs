@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Check C# files for maximum and warning line-count thresholds.
+ * Check C#, JavaScript and Markdown files for maximum and warning line-count thresholds.
  * Exits with error code 1 if any files exceed the hard limit.
  */
 
@@ -11,7 +11,7 @@ import { pathToFileURL } from 'node:url';
 
 export const MAX_LINES = 1000;
 export const WARN_LINES = 900;
-export const FILE_EXTENSIONS = ['.cs'];
+export const FILE_EXTENSIONS = ['.cs', '.mjs', '.js', '.md'];
 const EXCLUDE_PATTERNS = ['bin', 'obj', '.git', 'node_modules', 'artifacts'];
 
 /**
@@ -26,7 +26,7 @@ export function shouldExclude(path, root = process.cwd()) {
 }
 
 /**
- * Recursively find all C# files in a directory
+ * Recursively find all budgeted source and documentation files in a directory
  * @param {string} directory
  * @returns {string[]}
  */
@@ -229,7 +229,7 @@ function printViolations(violations) {
  */
 export function main(cwd = process.cwd()) {
   console.log(
-    `\nChecking C# files for maximum ${MAX_LINES} lines (warning above ${WARN_LINES})...\n`,
+    `\nChecking C#, JavaScript and Markdown files for maximum ${MAX_LINES} lines (warning above ${WARN_LINES})...\n`,
   );
 
   const result = checkDirectory(cwd);

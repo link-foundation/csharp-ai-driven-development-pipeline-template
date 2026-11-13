@@ -74,8 +74,17 @@ export async function checkNugetAuthentication({
       await response.body?.cancel?.();
       return {
         ...result,
-        status: response.status === 401 ? 'failed' : 'unknown',
-        detail: `${selected.reason} Fallback verification HTTP ${response.status}. This probe may require PackageVerify scope; unsupported verification is not evidence of push rejection. ${NUGET_AUTH_HINT}`,
+        status: [401, 403].includes(response.status) ? 'failed' : 'unknown',
+        authenticated:
+          response.status === 401 ? false : response.status === 403 ? true : 'unknown',
+        authorized: response.status === 403 ? false : 'unknown',
+        detail: `${selected.reason} Fallback verification HTTP ${response.status}. ${
+          response.status === 401
+            ? 'NUGET_API_KEY is not accepted (invalid, expired or revoked).'
+            : response.status === 403
+              ? 'NUGET_API_KEY authenticates but has no push scope.'
+              : 'Verification unavailable; push authorization remains unknown.'
+        } x-nuget-warning: ${JSON.stringify((response.headers?.get?.('x-nuget-warning') ?? '').replaceAll(apiKey, '[redacted]'))}. ${NUGET_AUTH_HINT}`,
       };
     }
     const payload = await response.json();

@@ -122,3 +122,25 @@ describe('check-file-size thresholds', () => {
     }
   });
 });
+
+for (const extension of ['.cs', '.mjs', '.js', '.md']) {
+  test(`size gate covers ${extension} boundaries and ignores generated directories`, () => {
+    const repo = makeRepo();
+    try {
+      for (const count of [900, 901, 1000, 1001])
+        writeCSharpFileWithLines(path.join(repo, `${count}${extension}`), count);
+      mkdirSync(path.join(repo, 'node_modules'));
+      writeCSharpFileWithLines(
+        path.join(repo, 'node_modules', `ignored${extension}`),
+        1001,
+      );
+      const result = checkDirectory(repo);
+      expect(result.files).toBe(4);
+      expect(result.warnings.map((item) => item.lines).sort()).toEqual([1000, 901]);
+      expect(result.violations.map((item) => item.lines)).toEqual([1001]);
+      expect(exitCodeForResult(result)).toBe(1);
+    } finally {
+      rmSync(repo, { recursive: true, force: true });
+    }
+  });
+}

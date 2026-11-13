@@ -13,7 +13,8 @@ describe('GitHub Action pins', () => {
 
   test('every remote action is pinned to a commit SHA with a version comment', () => {
     const loose = references.filter(
-      (ref) => !/^[0-9a-f]{40}$/.test(ref.ref) || !ref.comment,
+      (ref) =>
+        !/^[0-9a-f]{40}$/.test(ref.ref) || !/^v\d+\.\d+\.\d+$/.test(ref.comment ?? ''),
     );
     expect(loose.map((ref) => `${ref.file}: ${ref.action}@${ref.ref}`)).toEqual([]);
   });
@@ -31,7 +32,9 @@ describe('GitHub Action pins', () => {
 
   test('isShaPinned rejects tags and missing comments', () => {
     const sha = 'a'.repeat(40);
-    expect(isShaPinned(`- uses: o/r@${sha} # v1`, 'o/r')).toBe(true);
+    expect(isShaPinned(`- uses: o/r@${sha} # v1.2.3`, 'o/r')).toBe(true);
+    for (const comment of ['v1', 'v1.2', 'anything'])
+      expect(isShaPinned(`- uses: o/r@${sha} # ${comment}`, 'o/r')).toBe(false);
     expect(isShaPinned(`- uses: o/r@v1`, 'o/r')).toBe(false);
     expect(isShaPinned(`- uses: o/r@${sha}`, 'o/r')).toBe(false);
     expect(isShaPinned(`- uses: x/y@${sha} # v1`, 'o/r')).toBe(false);

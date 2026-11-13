@@ -101,3 +101,49 @@ test('terminal gate rejects skipped, missing, cancelled and failed expected work
     expect(() => validateJobResults({ scan: { result } }, ['scan'])).toThrow();
   expect(() => validateJobResults({}, ['scan'])).toThrow();
 });
+
+test('reports every malformed run, diagnostic and finding with rule, location and message', () => {
+  const data = clean();
+  data.runs[0].results = [
+    {
+      ruleId: 'first',
+      message: { text: 'one\n::error::fake' },
+      locations: [
+        {
+          physicalLocation: {
+            artifactLocation: { uri: 'src/A.cs' },
+            region: { startLine: 7 },
+          },
+        },
+      ],
+    },
+    { ruleId: 'second', message: { text: 'two' }, locations: { map: 'malformed' } },
+  ];
+  data.runs[0].invocations[0].toolExecutionNotifications = [
+    {
+      level: 'error',
+      descriptor: { id: 'diagnostic' },
+      message: { text: 'scan failed' },
+    },
+  ];
+  data.runs.push(/** @type {any} */ ({}));
+  let message = '';
+  try {
+    validateSarif(data);
+  } catch (error) {
+    message = error.message;
+  }
+  for (const expected of [
+    'first',
+    'second',
+    'src/A.cs',
+    '"line":7',
+    'one\\n::error::fake',
+    'diagnostic',
+    'scan failed',
+    'Missing SARIF tool',
+    'SARIF results',
+    'SARIF invocations',
+  ])
+    expect(message).toContain(expected);
+});
