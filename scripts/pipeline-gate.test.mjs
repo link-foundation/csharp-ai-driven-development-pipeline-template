@@ -65,3 +65,10 @@ test('failed publication cannot produce a green main gate; deliberate changeset 
     checkPipeline(fixture({ event: 'workflow_dispatch', releaseMode: 'changeset-pr' })),
   ).not.toThrow();
 });
+
+test('main reports a failed release preflight even when all code checks succeeded', () => {
+  const data = fixture({ event: 'push' });
+  data.needs['release-preflight'].result = 'failure';
+  data.needs.release.result = 'skipped';
+  expect(() => checkPipeline(data)).toThrow('release-preflight');
+});

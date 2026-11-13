@@ -1,0 +1,356 @@
+bun test v1.4.4 (38afee6c8)
+
+scripts/pipeline-gate.test.mjs:
+(pass) push distinguishes expected work from inapplicable jobs (code=true) [0.83ms]
+(pass) push distinguishes expected work from inapplicable jobs (code=false) [0.05ms]
+(pass) pull_request distinguishes expected work from inapplicable jobs (code=true) [0.03ms]
+(pass) pull_request distinguishes expected work from inapplicable jobs (code=false) [0.64ms]
+(pass) workflow_dispatch distinguishes expected work from inapplicable jobs (code=true) [0.05ms]
+(pass) workflow_dispatch distinguishes expected work from inapplicable jobs (code=false) [0.02ms]
+(pass) required pipeline work cannot pass as skipped [0.25ms]
+(pass) required pipeline work cannot pass as failure [0.02ms]
+(pass) required pipeline work cannot pass as cancelled [0.02ms]
+(pass) required pipeline work cannot pass as undefined [0.01ms]
+(pass) unknown, missing or malformed detector/job result cannot pass [0.45ms]
+(pass) failed publication cannot produce a green main gate; deliberate changeset dispatch passes [0.14ms]
+(pass) main reports a failed release preflight even when all code checks succeeded [0.18ms]
+
+scripts/rerun-workflow-policy.test.mjs:
+(pass) infrastructure-failure rerun workflow (issue #96) > listens to the completed CI/CD pipeline by its exact name [3.33ms]
+(pass) infrastructure-failure rerun workflow (issue #96) > runs only trusted default-branch code with least privilege [0.53ms]
+(pass) infrastructure-failure rerun workflow (issue #96) > the status gate can read jobs and annotations to name the cause [0.10ms]
+(pass) infrastructure-failure rerun workflow (issue #96) > macOS stays blocking unless NON_BLOCKING_MACOS is explicitly enabled [0.02ms]
+
+scripts/security-gates.test.mjs:
+(pass) complete clean SARIF passes; every finding level fails [0.77ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.11ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.03ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.05ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.03ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.02ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.06ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.03ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.04ms]
+(pass) full direct/transitive dependency graph and clean validated audit pass [0.53ms]
+(pass) SDK 8 clean audit omits frameworks, but never substitutes for the full graph [0.23ms]
+(pass) existing vulnerable topLevelPackages fails without any dependency diff [0.10ms]
+(pass) existing vulnerable transitivePackages fails without any dependency diff [0.08ms]
+(pass) unverified provider, missing graph, unknown projects and malformed JSON fail [0.49ms]
+(pass) terminal gate rejects skipped, missing, cancelled and failed expected work [0.31ms]
+(pass) reports every malformed run, diagnostic and finding with rule, location and message [0.46ms]
+
+scripts/recheck-broken-links.test.mjs:
+(pass) lychee failure classification > preserves adjacent failures with bare URLs [1.16ms]
+(pass) lychee failure classification > preserves adjacent failures with angle brackets [0.06ms]
+(pass) lychee failure classification > preserves adjacent failures with locations [0.03ms]
+(pass) lychee failure classification > preserves adjacent failures with horizontal whitespace [0.03ms]
+(pass) lychee failure classification > reads only failures in the Errors section, including input subheadings [0.17ms]
+(pass) lychee failure classification > the real fixture leaves nothing to re-ask: 404s answered, locals unprovable [0.30ms]
+(pass) lychee failure classification > only silent transport failures are worth asking again [0.15ms]
+(pass) lychee failure classification > "Rejected status code" identifies a transient server response under any marker [0.05ms]
+(pass) lychee failure classification > 429 and every 5xx are retryable while client failures remain final [0.14ms]
+(pass) lychee failure classification > a non-http failure is final without being re-asked [0.06ms]
+(pass) lychee failure classification > duplicate urls collapse to one failure [0.17ms]
+(pass) accept list parsing > the default is lychee own documented default [0.28ms]
+(pass) accept list parsing > bare codes, exclusive ranges and stray spaces parse [0.08ms]
+(pass) accept list parsing > a typo throws instead of silently narrowing what healthy means [0.32ms]
+(pass) request option extraction > a workflow without flags gets the lychee defaults [0.12ms]
+(pass) request option extraction > flags in the workflow win [0.08ms]
+(pass) probe > an accepted status is alive; a rejected one is a final verdict [2.85ms]
+(pass) probe > the probe presents the same user agent lychee ran with [0.29ms]
+(pass) probe > a transport failure is unreachable, never a verdict [0.42ms]
+(pass) probe > an abort is reported as a timeout, not a crash [0.29ms]
+(pass) recheckAll > retries HTTP 429 until recovery without re-asking a 404 [1.44ms]
+(pass) recheckAll > retries HTTP 502 until recovery without re-asking a 404 [0.43ms]
+(pass) recheckAll > retries HTTP 503 until recovery without re-asking a 404 [0.65ms]
+(pass) recheckAll > persistent transient statuses exhaust retries without being called recovered [0.47ms]
+(pass) recheckAll > honors Retry-After without exceeding the total wait budget [0.59ms]
+(pass) recheckAll > retries a silent link and stops at the first accepted answer [0.38ms]
+(pass) recheckAll > duplicate urls share one probe slot [0.18ms]
+(pass) recheckAll > an expired budget marks never-asked links without probing them [0.16ms]
+(pass) recheckAll > waits double between rounds: a burst of resets is outlasted, not spammed [0.32ms]
+=== Re-check of transient link failures ===
+
+Reading lychee output from: /tmp/recheck-test-ZJb5WL/missing.md
+
+No lychee output file found; nothing to re-check.
+all_recovered=false
+recovered=0
+remaining=0
+(pass) main > a missing report is reported as nothing recovered, with exit code 0 [2.70ms]
+=== Re-check of transient link failures ===
+
+Reading lychee output from: /tmp/recheck-test-jgSG89/out.md
+
+lychee reported 2 failing link(s): 1 permanent or non-http failures, 1 transport, rate-limit or server failures.
+
+  [404] https://gone.example/x -- not re-checked
+
+Re-asking 1 link(s) directly (accept: 100..=103,200..=299, user agent: lychee)...
+
+
+=== Re-check summary ===
+
+✓ https://flappy.example/y answered HTTP 200 on attempt 1
+::notice title=Link answered on re-check::https://flappy.example/y answered HTTP 200 when asked directly, after lychee reported it as "failed with no status code".
+The transient failure recovered within the retry budget. This link is not treated as broken.
+
+Recovered URLs written to /tmp/recheck-test-jgSG89/recovered.txt
+all_recovered=false
+recovered=1
+remaining=1
+(pass) main > re-asks only the unanswered and never hides an answered failure [2.73ms]
+=== Re-check of transient link failures ===
+
+Reading lychee output from: /tmp/recheck-test-PaODl4/out.md
+
+lychee reported 1 failing link(s): 0 permanent or non-http failures, 1 transport, rate-limit or server failures.
+
+
+Re-asking 1 link(s) directly (accept: 100..=103,200..=299, user agent: lychee)...
+
+
+=== Re-check summary ===
+
+✓ https://flappy.example/y answered HTTP 200 on attempt 1
+::notice title=Link answered on re-check::https://flappy.example/y answered HTTP 200 when asked directly, after lychee reported it as "failed with no status code".
+The transient failure recovered within the retry budget. This link is not treated as broken.
+
+Recovered URLs written to /tmp/recheck-test-PaODl4/recovered.txt
+all_recovered=true
+recovered=1
+remaining=0
+
+Every link lychee reported answered a direct request. Every transient failure recovered.
+(pass) main > all_recovered is true only when nothing at all remains [1.71ms]
+=== Re-check of transient link failures ===
+
+Reading lychee output from: /tmp/recheck-mixed-uvFqpW/out.md
+
+lychee reported 2 failing link(s): 0 permanent or non-http failures, 2 transport, rate-limit or server failures.
+
+
+Re-asking 2 link(s) directly (accept: 100..=103,200..=299, user agent: lychee)...
+
+
+=== Re-check summary ===
+
+✓ https://flappy.example/ answered HTTP 200 on attempt 1
+::notice title=Link answered on re-check::https://flappy.example/ answered HTTP 200 when asked directly, after lychee reported it as "failed with no status code".
+The transient failure recovered within the retry budget. This link is not treated as broken.
+✗ https://timeout.example/ still failing: HTTP 404 after 1 direct attempt(s) (lychee: no detail)
+
+Recovered URLs written to /tmp/recheck-mixed-uvFqpW/recovered
+all_recovered=false
+recovered=1
+remaining=1
+(pass) recovered error plus timeout still reports an unresolved failure [1.84ms]
+
+scripts/link-failures.test.mjs:
+(pass) both failure sections are parsed; redirects are excluded [1.35ms]
+(pass) exit "1" cannot be recovered [0.13ms]
+(pass) exit "3" cannot be recovered [0.05ms]
+(pass) exit "127" cannot be recovered [0.03ms]
+(pass) exit "" cannot be recovered [0.01ms]
+(pass) missing, incomplete or malformed report fails closed [0.06ms]
+(pass) missing, incomplete or malformed report fails closed [0.02ms]
+(pass) missing, incomplete or malformed report fails closed [0.02ms]
+(pass) missing, incomplete or malformed report fails closed [0.01ms]
+=== Re-check of transient link failures ===
+
+Reading lychee output from: /tmp/lychee-timeouts-znKqYe/report.md
+
+lychee reported 2 failing link(s): 0 permanent or non-http failures, 2 transport, rate-limit or server failures.
+
+
+Re-asking 2 link(s) directly (accept: 100..=103,200..=299, user agent: lychee)...
+
+
+=== Re-check summary ===
+
+✓ https://recovered.example/ answered HTTP 200 on attempt 1
+::notice title=Link answered on re-check::https://recovered.example/ answered HTTP 200 when asked directly, after lychee reported it as "failed with no status code".
+The transient failure recovered within the retry budget. This link is not treated as broken.
+✗ https://timeout.example/ still failing: HTTP 404 after 1 direct attempt(s) (lychee: no detail)
+
+Recovered URLs written to /tmp/lychee-timeouts-znKqYe/recovered
+all_recovered=false
+recovered=1
+remaining=1
+=== Re-check of transient link failures ===
+
+Reading lychee output from: /tmp/lychee-timeouts-znKqYe/report.md
+
+(pass) a recovered 503 never hides an unrecovered timeout in the verdict [2.58ms]
+
+scripts/check-file-size.test.mjs:
+(pass) check-file-size thresholds > classifies warning band without blocking [0.07ms]
+(pass) check-file-size thresholds > classifies hard limit violations as failures [0.02ms]
+(pass) check-file-size thresholds > reports warnings and violations separately [9.84ms]
+(pass) check-file-size thresholds > warning annotation uses GitHub Actions format [0.25ms]
+(pass) check-file-size thresholds > main emits warning annotations without failing warning-only files [2.25ms]
+(pass) size gate covers .cs boundaries and ignores generated directories [3.76ms]
+(pass) size gate covers .mjs boundaries and ignores generated directories [3.85ms]
+(pass) size gate covers .js boundaries and ignores generated directories [3.02ms]
+(pass) size gate covers .md boundaries and ignores generated directories [2.92ms]
+
+scripts/action-pins.test.mjs:
+(pass) GitHub Action pins > finds the workflow references [0.13ms]
+(pass) GitHub Action pins > every remote action is pinned to a commit SHA with a version comment [0.30ms]
+(pass) GitHub Action pins > each action resolves to one SHA across all workflows [0.49ms]
+(pass) GitHub Action pins > isShaPinned rejects tags and missing comments [0.28ms]
+
+scripts/check-web-archive.test.mjs:
+(pass) lychee report parsing > the errors section stops at the next top-level heading [0.08ms]
+(pass) lychee report parsing > a report without an errors section yields nothing [0.03ms]
+(pass) lychee report parsing > redirected links are not reported as broken [0.42ms]
+(pass) lychee report parsing > every http error is extracted exactly once [0.16ms]
+(pass) lychee report parsing > errors that the Wayback Machine cannot answer are still reported [0.12ms]
+(pass) lychee report parsing > the parsed error count matches the count lychee reports [1.36ms]
+(pass) recovered url splitting > a URL the re-check found healthy leaves the archive report [0.90ms]
+(pass) recovered url splitting > blank lines and stray whitespace are tolerated [0.08ms]
+
+scripts/nuget-auth.test.mjs:
+(pass) username alone is configuration, never authentication [1.49ms]
+(pass) successful official OIDC exchange never probes fallback (absent) [0.35ms]
+(pass) successful official OIDC exchange never probes fallback (invalid) [0.03ms]
+(pass) OIDC failure without a key selects deliberate token fallback [0.04ms]
+(pass) OIDC skipped without a key selects deliberate token fallback
+(pass) OIDC success without a key selects deliberate token fallback
+(pass) fallback probe HTTP 400 preserves honest authentication/scope states [0.29ms]
+(pass) fallback probe HTTP 401 preserves honest authentication/scope states [0.03ms]
+(pass) fallback probe HTTP 403 preserves honest authentication/scope states [0.02ms]
+(pass) fallback probe HTTP 500 preserves honest authentication/scope states [0.06ms]
+(pass) derived verification key cannot establish original push glob [0.17ms]
+(pass) both methods unavailable fail with both remedies and redacted diagnostics [0.08ms]
+(pass) NuGet denial includes the safely quoted server warning without the API key [0.13ms]
+
+scripts/sarif-directory.test.mjs:
+(pass) CLI examines all files, including after invalid JSON, and prints untrusted values safely [42.46ms]
+
+scripts/release-workflow-policy.test.mjs:
+(pass) release workflow policy > installs locked helper dependencies before every CI helper test command [2.22ms]
+(pass) release workflow policy > both publishers request OIDC just before push and explicitly select bounded fallback after login failure [3.56ms]
+(pass) release workflow policy > queues every writer independently from readers [2.06ms]
+(pass) release workflow policy > sets explicit timeout-minutes on every job [1.16ms]
+(pass) release workflow policy > guards jobs with skipped dependencies using a status-check function [0.88ms]
+(pass) release workflow policy > instant-release keeps explicit success checks on its dependencies [0.40ms]
+(pass) release workflow policy > change-gated jobs use detector output for both pull requests and pushes [0.63ms]
+(pass) release workflow policy > publishes only the detector output consumed by job gates [0.48ms]
+(pass) release workflow policy > uses the current GitHub Action versions required by the template [1.32ms]
+(pass) release workflow policy > configures the default Git branch before checkout runs [0.55ms]
+(pass) release workflow policy > gates Codecov uploads on an explicit token [1.79ms]
+(pass) release workflow policy > smoke-tests published NuGet packages before creating releases [0.70ms]
+(pass) release workflow policy > pipeline-status observes every job of the release workflow [0.74ms]
+(pass) release workflow policy > budgets every long step below 70% of its job cap [0.86ms]
+(pass) release workflow policy > release jobs gate on the preflight verdict [0.60ms]
+
+scripts/links-workflow-policy.test.mjs:
+(pass) broken-link workflow policy > throttles GitHub requests without accepting rate limits as healthy links [0.60ms]
+(pass) broken-link workflow policy > checks Markdown and HTML changes with least privilege [0.22ms]
+(pass) broken-link workflow policy > excludes copied case studies and parser fixtures but not C# template HTML [0.08ms]
+(pass) broken-link workflow policy > ignores npm bot-protection responses [0.06ms]
+(pass) broken-link workflow policy > uses a bounded, cancellation-safe Wayback fallback [0.07ms]
+(pass) broken-link workflow policy > re-asks the failures no host ever answered before declaring links broken [0.14ms]
+(pass) broken-link workflow policy > the re-check judges links by the same rules lychee ran with [0.10ms]
+(pass) broken-link workflow policy > the re-check budget expires before the job cap can [0.38ms]
+(pass) scheduled checks and failure validation receive lychee exit status [0.33ms]
+
+scripts/preflight-credentials.test.mjs:
+Fetching https://api.github.com/repos/owner/repo
+(pass) GitHub push permission probe > verifies readable identity without claiming protected write authorization [0.93ms]
+Fetching https://api.github.com/repos/owner/repo
+(pass) GitHub push permission probe > false user-role field does not establish installation-token write permissions [0.18ms]
+Fetching https://api.github.com/repos/owner/repo
+(pass) GitHub push permission probe > treats an anonymous probe honestly: no token, no push [0.10ms]
+Fetching https://api.github.com/repos/owner/repo
+(pass) GitHub push permission probe > reports rate limiting as unknown, never as a pass [0.08ms]
+Fetching https://api.github.com/repos/owner/repo
+(pass) GitHub push permission probe > network failure is unknown, never a pass [0.17ms]
+(pass) GitHub push permission probe > a missing repository cannot be probed [0.12ms]
+Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+(pass) NuGet package visibility probe > a published package is reported with its version count [0.57ms]
+Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+(pass) NuGet package visibility probe > a 404 is the expected pre-first-publish state, not a failure [0.17ms]
+Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+(pass) NuGet package visibility probe > an unreachable registry is unknown; the probe is advisory [0.13ms]
+Preflight mode: release
+Repository:     owner/repo
+Package id:     MyPackage
+Fetching https://api.github.com/repos/owner/repo
+Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+Output: auth=trusted-publishing
+[PASS] Publishing identity: Test package configured
+[PASS] GitHub repository access (write unverified): Repository identity and read access verified. User-role permissions.push=true does not prove installation-token or protected-branch write authorization; actual writes remain fatal.
+[PASS] NuGet authentication: Official OIDC exchange authenticated the workflow. Exact package push authorization is unverified until publication.
+[PASS] NuGet package visibility: "MyPackage" is public on nuget.org with 1 published version(s)
+Output: preflight_result=passed
+(pass) preflight authentication integration > release mode with auth user=publisher key=(none) [9.00ms]
+Preflight mode: release
+Repository:     owner/repo
+Package id:     MyPackage
+Fetching https://api.github.com/repos/owner/repo
+Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+Output: auth=token-fallback
+[PASS] Publishing identity: Test package configured
+[PASS] GitHub repository access (write unverified): Repository identity and read access verified. User-role permissions.push=true does not prove installation-token or protected-branch write authorization; actual writes remain fatal.
+[FAIL] NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 401. NUGET_API_KEY is not accepted (invalid, expired or revoked). x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+::error::NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 401. NUGET_API_KEY is not accepted (invalid, expired or revoked). x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+[PASS] NuGet package visibility: "MyPackage" is public on nuget.org with 1 published version(s)
+::error::release preflight failed — NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 401. NUGET_API_KEY is not accepted (invalid, expired or revoked). x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+Output: preflight_result=failed
+Release preflight failed; publishing is blocked; lint, tests and build still run. Fix the probes above and push again.
+(pass) preflight authentication integration > release mode with auth user=(none) key=expired [2.93ms]
+Preflight mode: release
+Repository:     owner/repo
+Package id:     MyPackage
+Fetching https://api.github.com/repos/owner/repo
+Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+Output: auth=token-fallback
+[PASS] Publishing identity: Test package configured
+[PASS] GitHub repository access (write unverified): Repository identity and read access verified. User-role permissions.push=true does not prove installation-token or protected-branch write authorization; actual writes remain fatal.
+[FAIL] NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 403. NUGET_API_KEY authenticates but has no push scope. x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+::error::NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 403. NUGET_API_KEY authenticates but has no push scope. x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+[PASS] NuGet package visibility: "MyPackage" is public on nuget.org with 1 published version(s)
+::error::release preflight failed — NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 403. NUGET_API_KEY authenticates but has no push scope. x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+Output: preflight_result=failed
+Release preflight failed; publishing is blocked; lint, tests and build still run. Fix the probes above and push again.
+(pass) preflight authentication integration > release mode with auth user=(none) key=unlist-only [2.95ms]
+Preflight mode: report
+Repository:     owner/repo
+Package id:     MyPackage
+Fetching https://api.github.com/repos/owner/repo
+Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+Output: auth=token-fallback
+[PASS] Publishing identity: Test package configured
+[PASS] GitHub repository access (write unverified): Repository identity and read access verified. User-role permissions.push=true does not prove installation-token or protected-branch write authorization; actual writes remain fatal.
+[FAIL] NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 403. NUGET_API_KEY authenticates but has no push scope. x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+::error::NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 403. NUGET_API_KEY authenticates but has no push scope. x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+[PASS] NuGet package visibility: "MyPackage" is public on nuget.org with 1 published version(s)
+[REPORT] NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 403. NUGET_API_KEY authenticates but has no push scope. x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+Output: preflight_result=passed
+(pass) preflight authentication integration > report mode with auth user=(none) key=unlist-only [2.55ms]
+Preflight mode: report
+Repository:     owner/repo
+Package id:     MyPackage
+Fetching https://api.github.com/repos/owner/repo
+Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+Output: auth=none
+[PASS] Publishing identity: Test package configured
+[PASS] GitHub repository access (write unverified): Repository identity and read access verified. User-role permissions.push=true does not prove installation-token or protected-branch write authorization; actual writes remain fatal.
+[FAIL] NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. No NUGET_API_KEY fallback is configured. Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+::error::NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. No NUGET_API_KEY fallback is configured. Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+[PASS] NuGet package visibility: "MyPackage" is public on nuget.org with 1 published version(s)
+[REPORT] NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. No NUGET_API_KEY fallback is configured. Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+Output: preflight_result=passed
+(pass) preflight authentication integration > report mode with auth user=(none) key=(none) [2.29ms]
+(pass) preflight decision > release mode passes only when every required probe verified [0.16ms]
+(pass) preflight decision > release mode fails on any failed probe and names it [0.08ms]
+(pass) preflight decision > release mode treats an unverified required probe as a failure [0.14ms]
+(pass) preflight decision > an unknown advisory probe never blocks [0.05ms]
+(pass) preflight decision > report mode reports without blocking [0.04ms]
+
+ 154 pass
+ 0 fail
+ 549 expect() calls
+Ran 154 tests across 13 files. [221.00ms]

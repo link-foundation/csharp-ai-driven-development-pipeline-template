@@ -1,0 +1,410 @@
+bun test v1.4.4 (38afee6c8)
+
+scripts/action-pins.test.mjs:
+(pass) GitHub Action pins > finds the workflow references [0.06ms]
+14 |   test('every remote action is pinned to a commit SHA with a version comment', () => {
+15 |     const loose = references.filter(
+16 |       (ref) =>
+17 |         !/^[0-9a-f]{40}$/.test(ref.ref) || !/^v\d+\.\d+\.\d+$/.test(ref.comment ?? ''),
+18 |     );
+19 |     expect(loose.map((ref) => `${ref.file}: ${ref.action}@${ref.ref}`)).toEqual([]);
+                                                                             ^
+error: expect(received).toEqual(expected)
+
+- []
++ [
++   ".github/workflows/security.yml: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
++   ".github/workflows/security.yml: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294",
++   ".github/workflows/security.yml: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
++   ".github/workflows/security.yml: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6",
++   ".github/workflows/security.yml: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
++   ".github/workflows/security.yml: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
++   ".github/workflows/security.yml: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
++   ".github/workflows/security.yml: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
++   ".github/workflows/release.yml: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6",
++   ".github/workflows/release.yml: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6",
++   ".github/workflows/release.yml: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6",
++   ".github/workflows/release.yml: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5",
++   ".github/workflows/release.yml: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
++   ".github/workflows/release.yml: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6",
++   ".github/workflows/release.yml: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6",
++   ".github/workflows/release.yml: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6",
++   ".github/workflows/release.yml: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6",
++   ".github/workflows/release.yml: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1",
++   ".github/workflows/links.yml: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8",
++   ".github/workflows/docs.yml: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d",
++   ".github/workflows/docs.yml: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9",
++   ".github/workflows/docs.yml: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346",
++ ]
+
+- Expected  - 1
++ Received  + 24
+
+      at <anonymous> (/tmp/tmp.PYsRmpx9z7/scripts/action-pins.test.mjs:19:73)
+(fail) GitHub Action pins > every remote action is pinned to a commit SHA with a version comment [1.24ms]
+(pass) GitHub Action pins > each action resolves to one SHA across all workflows [3.06ms]
+32 | 
+33 |   test('isShaPinned rejects tags and missing comments', () => {
+34 |     const sha = 'a'.repeat(40);
+35 |     expect(isShaPinned(`- uses: o/r@${sha} # v1.2.3`, 'o/r')).toBe(true);
+36 |     for (const comment of ['v1', 'v1.2', 'anything'])
+37 |       expect(isShaPinned(`- uses: o/r@${sha} # ${comment}`, 'o/r')).toBe(false);
+                                                                         ^
+error: expect(received).toBe(expected)
+
+Expected: false
+Received: true
+
+      at <anonymous> (/tmp/tmp.PYsRmpx9z7/scripts/action-pins.test.mjs:37:69)
+(fail) GitHub Action pins > isShaPinned rejects tags and missing comments [0.97ms]
+
+scripts/nuget-auth.test.mjs:
+(pass) username alone is configuration, never authentication [0.78ms]
+(pass) successful official OIDC exchange never probes fallback (absent) [0.30ms]
+(pass) successful official OIDC exchange never probes fallback (invalid) [0.05ms]
+(pass) OIDC failure without a key selects deliberate token fallback [0.04ms]
+(pass) OIDC skipped without a key selects deliberate token fallback
+(pass) OIDC success without a key selects deliberate token fallback
+(pass) fallback probe HTTP 400 preserves honest authentication/scope states [0.28ms]
+44 |       packageId: 'Example.Package',
+45 |       fetchImpl: async () => ({ ok: false, status, body: { cancel: async () => {} } }),
+46 |     });
+47 |     expect(result.status).toBe([401, 403].includes(status) ? 'failed' : 'unknown');
+48 |     expect(result.authorized).toBe(status === 403 ? false : 'unknown');
+49 |     expect(result.authenticated).toBe(
+                                      ^
+error: expect(received).toBe(expected)
+
+Expected: false
+Received: "unknown"
+
+      at <anonymous> (/tmp/tmp.PYsRmpx9z7/scripts/nuget-auth.test.mjs:49:34)
+(fail) fallback probe HTTP 401 preserves honest authentication/scope states [0.25ms]
+42 |       oidcOutcome: 'failure',
+43 |       apiKey: 'provided',
+44 |       packageId: 'Example.Package',
+45 |       fetchImpl: async () => ({ ok: false, status, body: { cancel: async () => {} } }),
+46 |     });
+47 |     expect(result.status).toBe([401, 403].includes(status) ? 'failed' : 'unknown');
+                               ^
+error: expect(received).toBe(expected)
+
+Expected: "failed"
+Received: "unknown"
+
+      at <anonymous> (/tmp/tmp.PYsRmpx9z7/scripts/nuget-auth.test.mjs:47:27)
+(fail) fallback probe HTTP 403 preserves honest authentication/scope states [0.23ms]
+(pass) fallback probe HTTP 500 preserves honest authentication/scope states [0.03ms]
+(pass) derived verification key cannot establish original push glob [0.27ms]
+(pass) both methods unavailable fail with both remedies and redacted diagnostics [0.10ms]
+87 |       status: 403,
+88 |       ok: false,
+89 |       headers: { get: () => 'expired\nsecret-value' },
+90 |     }),
+91 |   });
+92 |   expect(result.detail).toContain('x-nuget-warning');
+                             ^
+error: expect(received).toContain(expected)
+
+Expected to contain: "x-nuget-warning"
+Received: "Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 403. This probe may require PackageVerify scope; unsupported verification is not evidence of push rejection. Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable."
+
+      at <anonymous> (/tmp/tmp.PYsRmpx9z7/scripts/nuget-auth.test.mjs:92:25)
+(fail) NuGet denial includes the safely quoted server warning without the API key [0.30ms]
+
+scripts/check-file-size.test.mjs:
+(pass) check-file-size thresholds > classifies warning band without blocking [0.20ms]
+(pass) check-file-size thresholds > classifies hard limit violations as failures [0.05ms]
+(pass) check-file-size thresholds > reports warnings and violations separately [7.33ms]
+(pass) check-file-size thresholds > warning annotation uses GitHub Actions format [0.13ms]
+(pass) check-file-size thresholds > main emits warning annotations without failing warning-only files [1.99ms]
+(pass) size gate covers .cs boundaries and ignores generated directories [3.13ms]
+133 |       writeCSharpFileWithLines(
+134 |         path.join(repo, 'node_modules', `ignored${extension}`),
+135 |         1001,
+136 |       );
+137 |       const result = checkDirectory(repo);
+138 |       expect(result.files).toBe(4);
+                                 ^
+error: expect(received).toBe(expected)
+
+Expected: 4
+Received: 0
+
+      at <anonymous> (/tmp/tmp.PYsRmpx9z7/scripts/check-file-size.test.mjs:138:28)
+(fail) size gate covers .mjs boundaries and ignores generated directories [3.91ms]
+133 |       writeCSharpFileWithLines(
+134 |         path.join(repo, 'node_modules', `ignored${extension}`),
+135 |         1001,
+136 |       );
+137 |       const result = checkDirectory(repo);
+138 |       expect(result.files).toBe(4);
+                                 ^
+error: expect(received).toBe(expected)
+
+Expected: 4
+Received: 0
+
+      at <anonymous> (/tmp/tmp.PYsRmpx9z7/scripts/check-file-size.test.mjs:138:28)
+(fail) size gate covers .js boundaries and ignores generated directories [2.68ms]
+133 |       writeCSharpFileWithLines(
+134 |         path.join(repo, 'node_modules', `ignored${extension}`),
+135 |         1001,
+136 |       );
+137 |       const result = checkDirectory(repo);
+138 |       expect(result.files).toBe(4);
+                                 ^
+error: expect(received).toBe(expected)
+
+Expected: 4
+Received: 0
+
+      at <anonymous> (/tmp/tmp.PYsRmpx9z7/scripts/check-file-size.test.mjs:138:28)
+(fail) size gate covers .md boundaries and ignores generated directories [2.73ms]
+
+scripts/release-workflow-policy.test.mjs:
+(pass) release workflow policy > installs locked helper dependencies before every CI helper test command [2.91ms]
+(pass) release workflow policy > both publishers request OIDC just before push and explicitly select bounded fallback after login failure [3.61ms]
+(pass) release workflow policy > queues every writer independently from readers [3.82ms]
+(pass) release workflow policy > sets explicit timeout-minutes on every job [1.51ms]
+(pass) release workflow policy > guards jobs with skipped dependencies using a status-check function [1.38ms]
+(pass) release workflow policy > instant-release keeps explicit success checks on its dependencies [1.05ms]
+241 | 
+242 |     for (const jobName of ['lint', 'test']) {
+243 |       const job = jobBlocks.get(jobName);
+244 |       const condition = getJobCondition(job);
+245 | 
+246 |       expect(job).toContain(
+                        ^
+error: expect(received).toContain(expected)
+
+Expected to contain: "needs: [detect-changes]"
+Received: "  lint:\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-lint\n      cancel-in-progress: true\n    name: Lint and Format Check\n    runs-on: ubuntu-24.04\n    timeout-minutes: 20\n    needs: [detect-changes, release-preflight]\n    # detect-changes is intentionally skipped for workflow_dispatch. Without a\n    # status-check function, GitHub adds an implicit success() on detect-changes\n    # and skips lint (and everything that needs it, including instant-release).\n    # always() && !cancelled() lets the OR conditions decide instead.\n    if: |\n      always() && !cancelled() && needs.release-preflight.result == 'success' && (\n        github.event_name == 'workflow_dispatch' ||\n        needs.detect-changes.outputs.any-code-changed == 'true'\n      )\n    steps:\n      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1\n        with:\n          persist-credentials: false\n\n      - name: Detect C# layout\n        id: csharp_layout\n        uses: ./.github/actions/csharp-layout\n\n      - name: Setup .NET\n        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0\n        with:\n          global-json-file: global.json\n\n      - name: Setup Bun\n        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2\n        with:\n          bun-version: '1.4.4'\n\n      - name: Restore dependencies\n        working-directory: ${{ steps.csharp_layout.outputs.root }}\n        run: bash scripts/run-with-budget-warning.sh 600 \"dotnet restore (lint)\" dotnet restore\n\n      - name: Check formatting\n        working-directory: ${{ steps.csharp_layout.outputs.root }}\n        run: bash scripts/run-with-budget-warning.sh 600 \"dotnet format (lint)\" dotnet format --verify-no-changes --verbosity diagnostic\n\n      - name: Build with warnings as errors\n        working-directory: ${{ steps.csharp_layout.outputs.root }}\n        run: bash scripts/run-with-budget-warning.sh 700 \"dotnet build (lint)\" dotnet build --no-restore --configuration Release /warnaserror\n\n      - name: Install helper dependencies\n        working-directory: ${{ steps.csharp_layout.outputs.root }}\n        run: bun install --frozen-lockfile\n\n      - name: Run script tests\n        working-directory: ${{ steps.csharp_layout.outputs.root }}\n        run: bash scripts/run-with-budget-warning.sh 300 \"Script tests\" bun test scripts/*.test.mjs\n\n      - name: Check file size limit\n        working-directory: ${{ steps.csharp_layout.outputs.root }}\n        run: bun run scripts/check-file-size.mjs\n\n  # === TEST ON MULTIPLE OS ==="
+
+      at <anonymous> (/tmp/tmp.PYsRmpx9z7/scripts/release-workflow-policy.test.mjs:246:19)
+(fail) release workflow policy > change-gated jobs use detector output for both pull requests and pushes [0.92ms]
+(pass) release workflow policy > publishes only the detector output consumed by job gates [0.52ms]
+(pass) release workflow policy > uses the current GitHub Action versions required by the template [1.35ms]
+(pass) release workflow policy > configures the default Git branch before checkout runs [0.39ms]
+(pass) release workflow policy > gates Codecov uploads on an explicit token [0.65ms]
+(pass) release workflow policy > smoke-tests published NuGet packages before creating releases [0.42ms]
+(pass) release workflow policy > pipeline-status observes every job of the release workflow [0.73ms]
+(pass) release workflow policy > budgets every long step below 70% of its job cap [0.82ms]
+(pass) release workflow policy > release jobs gate on the preflight verdict [0.76ms]
+
+scripts/rerun-workflow-policy.test.mjs:
+ 8 | const rerun = parse(RERUN);
+ 9 | const release = parse('.github/workflows/release.yml');
+10 | 
+11 | describe('infrastructure-failure rerun workflow (issue #96)', () => {
+12 |   test('listens to the completed CI/CD pipeline by its exact name', () => {
+13 |     expect(rerun.on.workflow_run).toEqual({
+                                       ^
+error: expect(received).toEqual(expected)
+
+  {
+    "types": [
+      "completed",
+    ],
+    "workflows": [
+      "CI/CD Pipeline",
+-     "Security",
+    ],
+  }
+
+- Expected  - 1
++ Received  + 0
+
+      at <anonymous> (/tmp/tmp.PYsRmpx9z7/scripts/rerun-workflow-policy.test.mjs:13:35)
+(fail) infrastructure-failure rerun workflow (issue #96) > listens to the completed CI/CD pipeline by its exact name [3.75ms]
+(pass) infrastructure-failure rerun workflow (issue #96) > runs only trusted default-branch code with least privilege [0.40ms]
+(pass) infrastructure-failure rerun workflow (issue #96) > the status gate can read jobs and annotations to name the cause [0.10ms]
+(pass) infrastructure-failure rerun workflow (issue #96) > macOS stays blocking unless NON_BLOCKING_MACOS is explicitly enabled [0.03ms]
+
+scripts/security-gates.test.mjs:
+(pass) complete clean SARIF passes; every finding level fails [0.61ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.07ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.04ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.02ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.03ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.02ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.02ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.02ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.06ms]
+(pass) full direct/transitive dependency graph and clean validated audit pass [0.68ms]
+(pass) SDK 8 clean audit omits frameworks, but never substitutes for the full graph [0.30ms]
+(pass) existing vulnerable topLevelPackages fails without any dependency diff [0.30ms]
+(pass) existing vulnerable transitivePackages fails without any dependency diff [0.30ms]
+(pass) unverified provider, missing graph, unknown projects and malformed JSON fail [0.29ms]
+(pass) terminal gate rejects skipped, missing, cancelled and failed expected work [0.35ms]
+143 |     'scan failed',
+144 |     'Missing SARIF tool',
+145 |     'SARIF results',
+146 |     'SARIF invocations',
+147 |   ])
+148 |     expect(message).toContain(expected);
+                          ^
+error: expect(received).toContain(expected)
+
+Expected to contain: "first"
+Received: "CodeQL findings detected (all levels are fatal)"
+
+      at <anonymous> (/tmp/tmp.PYsRmpx9z7/scripts/security-gates.test.mjs:148:21)
+(fail) reports every malformed run, diagnostic and finding with rule, location and message [0.41ms]
+
+scripts/recheck-broken-links.test.mjs:
+(pass) lychee failure classification > preserves adjacent failures with bare URLs [0.94ms]
+(pass) lychee failure classification > preserves adjacent failures with angle brackets [0.04ms]
+(pass) lychee failure classification > preserves adjacent failures with locations [0.02ms]
+(pass) lychee failure classification > preserves adjacent failures with horizontal whitespace [0.02ms]
+(pass) lychee failure classification > reads only failures in the Errors section, including input subheadings [0.10ms]
+(pass) lychee failure classification > the real fixture leaves nothing to re-ask: 404s answered, locals unprovable [0.24ms]
+(pass) lychee failure classification > only silent transport failures are worth asking again [0.09ms]
+(pass) lychee failure classification > "Rejected status code" identifies a transient server response under any marker [0.04ms]
+(pass) lychee failure classification > 429 and every 5xx are retryable while client failures remain final [0.12ms]
+(pass) lychee failure classification > a non-http failure is final without being re-asked [0.07ms]
+(pass) lychee failure classification > duplicate urls collapse to one failure [0.03ms]
+(pass) accept list parsing > the default is lychee own documented default [0.21ms]
+(pass) accept list parsing > bare codes, exclusive ranges and stray spaces parse [0.08ms]
+(pass) accept list parsing > a typo throws instead of silently narrowing what healthy means [0.10ms]
+(pass) request option extraction > a workflow without flags gets the lychee defaults [0.15ms]
+(pass) request option extraction > flags in the workflow win [0.04ms]
+(pass) probe > an accepted status is alive; a rejected one is a final verdict [1.17ms]
+(pass) probe > the probe presents the same user agent lychee ran with [0.32ms]
+(pass) probe > a transport failure is unreachable, never a verdict [0.28ms]
+(pass) probe > an abort is reported as a timeout, not a crash [0.23ms]
+(pass) recheckAll > retries HTTP 429 until recovery without re-asking a 404 [1.05ms]
+(pass) recheckAll > retries HTTP 502 until recovery without re-asking a 404 [0.14ms]
+(pass) recheckAll > retries HTTP 503 until recovery without re-asking a 404 [0.47ms]
+(pass) recheckAll > persistent transient statuses exhaust retries without being called recovered [0.27ms]
+(pass) recheckAll > honors Retry-After without exceeding the total wait budget [0.52ms]
+(pass) recheckAll > retries a silent link and stops at the first accepted answer [0.35ms]
+(pass) recheckAll > duplicate urls share one probe slot [0.20ms]
+(pass) recheckAll > an expired budget marks never-asked links without probing them [0.26ms]
+(pass) recheckAll > waits double between rounds: a burst of resets is outlasted, not spammed [3.16ms]
+=== Re-check of transient link failures ===
+
+Reading lychee output from: /tmp/recheck-test-RMOhB4/missing.md
+
+No lychee output file found; nothing to re-check.
+all_recovered=false
+recovered=0
+remaining=0
+(pass) main > a missing report is reported as nothing recovered, with exit code 0 [5.11ms]
+=== Re-check of transient link failures ===
+
+Reading lychee output from: /tmp/recheck-test-9xkzVE/out.md
+
+lychee reported 2 failing link(s): 1 permanent or non-http failures, 1 transport, rate-limit or server failures.
+
+  [404] https://gone.example/x -- not re-checked
+
+Re-asking 1 link(s) directly (accept: 100..=103,200..=299, user agent: lychee)...
+
+
+=== Re-check summary ===
+
+✓ https://flappy.example/y answered HTTP 200 on attempt 1
+::notice title=Link answered on re-check::https://flappy.example/y answered HTTP 200 when asked directly, after lychee reported it as "failed with no status code".
+The transient failure recovered within the retry budget. This link is not treated as broken.
+
+Recovered URLs written to /tmp/recheck-test-9xkzVE/recovered.txt
+all_recovered=false
+recovered=1
+remaining=1
+(pass) main > re-asks only the unanswered and never hides an answered failure [2.11ms]
+=== Re-check of transient link failures ===
+
+Reading lychee output from: /tmp/recheck-test-8S6TFd/out.md
+
+lychee reported 1 failing link(s): 0 permanent or non-http failures, 1 transport, rate-limit or server failures.
+
+
+Re-asking 1 link(s) directly (accept: 100..=103,200..=299, user agent: lychee)...
+
+
+=== Re-check summary ===
+
+✓ https://flappy.example/y answered HTTP 200 on attempt 1
+::notice title=Link answered on re-check::https://flappy.example/y answered HTTP 200 when asked directly, after lychee reported it as "failed with no status code".
+The transient failure recovered within the retry budget. This link is not treated as broken.
+
+Recovered URLs written to /tmp/recheck-test-8S6TFd/recovered.txt
+all_recovered=true
+recovered=1
+remaining=0
+
+Every link lychee reported answered a direct request. Every transient failure recovered.
+(pass) main > all_recovered is true only when nothing at all remains [1.55ms]
+=== Re-check of transient link failures ===
+
+Reading lychee output from: /tmp/recheck-mixed-11nNfK/out.md
+
+lychee reported 1 failing link(s): 0 permanent or non-http failures, 1 transport, rate-limit or server failures.
+
+
+Re-asking 1 link(s) directly (accept: 100..=103,200..=299, user agent: lychee)...
+
+
+=== Re-check summary ===
+
+✓ https://flappy.example/ answered HTTP 200 on attempt 1
+::notice title=Link answered on re-check::https://flappy.example/ answered HTTP 200 when asked directly, after lychee reported it as "failed with no status code".
+The transient failure recovered within the retry budget. This link is not treated as broken.
+
+Recovered URLs written to /tmp/recheck-mixed-11nNfK/recovered
+all_recovered=true
+recovered=1
+remaining=0
+
+Every link lychee reported answered a direct request. Every transient failure recovered.
+582 |         RECOVERED_OUTPUT: join(dir, 'recovered'),
+583 |         LYCHEE_EXIT_CODE: '2',
+584 |       },
+585 |       () => main({ fetchImpl }),
+586 |     );
+587 |     expect(calls).toHaveLength(2);
+                        ^
+error: expect(received).toHaveLength(expected)
+
+Expected length: 2
+Received length: 1
+
+      at <anonymous> (/tmp/tmp.PYsRmpx9z7/scripts/recheck-broken-links.test.mjs:587:19)
+(fail) recovered error plus timeout still reports an unresolved failure [2.15ms]
+
+scripts/link-failures.test.mjs:
+
+# Unhandled error between tests
+-------------------------------
+SyntaxError: Export named 'validateLycheeReport' not found in module '/tmp/tmp.PYsRmpx9z7/scripts/check-web-archive.mjs'.
+-------------------------------
+
+
+scripts/sarif-directory.test.mjs:
+
+# Unhandled error between tests
+-------------------------------
+SyntaxError: Export named 'collectSarifDirectoryProblems' not found in module '/tmp/tmp.PYsRmpx9z7/scripts/security-gates.mjs'.
+-------------------------------
+
+
+14 tests failed:
+(fail) GitHub Action pins > every remote action is pinned to a commit SHA with a version comment [1.24ms]
+(fail) GitHub Action pins > isShaPinned rejects tags and missing comments [0.97ms]
+(fail) fallback probe HTTP 401 preserves honest authentication/scope states [0.25ms]
+(fail) fallback probe HTTP 403 preserves honest authentication/scope states [0.23ms]
+(fail) NuGet denial includes the safely quoted server warning without the API key [0.30ms]
+(fail) size gate covers .mjs boundaries and ignores generated directories [3.91ms]
+(fail) size gate covers .js boundaries and ignores generated directories [2.68ms]
+(fail) size gate covers .md boundaries and ignores generated directories [2.73ms]
+(fail) release workflow policy > change-gated jobs use detector output for both pull requests and pushes [0.92ms]
+(fail) infrastructure-failure rerun workflow (issue #96) > listens to the completed CI/CD pipeline by its exact name [3.75ms]
+(fail) reports every malformed run, diagnostic and finding with rule, location and message [0.41ms]
+(fail) recovered error plus timeout still reports an unresolved failure [2.15ms]
+
+ 82 pass
+ 14 fail
+ 2 errors
+ 360 expect() calls
+Ran 96 tests across 9 files. [127.00ms]
