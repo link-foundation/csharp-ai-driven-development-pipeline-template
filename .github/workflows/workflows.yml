@@ -23,7 +23,7 @@ env:
 jobs:
   actionlint:
     name: Lint Workflows
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     # Typical run: <1min. 10min prevents an image pull stall from hanging.
     timeout-minutes: 10
     concurrency:
@@ -59,7 +59,7 @@ jobs:
           # Match only our known composite, preserving all other action checks.
           args: >-
             -color -ignore "unexpected key .queue. for .concurrency. section"
-            -ignore 'specifying action "\$/\.github/actions/csharp-layout" in invalid format because ref is missing'
+            -ignore "specifying action .[$]/[.]github/actions/csharp-layout. in invalid format because ref is missing"
       - name: Lint standalone shell and verify integrations
         run: >-
           docker run --rm -v "$PWD:/repo" -w /repo --entrypoint sh
@@ -68,7 +68,7 @@ jobs:
 
   zizmor:
     name: zizmor
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 10
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-zizmor

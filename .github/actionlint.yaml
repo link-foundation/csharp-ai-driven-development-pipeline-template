@@ -1,0 +1,6 @@
+# Hosted labels added after actionlint 1.7.12 (rhysd/actionlint#682).
+# Remove this compatibility declaration once the bundled label table catches up.
+self-hosted-runner:
+  labels:
+    - ubuntu-26.04
+    - xcode-27
