@@ -1,0 +1,4 @@
+  Determining projects to restore...
+  Restored /tmp/gh-issue-solver-1794664914456/src/MyPackage/MyPackage.csproj (in 3 ms).
+  Restored /tmp/gh-issue-solver-1794664914456/tests/MyPackage.Tests/MyPackage.Tests.csproj (in 649 ms).
+  Restored /tmp/gh-issue-solver-1794664914456/examples/BasicUsage.csproj (in 5 ms).

@@ -96,6 +96,20 @@ describe('printUntrusted', () => {
     expect(err).toHaveLength(3);
     expect(out).toEqual([]);
   });
+
+  test('resumes command processing when the output sink rejects the payload', () => {
+    const lines = [];
+    withEnv({ GITHUB_ACTIONS: 'true' }, () => {
+      expect(() =>
+        printUntrusted('payload', (line) => {
+          if (line === 'payload') throw new Error('sink failed');
+          lines.push(line);
+        }),
+      ).toThrow('sink failed');
+    });
+    const token = /^::stop-commands::(.+)$/.exec(lines[0])[1];
+    expect(lines).toEqual([`::stop-commands::${token}`, `::${token}::`]);
+  });
 });
 
 // Asserts that somewhere in `output` a stop-commands bracket surrounds the

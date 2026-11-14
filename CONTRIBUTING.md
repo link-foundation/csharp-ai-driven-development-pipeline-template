@@ -13,9 +13,11 @@ Thank you for your interest in contributing! This document provides guidelines a
 
 2. **Install .NET SDK**
 
-   Install the .NET 10 SDK (see `global.json`) from [dotnet.microsoft.com](https://dotnet.microsoft.com/download).
+   Install the .NET 11 SDK (see `global.json`) from [dotnet.microsoft.com](https://dotnet.microsoft.com/download).
 
-3. **Install Bun 1.4.4** (for helper scripts)
+3. **Install Node.js 26.13.1 and Bun 1.4.4** (for helper scripts)
+
+   Node is pinned in `.node-version`; Bun is pinned in `package.json`.
 
    ```bash
    curl -fsSL https://bun.sh/install | bash

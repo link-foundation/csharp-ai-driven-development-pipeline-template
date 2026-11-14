@@ -1,0 +1,444 @@
+zizmor	Set up job	﻿2026-11-14T14:17:20.3416142Z Current runner version: '2.338.2'
+zizmor	Set up job	2026-11-14T14:17:20.3454151Z ##[group]Runner Image Provisioner
+zizmor	Set up job	2026-11-14T14:17:20.3455618Z Hosted Compute Agent
+zizmor	Set up job	2026-11-14T14:17:20.3456599Z Version: 20261103.629
+zizmor	Set up job	2026-11-14T14:17:20.3457730Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+zizmor	Set up job	2026-11-14T14:17:20.3459068Z Build Date: 2026-11-03T17:26:59Z
+zizmor	Set up job	2026-11-14T14:17:20.3460317Z Worker ID: {50547e86-3da8-42c7-b09d-18f81309e1ee}
+zizmor	Set up job	2026-11-14T14:17:20.3461622Z Region: eastus
+zizmor	Set up job	2026-11-14T14:17:20.3462563Z Cloud: Azure
+zizmor	Set up job	2026-11-14T14:17:20.3463919Z ##[endgroup]
+zizmor	Set up job	2026-11-14T14:17:20.3466469Z ##[group]Operating System
+zizmor	Set up job	2026-11-14T14:17:20.3467576Z Ubuntu
+zizmor	Set up job	2026-11-14T14:17:20.3468489Z 24.04.5
+zizmor	Set up job	2026-11-14T14:17:20.3469335Z LTS
+zizmor	Set up job	2026-11-14T14:17:20.3470357Z ##[endgroup]
+zizmor	Set up job	2026-11-14T14:17:20.3471315Z ##[group]Runner Image
+zizmor	Set up job	2026-11-14T14:17:20.3472442Z Image: ubuntu-24.04
+zizmor	Set up job	2026-11-14T14:17:20.3473779Z Version: 20261111.370.1
+zizmor	Set up job	2026-11-14T14:17:20.3475588Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261111.370/images/ubuntu/Ubuntu2404-Readme.md
+zizmor	Set up job	2026-11-14T14:17:20.3478682Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261111.370
+zizmor	Set up job	2026-11-14T14:17:20.3480527Z ##[endgroup]
+zizmor	Set up job	2026-11-14T14:17:20.3482437Z ##[group]GITHUB_TOKEN Permissions
+zizmor	Set up job	2026-11-14T14:17:20.3485868Z Contents: read
+zizmor	Set up job	2026-11-14T14:17:20.3486882Z Metadata: read
+zizmor	Set up job	2026-11-14T14:17:20.3487960Z ##[endgroup]
+zizmor	Set up job	2026-11-14T14:17:20.3491130Z Secret source: Actions
+zizmor	Set up job	2026-11-14T14:17:20.3492778Z Cache mode: write
+zizmor	Set up job	2026-11-14T14:17:20.3494284Z Prepare workflow directory
+zizmor	Set up job	2026-11-14T14:17:20.4077669Z Prepare all required actions
+zizmor	Set up job	2026-11-14T14:17:20.4149591Z Getting action download info
+zizmor	Set up job	2026-11-14T14:17:20.6385706Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+zizmor	Set up job	2026-11-14T14:17:20.7541193Z Download action repository 'zizmorcore/zizmor-action@45d7276c9ca790aabd705e31ca99c6185c3e76dd' (SHA:45d7276c9ca790aabd705e31ca99c6185c3e76dd)
+zizmor	Set up job	2026-11-14T14:17:20.9686227Z Getting action download info
+zizmor	Set up job	2026-11-14T14:17:21.0530898Z Download action repository 'github/codeql-action@9b3254085494b55a0f7c4c2b3d2d52cc712ce370' (SHA:9b3254085494b55a0f7c4c2b3d2d52cc712ce370)
+zizmor	Set up job	2026-11-14T14:17:21.3298269Z Complete job name: zizmor
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-11-14T14:17:21.4343290Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.4345225Z with:
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.4346089Z   persist-credentials: false
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.4347667Z   repository: link-foundation/csharp-ai-driven-development-pipeline-template
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.4357440Z   token: ***
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.4358303Z   ssh-strict: true
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.4359165Z   ssh-user: git
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.4359998Z   clean: true
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.4360894Z   sparse-checkout-cone-mode: true
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.4361948Z   fetch-depth: 1
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.4362782Z   fetch-tags: false
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.4363837Z   show-progress: true
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.4364723Z   lfs: false
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.4365532Z   submodules: false
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.4366483Z   set-safe-directory: true
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.4367482Z   allow-unsafe-pr-checkout: false
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.4368814Z env:
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.4369644Z   GIT_CONFIG_COUNT: 1
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.4370588Z   GIT_CONFIG_KEY_0: init.defaultBranch
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.4371747Z   GIT_CONFIG_VALUE_0: main
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.4372683Z ##[endgroup]
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.7532147Z Syncing repository: link-foundation/csharp-ai-driven-development-pipeline-template
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.7535093Z ##[group]Getting Git version info
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.7536562Z Working directory is '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template'
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.7538459Z [command]/usr/bin/git version
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.7639407Z git version 2.56.1
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.7656737Z ##[endgroup]
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.7669018Z Temporarily overriding HOME='/home/runner/work/_temp/b44b9827-5f13-4cc0-beeb-c8d1ca76e4aa' before making global git config changes
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.7671611Z Adding repository directory to the temporary git global config as a safe directory
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.7674138Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.7729299Z Deleting the contents of '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template'
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.7746765Z ##[group]Determining repository object format
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.7748682Z ##[endgroup]
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.7750250Z ##[group]Initializing the repository
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.7755123Z [command]/usr/bin/git init /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.7894368Z Initialized empty Git repository in /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.7914787Z [command]/usr/bin/git remote add origin https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.8004094Z ##[endgroup]
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.8005586Z ##[group]Disabling automatic garbage collection
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.8008301Z [command]/usr/bin/git config --local gc.auto 0
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.8055916Z ##[endgroup]
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.8057902Z ##[group]Setting up auth
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.8059393Z Removing SSH command configuration
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.8060944Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.8108762Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.8562234Z Removing HTTP extra header
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.8568318Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.8617282Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.8869533Z Removing includeIf entries pointing to credentials config files
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.8878302Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.8925854Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.9180825Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-66acb99f-6429-4b94-a962-83e7e49206d4.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.9334095Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path /home/runner/work/_temp/git-credentials-66acb99f-6429-4b94-a962-83e7e49206d4.config
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.9339557Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-66acb99f-6429-4b94-a962-83e7e49206d4.config
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.9342283Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-66acb99f-6429-4b94-a962-83e7e49206d4.config
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.9378862Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-66acb99f-6429-4b94-a962-83e7e49206d4.config
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.9421537Z ##[endgroup]
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.9422269Z ##[group]Fetching the repository
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:21.9429221Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +27ace17e693643b5320819869211a858c97bccf7:refs/remotes/pull/109/merge
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1504503Z From https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1505944Z  * [new ref]         27ace17e693643b5320819869211a858c97bccf7 -> pull/109/merge
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1508956Z ##[endgroup]
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1510146Z ##[group]Determining the checkout info
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1511151Z ##[endgroup]
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1516225Z [command]/usr/bin/git sparse-checkout disable
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1592038Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1636573Z ##[group]Checking out the ref
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1640603Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/109/merge
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1796742Z Note: switching to 'refs/remotes/pull/109/merge'.
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1797406Z 
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1797938Z You are in 'detached HEAD' state. You can look around, make experimental
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1798944Z changes and commit them, and you can discard any commits you make in this
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1800350Z state without impacting any branches by switching back to a branch.
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1801101Z 
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1801601Z If you want to create a new branch to retain commits you create, you may
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1802856Z do so (now or later) by using -c with the switch command. Example:
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1803817Z 
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1804193Z   git switch -c <new-branch-name>
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1804662Z 
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1804991Z Or undo this operation with:
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1805427Z 
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1805708Z   git switch -
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1806112Z 
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1806693Z Turn off this advice by setting config variable advice.detachedHead to false
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1807360Z 
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1807849Z HEAD is now at 27ace17 Merge 691b84fb6fc856f7a057819111df6f6c5773173d into e33364e12bb727a64115a25d0c5d464757f20c7a
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1810985Z ##[endgroup]
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1869637Z [command]/usr/bin/git log -1 --format=%H
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1908277Z 27ace17e693643b5320819869211a858c97bccf7
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1918405Z ##[group]Removing auth
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1919081Z Removing SSH command configuration
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1922402Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.1969094Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.2227799Z Removing HTTP extra header
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.2232105Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.2279882Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.2531059Z Removing includeIf entries pointing to credentials config files
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.2535659Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.2579480Z includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.2581859Z includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.2583904Z includeif.gitdir:/github/workspace/.git.path
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.2584647Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.2589426Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.2625978Z /home/runner/work/_temp/git-credentials-66acb99f-6429-4b94-a962-83e7e49206d4.config
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.2640347Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-66acb99f\-6429\-4b94\-a962\-83e7e49206d4\.config
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.2696636Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.2732234Z /home/runner/work/_temp/git-credentials-66acb99f-6429-4b94-a962-83e7e49206d4.config
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.2741723Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-66acb99f\-6429\-4b94\-a962\-83e7e49206d4\.config
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.2790049Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.2828727Z /github/runner_temp/git-credentials-66acb99f-6429-4b94-a962-83e7e49206d4.config
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.2839779Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-66acb99f\-6429\-4b94\-a962\-83e7e49206d4\.config
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.2888022Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.2925379Z /github/runner_temp/git-credentials-66acb99f-6429-4b94-a962-83e7e49206d4.config
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.2935029Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-66acb99f\-6429\-4b94\-a962\-83e7e49206d4\.config
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.2983870Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.3264110Z Removing credentials config '/home/runner/work/_temp/git-credentials-66acb99f-6429-4b94-a962-83e7e49206d4.config'
+zizmor	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:22.3277312Z ##[endgroup]
+zizmor	Audit workflow files	﻿2026-11-14T14:17:22.3676100Z ##[group]Run zizmorcore/zizmor-action@45d7276c9ca790aabd705e31ca99c6185c3e76dd
+zizmor	Audit workflow files	2026-11-14T14:17:22.3676787Z with:
+zizmor	Audit workflow files	2026-11-14T14:17:22.3677160Z   advanced-security: false
+zizmor	Audit workflow files	2026-11-14T14:17:22.3677543Z   annotations: true
+zizmor	Audit workflow files	2026-11-14T14:17:22.3677905Z   config: .github/zizmor.yml
+zizmor	Audit workflow files	2026-11-14T14:17:22.3678282Z   inputs: .github
+zizmor	Audit workflow files	2026-11-14T14:17:22.3678630Z   min-confidence: medium
+zizmor	Audit workflow files	2026-11-14T14:17:22.3679001Z   version: 1.32.0
+zizmor	Audit workflow files	2026-11-14T14:17:22.3679334Z   collect: default
+zizmor	Audit workflow files	2026-11-14T14:17:22.3679676Z   online-audits: true
+zizmor	Audit workflow files	2026-11-14T14:17:22.3680028Z   persona: regular
+zizmor	Audit workflow files	2026-11-14T14:17:22.3683095Z   token: ***
+zizmor	Audit workflow files	2026-11-14T14:17:22.3683477Z   color: true
+zizmor	Audit workflow files	2026-11-14T14:17:22.3683836Z   fail-on-no-inputs: true
+zizmor	Audit workflow files	2026-11-14T14:17:22.3684224Z env:
+zizmor	Audit workflow files	2026-11-14T14:17:22.3684557Z   GIT_CONFIG_COUNT: 1
+zizmor	Audit workflow files	2026-11-14T14:17:22.3684940Z   GIT_CONFIG_KEY_0: init.defaultBranch
+zizmor	Audit workflow files	2026-11-14T14:17:22.3685404Z   GIT_CONFIG_VALUE_0: main
+zizmor	Audit workflow files	2026-11-14T14:17:22.3685768Z ##[endgroup]
+zizmor	Audit workflow files	2026-11-14T14:17:22.3757462Z ##[start-action display=Run zizmor;id=__zizmorcore_zizmor-action.run-zizmor]
+zizmor	Audit workflow files	2026-11-14T14:17:22.3811379Z ##[group]Run "${GITHUB_ACTION_PATH}/action.sh"
+zizmor	Audit workflow files	2026-11-14T14:17:22.3812019Z ^[[36;1m"${GITHUB_ACTION_PATH}/action.sh"^[[0m
+zizmor	Audit workflow files	2026-11-14T14:17:22.3837973Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+zizmor	Audit workflow files	2026-11-14T14:17:22.3838534Z env:
+zizmor	Audit workflow files	2026-11-14T14:17:22.3838871Z   GIT_CONFIG_COUNT: 1
+zizmor	Audit workflow files	2026-11-14T14:17:22.3839278Z   GIT_CONFIG_KEY_0: init.defaultBranch
+zizmor	Audit workflow files	2026-11-14T14:17:22.3839718Z   GIT_CONFIG_VALUE_0: main
+zizmor	Audit workflow files	2026-11-14T14:17:22.3840115Z   GHA_ZIZMOR_INPUTS: .github
+zizmor	Audit workflow files	2026-11-14T14:17:22.3840517Z   GHA_ZIZMOR_COLLECT: default
+zizmor	Audit workflow files	2026-11-14T14:17:22.3840921Z   GHA_ZIZMOR_ONLINE_AUDITS: true
+zizmor	Audit workflow files	2026-11-14T14:17:22.3841340Z   GHA_ZIZMOR_PERSONA: regular
+zizmor	Audit workflow files	2026-11-14T14:17:22.3841735Z   GHA_ZIZMOR_MIN_SEVERITY: 
+zizmor	Audit workflow files	2026-11-14T14:17:22.3842141Z   GHA_ZIZMOR_MIN_CONFIDENCE: medium
+zizmor	Audit workflow files	2026-11-14T14:17:22.3843060Z   GHA_ZIZMOR_VERSION: 1.32.0
+zizmor	Audit workflow files	2026-11-14T14:17:22.3846198Z   GHA_ZIZMOR_TOKEN: ***
+zizmor	Audit workflow files	2026-11-14T14:17:22.3846619Z   GHA_ZIZMOR_ADVANCED_SECURITY: false
+zizmor	Audit workflow files	2026-11-14T14:17:22.3847067Z   GHA_ZIZMOR_COLOR: true
+zizmor	Audit workflow files	2026-11-14T14:17:22.3847462Z   GHA_ZIZMOR_ANNOTATIONS: true
+zizmor	Audit workflow files	2026-11-14T14:17:22.3847916Z   GHA_ZIZMOR_CONFIG: .github/zizmor.yml
+zizmor	Audit workflow files	2026-11-14T14:17:22.3848357Z   GHA_ZIZMOR_FAIL_ON_NO_INPUTS: true
+zizmor	Audit workflow files	2026-11-14T14:17:22.3848768Z ##[endgroup]
+zizmor	Audit workflow files	2026-11-14T14:17:23.7119143Z ^[[32m INFO^[[0m ^[[2mzizmor^[[0m^[[2m:^[[0m 🌈 zizmor v1.32.0
+zizmor	Audit workflow files	2026-11-14T14:17:23.9780399Z ^[[32m INFO^[[0m ^[[1maudit^[[0m^[[2m:^[[0m ^[[2mzizmor^[[0m^[[2m:^[[0m 🌈 completed .github/actions/csharp-layout/action.yml
+zizmor	Audit workflow files	2026-11-14T14:17:23.9782705Z ^[[32m INFO^[[0m ^[[1maudit^[[0m^[[2m:^[[0m ^[[2mzizmor^[[0m^[[2m:^[[0m 🌈 completed .github/dependabot.yml
+zizmor	Audit workflow files	2026-11-14T14:17:24.4665248Z ^[[32m INFO^[[0m ^[[1maudit^[[0m^[[2m:^[[0m ^[[2mzizmor^[[0m^[[2m:^[[0m 🌈 completed .github/workflows/docs.yml
+zizmor	Audit workflow files	2026-11-14T14:17:24.5993510Z ^[[32m INFO^[[0m ^[[1maudit^[[0m^[[2m:^[[0m ^[[2mzizmor^[[0m^[[2m:^[[0m 🌈 completed .github/workflows/links.yml
+zizmor	Audit workflow files	2026-11-14T14:17:24.9909648Z ^[[32m INFO^[[0m ^[[1maudit^[[0m^[[2m:^[[0m ^[[2mzizmor^[[0m^[[2m:^[[0m 🌈 completed .github/workflows/release.yml
+zizmor	Audit workflow files	2026-11-14T14:17:24.9920939Z ^[[32m INFO^[[0m ^[[1maudit^[[0m^[[2m:^[[0m ^[[2mzizmor^[[0m^[[2m:^[[0m 🌈 completed .github/workflows/rerun-infrastructure-failures.yml
+zizmor	Audit workflow files	2026-11-14T14:17:25.2604337Z ^[[32m INFO^[[0m ^[[1maudit^[[0m^[[2m:^[[0m ^[[2mzizmor^[[0m^[[2m:^[[0m 🌈 completed .github/workflows/security.yml
+zizmor	Audit workflow files	2026-11-14T14:17:25.3853164Z ^[[32m INFO^[[0m ^[[1maudit^[[0m^[[2m:^[[0m ^[[2mzizmor^[[0m^[[2m:^[[0m 🌈 completed .github/workflows/workflows.yml
+zizmor	Audit workflow files	2026-11-14T14:17:25.3912010Z ##[end-action id=__zizmorcore_zizmor-action.run-zizmor;outcome=success;conclusion=success;duration_ms=3015]
+zizmor	Audit workflow files	2026-11-14T14:17:25.3920141Z ##[start-action display=Upload SARIF file to GitHub Advanced Security;id=__zizmorcore_zizmor-action.__github_codeql-action]
+zizmor	Audit workflow files	2026-11-14T14:17:25.3941925Z ##[end-action id=__zizmorcore_zizmor-action.__github_codeql-action;outcome=skipped;conclusion=skipped;duration_ms=0]
+zizmor	Audit for pedantic-only high-severity findings	﻿2026-11-14T14:17:25.4015593Z ##[group]Run pipx run zizmor==1.32.0 --config .github/zizmor.yml \
+zizmor	Audit for pedantic-only high-severity findings	2026-11-14T14:17:25.4016147Z ^[[36;1mpipx run zizmor==1.32.0 --config .github/zizmor.yml \^[[0m
+zizmor	Audit for pedantic-only high-severity findings	2026-11-14T14:17:25.4016657Z ^[[36;1m  --persona pedantic --min-severity high --min-confidence high \^[[0m
+zizmor	Audit for pedantic-only high-severity findings	2026-11-14T14:17:25.4017105Z ^[[36;1m  .github^[[0m
+zizmor	Audit for pedantic-only high-severity findings	2026-11-14T14:17:25.4037848Z shell: /usr/bin/bash -e {0}
+zizmor	Audit for pedantic-only high-severity findings	2026-11-14T14:17:25.4038124Z env:
+zizmor	Audit for pedantic-only high-severity findings	2026-11-14T14:17:25.4038328Z   GIT_CONFIG_COUNT: 1
+zizmor	Audit for pedantic-only high-severity findings	2026-11-14T14:17:25.4038588Z   GIT_CONFIG_KEY_0: init.defaultBranch
+zizmor	Audit for pedantic-only high-severity findings	2026-11-14T14:17:25.4038887Z   GIT_CONFIG_VALUE_0: main
+zizmor	Audit for pedantic-only high-severity findings	2026-11-14T14:17:25.4039134Z ##[endgroup]
+zizmor	Audit for pedantic-only high-severity findings	2026-11-14T14:17:25.8694014Z creating virtual environment...
+zizmor	Audit for pedantic-only high-severity findings	2026-11-14T14:17:26.0738510Z installing zizmor from spec 'zizmor==1.32.0'...
+zizmor	Audit for pedantic-only high-severity findings	2026-11-14T14:17:27.5463300Z ^[[32m INFO^[[0m ^[[2mzizmor^[[0m^[[2m:^[[0m 🌈 zizmor v1.32.0
+zizmor	Audit for pedantic-only high-severity findings	2026-11-14T14:17:27.6131411Z ^[[33m WARN^[[0m ^[[1maudit^[[0m^[[2m:^[[0m ^[[2mzizmor^[[0m^[[2m:^[[0m zizmor is running in offline mode by default; some audits and auto-fixes will not be available. see https://docs.zizmor.sh/usage/#operating-modes for details
+zizmor	Audit for pedantic-only high-severity findings	2026-11-14T14:17:27.6165672Z ^[[32m INFO^[[0m ^[[1maudit^[[0m^[[2m:^[[0m ^[[2mzizmor^[[0m^[[2m:^[[0m 🌈 completed .github/actions/csharp-layout/action.yml
+zizmor	Audit for pedantic-only high-severity findings	2026-11-14T14:17:27.6168489Z ^[[32m INFO^[[0m ^[[1maudit^[[0m^[[2m:^[[0m ^[[2mzizmor^[[0m^[[2m:^[[0m 🌈 completed .github/dependabot.yml
+zizmor	Audit for pedantic-only high-severity findings	2026-11-14T14:17:27.6178806Z ^[[32m INFO^[[0m ^[[1maudit^[[0m^[[2m:^[[0m ^[[2mzizmor^[[0m^[[2m:^[[0m 🌈 completed .github/workflows/docs.yml
+zizmor	Audit for pedantic-only high-severity findings	2026-11-14T14:17:27.6185492Z ^[[32m INFO^[[0m ^[[1maudit^[[0m^[[2m:^[[0m ^[[2mzizmor^[[0m^[[2m:^[[0m 🌈 completed .github/workflows/links.yml
+zizmor	Audit for pedantic-only high-severity findings	2026-11-14T14:17:27.6314379Z ^[[32m INFO^[[0m ^[[1maudit^[[0m^[[2m:^[[0m ^[[2mzizmor^[[0m^[[2m:^[[0m 🌈 completed .github/workflows/release.yml
+zizmor	Audit for pedantic-only high-severity findings	2026-11-14T14:17:27.6318120Z ^[[32m INFO^[[0m ^[[1maudit^[[0m^[[2m:^[[0m ^[[2mzizmor^[[0m^[[2m:^[[0m 🌈 completed .github/workflows/rerun-infrastructure-failures.yml
+zizmor	Audit for pedantic-only high-severity findings	2026-11-14T14:17:27.6340385Z ^[[32m INFO^[[0m ^[[1maudit^[[0m^[[2m:^[[0m ^[[2mzizmor^[[0m^[[2m:^[[0m 🌈 completed .github/workflows/security.yml
+zizmor	Audit for pedantic-only high-severity findings	2026-11-14T14:17:27.6346971Z ^[[32m INFO^[[0m ^[[1maudit^[[0m^[[2m:^[[0m ^[[2mzizmor^[[0m^[[2m:^[[0m 🌈 completed .github/workflows/workflows.yml
+zizmor	Audit for pedantic-only high-severity findings	2026-11-14T14:17:27.6348559Z ^[[32mNo findings to report. Good job!^[[39m (^[[1m^[[93m46^[[39m ignored, ^[[93m8^[[39m suppressed^[[0m)
+zizmor	Post Audit workflow files	﻿2026-11-14T14:17:27.6512162Z Post job cleanup.
+zizmor	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-11-14T14:17:27.6613142Z Post job cleanup.
+zizmor	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:27.7508944Z [command]/usr/bin/git version
+zizmor	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:27.7558991Z git version 2.56.1
+zizmor	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:27.7601422Z Temporarily overriding HOME='/home/runner/work/_temp/f20815fe-4b4d-479b-a38c-356583133269' before making global git config changes
+zizmor	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:27.7603197Z Adding repository directory to the temporary git global config as a safe directory
+zizmor	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:27.7608777Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template
+zizmor	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:27.7649189Z Removing SSH command configuration
+zizmor	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:27.7656619Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+zizmor	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:27.7701596Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+zizmor	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:27.8003425Z Removing HTTP extra header
+zizmor	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:27.8009753Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+zizmor	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:27.8065035Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+zizmor	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:27.8354435Z Removing includeIf entries pointing to credentials config files
+zizmor	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:27.8362762Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+zizmor	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:27.8420480Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+zizmor	Complete job	﻿2026-11-14T14:17:27.8860141Z Cleaning up orphan processes
+Lint Workflows	Set up job	﻿2026-11-14T14:17:21.3320209Z Current runner version: '2.338.2'
+Lint Workflows	Set up job	2026-11-14T14:17:21.3347363Z ##[group]Runner Image Provisioner
+Lint Workflows	Set up job	2026-11-14T14:17:21.3348395Z Hosted Compute Agent
+Lint Workflows	Set up job	2026-11-14T14:17:21.3349010Z Version: 20261103.629
+Lint Workflows	Set up job	2026-11-14T14:17:21.3349700Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+Lint Workflows	Set up job	2026-11-14T14:17:21.3350500Z Build Date: 2026-11-03T17:26:59Z
+Lint Workflows	Set up job	2026-11-14T14:17:21.3351214Z Worker ID: {d2b55798-f857-4d1f-9ad3-93e61cc02359}
+Lint Workflows	Set up job	2026-11-14T14:17:21.3351988Z Region: westus
+Lint Workflows	Set up job	2026-11-14T14:17:21.3352846Z Cloud: Azure
+Lint Workflows	Set up job	2026-11-14T14:17:21.3353387Z ##[endgroup]
+Lint Workflows	Set up job	2026-11-14T14:17:21.3355005Z ##[group]Operating System
+Lint Workflows	Set up job	2026-11-14T14:17:21.3355681Z Ubuntu
+Lint Workflows	Set up job	2026-11-14T14:17:21.3356332Z 24.04.5
+Lint Workflows	Set up job	2026-11-14T14:17:21.3356859Z LTS
+Lint Workflows	Set up job	2026-11-14T14:17:21.3357360Z ##[endgroup]
+Lint Workflows	Set up job	2026-11-14T14:17:21.3358021Z ##[group]Runner Image
+Lint Workflows	Set up job	2026-11-14T14:17:21.3358626Z Image: ubuntu-24.04
+Lint Workflows	Set up job	2026-11-14T14:17:21.3359232Z Version: 20261111.370.1
+Lint Workflows	Set up job	2026-11-14T14:17:21.3360314Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261111.370/images/ubuntu/Ubuntu2404-Readme.md
+Lint Workflows	Set up job	2026-11-14T14:17:21.3362188Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261111.370
+Lint Workflows	Set up job	2026-11-14T14:17:21.3363415Z ##[endgroup]
+Lint Workflows	Set up job	2026-11-14T14:17:21.3364626Z ##[group]GITHUB_TOKEN Permissions
+Lint Workflows	Set up job	2026-11-14T14:17:21.3366539Z Contents: read
+Lint Workflows	Set up job	2026-11-14T14:17:21.3367295Z Metadata: read
+Lint Workflows	Set up job	2026-11-14T14:17:21.3367901Z ##[endgroup]
+Lint Workflows	Set up job	2026-11-14T14:17:21.3370045Z Secret source: Actions
+Lint Workflows	Set up job	2026-11-14T14:17:21.3371150Z Cache mode: write
+Lint Workflows	Set up job	2026-11-14T14:17:21.3371899Z Prepare workflow directory
+Lint Workflows	Set up job	2026-11-14T14:17:21.3803898Z Prepare all required actions
+Lint Workflows	Set up job	2026-11-14T14:17:21.3857639Z Getting action download info
+Lint Workflows	Set up job	2026-11-14T14:17:21.7235733Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+Lint Workflows	Set up job	2026-11-14T14:17:21.9678842Z Complete job name: Lint Workflows
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	﻿2026-11-14T14:17:22.0281769Z ##[group]Pull down action image 'rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667'
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	2026-11-14T14:17:22.0335192Z ##[command]/usr/bin/docker pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	2026-11-14T14:17:22.7424332Z docker.io/rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667: Pulling from rhysd/actionlint
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	2026-11-14T14:17:23.0113392Z 589002ba0eae: Pulling fs layer
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	2026-11-14T14:17:23.0115213Z c09af8888d6a: Pulling fs layer
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	2026-11-14T14:17:23.0116447Z 4ccd7d76ca98: Pulling fs layer
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	2026-11-14T14:17:23.0117583Z b6b4b7b0e257: Pulling fs layer
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	2026-11-14T14:17:23.0118416Z b6b4b7b0e257: Waiting
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	2026-11-14T14:17:23.2297492Z c09af8888d6a: Verifying Checksum
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	2026-11-14T14:17:23.2346178Z c09af8888d6a: Download complete
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	2026-11-14T14:17:23.2347687Z 4ccd7d76ca98: Verifying Checksum
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	2026-11-14T14:17:23.2349074Z 4ccd7d76ca98: Download complete
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	2026-11-14T14:17:23.2368426Z 589002ba0eae: Verifying Checksum
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	2026-11-14T14:17:23.2370796Z 589002ba0eae: Download complete
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	2026-11-14T14:17:23.3429562Z 589002ba0eae: Pull complete
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	2026-11-14T14:17:23.4913665Z b6b4b7b0e257: Verifying Checksum
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	2026-11-14T14:17:23.4914460Z b6b4b7b0e257: Download complete
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	2026-11-14T14:17:23.7229493Z c09af8888d6a: Pull complete
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	2026-11-14T14:17:23.8024152Z 4ccd7d76ca98: Pull complete
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	2026-11-14T14:17:24.3665571Z b6b4b7b0e257: Pull complete
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	2026-11-14T14:17:24.3704327Z Digest: sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	2026-11-14T14:17:24.3714363Z Status: Downloaded newer image for rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	2026-11-14T14:17:24.3721850Z docker.io/rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667
+Lint Workflows	Pull rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667	2026-11-14T14:17:24.3747641Z ##[endgroup]
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-11-14T14:17:24.4075002Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.4075869Z with:
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.4076152Z   persist-credentials: false
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.4076627Z   repository: link-foundation/csharp-ai-driven-development-pipeline-template
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.4079500Z   token: ***
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.4079770Z   ssh-strict: true
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.4080038Z   ssh-user: git
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.4080284Z   clean: true
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.4080560Z   sparse-checkout-cone-mode: true
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.4080872Z   fetch-depth: 1
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.4081125Z   fetch-tags: false
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.4081390Z   show-progress: true
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.4081658Z   lfs: false
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.4081913Z   submodules: false
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.4082401Z   set-safe-directory: true
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.4082718Z   allow-unsafe-pr-checkout: false
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.4083325Z env:
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.4083585Z   GIT_CONFIG_COUNT: 1
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.4083882Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.4084268Z   GIT_CONFIG_VALUE_0: main
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.4084547Z ##[endgroup]
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.6725978Z Syncing repository: link-foundation/csharp-ai-driven-development-pipeline-template
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.6730010Z ##[group]Getting Git version info
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.6731535Z Working directory is '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template'
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.6733745Z [command]/usr/bin/git version
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.6808240Z git version 2.56.1
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.6834126Z ##[endgroup]
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.6874610Z Temporarily overriding HOME='/home/runner/work/_temp/8959f19e-30b0-427a-84ba-6a114b7b59a9' before making global git config changes
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.6876371Z Adding repository directory to the temporary git global config as a safe directory
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.6885752Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.6947748Z Deleting the contents of '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template'
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.6951002Z ##[group]Determining repository object format
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.6953481Z ##[endgroup]
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.6954440Z ##[group]Initializing the repository
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.6960089Z [command]/usr/bin/git init /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.7077350Z Initialized empty Git repository in /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.7090840Z [command]/usr/bin/git remote add origin https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.7173869Z ##[endgroup]
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.7175089Z ##[group]Disabling automatic garbage collection
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.7176296Z [command]/usr/bin/git config --local gc.auto 0
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.7216275Z ##[endgroup]
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.7218484Z ##[group]Setting up auth
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.7219438Z Removing SSH command configuration
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.7220572Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.7268501Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.7678460Z Removing HTTP extra header
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.7686351Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.7746143Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.7995179Z Removing includeIf entries pointing to credentials config files
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.8000877Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.8048473Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.8308667Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-58980bcb-8819-4954-a0cb-2277b83cd4ed.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.8363624Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path /home/runner/work/_temp/git-credentials-58980bcb-8819-4954-a0cb-2277b83cd4ed.config
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.8409378Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-58980bcb-8819-4954-a0cb-2277b83cd4ed.config
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.8455895Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-58980bcb-8819-4954-a0cb-2277b83cd4ed.config
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.8503960Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-58980bcb-8819-4954-a0cb-2277b83cd4ed.config
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.8549961Z ##[endgroup]
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.8550492Z ##[group]Fetching the repository
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:24.8559268Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +27ace17e693643b5320819869211a858c97bccf7:refs/remotes/pull/109/merge
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.2994509Z From https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.2996641Z  * [new ref]         27ace17e693643b5320819869211a858c97bccf7 -> pull/109/merge
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.2998707Z ##[endgroup]
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.2999423Z ##[group]Determining the checkout info
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3000205Z ##[endgroup]
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3000666Z [command]/usr/bin/git sparse-checkout disable
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3071194Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3117838Z ##[group]Checking out the ref
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3123420Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/109/merge
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3287114Z Note: switching to 'refs/remotes/pull/109/merge'.
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3288078Z 
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3288784Z You are in 'detached HEAD' state. You can look around, make experimental
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3289852Z changes and commit them, and you can discard any commits you make in this
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3290772Z state without impacting any branches by switching back to a branch.
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3291319Z 
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3291725Z If you want to create a new branch to retain commits you create, you may
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3292871Z do so (now or later) by using -c with the switch command. Example:
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3293350Z 
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3293591Z   git switch -c <new-branch-name>
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3293971Z 
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3294209Z Or undo this operation with:
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3294505Z 
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3294690Z   git switch -
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3294967Z 
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3295314Z Turn off this advice by setting config variable advice.detachedHead to false
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3295675Z 
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3296070Z HEAD is now at 27ace17 Merge 691b84fb6fc856f7a057819111df6f6c5773173d into e33364e12bb727a64115a25d0c5d464757f20c7a
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3300905Z ##[endgroup]
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3371975Z [command]/usr/bin/git log -1 --format=%H
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3417086Z 27ace17e693643b5320819869211a858c97bccf7
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3429914Z ##[group]Removing auth
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3430392Z Removing SSH command configuration
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3436288Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3490752Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3770248Z Removing HTTP extra header
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3776437Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.3825609Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.4098127Z Removing includeIf entries pointing to credentials config files
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.4103251Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.4160434Z includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.4162658Z includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.4164022Z includeif.gitdir:/github/workspace/.git.path
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.4164815Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.4173578Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.4214858Z /home/runner/work/_temp/git-credentials-58980bcb-8819-4954-a0cb-2277b83cd4ed.config
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.4230712Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-58980bcb\-8819\-4954\-a0cb\-2277b83cd4ed\.config
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.4303213Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.4346974Z /home/runner/work/_temp/git-credentials-58980bcb-8819-4954-a0cb-2277b83cd4ed.config
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.4360718Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-58980bcb\-8819\-4954\-a0cb\-2277b83cd4ed\.config
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.4421024Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.4485304Z /github/runner_temp/git-credentials-58980bcb-8819-4954-a0cb-2277b83cd4ed.config
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.4508808Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-58980bcb\-8819\-4954\-a0cb\-2277b83cd4ed\.config
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.4547983Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.4591901Z /github/runner_temp/git-credentials-58980bcb-8819-4954-a0cb-2277b83cd4ed.config
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.4604143Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-58980bcb\-8819\-4954\-a0cb\-2277b83cd4ed\.config
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.4659179Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.4935768Z Removing credentials config '/home/runner/work/_temp/git-credentials-58980bcb-8819-4954-a0cb-2277b83cd4ed.config'
+Lint Workflows	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.4947089Z ##[endgroup]
+Lint Workflows	Lint workflow files	﻿2026-11-14T14:17:25.5240478Z ##[group]Run docker://rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667
+Lint Workflows	Lint workflow files	2026-11-14T14:17:25.5241042Z with:
+Lint Workflows	Lint workflow files	2026-11-14T14:17:25.5241747Z   args: -color -ignore "unexpected key .queue. for .concurrency. section" -ignore 'specifying action "\$/\.github/actions/csharp-layout" in invalid format because ref is missing'
+Lint Workflows	Lint workflow files	2026-11-14T14:17:25.5243066Z env:
+Lint Workflows	Lint workflow files	2026-11-14T14:17:25.5243261Z   GIT_CONFIG_COUNT: 1
+Lint Workflows	Lint workflow files	2026-11-14T14:17:25.5243499Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Lint Workflows	Lint workflow files	2026-11-14T14:17:25.5243770Z   GIT_CONFIG_VALUE_0: main
+Lint Workflows	Lint workflow files	2026-11-14T14:17:25.5243992Z ##[endgroup]
+Lint Workflows	Lint workflow files	2026-11-14T14:17:25.5341187Z ##[command]/usr/bin/docker run --name rhysdactionlintsha256b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667_18f2bc --label ae84d6 --workdir /github/workspace --rm -e "GIT_CONFIG_COUNT" -e "GIT_CONFIG_KEY_0" -e "GIT_CONFIG_VALUE_0" -e "INPUT_ARGS" -e "HOME" -e "GITHUB_JOB" -e "GITHUB_REF" -e "GITHUB_SHA" -e "GITHUB_REPOSITORY" -e "GITHUB_REPOSITORY_OWNER" -e "GITHUB_REPOSITORY_OWNER_ID" -e "GITHUB_RUN_ID" -e "GITHUB_RUN_NUMBER" -e "GITHUB_RETENTION_DAYS" -e "GITHUB_RUN_ATTEMPT" -e "GITHUB_ACTOR_ID" -e "GITHUB_ACTOR" -e "GITHUB_WORKFLOW" -e "GITHUB_HEAD_REF" -e "GITHUB_BASE_REF" -e "GITHUB_EVENT_NAME" -e "GITHUB_SERVER_URL" -e "GITHUB_API_URL" -e "GITHUB_GRAPHQL_URL" -e "GITHUB_REF_NAME" -e "GITHUB_REF_PROTECTED" -e "GITHUB_REF_TYPE" -e "GITHUB_WORKFLOW_REF" -e "GITHUB_WORKFLOW_SHA" -e "GITHUB_REPOSITORY_ID" -e "GITHUB_TRIGGERING_ACTOR" -e "GITHUB_WORKSPACE" -e "GITHUB_ACTION" -e "GITHUB_EVENT_PATH" -e "GITHUB_ACTION_REPOSITORY" -e "GITHUB_ACTION_REF" -e "GITHUB_PATH" -e "GITHUB_ENV" -e "GITHUB_STEP_SUMMARY" -e "GITHUB_STATE" -e "GITHUB_OUTPUT" -e "GITHUB_ARTIFACTS" -e "GITHUB_ARTIFACTS_LIST" -e "RUNNER_OS" -e "RUNNER_ARCH" -e "RUNNER_NAME" -e "RUNNER_ENVIRONMENT" -e "RUNNER_TOOL_CACHE" -e "RUNNER_TEMP" -e "RUNNER_WORKSPACE" -e "ACTIONS_RUNTIME_URL" -e "ACTIONS_RUNTIME_TOKEN" -e "ACTIONS_CACHE_URL" -e "ACTIONS_RESULTS_URL" -e "ACTIONS_CACHE_MODE" -e "ACTIONS_ORCHESTRATION_ID" -e GITHUB_ACTIONS=true -e CI=true -v "/var/run/docker.sock":"/var/run/docker.sock" -v "/home/runner/work/_temp":"/github/runner_temp" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" -v "/home/runner/work/_temp/_runner_file_commands":"/github/file_commands" -v "/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template":"/github/workspace" rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667 -color -ignore "unexpected key .queue. for .concurrency. section" -ignore 'specifying action "\$/\.github/actions/csharp-layout" in invalid format because ref is missing'
+Lint Workflows	Lint workflow files	2026-11-14T14:17:25.7398986Z could not read "missing'": open missing': no such file or directory
+Lint Workflows	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-11-14T14:17:25.8353348Z Post job cleanup.
+Lint Workflows	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.9273536Z [command]/usr/bin/git version
+Lint Workflows	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.9321370Z git version 2.56.1
+Lint Workflows	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.9368774Z Temporarily overriding HOME='/home/runner/work/_temp/1a57c01a-126d-4687-9aee-b0d70a3b14ef' before making global git config changes
+Lint Workflows	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.9370076Z Adding repository directory to the temporary git global config as a safe directory
+Lint Workflows	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.9377248Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template
+Lint Workflows	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.9423099Z Removing SSH command configuration
+Lint Workflows	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.9425387Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Lint Workflows	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.9471083Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Lint Workflows	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.9760682Z Removing HTTP extra header
+Lint Workflows	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.9767909Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Lint Workflows	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:25.9814090Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Lint Workflows	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:26.0090947Z Removing includeIf entries pointing to credentials config files
+Lint Workflows	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:26.0099536Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Lint Workflows	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-14T14:17:26.0150483Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Lint Workflows	Complete job	﻿2026-11-14T14:17:26.0606862Z Cleaning up orphan processes

@@ -1,18 +1,10 @@
-import { inflateRawSync } from 'node:zlib';
+import { inflateRawSync, crc32 } from 'node:zlib';
 import { mkdirSync, writeFileSync, existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { createHash } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
 
 const LIMIT = 64 * 1024 * 1024;
-function crc32(data) {
-  let crc = 0xffffffff;
-  for (const byte of data) {
-    crc ^= byte;
-    for (let bit = 0; bit < 8; bit++) crc = (crc >>> 1) ^ (crc & 1 ? 0xedb88320 : 0);
-  }
-  return (crc ^ 0xffffffff) >>> 0;
-}
 
 /** Validate every entry and all bytes before creating any extraction output. */
 export function readZipEntries(bytes) {

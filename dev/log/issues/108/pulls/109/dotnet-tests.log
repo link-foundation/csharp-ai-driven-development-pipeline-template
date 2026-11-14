@@ -1,0 +1,46 @@
+Build started 11/14/2026 14:15:48.
+     1>Project "/tmp/gh-issue-solver-1794664914456/MyPackage.sln" on node 1 (VSTest target(s)).
+     1>ValidateSolutionConfiguration:
+         Building solution configuration "Release|Any CPU".
+Test run for /tmp/gh-issue-solver-1794664914456/tests/MyPackage.Tests/bin/Release/net11.0/MyPackage.Tests.dll (.NETCoreApp,Version=v11.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v4.0.1+0f7d528729 (64-bit .NET 11.0.0)
+[xUnit.net 00:00:00.39]   Discovering: MyPackage.Tests
+[xUnit.net 00:00:00.83]   Discovered:  MyPackage.Tests
+[xUnit.net 00:00:01.25]   Starting:    MyPackage.Tests
+  Passed MyPackage.Tests.CalculatorTests+DelayAsyncTests.DelayAsync_CancellationToken_ThrowsWhenCancelled [49 ms]
+  Passed MyPackage.Tests.CalculatorTests+AddTests.Add_NegativeNumbers_ReturnsCorrectSum [48 ms]
+  Passed MyPackage.Tests.PackageInfoTests.Version_MatchesExpectedFormat [46 ms]
+  Passed MyPackage.Tests.CalculatorTests+MultiplyTests.Multiply_TwoNegatives_ReturnsPositive [47 ms]
+  Passed MyPackage.Tests.CalculatorTests+AddTests.Add_LargeNumbers_ReturnsCorrectSum [1 ms]
+  Passed MyPackage.Tests.CalculatorTests+MultiplyTests.Multiply_NegativeNumbers_ReturnsCorrectProduct [1 ms]
+  Passed MyPackage.Tests.PackageInfoTests.Version_IsNotEmpty [1 ms]
+  Passed MyPackage.Tests.CalculatorTests+AddTests.Add_PositiveNumbers_ReturnsCorrectSum [1 ms]
+  Passed MyPackage.Tests.CalculatorTests+MultiplyTests.Multiply_ByZero_ReturnsZero [1 ms]
+  Passed MyPackage.Tests.CalculatorTests+AddTests.Add_VariousInputs_ReturnsExpectedResult(a: -100, b: 50, expected: -50) [1 ms]
+  Passed MyPackage.Tests.CalculatorTests+AddTests.Add_VariousInputs_ReturnsExpectedResult(a: 0, b: 0, expected: 0) [1 ms]
+  Passed MyPackage.Tests.CalculatorTests+AddTests.Add_VariousInputs_ReturnsExpectedResult(a: 10, b: 20, expected: 30) [1 ms]
+  Passed MyPackage.Tests.CalculatorTests+AddTests.Add_VariousInputs_ReturnsExpectedResult(a: 9223372036854775806, b: 1, expected: 9223372036854775807) [1 ms]
+  Passed MyPackage.Tests.CalculatorTests+MultiplyTests.Multiply_VariousInputs_ReturnsExpectedResult(a: 10, b: 20, expected: 200) [1 ms]
+  Passed MyPackage.Tests.CalculatorTests+AddTests.Add_Zero_ReturnsOriginalNumber [1 ms]
+  Passed MyPackage.Tests.CalculatorTests+DelayAsyncTests.DelayAsync_ZeroDelay_CompletesQuickly [5 ms]
+  Passed MyPackage.Tests.CalculatorTests+MultiplyTests.Multiply_VariousInputs_ReturnsExpectedResult(a: 1000, b: 1000000, expected: 1000000000) [1 ms]
+[xUnit.net 00:00:01.90]   Finished:    MyPackage.Tests (ID = 'dab6646198fe9b176de32c76703a4b73a232df6c7dab05a376d77283a73e8a67')
+Data collector 'Blame' message: All tests finished running, Sequence file will not be generated.
+  Passed MyPackage.Tests.CalculatorTests+MultiplyTests.Multiply_VariousInputs_ReturnsExpectedResult(a: 1, b: 1, expected: 1) [1 ms]
+  Passed MyPackage.Tests.CalculatorTests+MultiplyTests.Multiply_VariousInputs_ReturnsExpectedResult(a: -10, b: -20, expected: 200) [1 ms]
+  Passed MyPackage.Tests.CalculatorTests+MultiplyTests.Multiply_PositiveNumbers_ReturnsCorrectProduct [1 ms]
+  Passed MyPackage.Tests.CalculatorTests+DelayAsyncTests.DelayAsync_WaitsMinimumTime [116 ms]
+
+Test Run Successful.
+Total tests: 21
+     Passed: 21
+ Total time: 3.7311 Seconds
+The test session artifacts were not saved: The user-private temporary directory '/run/user/1001' does not exist.
+     1>Done Building Project "/tmp/gh-issue-solver-1794664914456/MyPackage.sln" (VSTest target(s)).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:05.75

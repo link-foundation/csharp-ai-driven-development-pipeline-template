@@ -1,0 +1,10 @@
+trim trailing whitespace.................................................Passed
+fix end of files.........................................................Passed
+check yaml...........................................(no files to check)Skipped
+check for added large files..............................................Passed
+check for merge conflicts................................................Passed
+check json...............................................................Passed
+check xml............................................(no files to check)Skipped
+dotnet format........................................(no files to check)Skipped
+dotnet build.........................................(no files to check)Skipped
+dotnet test..........................................(no files to check)Skipped

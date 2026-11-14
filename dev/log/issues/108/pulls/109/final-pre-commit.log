@@ -1,0 +1,23 @@
+trim trailing whitespace.................................................Passed
+fix end of files.........................................................Passed
+check yaml...............................................................Passed
+check for added large files..............................................Passed
+check for merge conflicts................................................Passed
+check json...............................................................Passed
+check xml................................................................Passed
+dotnet format............................................................Passed
+dotnet build.............................................................Failed
+- hook id: dotnet-build
+- files were modified by this hook
+
+MyPackage -> /tmp/gh-issue-solver-1794664914456/src/MyPackage/bin/Release/net11.0/MyPackage.dll
+  BasicUsage -> /tmp/gh-issue-solver-1794664914456/examples/bin/Release/net11.0/BasicUsage.dll
+  MyPackage.Tests -> /tmp/gh-issue-solver-1794664914456/tests/MyPackage.Tests/bin/Release/net11.0/MyPackage.Tests.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:08.04
+
+dotnet test..............................................................Passed

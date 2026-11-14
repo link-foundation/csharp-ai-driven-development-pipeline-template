@@ -1,0 +1,55 @@
+Collecting zizmor==1.32.0
+  Downloading zizmor-1.32.0-py3-none-manylinux_2_28_x86_64.whl.metadata (5.3 kB)
+Collecting pre-commit==4.7.0
+  Downloading pre_commit-4.7.0-py2.py3-none-any.whl.metadata (1.2 kB)
+Collecting cfgv>=2.0.0 (from pre-commit==4.7.0)
+  Downloading cfgv-3.5.0-py2.py3-none-any.whl.metadata (8.9 kB)
+Collecting identify>=1.0.0 (from pre-commit==4.7.0)
+  Downloading identify-2.6.20-py2.py3-none-any.whl.metadata (4.4 kB)
+Collecting nodeenv>=0.11.1 (from pre-commit==4.7.0)
+  Downloading nodeenv-1.12.0-py3-none-any.whl.metadata (49 kB)
+Collecting pyyaml>=5.1 (from pre-commit==4.7.0)
+  Downloading pyyaml-6.0.3.tar.gz (130 kB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Collecting virtualenv>=20.10.0 (from pre-commit==4.7.0)
+  Downloading virtualenv-21.15.6-py3-none-any.whl.metadata (4.1 kB)
+Collecting distlib<1,>=0.4.3 (from virtualenv>=20.10.0->pre-commit==4.7.0)
+  Downloading distlib-0.4.4-py2.py3-none-any.whl.metadata (5.3 kB)
+Collecting filelock<5,>=3.24.2 (from virtualenv>=20.10.0->pre-commit==4.7.0)
+  Downloading filelock-4.2.10-py3-none-any.whl.metadata (2.3 kB)
+Collecting packaging>=26.3 (from virtualenv>=20.10.0->pre-commit==4.7.0)
+  Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+Collecting platformdirs<5,>=4.4 (from virtualenv>=20.10.0->pre-commit==4.7.0)
+  Downloading platformdirs-4.14.5-py3-none-any.whl.metadata (5.7 kB)
+Collecting python-discovery>=1.6.1 (from virtualenv>=20.10.0->pre-commit==4.7.0)
+  Downloading python_discovery-1.9.5-py3-none-any.whl.metadata (4.2 kB)
+Downloading zizmor-1.32.0-py3-none-manylinux_2_28_x86_64.whl (9.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.7/9.7 MB 30.3 MB/s  0:00:00
+Downloading pre_commit-4.7.0-py2.py3-none-any.whl (226 kB)
+Downloading cfgv-3.5.0-py2.py3-none-any.whl (7.4 kB)
+Downloading identify-2.6.20-py2.py3-none-any.whl (99 kB)
+Downloading nodeenv-1.12.0-py3-none-any.whl (39 kB)
+Downloading virtualenv-21.15.6-py3-none-any.whl (5.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.7/5.7 MB 27.2 MB/s  0:00:00
+Downloading distlib-0.4.4-py2.py3-none-any.whl (472 kB)
+Downloading filelock-4.2.10-py3-none-any.whl (218 kB)
+Downloading platformdirs-4.14.5-py3-none-any.whl (35 kB)
+Downloading packaging-26.3-py3-none-any.whl (129 kB)
+Downloading python_discovery-1.9.5-py3-none-any.whl (44 kB)
+Building wheels for collected packages: pyyaml
+  Building wheel for pyyaml (pyproject.toml): started
+  Building wheel for pyyaml (pyproject.toml): finished with status 'done'
+  Created wheel for pyyaml: filename=pyyaml-6.0.3-cp315-cp315-linux_x86_64.whl size=655679 sha256=a9332c006b299a24690cdd26319956ffa366f08ecaf9d9886a403d6762d0034a
+  Stored in directory: /home/box/.cache/pip/wheels/39/c5/03/188d3f8dc792f835b1e767b5e6e0fec41846dc06f6dd368652
+Successfully built pyyaml
+Installing collected packages: distlib, zizmor, pyyaml, platformdirs, packaging, nodeenv, identify, filelock, cfgv, python-discovery, virtualenv, pre-commit
+
+Successfully installed cfgv-3.5.0 distlib-0.4.4 filelock-4.2.10 identify-2.6.20 nodeenv-1.12.0 packaging-26.3 platformdirs-4.14.5 pre-commit-4.7.0 python-discovery-1.9.5 pyyaml-6.0.3 virtualenv-21.15.6 zizmor-1.32.0
+
+[notice] A new release of pip is available: 26.2.1 -> 26.3
+[notice] To update, run: /tmp/issue-108-tools/bin/python3 -m pip install --upgrade pip

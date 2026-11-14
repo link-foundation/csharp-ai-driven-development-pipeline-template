@@ -1,0 +1,1701 @@
+{
+  "@cacheable/memory": {
+    "before": [
+      "2.2.0"
+    ],
+    "latest": "2.2.0",
+    "source": "https://registry.npmjs.org/@cacheable/memory/latest",
+    "dependencies": {
+      "keyv": "^5.6.0",
+      "hookified": "^1.15.1",
+      "@keyv/bigmap": "^1.3.1",
+      "@cacheable/utils": "^2.5.0"
+    },
+    "engines": {},
+    "repository": {
+      "url": "git+https://github.com/jaredwray/cacheable.git",
+      "type": "git",
+      "directory": "packages/cacheable"
+    }
+  },
+  "@cacheable/utils": {
+    "before": [
+      "2.5.0"
+    ],
+    "latest": "2.5.0",
+    "source": "https://registry.npmjs.org/@cacheable/utils/latest",
+    "dependencies": {
+      "keyv": "^5.6.0",
+      "hashery": "^1.5.1"
+    },
+    "engines": {},
+    "repository": {
+      "url": "git+https://github.com/jaredwray/cacheable.git",
+      "type": "git",
+      "directory": "packages/utils"
+    }
+  },
+  "@eslint-community/eslint-utils": {
+    "before": [
+      "4.10.1"
+    ],
+    "latest": "4.10.1",
+    "source": "https://registry.npmjs.org/@eslint-community/eslint-utils/latest",
+    "dependencies": {
+      "eslint-visitor-keys": "^3.4.3"
+    },
+    "engines": {
+      "node": "^12.22.0 || ^14.17.0 || >=16.0.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/eslint-community/eslint-utils.git",
+      "type": "git"
+    }
+  },
+  "@eslint-community/regexpp": {
+    "before": [
+      "4.12.2"
+    ],
+    "latest": "4.12.3",
+    "source": "https://registry.npmjs.org/@eslint-community/regexpp/latest",
+    "dependencies": {},
+    "engines": {
+      "node": "^12.0.0 || ^14.0.0 || >=16.0.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/eslint-community/regexpp.git",
+      "type": "git"
+    }
+  },
+  "@eslint/config-array": {
+    "before": [
+      "0.23.5"
+    ],
+    "latest": "0.23.6",
+    "source": "https://registry.npmjs.org/@eslint/config-array/latest",
+    "dependencies": {
+      "debug": "^4.3.1",
+      "minimatch": "^11.0.5",
+      "@eslint/object-schema": "^3.0.5"
+    },
+    "engines": {
+      "node": "^20.19.0 || ^22.13.0 || >=24"
+    },
+    "repository": {
+      "url": "git+https://github.com/eslint/rewrite.git",
+      "type": "git",
+      "directory": "packages/config-array"
+    }
+  },
+  "@eslint/config-helpers": {
+    "before": [
+      "0.7.0"
+    ],
+    "latest": "0.7.0",
+    "source": "https://registry.npmjs.org/@eslint/config-helpers/latest",
+    "dependencies": {
+      "@eslint/core": "^1.2.1"
+    },
+    "engines": {
+      "node": "^20.19.0 || ^22.13.0 || >=24"
+    },
+    "repository": {
+      "url": "git+https://github.com/eslint/rewrite.git",
+      "type": "git",
+      "directory": "packages/config-helpers"
+    }
+  },
+  "@eslint/core": {
+    "before": [
+      "1.2.1"
+    ],
+    "latest": "1.2.1",
+    "source": "https://registry.npmjs.org/@eslint/core/latest",
+    "dependencies": {
+      "@types/json-schema": "^7.0.15"
+    },
+    "engines": {
+      "node": "^20.19.0 || ^22.13.0 || >=24"
+    },
+    "repository": {
+      "url": "git+https://github.com/eslint/rewrite.git",
+      "type": "git",
+      "directory": "packages/core"
+    }
+  },
+  "@eslint/js": {
+    "before": [
+      "10.0.1"
+    ],
+    "latest": "10.0.1",
+    "source": "https://registry.npmjs.org/@eslint/js/latest",
+    "dependencies": {},
+    "engines": {
+      "node": "^20.19.0 || ^22.13.0 || >=24"
+    },
+    "repository": {
+      "url": "git+https://github.com/eslint/eslint.git",
+      "type": "git",
+      "directory": "packages/js"
+    }
+  },
+  "@eslint/object-schema": {
+    "before": [
+      "3.0.5"
+    ],
+    "latest": "3.0.5",
+    "source": "https://registry.npmjs.org/@eslint/object-schema/latest",
+    "dependencies": {},
+    "engines": {
+      "node": "^20.19.0 || ^22.13.0 || >=24"
+    },
+    "repository": {
+      "url": "git+https://github.com/eslint/rewrite.git",
+      "type": "git",
+      "directory": "packages/object-schema"
+    }
+  },
+  "@eslint/plugin-kit": {
+    "before": [
+      "0.7.3"
+    ],
+    "latest": "0.7.3",
+    "source": "https://registry.npmjs.org/@eslint/plugin-kit/latest",
+    "dependencies": {
+      "levn": "^0.4.1",
+      "@eslint/core": "^1.2.1"
+    },
+    "engines": {
+      "node": "^20.19.0 || ^22.13.0 || >=24"
+    },
+    "repository": {
+      "url": "git+https://github.com/eslint/rewrite.git",
+      "type": "git",
+      "directory": "packages/plugin-kit"
+    }
+  },
+  "@humanfs/core": {
+    "before": [
+      "0.19.2"
+    ],
+    "latest": "0.20.0",
+    "source": "https://registry.npmjs.org/@humanfs/core/latest",
+    "dependencies": {
+      "@humanfs/types": "^0.16.0"
+    },
+    "engines": {
+      "node": ">=24.0.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/humanwhocodes/humanfs.git",
+      "type": "git"
+    }
+  },
+  "@humanfs/node": {
+    "before": [
+      "0.16.8"
+    ],
+    "latest": "0.17.0",
+    "source": "https://registry.npmjs.org/@humanfs/node/latest",
+    "dependencies": {
+      "@humanfs/core": "^0.20.0",
+      "@humanfs/types": "^0.16.0",
+      "@humanwhocodes/retry": "^0.4.0"
+    },
+    "engines": {
+      "node": ">=24.0.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/humanwhocodes/humanfs.git",
+      "type": "git",
+      "directory": "packages/node"
+    }
+  },
+  "@humanfs/types": {
+    "before": [
+      "0.15.0"
+    ],
+    "latest": "0.16.0",
+    "source": "https://registry.npmjs.org/@humanfs/types/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=24.0.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/humanwhocodes/humanfs.git",
+      "type": "git"
+    }
+  },
+  "@humanwhocodes/module-importer": {
+    "before": [
+      "1.0.1"
+    ],
+    "latest": "1.0.1",
+    "source": "https://registry.npmjs.org/@humanwhocodes/module-importer/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=12.22"
+    },
+    "repository": {
+      "url": "git+https://github.com/humanwhocodes/module-importer.git",
+      "type": "git"
+    }
+  },
+  "@humanwhocodes/retry": {
+    "before": [
+      "0.4.3"
+    ],
+    "latest": "0.4.3",
+    "source": "https://registry.npmjs.org/@humanwhocodes/retry/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=18.18"
+    },
+    "repository": {
+      "url": "git+https://github.com/humanwhocodes/retry.git",
+      "type": "git"
+    }
+  },
+  "@isaacs/nonrecursive-glob-match": {
+    "before": [
+      "1.0.3"
+    ],
+    "latest": "1.1.0",
+    "source": "https://registry.npmjs.org/@isaacs/nonrecursive-glob-match/latest",
+    "dependencies": {},
+    "engines": {},
+    "repository": null
+  },
+  "@keyv/bigmap": {
+    "before": [
+      "1.3.1"
+    ],
+    "latest": "6.1.0",
+    "source": "https://registry.npmjs.org/@keyv/bigmap/latest",
+    "dependencies": {
+      "hashery": "^3.0.1",
+      "hookified": "^3.0.3"
+    },
+    "engines": {
+      "node": ">= 22.19.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/jaredwray/keyv.git",
+      "type": "git"
+    }
+  },
+  "@keyv/serialize": {
+    "before": [
+      "1.1.1"
+    ],
+    "latest": "1.1.1",
+    "source": "https://registry.npmjs.org/@keyv/serialize/latest",
+    "dependencies": {},
+    "engines": {},
+    "repository": {
+      "url": "git+https://github.com/jaredwray/keyv.git",
+      "type": "git"
+    }
+  },
+  "@types/bun": {
+    "before": [
+      "1.4.4"
+    ],
+    "latest": "1.4.4",
+    "source": "https://registry.npmjs.org/@types/bun/latest",
+    "dependencies": {
+      "bun-types": "1.4.4"
+    },
+    "engines": {},
+    "repository": {
+      "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+      "type": "git",
+      "directory": "types/bun"
+    }
+  },
+  "@types/esrecurse": {
+    "before": [
+      "4.3.1"
+    ],
+    "latest": "4.3.1",
+    "source": "https://registry.npmjs.org/@types/esrecurse/latest",
+    "dependencies": {},
+    "engines": {},
+    "repository": {
+      "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+      "type": "git",
+      "directory": "types/esrecurse"
+    }
+  },
+  "@types/estree": {
+    "before": [
+      "1.0.10"
+    ],
+    "latest": "1.0.10",
+    "source": "https://registry.npmjs.org/@types/estree/latest",
+    "dependencies": {},
+    "engines": {},
+    "repository": {
+      "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+      "type": "git",
+      "directory": "types/estree"
+    }
+  },
+  "@types/json-schema": {
+    "before": [
+      "7.0.15"
+    ],
+    "latest": "7.0.15",
+    "source": "https://registry.npmjs.org/@types/json-schema/latest",
+    "dependencies": {},
+    "engines": {},
+    "repository": {
+      "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+      "type": "git",
+      "directory": "types/json-schema"
+    }
+  },
+  "@types/node": {
+    "before": [
+      "26.6.6"
+    ],
+    "latest": "26.6.6",
+    "source": "https://registry.npmjs.org/@types/node/latest",
+    "dependencies": {
+      "undici-types": "~8.9.0"
+    },
+    "engines": {},
+    "repository": {
+      "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+      "type": "git",
+      "directory": "types/node"
+    }
+  },
+  "@typescript/typescript-aix-ppc64": {
+    "before": [
+      "7.0.2"
+    ],
+    "latest": "7.0.2",
+    "source": "https://registry.npmjs.org/@typescript/typescript-aix-ppc64/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=16.20.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/microsoft/TypeScript.git",
+      "type": "git"
+    }
+  },
+  "@typescript/typescript-darwin-arm64": {
+    "before": [
+      "7.0.2"
+    ],
+    "latest": "7.0.2",
+    "source": "https://registry.npmjs.org/@typescript/typescript-darwin-arm64/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=16.20.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/microsoft/TypeScript.git",
+      "type": "git"
+    }
+  },
+  "@typescript/typescript-darwin-x64": {
+    "before": [
+      "7.0.2"
+    ],
+    "latest": "7.0.2",
+    "source": "https://registry.npmjs.org/@typescript/typescript-darwin-x64/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=16.20.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/microsoft/TypeScript.git",
+      "type": "git"
+    }
+  },
+  "@typescript/typescript-freebsd-arm64": {
+    "before": [
+      "7.0.2"
+    ],
+    "latest": "7.0.2",
+    "source": "https://registry.npmjs.org/@typescript/typescript-freebsd-arm64/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=16.20.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/microsoft/TypeScript.git",
+      "type": "git"
+    }
+  },
+  "@typescript/typescript-freebsd-x64": {
+    "before": [
+      "7.0.2"
+    ],
+    "latest": "7.0.2",
+    "source": "https://registry.npmjs.org/@typescript/typescript-freebsd-x64/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=16.20.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/microsoft/TypeScript.git",
+      "type": "git"
+    }
+  },
+  "@typescript/typescript-linux-arm": {
+    "before": [
+      "7.0.2"
+    ],
+    "latest": "7.0.2",
+    "source": "https://registry.npmjs.org/@typescript/typescript-linux-arm/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=16.20.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/microsoft/TypeScript.git",
+      "type": "git"
+    }
+  },
+  "@typescript/typescript-linux-arm64": {
+    "before": [
+      "7.0.2"
+    ],
+    "latest": "7.0.2",
+    "source": "https://registry.npmjs.org/@typescript/typescript-linux-arm64/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=16.20.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/microsoft/TypeScript.git",
+      "type": "git"
+    }
+  },
+  "@typescript/typescript-linux-loong64": {
+    "before": [
+      "7.0.2"
+    ],
+    "latest": "7.0.2",
+    "source": "https://registry.npmjs.org/@typescript/typescript-linux-loong64/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=16.20.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/microsoft/TypeScript.git",
+      "type": "git"
+    }
+  },
+  "@typescript/typescript-linux-mips64el": {
+    "before": [
+      "7.0.2"
+    ],
+    "latest": "7.0.2",
+    "source": "https://registry.npmjs.org/@typescript/typescript-linux-mips64el/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=16.20.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/microsoft/TypeScript.git",
+      "type": "git"
+    }
+  },
+  "@typescript/typescript-linux-ppc64": {
+    "before": [
+      "7.0.2"
+    ],
+    "latest": "7.0.2",
+    "source": "https://registry.npmjs.org/@typescript/typescript-linux-ppc64/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=16.20.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/microsoft/TypeScript.git",
+      "type": "git"
+    }
+  },
+  "@typescript/typescript-linux-riscv64": {
+    "before": [
+      "7.0.2"
+    ],
+    "latest": "7.0.2",
+    "source": "https://registry.npmjs.org/@typescript/typescript-linux-riscv64/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=16.20.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/microsoft/TypeScript.git",
+      "type": "git"
+    }
+  },
+  "@typescript/typescript-linux-s390x": {
+    "before": [
+      "7.0.2"
+    ],
+    "latest": "7.0.2",
+    "source": "https://registry.npmjs.org/@typescript/typescript-linux-s390x/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=16.20.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/microsoft/TypeScript.git",
+      "type": "git"
+    }
+  },
+  "@typescript/typescript-linux-x64": {
+    "before": [
+      "7.0.2"
+    ],
+    "latest": "7.0.2",
+    "source": "https://registry.npmjs.org/@typescript/typescript-linux-x64/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=16.20.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/microsoft/TypeScript.git",
+      "type": "git"
+    }
+  },
+  "@typescript/typescript-netbsd-arm64": {
+    "before": [
+      "7.0.2"
+    ],
+    "latest": "7.0.2",
+    "source": "https://registry.npmjs.org/@typescript/typescript-netbsd-arm64/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=16.20.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/microsoft/TypeScript.git",
+      "type": "git"
+    }
+  },
+  "@typescript/typescript-netbsd-x64": {
+    "before": [
+      "7.0.2"
+    ],
+    "latest": "7.0.2",
+    "source": "https://registry.npmjs.org/@typescript/typescript-netbsd-x64/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=16.20.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/microsoft/TypeScript.git",
+      "type": "git"
+    }
+  },
+  "@typescript/typescript-openbsd-arm64": {
+    "before": [
+      "7.0.2"
+    ],
+    "latest": "7.0.2",
+    "source": "https://registry.npmjs.org/@typescript/typescript-openbsd-arm64/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=16.20.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/microsoft/TypeScript.git",
+      "type": "git"
+    }
+  },
+  "@typescript/typescript-openbsd-x64": {
+    "before": [
+      "7.0.2"
+    ],
+    "latest": "7.0.2",
+    "source": "https://registry.npmjs.org/@typescript/typescript-openbsd-x64/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=16.20.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/microsoft/TypeScript.git",
+      "type": "git"
+    }
+  },
+  "@typescript/typescript-sunos-x64": {
+    "before": [
+      "7.0.2"
+    ],
+    "latest": "7.0.2",
+    "source": "https://registry.npmjs.org/@typescript/typescript-sunos-x64/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=16.20.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/microsoft/TypeScript.git",
+      "type": "git"
+    }
+  },
+  "@typescript/typescript-win32-arm64": {
+    "before": [
+      "7.0.2"
+    ],
+    "latest": "7.0.2",
+    "source": "https://registry.npmjs.org/@typescript/typescript-win32-arm64/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=16.20.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/microsoft/TypeScript.git",
+      "type": "git"
+    }
+  },
+  "@typescript/typescript-win32-x64": {
+    "before": [
+      "7.0.2"
+    ],
+    "latest": "7.0.2",
+    "source": "https://registry.npmjs.org/@typescript/typescript-win32-x64/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=16.20.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/microsoft/TypeScript.git",
+      "type": "git"
+    }
+  },
+  "acorn": {
+    "before": [
+      "8.19.0"
+    ],
+    "latest": "8.19.0",
+    "source": "https://registry.npmjs.org/acorn/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=0.4.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/acornjs/acorn.git",
+      "type": "git"
+    }
+  },
+  "acorn-jsx": {
+    "before": [
+      "5.3.2"
+    ],
+    "latest": "5.3.2",
+    "source": "https://registry.npmjs.org/acorn-jsx/latest",
+    "dependencies": {},
+    "engines": {},
+    "repository": {
+      "url": "git+https://github.com/acornjs/acorn-jsx.git",
+      "type": "git"
+    }
+  },
+  "ajv": {
+    "before": [
+      "6.15.0"
+    ],
+    "latest": "8.20.0",
+    "source": "https://registry.npmjs.org/ajv/latest",
+    "dependencies": {
+      "fast-uri": "^3.0.1",
+      "fast-deep-equal": "^3.1.3",
+      "require-from-string": "^2.0.2",
+      "json-schema-traverse": "^1.0.0"
+    },
+    "engines": {},
+    "repository": {
+      "url": "git+https://github.com/ajv-validator/ajv.git",
+      "type": "git"
+    }
+  },
+  "balanced-match": {
+    "before": [
+      "4.0.4"
+    ],
+    "latest": "5.0.0",
+    "source": "https://registry.npmjs.org/balanced-match/latest",
+    "dependencies": {},
+    "engines": {
+      "node": "20 || >=22"
+    },
+    "repository": {
+      "url": "git://github.com/juliangruber/balanced-match.git",
+      "type": "git"
+    }
+  },
+  "brace-expansion": {
+    "before": [
+      "5.0.12"
+    ],
+    "latest": "5.0.13",
+    "source": "https://registry.npmjs.org/brace-expansion/latest",
+    "dependencies": {
+      "balanced-match": "^4.0.2"
+    },
+    "engines": {
+      "node": "20 || >=22"
+    },
+    "repository": {
+      "url": "git+https://github.com/juliangruber/brace-expansion.git",
+      "type": "git"
+    }
+  },
+  "bun-types": {
+    "before": [
+      "1.4.4"
+    ],
+    "latest": "1.4.4",
+    "source": "https://registry.npmjs.org/bun-types/latest",
+    "dependencies": {
+      "@types/node": "*",
+      "undici-types": "*"
+    },
+    "engines": {},
+    "repository": {
+      "url": "git+https://github.com/oven-sh/bun.git",
+      "type": "git",
+      "directory": "packages/bun-types"
+    }
+  },
+  "cacheable": {
+    "before": [
+      "2.5.0"
+    ],
+    "latest": "2.5.0",
+    "source": "https://registry.npmjs.org/cacheable/latest",
+    "dependencies": {
+      "keyv": "^5.6.0",
+      "qified": "^0.10.1",
+      "hookified": "^1.15.0",
+      "@cacheable/utils": "^2.5.0",
+      "@cacheable/memory": "^2.2.0"
+    },
+    "engines": {},
+    "repository": {
+      "url": "git+https://github.com/jaredwray/cacheable.git",
+      "type": "git",
+      "directory": "packages/cacheable"
+    }
+  },
+  "cross-spawn": {
+    "before": [
+      "7.0.6"
+    ],
+    "latest": "7.0.6",
+    "source": "https://registry.npmjs.org/cross-spawn/latest",
+    "dependencies": {
+      "which": "^2.0.1",
+      "path-key": "^3.1.0",
+      "shebang-command": "^2.0.0"
+    },
+    "engines": {
+      "node": ">= 8"
+    },
+    "repository": {
+      "url": "git+ssh://git@github.com/moxystudio/node-cross-spawn.git",
+      "type": "git"
+    }
+  },
+  "debug": {
+    "before": [
+      "4.4.3"
+    ],
+    "latest": "4.4.3",
+    "source": "https://registry.npmjs.org/debug/latest",
+    "dependencies": {
+      "ms": "^2.1.3"
+    },
+    "engines": {
+      "node": ">=6.0"
+    },
+    "repository": {
+      "url": "git://github.com/debug-js/debug.git",
+      "type": "git"
+    }
+  },
+  "deep-is": {
+    "before": [
+      "0.1.4"
+    ],
+    "latest": "0.1.4",
+    "source": "https://registry.npmjs.org/deep-is/latest",
+    "dependencies": {},
+    "engines": {},
+    "repository": {
+      "url": "git+ssh://git@github.com/thlorenz/deep-is.git",
+      "type": "git"
+    }
+  },
+  "escape-string-regexp": {
+    "before": [
+      "4.0.0"
+    ],
+    "latest": "5.0.0",
+    "source": "https://registry.npmjs.org/escape-string-regexp/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=12"
+    },
+    "repository": {
+      "url": "git+https://github.com/sindresorhus/escape-string-regexp.git",
+      "type": "git"
+    }
+  },
+  "eslint": {
+    "before": [
+      "10.14.0"
+    ],
+    "latest": "10.15.0",
+    "source": "https://registry.npmjs.org/eslint/latest",
+    "dependencies": {
+      "ajv": "^6.14.0",
+      "debug": "^4.3.2",
+      "espree": "^11.2.0",
+      "ignore": "^5.2.0",
+      "esquery": "^1.7.0",
+      "esutils": "^2.0.2",
+      "find-up": "^5.0.0",
+      "is-glob": "^4.0.0",
+      "minimatch": "^11.0.5",
+      "optionator": "^0.9.3",
+      "cross-spawn": "^7.0.6",
+      "glob-parent": "^6.0.2",
+      "imurmurhash": "^0.1.4",
+      "@eslint/core": "^1.2.1",
+      "eslint-scope": "^9.1.2",
+      "@humanfs/node": "^0.16.8",
+      "@types/estree": "^1.0.6",
+      "fast-deep-equal": "^3.1.3",
+      "natural-compare": "^1.4.0",
+      "file-entry-cache": "11.1.5 || >11.1.6 <12",
+      "@eslint/plugin-kit": "^0.7.3",
+      "eslint-visitor-keys": "^5.0.1",
+      "@eslint/config-array": "^0.23.6",
+      "@humanwhocodes/retry": "^0.4.2",
+      "escape-string-regexp": "^4.0.0",
+      "@eslint/config-helpers": "^0.7.0",
+      "@eslint-community/regexpp": "^4.12.2",
+      "@eslint-community/eslint-utils": "^4.8.0",
+      "@humanwhocodes/module-importer": "^1.0.1",
+      "json-stable-stringify-without-jsonify": "^1.0.1"
+    },
+    "engines": {
+      "node": "^20.19.0 || ^22.13.0 || >=24"
+    },
+    "repository": {
+      "url": "git+https://github.com/eslint/eslint.git",
+      "type": "git"
+    }
+  },
+  "eslint-scope": {
+    "before": [
+      "9.1.2"
+    ],
+    "latest": "9.1.2",
+    "source": "https://registry.npmjs.org/eslint-scope/latest",
+    "dependencies": {
+      "esrecurse": "^4.3.0",
+      "estraverse": "^5.2.0",
+      "@types/estree": "^1.0.8",
+      "@types/esrecurse": "^4.3.1"
+    },
+    "engines": {
+      "node": "^20.19.0 || ^22.13.0 || >=24"
+    },
+    "repository": {
+      "url": "git+https://github.com/eslint/js.git",
+      "type": "git",
+      "directory": "packages/eslint-scope"
+    }
+  },
+  "eslint-visitor-keys": {
+    "before": [
+      "5.0.1",
+      "3.4.3"
+    ],
+    "latest": "5.0.1",
+    "source": "https://registry.npmjs.org/eslint-visitor-keys/latest",
+    "dependencies": {},
+    "engines": {
+      "node": "^20.19.0 || ^22.13.0 || >=24"
+    },
+    "repository": {
+      "url": "git+https://github.com/eslint/js.git",
+      "type": "git",
+      "directory": "packages/eslint-visitor-keys"
+    }
+  },
+  "espree": {
+    "before": [
+      "11.2.0"
+    ],
+    "latest": "11.2.0",
+    "source": "https://registry.npmjs.org/espree/latest",
+    "dependencies": {
+      "acorn": "^8.16.0",
+      "acorn-jsx": "^5.3.2",
+      "eslint-visitor-keys": "^5.0.1"
+    },
+    "engines": {
+      "node": "^20.19.0 || ^22.13.0 || >=24"
+    },
+    "repository": {
+      "url": "git+https://github.com/eslint/js.git",
+      "type": "git",
+      "directory": "packages/espree"
+    }
+  },
+  "esquery": {
+    "before": [
+      "1.7.0"
+    ],
+    "latest": "1.7.0",
+    "source": "https://registry.npmjs.org/esquery/latest",
+    "dependencies": {
+      "estraverse": "^5.1.0"
+    },
+    "engines": {
+      "node": ">=0.10"
+    },
+    "repository": {
+      "url": "git+https://github.com/estools/esquery.git",
+      "type": "git"
+    }
+  },
+  "esrecurse": {
+    "before": [
+      "4.3.0"
+    ],
+    "latest": "4.3.0",
+    "source": "https://registry.npmjs.org/esrecurse/latest",
+    "dependencies": {
+      "estraverse": "^5.2.0"
+    },
+    "engines": {
+      "node": ">=4.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/estools/esrecurse.git",
+      "type": "git"
+    }
+  },
+  "estraverse": {
+    "before": [
+      "5.3.0"
+    ],
+    "latest": "5.3.0",
+    "source": "https://registry.npmjs.org/estraverse/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=4.0"
+    },
+    "repository": {
+      "url": "git+ssh://git@github.com/estools/estraverse.git",
+      "type": "git"
+    }
+  },
+  "esutils": {
+    "before": [
+      "2.0.3"
+    ],
+    "latest": "2.0.3",
+    "source": "https://registry.npmjs.org/esutils/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=0.10.0"
+    },
+    "repository": {
+      "url": "git+ssh://git@github.com/estools/esutils.git",
+      "type": "git"
+    }
+  },
+  "fast-deep-equal": {
+    "before": [
+      "3.1.3"
+    ],
+    "latest": "3.1.3",
+    "source": "https://registry.npmjs.org/fast-deep-equal/latest",
+    "dependencies": {},
+    "engines": {},
+    "repository": {
+      "url": "git+https://github.com/epoberezkin/fast-deep-equal.git",
+      "type": "git"
+    }
+  },
+  "fast-json-stable-stringify": {
+    "before": [
+      "2.1.0"
+    ],
+    "latest": "2.1.0",
+    "source": "https://registry.npmjs.org/fast-json-stable-stringify/latest",
+    "dependencies": {},
+    "engines": {},
+    "repository": {
+      "url": "git://github.com/epoberezkin/fast-json-stable-stringify.git",
+      "type": "git"
+    }
+  },
+  "fast-levenshtein": {
+    "before": [
+      "2.0.6"
+    ],
+    "latest": "3.0.0",
+    "source": "https://registry.npmjs.org/fast-levenshtein/latest",
+    "dependencies": {
+      "fastest-levenshtein": "^1.0.7"
+    },
+    "engines": {},
+    "repository": {
+      "url": "git+https://github.com/hiddentao/fast-levenshtein.git",
+      "type": "git"
+    }
+  },
+  "file-entry-cache": {
+    "before": [
+      "11.1.5"
+    ],
+    "latest": "11.1.5",
+    "source": "https://registry.npmjs.org/file-entry-cache/latest",
+    "dependencies": {
+      "flat-cache": "^6.1.23"
+    },
+    "engines": {},
+    "repository": {
+      "url": "git+https://github.com/jaredwray/cacheable.git",
+      "type": "git",
+      "directory": "packages/file-entry-cache"
+    }
+  },
+  "find-up": {
+    "before": [
+      "5.0.0"
+    ],
+    "latest": "8.0.0",
+    "source": "https://registry.npmjs.org/find-up/latest",
+    "dependencies": {
+      "locate-path": "^8.0.0",
+      "unicorn-magic": "^0.3.0"
+    },
+    "engines": {
+      "node": ">=20"
+    },
+    "repository": {
+      "url": "git+https://github.com/sindresorhus/find-up.git",
+      "type": "git"
+    }
+  },
+  "flat-cache": {
+    "before": [
+      "6.1.23"
+    ],
+    "latest": "6.1.23",
+    "source": "https://registry.npmjs.org/flat-cache/latest",
+    "dependencies": {
+      "flatted": "^3.4.2",
+      "cacheable": "^2.5.0",
+      "hookified": "^1.15.0"
+    },
+    "engines": {},
+    "repository": {
+      "url": "git+https://github.com/jaredwray/cacheable.git",
+      "type": "git",
+      "directory": "packages/flat-cache"
+    }
+  },
+  "flatted": {
+    "before": [
+      "3.4.4"
+    ],
+    "latest": "3.4.4",
+    "source": "https://registry.npmjs.org/flatted/latest",
+    "dependencies": {},
+    "engines": {},
+    "repository": {
+      "url": "git+https://github.com/WebReflection/flatted.git",
+      "type": "git"
+    }
+  },
+  "glob-parent": {
+    "before": [
+      "6.0.2"
+    ],
+    "latest": "6.0.2",
+    "source": "https://registry.npmjs.org/glob-parent/latest",
+    "dependencies": {
+      "is-glob": "^4.0.3"
+    },
+    "engines": {
+      "node": ">=10.13.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/gulpjs/glob-parent.git",
+      "type": "git"
+    }
+  },
+  "globals": {
+    "before": [
+      "17.14.0"
+    ],
+    "latest": "17.14.0",
+    "source": "https://registry.npmjs.org/globals/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=18"
+    },
+    "repository": {
+      "url": "git+https://github.com/sindresorhus/globals.git",
+      "type": "git"
+    }
+  },
+  "hashery": {
+    "before": [
+      "1.5.1"
+    ],
+    "latest": "3.0.6",
+    "source": "https://registry.npmjs.org/hashery/latest",
+    "dependencies": {
+      "hookified": "^3.1.0"
+    },
+    "engines": {
+      "node": ">=22.18"
+    },
+    "repository": {
+      "url": "https://github.com/jaredwray/hashery.git",
+      "type": "git"
+    }
+  },
+  "hookified": {
+    "before": [
+      "1.15.1",
+      "2.2.0"
+    ],
+    "latest": "3.1.0",
+    "source": "https://registry.npmjs.org/hookified/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=22.18.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/jaredwray/hookified.git",
+      "type": "git"
+    }
+  },
+  "ignore": {
+    "before": [
+      "5.3.2"
+    ],
+    "latest": "7.0.14",
+    "source": "https://registry.npmjs.org/ignore/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">= 4"
+    },
+    "repository": {
+      "url": "git+https://github.com/kaelzhang/node-ignore.git",
+      "type": "git"
+    }
+  },
+  "imurmurhash": {
+    "before": [
+      "0.1.4"
+    ],
+    "latest": "0.1.4",
+    "source": "https://registry.npmjs.org/imurmurhash/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=0.8.19"
+    },
+    "repository": {
+      "url": "https://github.com/jensyt/imurmurhash-js",
+      "type": "git"
+    }
+  },
+  "is-extglob": {
+    "before": [
+      "2.1.1"
+    ],
+    "latest": "2.1.1",
+    "source": "https://registry.npmjs.org/is-extglob/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=0.10.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/jonschlinkert/is-extglob.git",
+      "type": "git"
+    }
+  },
+  "is-glob": {
+    "before": [
+      "4.0.3"
+    ],
+    "latest": "4.0.3",
+    "source": "https://registry.npmjs.org/is-glob/latest",
+    "dependencies": {
+      "is-extglob": "^2.1.1"
+    },
+    "engines": {
+      "node": ">=0.10.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/micromatch/is-glob.git",
+      "type": "git"
+    }
+  },
+  "isexe": {
+    "before": [
+      "2.0.0"
+    ],
+    "latest": "4.0.0",
+    "source": "https://registry.npmjs.org/isexe/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=20"
+    },
+    "repository": {
+      "url": "git+https://github.com/isaacs/isexe.git",
+      "type": "git"
+    }
+  },
+  "json-schema-traverse": {
+    "before": [
+      "0.4.1"
+    ],
+    "latest": "1.0.0",
+    "source": "https://registry.npmjs.org/json-schema-traverse/latest",
+    "dependencies": {},
+    "engines": {},
+    "repository": {
+      "url": "git+https://github.com/epoberezkin/json-schema-traverse.git",
+      "type": "git"
+    }
+  },
+  "json-stable-stringify-without-jsonify": {
+    "before": [
+      "1.0.1"
+    ],
+    "latest": "1.0.1",
+    "source": "https://registry.npmjs.org/json-stable-stringify-without-jsonify/latest",
+    "dependencies": {},
+    "engines": {},
+    "repository": {
+      "url": "git://github.com/samn/json-stable-stringify.git",
+      "type": "git"
+    }
+  },
+  "keyv": {
+    "before": [
+      "5.6.0"
+    ],
+    "latest": "6.1.0",
+    "source": "https://registry.npmjs.org/keyv/latest",
+    "dependencies": {
+      "hookified": "^3.0.3"
+    },
+    "engines": {
+      "node": ">= 22.19.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/jaredwray/keyv.git",
+      "type": "git"
+    }
+  },
+  "levn": {
+    "before": [
+      "0.4.1"
+    ],
+    "latest": "0.4.1",
+    "source": "https://registry.npmjs.org/levn/latest",
+    "dependencies": {
+      "prelude-ls": "^1.2.1",
+      "type-check": "~0.4.0"
+    },
+    "engines": {
+      "node": ">= 0.8.0"
+    },
+    "repository": {
+      "url": "git://github.com/gkz/levn.git",
+      "type": "git"
+    }
+  },
+  "locate-path": {
+    "before": [
+      "6.0.0"
+    ],
+    "latest": "8.0.0",
+    "source": "https://registry.npmjs.org/locate-path/latest",
+    "dependencies": {
+      "p-locate": "^6.0.0"
+    },
+    "engines": {
+      "node": ">=20"
+    },
+    "repository": {
+      "url": "git+https://github.com/sindresorhus/locate-path.git",
+      "type": "git"
+    }
+  },
+  "minimatch": {
+    "before": [
+      "11.0.3"
+    ],
+    "latest": "11.0.8",
+    "source": "https://registry.npmjs.org/minimatch/latest",
+    "dependencies": {
+      "brace-expansion": "^5.0.12",
+      "@isaacs/nonrecursive-glob-match": "^1.1.0"
+    },
+    "engines": {
+      "node": "20 || >=22"
+    },
+    "repository": {
+      "url": "git+ssh://git@github.com/isaacs/minimatch.git",
+      "type": "git"
+    }
+  },
+  "ms": {
+    "before": [
+      "2.1.3"
+    ],
+    "latest": "2.1.3",
+    "source": "https://registry.npmjs.org/ms/latest",
+    "dependencies": {},
+    "engines": {},
+    "repository": {
+      "url": "git+https://github.com/vercel/ms.git",
+      "type": "git"
+    }
+  },
+  "natural-compare": {
+    "before": [
+      "1.4.0"
+    ],
+    "latest": "1.4.0",
+    "source": "https://registry.npmjs.org/natural-compare/latest",
+    "dependencies": {},
+    "engines": {},
+    "repository": {
+      "url": "git://github.com/litejs/natural-compare-lite.git",
+      "type": "git"
+    }
+  },
+  "optionator": {
+    "before": [
+      "0.9.4"
+    ],
+    "latest": "0.9.4",
+    "source": "https://registry.npmjs.org/optionator/latest",
+    "dependencies": {
+      "levn": "^0.4.1",
+      "deep-is": "^0.1.3",
+      "word-wrap": "^1.2.5",
+      "prelude-ls": "^1.2.1",
+      "type-check": "^0.4.0",
+      "fast-levenshtein": "^2.0.6"
+    },
+    "engines": {
+      "node": ">= 0.8.0"
+    },
+    "repository": {
+      "url": "git://github.com/gkz/optionator.git",
+      "type": "git"
+    }
+  },
+  "p-limit": {
+    "before": [
+      "3.1.0"
+    ],
+    "latest": "7.3.3",
+    "source": "https://registry.npmjs.org/p-limit/latest",
+    "dependencies": {
+      "yocto-queue": "^1.2.1"
+    },
+    "engines": {
+      "node": ">=20"
+    },
+    "repository": {
+      "url": "git+https://github.com/sindresorhus/p-limit.git",
+      "type": "git"
+    }
+  },
+  "p-locate": {
+    "before": [
+      "5.0.0"
+    ],
+    "latest": "7.0.0",
+    "source": "https://registry.npmjs.org/p-locate/latest",
+    "dependencies": {
+      "p-limit": "^7.2.0"
+    },
+    "engines": {
+      "node": ">=20"
+    },
+    "repository": {
+      "url": "git+https://github.com/sindresorhus/p-locate.git",
+      "type": "git"
+    }
+  },
+  "path-exists": {
+    "before": [
+      "4.0.0"
+    ],
+    "latest": "5.0.0",
+    "source": "https://registry.npmjs.org/path-exists/latest",
+    "dependencies": {},
+    "engines": {
+      "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/sindresorhus/path-exists.git",
+      "type": "git"
+    }
+  },
+  "path-key": {
+    "before": [
+      "3.1.1"
+    ],
+    "latest": "4.0.0",
+    "source": "https://registry.npmjs.org/path-key/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=12"
+    },
+    "repository": {
+      "url": "git+https://github.com/sindresorhus/path-key.git",
+      "type": "git"
+    }
+  },
+  "prelude-ls": {
+    "before": [
+      "1.2.1"
+    ],
+    "latest": "1.2.1",
+    "source": "https://registry.npmjs.org/prelude-ls/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">= 0.8.0"
+    },
+    "repository": {
+      "url": "git://github.com/gkz/prelude-ls.git",
+      "type": "git"
+    }
+  },
+  "prettier": {
+    "before": [
+      "3.9.10"
+    ],
+    "latest": "3.10.1",
+    "source": "https://registry.npmjs.org/prettier/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=14"
+    },
+    "repository": {
+      "url": "git+https://github.com/prettier/prettier.git",
+      "type": "git"
+    }
+  },
+  "punycode": {
+    "before": [
+      "2.3.1"
+    ],
+    "latest": "2.3.1",
+    "source": "https://registry.npmjs.org/punycode/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=6"
+    },
+    "repository": {
+      "url": "git+https://github.com/mathiasbynens/punycode.js.git",
+      "type": "git"
+    }
+  },
+  "qified": {
+    "before": [
+      "0.10.1"
+    ],
+    "latest": "0.13.2",
+    "source": "https://registry.npmjs.org/qified/latest",
+    "dependencies": {
+      "hookified": "^3.0.3"
+    },
+    "engines": {
+      "node": ">=22"
+    },
+    "repository": {
+      "url": "git+https://github.com/jaredwray/qified.git",
+      "type": "git",
+      "directory": "packages/qified"
+    }
+  },
+  "shebang-command": {
+    "before": [
+      "2.0.0"
+    ],
+    "latest": "2.0.0",
+    "source": "https://registry.npmjs.org/shebang-command/latest",
+    "dependencies": {
+      "shebang-regex": "^3.0.0"
+    },
+    "engines": {
+      "node": ">=8"
+    },
+    "repository": {
+      "url": "git+https://github.com/kevva/shebang-command.git",
+      "type": "git"
+    }
+  },
+  "shebang-regex": {
+    "before": [
+      "3.0.0"
+    ],
+    "latest": "4.0.0",
+    "source": "https://registry.npmjs.org/shebang-regex/latest",
+    "dependencies": {},
+    "engines": {
+      "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/sindresorhus/shebang-regex.git",
+      "type": "git"
+    }
+  },
+  "type-check": {
+    "before": [
+      "0.4.0"
+    ],
+    "latest": "0.4.0",
+    "source": "https://registry.npmjs.org/type-check/latest",
+    "dependencies": {
+      "prelude-ls": "^1.2.1"
+    },
+    "engines": {
+      "node": ">= 0.8.0"
+    },
+    "repository": {
+      "url": "git://github.com/gkz/type-check.git",
+      "type": "git"
+    }
+  },
+  "typescript": {
+    "before": [
+      "7.0.2"
+    ],
+    "latest": "7.0.2",
+    "source": "https://registry.npmjs.org/typescript/latest",
+    "dependencies": {
+      "@typescript/typescript-aix-ppc64": "7.0.2",
+      "@typescript/typescript-linux-arm": "7.0.2",
+      "@typescript/typescript-linux-x64": "7.0.2",
+      "@typescript/typescript-sunos-x64": "7.0.2",
+      "@typescript/typescript-win32-x64": "7.0.2",
+      "@typescript/typescript-darwin-x64": "7.0.2",
+      "@typescript/typescript-netbsd-x64": "7.0.2",
+      "@typescript/typescript-freebsd-x64": "7.0.2",
+      "@typescript/typescript-linux-arm64": "7.0.2",
+      "@typescript/typescript-linux-ppc64": "7.0.2",
+      "@typescript/typescript-linux-s390x": "7.0.2",
+      "@typescript/typescript-openbsd-x64": "7.0.2",
+      "@typescript/typescript-win32-arm64": "7.0.2",
+      "@typescript/typescript-darwin-arm64": "7.0.2",
+      "@typescript/typescript-netbsd-arm64": "7.0.2",
+      "@typescript/typescript-freebsd-arm64": "7.0.2",
+      "@typescript/typescript-linux-loong64": "7.0.2",
+      "@typescript/typescript-linux-riscv64": "7.0.2",
+      "@typescript/typescript-openbsd-arm64": "7.0.2",
+      "@typescript/typescript-linux-mips64el": "7.0.2"
+    },
+    "engines": {
+      "node": ">=16.20.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/microsoft/TypeScript.git",
+      "type": "git"
+    }
+  },
+  "undici-types": {
+    "before": [
+      "8.9.0",
+      "6.21.0"
+    ],
+    "latest": "8.12.4",
+    "source": "https://registry.npmjs.org/undici-types/latest",
+    "dependencies": {},
+    "engines": {},
+    "repository": {
+      "url": "git+https://github.com/nodejs/undici.git",
+      "type": "git"
+    }
+  },
+  "uri-js": {
+    "before": [
+      "4.4.1"
+    ],
+    "latest": "4.4.1",
+    "source": "https://registry.npmjs.org/uri-js/latest",
+    "dependencies": {
+      "punycode": "^2.1.0"
+    },
+    "engines": {},
+    "repository": {
+      "url": "git+ssh://git@github.com/garycourt/uri-js.git",
+      "type": "git"
+    }
+  },
+  "which": {
+    "before": [
+      "2.0.2"
+    ],
+    "latest": "7.0.0",
+    "source": "https://registry.npmjs.org/which/latest",
+    "dependencies": {
+      "isexe": "^4.0.0"
+    },
+    "engines": {
+      "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/npm/node-which.git",
+      "type": "git"
+    }
+  },
+  "word-wrap": {
+    "before": [
+      "1.2.5"
+    ],
+    "latest": "1.2.5",
+    "source": "https://registry.npmjs.org/word-wrap/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=0.10.0"
+    },
+    "repository": {
+      "url": "git+https://github.com/jonschlinkert/word-wrap.git",
+      "type": "git"
+    }
+  },
+  "yocto-queue": {
+    "before": [
+      "0.1.0"
+    ],
+    "latest": "1.2.2",
+    "source": "https://registry.npmjs.org/yocto-queue/latest",
+    "dependencies": {},
+    "engines": {
+      "node": ">=12.20"
+    },
+    "repository": {
+      "url": "git+https://github.com/sindresorhus/yocto-queue.git",
+      "type": "git"
+    }
+  }
+}

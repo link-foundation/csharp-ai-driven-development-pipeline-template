@@ -125,7 +125,7 @@ describe('rerun decision', () => {
 });
 
 describe('rerunInfrastructureFailures', () => {
-  const macos = { ...unacquired.job, id: 2, name: 'Test (macos-15)' };
+  const macos = { ...unacquired.job, id: 2, name: 'Test (xcode-27)' };
   const annotations = { 2: unacquired.annotations };
 
   test('requests "rerun failed jobs" once for an unacquired job', async () => {
@@ -140,7 +140,7 @@ describe('rerunInfrastructureFailures', () => {
     expect(decision.action).toBe('rerun');
     expect(calls).toContain(`POST repos/${REPO}/actions/runs/7/rerun-failed-jobs`);
     expect(logs.join('\n')).toContain(
-      '::warning title=Hosted runner not acquired::Test (macos-15)',
+      '::warning title=Hosted runner not acquired::Test (xcode-27)',
     );
   });
 
@@ -214,7 +214,7 @@ describe('rerunInfrastructureFailures', () => {
 
 describe('pipeline gate explanation', () => {
   test('names the unacquired job as the cause of a red gate', async () => {
-    const macos = { ...unacquired.job, id: 2, name: 'Test (macos-15)' };
+    const macos = { ...unacquired.job, id: 2, name: 'Test (xcode-27)' };
     const { api } = runApi({
       jobs: [passed(1, 'Lint'), macos],
       annotations: { 2: unacquired.annotations },
@@ -229,7 +229,7 @@ describe('pipeline gate explanation', () => {
       log: (line) => logs.push(line),
     });
     expect(logs).toEqual([
-      '::error title=Hosted runner not acquired::Test (macos-15). GitHub could not provide a runner; no code ran. rerun-infrastructure-failures.yml reruns these automatically.',
+      '::error title=Hosted runner not acquired::Test (xcode-27). GitHub could not provide a runner; no code ran. rerun-infrastructure-failures.yml reruns these automatically.',
     ]);
   });
 

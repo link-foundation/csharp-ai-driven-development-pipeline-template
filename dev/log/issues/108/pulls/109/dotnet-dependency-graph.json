@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "projects": [
+    {
+      "path": "/tmp/gh-issue-solver-1794664914456/src/MyPackage/MyPackage.csproj",
+      "frameworks": [
+        {
+          "framework": "net11.0"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/gh-issue-solver-1794664914456/examples/BasicUsage.csproj",
+      "frameworks": [
+        {
+          "framework": "net11.0"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/gh-issue-solver-1794664914456/tests/MyPackage.Tests/MyPackage.Tests.csproj",
+      "frameworks": [
+        {
+          "framework": "net11.0",
+          "topLevelPackages": [
+            {
+              "id": "coverlet.collector",
+              "requestedVersion": "10.1.0",
+              "resolvedVersion": "10.1.0"
+            },
+            {
+              "id": "Microsoft.Bcl.AsyncInterfaces",
+              "requestedVersion": "11.0.0",
+              "resolvedVersion": "11.0.0"
+            },
+            {
+              "id": "Microsoft.NET.Test.Sdk",
+              "requestedVersion": "18.12.0",
+              "resolvedVersion": "18.12.0"
+            },
+            {
+              "id": "xunit.runner.visualstudio",
+              "requestedVersion": "4.0.1",
+              "resolvedVersion": "4.0.1"
+            },
+            {
+              "id": "xunit.v3.mtp-off",
+              "requestedVersion": "4.0.3",
+              "resolvedVersion": "4.0.3"
+            }
+          ],
+          "transitivePackages": [
+            {
+              "id": "Microsoft.CodeCoverage",
+              "resolvedVersion": "18.12.0"
+            },
+            {
+              "id": "Microsoft.TestPlatform.ObjectModel",
+              "resolvedVersion": "18.12.0"
+            },
+            {
+              "id": "Microsoft.TestPlatform.TestHost",
+              "resolvedVersion": "18.12.0"
+            },
+            {
+              "id": "Microsoft.Win32.Registry",
+              "resolvedVersion": "5.0.0"
+            },
+            {
+              "id": "System.Security.AccessControl",
+              "resolvedVersion": "6.0.1"
+            },
+            {
+              "id": "xunit.analyzers",
+              "resolvedVersion": "2.3.0"
+            },
+            {
+              "id": "xunit.v3.assert",
+              "resolvedVersion": "4.0.3"
+            },
+            {
+              "id": "xunit.v3.common",
+              "resolvedVersion": "4.0.3"
+            },
+            {
+              "id": "xunit.v3.core.mtp-off",
+              "resolvedVersion": "4.0.3"
+            },
+            {
+              "id": "xunit.v3.extensibility.core",
+              "resolvedVersion": "4.0.3"
+            },
+            {
+              "id": "xunit.v3.runner.common",
+              "resolvedVersion": "4.0.3"
+            },
+            {
+              "id": "xunit.v3.runner.inproc.console",
+              "resolvedVersion": "4.0.3"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

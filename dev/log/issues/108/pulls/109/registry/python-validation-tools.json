@@ -1,0 +1,230 @@
+[
+  {
+    "name": "boolean.py",
+    "selected": "5.0",
+    "latest": "5.0",
+    "source": "https://pypi.org/project/boolean.py/"
+  },
+  {
+    "name": "CacheControl",
+    "selected": "0.14.4",
+    "latest": "0.14.4",
+    "source": "https://pypi.org/project/CacheControl/"
+  },
+  {
+    "name": "certifi",
+    "selected": "2026.10.23",
+    "latest": "2026.10.23",
+    "source": "https://pypi.org/project/certifi/"
+  },
+  {
+    "name": "cfgv",
+    "selected": "3.5.0",
+    "latest": "3.5.0",
+    "source": "https://pypi.org/project/cfgv/"
+  },
+  {
+    "name": "charset-normalizer",
+    "selected": "3.5.2",
+    "latest": "3.5.2",
+    "source": "https://pypi.org/project/charset-normalizer/"
+  },
+  {
+    "name": "cyclonedx-python-lib",
+    "selected": "11.12.0",
+    "latest": "11.12.0",
+    "source": "https://pypi.org/project/cyclonedx-python-lib/"
+  },
+  {
+    "name": "defusedxml",
+    "selected": "0.7.1",
+    "latest": "0.7.1",
+    "source": "https://pypi.org/project/defusedxml/"
+  },
+  {
+    "name": "distlib",
+    "selected": "0.4.4",
+    "latest": "0.4.4",
+    "source": "https://pypi.org/project/distlib/"
+  },
+  {
+    "name": "filelock",
+    "selected": "4.2.10",
+    "latest": "4.2.10",
+    "source": "https://pypi.org/project/filelock/"
+  },
+  {
+    "name": "identify",
+    "selected": "2.6.20",
+    "latest": "2.6.20",
+    "source": "https://pypi.org/project/identify/"
+  },
+  {
+    "name": "idna",
+    "selected": "3.20",
+    "latest": "3.20",
+    "source": "https://pypi.org/project/idna/"
+  },
+  {
+    "name": "license-expression",
+    "selected": "30.4.4",
+    "latest": "30.4.4",
+    "source": "https://pypi.org/project/license-expression/"
+  },
+  {
+    "name": "markdown-it-py",
+    "selected": "4.3.0",
+    "latest": "4.3.0",
+    "source": "https://pypi.org/project/markdown-it-py/"
+  },
+  {
+    "name": "mdurl",
+    "selected": "0.1.2",
+    "latest": "0.1.2",
+    "source": "https://pypi.org/project/mdurl/"
+  },
+  {
+    "name": "msgpack",
+    "selected": "1.2.4",
+    "latest": "1.2.4",
+    "source": "https://pypi.org/project/msgpack/"
+  },
+  {
+    "name": "nodeenv",
+    "selected": "1.12.0",
+    "latest": "1.12.0",
+    "source": "https://pypi.org/project/nodeenv/"
+  },
+  {
+    "name": "packageurl-python",
+    "selected": "0.17.6",
+    "latest": "0.17.6",
+    "source": "https://pypi.org/project/packageurl-python/"
+  },
+  {
+    "name": "packaging",
+    "selected": "26.3",
+    "latest": "26.3",
+    "source": "https://pypi.org/project/packaging/"
+  },
+  {
+    "name": "pip",
+    "selected": "26.3",
+    "latest": "26.3",
+    "source": "https://pypi.org/project/pip/"
+  },
+  {
+    "name": "pip_api",
+    "selected": "0.0.35",
+    "latest": "0.0.35",
+    "source": "https://pypi.org/project/pip_api/"
+  },
+  {
+    "name": "pip_audit",
+    "selected": "2.10.1",
+    "latest": "2.10.1",
+    "source": "https://pypi.org/project/pip_audit/"
+  },
+  {
+    "name": "pip-requirements-parser",
+    "selected": "32.0.1",
+    "latest": "32.0.1",
+    "source": "https://pypi.org/project/pip-requirements-parser/"
+  },
+  {
+    "name": "platformdirs",
+    "selected": "4.14.5",
+    "latest": "4.14.5",
+    "source": "https://pypi.org/project/platformdirs/"
+  },
+  {
+    "name": "pre_commit",
+    "selected": "4.7.0",
+    "latest": "4.7.0",
+    "source": "https://pypi.org/project/pre_commit/"
+  },
+  {
+    "name": "py-serializable",
+    "selected": "2.2.0",
+    "latest": "2.2.0",
+    "source": "https://pypi.org/project/py-serializable/"
+  },
+  {
+    "name": "pyflakes",
+    "selected": "4.1.0",
+    "latest": "4.1.0",
+    "source": "https://pypi.org/project/pyflakes/"
+  },
+  {
+    "name": "Pygments",
+    "selected": "2.21.0",
+    "latest": "2.21.0",
+    "source": "https://pypi.org/project/Pygments/"
+  },
+  {
+    "name": "pyparsing",
+    "selected": "3.3.3",
+    "latest": "3.3.3",
+    "source": "https://pypi.org/project/pyparsing/"
+  },
+  {
+    "name": "python-discovery",
+    "selected": "1.9.5",
+    "latest": "1.9.5",
+    "source": "https://pypi.org/project/python-discovery/"
+  },
+  {
+    "name": "PyYAML",
+    "selected": "6.0.3",
+    "latest": "6.0.3",
+    "source": "https://pypi.org/project/PyYAML/"
+  },
+  {
+    "name": "requests",
+    "selected": "2.34.2",
+    "latest": "2.34.2",
+    "source": "https://pypi.org/project/requests/"
+  },
+  {
+    "name": "rich",
+    "selected": "15.0.0",
+    "latest": "15.0.0",
+    "source": "https://pypi.org/project/rich/"
+  },
+  {
+    "name": "sortedcontainers",
+    "selected": "2.4.0",
+    "latest": "2.4.0",
+    "source": "https://pypi.org/project/sortedcontainers/"
+  },
+  {
+    "name": "tomli",
+    "selected": "2.5.0",
+    "latest": "2.5.0",
+    "source": "https://pypi.org/project/tomli/"
+  },
+  {
+    "name": "tomli_w",
+    "selected": "1.2.0",
+    "latest": "1.2.0",
+    "source": "https://pypi.org/project/tomli_w/"
+  },
+  {
+    "name": "urllib3",
+    "selected": "2.8.0",
+    "latest": "2.8.0",
+    "source": "https://pypi.org/project/urllib3/"
+  },
+  {
+    "name": "virtualenv",
+    "selected": "21.15.6",
+    "latest": "21.15.6",
+    "source": "https://pypi.org/project/virtualenv/"
+  },
+  {
+    "name": "zizmor",
+    "selected": "1.32.0",
+    "latest": "1.32.0",
+    "source": "https://pypi.org/project/zizmor/"
+  }
+]

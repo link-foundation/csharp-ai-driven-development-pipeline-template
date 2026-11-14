@@ -1,0 +1,9 @@
+[issue-108-555c331829cb 691b84f] chore: update dependencies and toolchains with locked audit regressions
+ 35 files changed, 316 insertions(+), 128 deletions(-)
+ create mode 100644 .changeset/current-dependencies-and-dotnet11.md
+ create mode 100644 .config/dotnet-tools.json
+ delete mode 100644 .gitkeep
+ create mode 100644 .node-version
+ create mode 100644 experiments/issue-108/verify-actionlint-exception.sh
+ create mode 100644 experiments/issue-108/verify-locked-audit.sh
+ create mode 100644 scripts/toolchain-policy.test.mjs

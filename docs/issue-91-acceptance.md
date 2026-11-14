@@ -47,10 +47,10 @@ again on November 1; their events still describe October 30.
 
 | Check | Saved evidence | Result and limit |
 | --- | --- | --- |
-| NuGet OIDC exchange | [Preflight log](../ci-logs/issue-91-main-preflight-40989121123.log), line 210 | HTTP 401, no matching trust policy owned by `konard` found for that exchange. This is historical runtime evidence, not a fresh inspection of provider settings. |
+| NuGet OIDC exchange | [Preflight log](https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/blob/main/ci-logs/issue-91-main-preflight-40989121123.log), line 210 | HTTP 401, no matching trust policy owned by `konard` found for that exchange. This is historical runtime evidence, not a fresh inspection of provider settings. |
 | Selected preflight method | Preflight log, lines 234 and 239 | `token-fallback`; the supplied key validity probe passed. Package-scoped push authorization remains unknown. No package was published. |
 | Publishing identity | Preflight log, lines 235–241 | The required identity guard rejected `MyPackage` / `Your Name`, and preflight failed. Version `0.3.16` remains the local template fixture here; a package already exists publicly under that generic ID, which cannot establish this repository's acceptance. |
-| Codecov | [Codecov log](../ci-logs/issue-91-main-codecov-40989121123.log), line 46 | Empty `CODECOV_TOKEN`; the separate main configuration gate failed with setup instructions. |
+| Codecov | [Codecov log](https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/blob/main/ci-logs/issue-91-main-codecov-40989121123.log), line 46 | Empty `CODECOV_TOKEN`; the separate main configuration gate failed with setup instructions. |
 | Dependent stages | Main run's jobs | Lint, matrix tests, build and both release jobs were skipped. Pipeline Status failed. These skips establish no publication acceptance. |
 | Documentation | [Main docs run 40989121232](https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/actions/runs/40989121232), same SHA | Site build passed; deployment was explicitly disabled, and the Pages deployment job was skipped. A built site is not deployed-docs evidence. |
 
@@ -88,7 +88,7 @@ The downloaded Helper Checks job log, saved locally as
 773–781. The
 [Helper Checks job](https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/actions/runs/41281784926/job/124775005732)
 retained artifact `13074215076`; its
-[copied audit JSON](../ci-logs/issue-91-javascript-audit-before.json) identifies
+[copied audit JSON](https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/blob/main/ci-logs/issue-91-javascript-audit-before.json) identifies
 the transitive ESLint dependency `minimatch` 10.2.6 and
 [GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249).
 The advisory affects versions below 11.0.1; updating only ESLint to its currently
@@ -101,7 +101,7 @@ changes some public APIs, so verify the actual APIs used by ESLint/config-array
 Do not exempt the advisory or weaken the audit. Revisit the override when
 ESLint's dependency range includes a patched version.
 
-[The bounded regression](../scripts/helper-globs.test.mjs) uses just four
+[The bounded regression](https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/blob/main/scripts/helper-globs.test.mjs) uses just four
 `**/../a/b` sections: the vulnerable release produces sixteen alternatives
 despite an eight-alternative limit; patched 11.0.1 respects the limit. It failed
 before the fix and passed afterward. A second test runs real ESLint discovery
@@ -147,7 +147,7 @@ These fields intentionally remain unfilled until actual execution is possible.
 | Completion | Acceptance record covers #91 and the remaining #80/#82 criteria | Unfinished. Closed issue states from #83 do not establish successful acceptance. Keep this PR unmerged. |
 
 After the target and provider access are supplied, use the existing official
-NuGet/login flow and documented setup in [README](../README.md). Inspect saved
+NuGet/login flow and documented setup in [README](https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/blob/main/README.md). Inspect saved
 state before mutation; avoid duplicate policies. Read back GitHub settings after
 repair. Execute both paths only on the authorized main target. Keep failures
 fatal, record actual methods separately from configured policies, and obtain

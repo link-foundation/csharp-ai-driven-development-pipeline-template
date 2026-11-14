@@ -1,0 +1,10 @@
+{
+  baseline: false,
+  permanent: 1,
+  retryable: 2,
+  counts: { '/limited': 1, '/outage': 1, '/gone': 1 }
+}
+  attempt 1: http://127.0.0.1:44957/limited -> alive (HTTP 200)
+  attempt 1: http://127.0.0.1:44957/outage -> transient (HTTP 503)
+  attempt 2: http://127.0.0.1:44957/outage -> alive (HTTP 200)
+PASS: 429/503 recovered; the 404 was never re-asked. { '/limited': 2, '/outage': 3, '/gone': 1 }

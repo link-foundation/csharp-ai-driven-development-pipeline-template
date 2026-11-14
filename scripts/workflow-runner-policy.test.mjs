@@ -64,8 +64,8 @@ jobs:
       readFileSync(join(WORKFLOW_DIR, 'release.yml'), 'utf-8'),
     );
     expect(workflow.jobs.test.strategy.matrix.os).toEqual([
-      'ubuntu-24.04',
-      'macos-15',
+      'ubuntu-26.04',
+      'xcode-27',
       'windows-2025',
     ]);
     expect(

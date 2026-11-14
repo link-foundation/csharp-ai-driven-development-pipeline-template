@@ -3,9 +3,14 @@ repos:
     rev: v6.0.0
     hooks:
       - id: trailing-whitespace
+        # Retain downloaded diagnostic evidence byte for byte.
+        exclude: ^(?:ci-logs/|dev/log/)
       - id: end-of-file-fixer
+        exclude: ^(?:ci-logs/|dev/log/)
       - id: check-yaml
       - id: check-added-large-files
+        # Full archived CI logs are intentionally larger than source files.
+        exclude: ^dev/log/issues/108/pulls/109/ci-logs/.*\.log$
       - id: check-merge-conflict
       - id: check-json
       - id: check-xml

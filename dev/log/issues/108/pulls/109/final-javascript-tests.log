@@ -1,0 +1,668 @@
+bun test v1.4.4 (38afee6c8)
+
+scripts/git-inputs.test.mjs:
+(pass) detect-code-changes fails closed on unverified PR refs without executing input [30.31ms]
+(pass) validate-changeset fails closed on unverified PR refs without executing input [39.99ms]
+
+scripts/toolchain-policy.test.mjs:
+(pass) package consumer smoke test uses the library target framework [0.16ms]
+(pass) Node and Bun requirements match the toolchain selected by CI [0.94ms]
+(pass) documentation restores its committed local tool and validates toolchain changes [1.44ms]
+(pass) Dependabot updates coupled CodeQL actions together [0.21ms]
+
+scripts/push-nuget-package.test.mjs:
+(pass) NuGet push > publishes every package with safe arguments and duplicate handling [0.38ms]
+(pass) NuGet push > missing credentials fail instead of advertising an unpublished release [0.25ms]
+(pass) NuGet push > an expired-key 403 preserves failure and gives both remedies without logging the key [0.28ms]
+(pass) NuGet push > an unrelated push failure also stops the release [0.07ms]
+
+scripts/pipeline-gate.test.mjs:
+(pass) push distinguishes expected work from inapplicable jobs (code=true) [0.89ms]
+(pass) push distinguishes expected work from inapplicable jobs (code=false) [0.05ms]
+(pass) pull_request distinguishes expected work from inapplicable jobs (code=true) [0.05ms]
+(pass) pull_request distinguishes expected work from inapplicable jobs (code=false) [0.42ms]
+(pass) workflow_dispatch distinguishes expected work from inapplicable jobs (code=true) [0.04ms]
+(pass) workflow_dispatch distinguishes expected work from inapplicable jobs (code=false) [0.04ms]
+(pass) required pipeline work cannot pass as skipped [0.26ms]
+(pass) required pipeline work cannot pass as failure [0.02ms]
+(pass) required pipeline work cannot pass as cancelled [0.01ms]
+(pass) required pipeline work cannot pass as undefined [0.04ms]
+(pass) unknown, missing or malformed detector/job result cannot pass [0.27ms]
+(pass) failed publication cannot produce a green main gate; deliberate changeset dispatch passes [0.08ms]
+(pass) main reports a failed release preflight even when all code checks succeeded [0.11ms]
+
+scripts/rerun-workflow-policy.test.mjs:
+(pass) infrastructure-failure rerun workflow (issue #96) > listens to the completed CI/CD pipeline by its exact name [2.86ms]
+(pass) infrastructure-failure rerun workflow (issue #96) > runs only trusted default-branch code with least privilege [0.42ms]
+(pass) infrastructure-failure rerun workflow (issue #96) > the status gate can read jobs and annotations to name the cause [0.08ms]
+(pass) infrastructure-failure rerun workflow (issue #96) > macOS stays blocking unless NON_BLOCKING_MACOS is explicitly enabled [0.02ms]
+
+scripts/security-gates.test.mjs:
+(pass) complete clean SARIF passes; every finding level fails [0.69ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.08ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.02ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.02ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.09ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.03ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.09ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.03ms]
+(pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.05ms]
+(pass) full direct/transitive dependency graph and clean validated audit pass [0.48ms]
+(pass) SDK 8 clean audit omits frameworks, but never substitutes for the full graph [0.13ms]
+(pass) existing vulnerable topLevelPackages fails without any dependency diff [0.10ms]
+(pass) existing vulnerable transitivePackages fails without any dependency diff [0.06ms]
+(pass) unverified provider, missing graph, unknown projects and malformed JSON fail [0.20ms]
+(pass) terminal gate rejects skipped, missing, cancelled and failed expected work [0.15ms]
+(pass) reports every malformed run, diagnostic and finding with rule, location and message [0.25ms]
+
+scripts/recheck-broken-links.test.mjs:
+(pass) lychee failure classification > preserves adjacent failures with bare URLs [1.14ms]
+(pass) lychee failure classification > preserves adjacent failures with angle brackets [0.03ms]
+(pass) lychee failure classification > preserves adjacent failures with locations [0.02ms]
+(pass) lychee failure classification > preserves adjacent failures with horizontal whitespace [0.02ms]
+(pass) lychee failure classification > reads only failures in the Errors section, including input subheadings [0.18ms]
+(pass) lychee failure classification > the real fixture leaves nothing to re-ask: 404s answered, locals unprovable [0.29ms]
+(pass) lychee failure classification > only silent transport failures are worth asking again [0.07ms]
+(pass) lychee failure classification > "Rejected status code" identifies a transient server response under any marker [0.06ms]
+(pass) lychee failure classification > 429 and every 5xx are retryable while client failures remain final [0.09ms]
+(pass) lychee failure classification > a non-http failure is final without being re-asked [0.06ms]
+(pass) lychee failure classification > duplicate urls collapse to one failure [0.04ms]
+(pass) accept list parsing > the default is lychee own documented default [0.29ms]
+(pass) accept list parsing > bare codes, exclusive ranges and stray spaces parse [0.08ms]
+(pass) accept list parsing > a typo throws instead of silently narrowing what healthy means [0.08ms]
+(pass) request option extraction > a workflow without flags gets the lychee defaults [0.09ms]
+(pass) request option extraction > flags in the workflow win [0.03ms]
+(pass) probe > an accepted status is alive; a rejected one is a final verdict [0.81ms]
+(pass) probe > the probe presents the same user agent lychee ran with [0.15ms]
+(pass) probe > a transport failure is unreachable, never a verdict [0.24ms]
+(pass) probe > an abort is reported as a timeout, not a crash [0.20ms]
+(pass) recheckAll > retries HTTP 429 until recovery without re-asking a 404 [1.24ms]
+(pass) recheckAll > retries HTTP 502 until recovery without re-asking a 404 [0.15ms]
+(pass) recheckAll > retries HTTP 503 until recovery without re-asking a 404 [0.12ms]
+(pass) recheckAll > persistent transient statuses exhaust retries without being called recovered [0.37ms]
+(pass) recheckAll > honors Retry-After without exceeding the total wait budget [0.81ms]
+(pass) recheckAll > retries a silent link and stops at the first accepted answer [0.48ms]
+(pass) recheckAll > duplicate urls share one probe slot [0.22ms]
+(pass) recheckAll > an expired budget marks never-asked links without probing them [0.27ms]
+(pass) recheckAll > waits double between rounds: a burst of resets is outlasted, not spammed [0.36ms]
+=== Re-check of transient link failures ===
+
+Reading lychee output from: /tmp/recheck-test-5H3Vzw/missing.md
+
+No lychee output file found; nothing to re-check.
+all_recovered=false
+recovered=0
+remaining=0
+(pass) main > a missing report is reported as nothing recovered, with exit code 0 [2.27ms]
+=== Re-check of transient link failures ===
+
+Reading lychee output from: /tmp/recheck-test-Xyf8KH/out.md
+
+lychee reported 2 failing link(s): 1 permanent or non-http failures, 1 transport, rate-limit or server failures.
+
+  [404] https://gone.example/x -- not re-checked
+
+Re-asking 1 link(s) directly (accept: 100..=103,200..=299, user agent: lychee)...
+
+
+=== Re-check summary ===
+
+✓ https://flappy.example/y answered HTTP 200 on attempt 1
+::notice title=Link answered on re-check::https://flappy.example/y answered HTTP 200 when asked directly, after lychee reported it as "failed with no status code".
+The transient failure recovered within the retry budget. This link is not treated as broken.
+
+Recovered URLs written to /tmp/recheck-test-Xyf8KH/recovered.txt
+all_recovered=false
+recovered=1
+remaining=1
+(pass) main > re-asks only the unanswered and never hides an answered failure [2.54ms]
+=== Re-check of transient link failures ===
+
+Reading lychee output from: /tmp/recheck-test-kUWMPH/out.md
+
+lychee reported 1 failing link(s): 0 permanent or non-http failures, 1 transport, rate-limit or server failures.
+
+
+Re-asking 1 link(s) directly (accept: 100..=103,200..=299, user agent: lychee)...
+
+
+=== Re-check summary ===
+
+✓ https://flappy.example/y answered HTTP 200 on attempt 1
+::notice title=Link answered on re-check::https://flappy.example/y answered HTTP 200 when asked directly, after lychee reported it as "failed with no status code".
+The transient failure recovered within the retry budget. This link is not treated as broken.
+
+Recovered URLs written to /tmp/recheck-test-kUWMPH/recovered.txt
+all_recovered=true
+recovered=1
+remaining=0
+
+Every link lychee reported answered a direct request. Every transient failure recovered.
+(pass) main > all_recovered is true only when nothing at all remains [2.18ms]
+=== Re-check of transient link failures ===
+
+Reading lychee output from: /tmp/recheck-mixed-kiwiIq/out.md
+
+lychee reported 2 failing link(s): 0 permanent or non-http failures, 2 transport, rate-limit or server failures.
+
+
+Re-asking 2 link(s) directly (accept: 100..=103,200..=299, user agent: lychee)...
+
+
+=== Re-check summary ===
+
+✓ https://flappy.example/ answered HTTP 200 on attempt 1
+::notice title=Link answered on re-check::https://flappy.example/ answered HTTP 200 when asked directly, after lychee reported it as "failed with no status code".
+The transient failure recovered within the retry budget. This link is not treated as broken.
+✗ https://timeout.example/ still failing: HTTP 404 after 1 direct attempt(s) (lychee: no detail)
+
+Recovered URLs written to /tmp/recheck-mixed-kiwiIq/recovered
+all_recovered=false
+recovered=1
+remaining=1
+(pass) recovered error plus timeout still reports an unresolved failure [2.38ms]
+
+scripts/link-failures.test.mjs:
+(pass) both failure sections are parsed; redirects are excluded [0.57ms]
+(pass) exit "1" cannot be recovered [0.06ms]
+(pass) exit "3" cannot be recovered [0.03ms]
+(pass) exit "127" cannot be recovered [0.01ms]
+(pass) exit "" cannot be recovered [0.01ms]
+(pass) missing, incomplete or malformed report fails closed [0.04ms]
+(pass) missing, incomplete or malformed report fails closed [0.01ms]
+(pass) missing, incomplete or malformed report fails closed [0.02ms]
+(pass) missing, incomplete or malformed report fails closed [0.01ms]
+=== Re-check of transient link failures ===
+
+Reading lychee output from: /tmp/lychee-timeouts-hAmExd/report.md
+
+lychee reported 2 failing link(s): 0 permanent or non-http failures, 2 transport, rate-limit or server failures.
+
+
+Re-asking 2 link(s) directly (accept: 100..=103,200..=299, user agent: lychee)...
+
+
+=== Re-check summary ===
+
+✓ https://recovered.example/ answered HTTP 200 on attempt 1
+::notice title=Link answered on re-check::https://recovered.example/ answered HTTP 200 when asked directly, after lychee reported it as "failed with no status code".
+The transient failure recovered within the retry budget. This link is not treated as broken.
+✗ https://timeout.example/ still failing: HTTP 404 after 1 direct attempt(s) (lychee: no detail)
+
+Recovered URLs written to /tmp/lychee-timeouts-hAmExd/recovered
+all_recovered=false
+recovered=1
+remaining=1
+=== Re-check of transient link failures ===
+
+Reading lychee output from: /tmp/lychee-timeouts-hAmExd/report.md
+
+(pass) a recovered 503 never hides an unrecovered timeout in the verdict [2.92ms]
+
+scripts/check-file-size.test.mjs:
+(pass) check-file-size thresholds > classifies warning band without blocking [0.13ms]
+(pass) check-file-size thresholds > classifies hard limit violations as failures [0.03ms]
+(pass) check-file-size thresholds > reports warnings and violations separately [4.79ms]
+(pass) check-file-size thresholds > warning annotation uses GitHub Actions format [0.12ms]
+(pass) check-file-size thresholds > main emits warning annotations without failing warning-only files [1.72ms]
+(pass) size gate covers .cs boundaries and ignores generated directories [3.10ms]
+(pass) size gate covers .mjs boundaries and ignores generated directories [2.76ms]
+(pass) size gate covers .js boundaries and ignores generated directories [2.57ms]
+(pass) size gate covers .md boundaries and ignores generated directories [2.40ms]
+
+scripts/security-workflow-policy.test.mjs:
+(pass) security workflow policy > scans pushes, pull requests, and the weekly schedule [0.12ms]
+(pass) security workflow policy > analyzes C# and GitHub Actions with CodeQL [0.85ms]
+(pass) security workflow policy > rejects high-severity dependency changes on pull requests [0.25ms]
+(pass) security workflow policy > uses current checkout and bounded jobs [0.21ms]
+(pass) security workflow policy > downloads the actual filename registered by an unarchived upload [0.22ms]
+
+scripts/validate-nuget-package.test.mjs:
+(pass) valid generated metadata and exact bundled license pass [2523.01ms]
+(pass) generated package rejects identity before upload [1189.92ms]
+(pass) generated package rejects version before upload [1408.45ms]
+(pass) generated package rejects SPDX before upload [1232.11ms]
+(pass) generated package rejects license kind before upload [1193.47ms]
+(pass) generated package rejects authors before upload [1132.54ms]
+(pass) generated package rejects description before upload [1156.74ms]
+(pass) generated package rejects malformed XML before upload [1162.49ms]
+(pass) generated package rejects DTD before upload [1229.99ms]
+(pass) changed bundled license bytes fail even with correct SPDX metadata [542.03ms]
+
+scripts/workflow-git-policy.test.mjs:
+(pass) checkout Git configuration policy > configures init.defaultBranch before checkout in every workflow [10.23ms]
+
+scripts/release-naming.test.mjs:
+(pass) release naming layout detection > treats the template root layout as single-language [3.62ms]
+(pass) release naming layout detection > treats a csharp subdirectory layout as multi-language [2.60ms]
+(pass) release naming tags and titles > uses plain v tags and package titles for single-language releases [0.52ms]
+(pass) release naming tags and titles > uses cs_v tags and C# title prefixes for multi-language releases [0.06ms]
+(pass) release naming tags and titles > normalizes already-prefixed versions idempotently [0.05ms]
+(pass) release naming NuGet badge > links to the exact NuGet version page using the bare version [0.17ms]
+
+scripts/docs-workflow-policy.test.mjs:
+(pass) docs workflow policy > keeps documentation builds independent from Pages deployment opt-in [0.71ms]
+(pass) docs workflow policy > gates GitHub Pages publishing behind DEPLOY_GITHUB_PAGES=true [0.70ms]
+(pass) docs workflow policy > explains skipped GitHub Pages publishing when repository opt-in is absent [0.19ms]
+
+scripts/action-pins.test.mjs:
+(pass) GitHub Action pins > finds the workflow references [0.09ms]
+(pass) GitHub Action pins > every remote action is pinned to a commit SHA with a version comment [0.14ms]
+(pass) GitHub Action pins > each action resolves to one SHA across all workflows [0.33ms]
+(pass) GitHub Action pins > isShaPinned rejects tags and missing comments [0.14ms]
+
+scripts/helper-globs.test.mjs:
+(pass) ESLint glob preprocessing respects the expansion limit [3.94ms]
+(pass) ESLint still finds nested helpers and honors ignored glob paths [88.92ms]
+
+scripts/zip-archive.test.mjs:
+(pass) stored and deflated bytes survive SHA-verified extraction [5.58ms]
+(pass) unsafe path fails before any writes: "../escape" [1.09ms]
+(pass) unsafe path fails before any writes: "/absolute" [0.64ms]
+(pass) unsafe path fails before any writes: "C:/drive" [0.67ms]
+(pass) unsafe path fails before any writes: "C:relative" [0.66ms]
+(pass) unsafe path fails before any writes: "dir\\escape" [0.72ms]
+(pass) unsafe path fails before any writes: "dir/../escape" [0.67ms]
+(pass) unsafe path fails before any writes: "dir//file" [0.66ms]
+(pass) unsafe path fails before any writes: "./file" [0.70ms]
+(pass) unsafe path fails before any writes: "dir/./file" [0.59ms]
+(pass) unsafe path fails before any writes: "dir/file." [0.50ms]
+(pass) unsafe path fails before any writes: "dir/file " [0.65ms]
+(pass) unsafe path fails before any writes: "bad\u0000name" [0.65ms]
+(pass) ambiguous/oversized/symlink ZIP fails before any writes [0.94ms]
+(pass) ambiguous/oversized/symlink ZIP fails before any writes [0.73ms]
+(pass) ambiguous/oversized/symlink ZIP fails before any writes [0.75ms]
+(pass) ambiguous/oversized/symlink ZIP fails before any writes [0.63ms]
+(pass) ambiguous/oversized/symlink ZIP fails before any writes [0.69ms]
+(pass) ambiguous/oversized/symlink ZIP fails before any writes [0.92ms]
+(pass) bad digest, checksum, truncated directory and trailing archive bytes fail closed [1.23ms]
+(pass) conflicting local ZIP metadata at 14 is rejected before writes [0.74ms]
+(pass) conflicting local ZIP metadata at 18 is rejected before writes [0.65ms]
+(pass) conflicting local ZIP metadata at 22 is rejected before writes [0.73ms]
+
+scripts/check-web-archive.test.mjs:
+(pass) lychee report parsing > the errors section stops at the next top-level heading [0.16ms]
+(pass) lychee report parsing > a report without an errors section yields nothing [0.05ms]
+(pass) lychee report parsing > redirected links are not reported as broken [0.39ms]
+(pass) lychee report parsing > every http error is extracted exactly once [0.10ms]
+(pass) lychee report parsing > errors that the Wayback Machine cannot answer are still reported [0.17ms]
+(pass) lychee report parsing > the parsed error count matches the count lychee reports [0.13ms]
+(pass) recovered url splitting > a URL the re-check found healthy leaves the archive report [0.18ms]
+(pass) recovered url splitting > blank lines and stray whitespace are tolerated [0.06ms]
+
+scripts/version-and-commit.test.mjs:
+(pass) version-and-commit > does not report already_released when the target tag is missing [329.55ms]
+(pass) version-and-commit > reports already_released when the target tag does exist [227.60ms]
+(pass) version-and-commit > uses cs_v release tags in a csharp subdirectory layout [362.95ms]
+(pass) version-and-commit argv injection (issue #61) > a --description with shell substitution is stored, never executed [80.12ms]
+
+scripts/lint-integrations.test.mjs:
+(pass) native lint rejects missing actionlint [5.48ms]
+(pass) native lint rejects missing shellcheck [3.75ms]
+(pass) native lint rejects missing pyflakes [5.45ms]
+
+scripts/check-release-needed.test.mjs:
+(pass) check-release-needed decide() > changesets take the normal release path [0.89ms]
+(pass) check-release-needed decide() > self-heals when csproj version is missing from NuGet [0.28ms]
+(pass) check-release-needed decide() > self-heals when package id is unknown to NuGet [0.08ms]
+(pass) check-release-needed decide() > self-heals GitHub release when NuGet already has the version [0.06ms]
+(pass) check-release-needed decide() > no-op when both NuGet and GitHub release exist [0.07ms]
+(pass) check-release-needed readCsprojInfo() > extracts version and package id [1.37ms]
+(pass) check-release-needed readCsprojInfo() > returns empty package id when not set in csproj [0.93ms]
+(pass) check-release-needed readCsprojInfo() > throws on missing <Version> tag [1.27ms]
+Fetching http://127.0.0.1:35431/nuget/mypackage/index.json
+(pass) check-release-needed probes > fetchNugetVersions returns the version list from the flat-container index [42.30ms]
+Fetching http://127.0.0.1:46301/nuget/notregistered/index.json
+(pass) check-release-needed probes > fetchNugetVersions returns null when the package id is not registered [9.71ms]
+Fetching http://127.0.0.1:42493/github/repos/link-foundation/csharp-ai-driven-development-pipeline-template/releases/tags/cs_v1.0.0
+(pass) check-release-needed probes > fetchGithubReleaseExists returns true when the GitHub release exists [8.39ms]
+Fetching http://127.0.0.1:41661/github/repos/link-foundation/csharp-ai-driven-development-pipeline-template/releases/tags/cs_v9.9.9
+(pass) check-release-needed probes > fetchGithubReleaseExists returns false on HTTP 404 [9.54ms]
+(pass) check-release-needed probes > fetchGithubReleaseExists returns false when repository is empty [0.48ms]
+Fetching http://127.0.0.1:36041/nuget/mypackage/index.json
+Fetching http://127.0.0.1:36041/github/repos/link-foundation/csharp-ai-driven-development-pipeline-template/releases/tags/cs_v2.4.0
+(pass) check-release-needed probes > end-to-end: missing NuGet version + missing GitHub release triggers self-heal [9.76ms]
+Fetching http://127.0.0.1:43545/nuget/mypackage/index.json
+Fetching http://127.0.0.1:43545/github/repos/link-foundation/csharp-ai-driven-development-pipeline-template/releases/tags/cs_v2.4.0
+(pass) check-release-needed probes > end-to-end: NuGet has the version and GitHub release exists → no-op [12.00ms]
+
+scripts/nuget-auth.test.mjs:
+(pass) username alone is configuration, never authentication [0.72ms]
+(pass) successful official OIDC exchange never probes fallback (absent) [0.19ms]
+(pass) successful official OIDC exchange never probes fallback (invalid) [0.05ms]
+(pass) OIDC failure without a key selects deliberate token fallback [0.11ms]
+(pass) OIDC skipped without a key selects deliberate token fallback
+(pass) OIDC success without a key selects deliberate token fallback
+(pass) fallback probe HTTP 400 preserves honest authentication/scope states [0.25ms]
+(pass) fallback probe HTTP 401 preserves honest authentication/scope states [0.03ms]
+(pass) fallback probe HTTP 403 preserves honest authentication/scope states [0.02ms]
+(pass) fallback probe HTTP 500 preserves honest authentication/scope states
+(pass) derived verification key cannot establish original push glob [0.19ms]
+(pass) both methods unavailable fail with both remedies and redacted diagnostics [0.08ms]
+(pass) NuGet denial includes the safely quoted server warning without the API key [0.17ms]
+
+scripts/runner-acquisition.test.mjs:
+(pass) runner acquisition classification > the real not-acquired macOS job is runnerless and unacquired [0.44ms]
+(pass) runner acquisition classification > a queued job cancelled by concurrency is runnerless but not unacquired [0.05ms]
+(pass) runner acquisition classification > a job that ran steps and failed is never treated as infrastructure [0.04ms]
+(pass) runner acquisition classification > a runnerless job reported as failure (not cancelled) still counts [0.05ms]
+(pass) rerun decision > reruns attempts 1 and 2, gives up on attempt 3 [0.23ms]
+(pass) rerun decision > leaves real failures, superseded runs and unfinished runs alone [0.04ms]
+(pass) rerunInfrastructureFailures > requests "rerun failed jobs" once for an unacquired job [1.36ms]
+(pass) rerunInfrastructureFailures > never reruns a run whose failure is a test that ran [0.27ms]
+(pass) rerunInfrastructureFailures > does not rerun a concurrency cancellation or a superseded run [0.34ms]
+(pass) rerunInfrastructureFailures > gives up after the third attempt with the manual command [0.32ms]
+(pass) rerunInfrastructureFailures > dry run reports but does not rerun; inputs are validated [0.51ms]
+(pass) pipeline gate explanation > names the unacquired job as the cause of a red gate [0.64ms]
+(pass) pipeline gate explanation > warns about a non-blocking leg that failed while the gate passed [0.18ms]
+(pass) pipeline gate explanation > says nothing when every job reached a runner and the gate failed on results [0.16ms]
+(pass) GitHub client > authenticates, paginates jobs and reports HTTP failures [1.48ms]
+
+scripts/publishing-configuration.test.mjs:
+(pass) template placeholder cannot pass release publishing configuration [5.83ms]
+Fetching https://api.github.com/repos/owner/repo
+(pass) repository read does not prove write capability: undefined [0.79ms]
+Fetching https://api.github.com/repos/owner/repo
+(pass) repository read does not prove write capability: {} [0.03ms]
+Fetching https://api.github.com/repos/owner/repo
+(pass) repository read does not prove write capability: {"push":false} [0.03ms]
+Fetching https://api.github.com/repos/owner/repo
+(pass) repository read does not prove write capability: {"push":true} [0.01ms]
+Fetching https://api.github.com/repos/owner/repo
+(pass) repository read rejection 401 is fatal [0.14ms]
+Fetching https://api.github.com/repos/owner/repo
+(pass) repository read rejection 404 is fatal [0.04ms]
+
+scripts/workflow-runner-policy.test.mjs:
+(pass) workflow runner policy > rejects floating runners in scalars, lists, label objects, and matrix includes [0.48ms]
+(pass) workflow runner policy > pins runners in every workflow, including multiline matrices [2.71ms]
+(pass) workflow runner policy > keeps all three pinned platforms and .NET SDK from global.json in the release matrix [1.46ms]
+
+scripts/detect-code-changes.test.mjs:
+(pass) code change detection > pull_request ignores excluded-only change experiments/repro.mjs [0.27ms]
+(pass) code change detection > push ignores excluded-only change experiments/repro.md [0.01ms]
+(pass) code change detection > pull_request ignores excluded-only change dev/log/repro.mjs
+(pass) code change detection > push ignores excluded-only change dev/log/repro.md
+(pass) code change detection > pull_request ignores excluded-only change docs/case-studies/repro.mjs
+(pass) code change detection > push ignores excluded-only change docs/case-studies/repro.md
+(pass) code change detection > detects code change src/MyPackage/Calculator.cs [0.25ms]
+(pass) code change detection > detects code change scripts/check-file-size.mjs [0.01ms]
+(pass) code change detection > detects code change .github/workflows/release.yml
+(pass) code change detection > detects code change lychee.toml [0.03ms]
+(pass) code change detection > detects code when excluded and included files are mixed [0.05ms]
+
+scripts/create-github-release.test.mjs:
+(pass) create-github-release helpers > parseArgs defaults to auto-detected release naming and accepts package id [0.25ms]
+(pass) create-github-release helpers > normalizes release versions from legacy and language-prefixed tags [0.10ms]
+(pass) create-github-release helpers > builds C# release tags and titles from bare semver [0.13ms]
+(pass) create-github-release helpers > appends a NuGet shields.io badge when release notes do not have one [0.18ms]
+(pass) create-github-release helpers > does not append a second badge when release notes already contain shields.io [0.04ms]
+(pass) create-github-release helpers > builds a GitHub release payload with C# title and NuGet badge [0.55ms]
+(pass) create-github-release helpers > limits oversized release payload bodies and links the tagged changelog [24.75ms]
+(pass) create-github-release helpers > truncates release notes without splitting UTF-8 characters [0.28ms]
+(pass) create-github-release helpers > findPackageId reads PackageId from a project file [1.83ms]
+(pass) create-github-release helpers > uploads matching NuGet package assets after creating a release [3.78ms]
+(pass) create-github-release helpers > uploads matching NuGet package assets when the release already exists [16.34ms]
+
+scripts/publish-fallback.test.mjs:
+(pass) working OIDC never tries a supplied fallback [2.44ms]
+(pass) working OIDC never tries a supplied fallback [0.87ms]
+(pass) actual HTTP 401 retries the same artifact only once [1.93ms]
+(pass) actual HTTP 403 retries the same artifact only once [1.06ms]
+(pass) already accepted exact version is preserved without another push [1.51ms]
+(pass) unrelated failure remains fatal: HTTP 400 package metadata invalid [1.18ms]
+(pass) unrelated failure remains fatal: Connection reset [0.82ms]
+(pass) unrelated failure remains fatal: exit code 401 unrelated failure [0.80ms]
+(pass) both authentication paths failing is redacted, bounded and fatal [1.22ms]
+(pass) unverified anonymous state refuses credential retry [1.04ms]
+(pass) modified artifact cannot be retried with fallback credentials [1.49ms]
+
+scripts/change-detection-renames.test.mjs:
+(pass) push rename detection (root layout) > moving source into .changeset still requires a changeset [157.53ms]
+(pass) push rename detection (root layout) > moving source into docs still requires a changeset [167.17ms]
+(pass) push rename detection (root layout) > moving source into dev/log still requires a changeset [176.89ms]
+(pass) push rename detection (root layout) > moving source into experiments still requires a changeset [165.41ms]
+(pass) push rename detection (root layout) > moving source into examples still requires a changeset [151.71ms]
+(pass) push rename detection (root layout) > ordinary source renames preserve both paths [134.47ms]
+(pass) push rename detection (root layout) > genuine examples-only edits remain excluded [130.83ms]
+(pass) push rename detection (csharp layout) > moving source into .changeset still requires a changeset [129.00ms]
+(pass) push rename detection (csharp layout) > moving source into docs still requires a changeset [126.84ms]
+(pass) push rename detection (csharp layout) > moving source into dev/log still requires a changeset [155.62ms]
+(pass) push rename detection (csharp layout) > moving source into experiments still requires a changeset [134.97ms]
+(pass) push rename detection (csharp layout) > moving source into examples still requires a changeset [148.36ms]
+(pass) push rename detection (csharp layout) > ordinary source renames preserve both paths [161.29ms]
+(pass) push rename detection (csharp layout) > genuine examples-only edits remain excluded [152.08ms]
+(pass) pull_request rename detection (root layout) > moving source into .changeset still requires a changeset [203.03ms]
+(pass) pull_request rename detection (root layout) > moving source into docs still requires a changeset [147.72ms]
+(pass) pull_request rename detection (root layout) > moving source into dev/log still requires a changeset [155.58ms]
+(pass) pull_request rename detection (root layout) > moving source into experiments still requires a changeset [148.06ms]
+(pass) pull_request rename detection (root layout) > moving source into examples still requires a changeset [163.29ms]
+(pass) pull_request rename detection (root layout) > ordinary source renames preserve both paths [169.69ms]
+(pass) pull_request rename detection (root layout) > genuine examples-only edits remain excluded [190.46ms]
+(pass) pull_request rename detection (csharp layout) > moving source into .changeset still requires a changeset [155.74ms]
+(pass) pull_request rename detection (csharp layout) > moving source into docs still requires a changeset [156.46ms]
+(pass) pull_request rename detection (csharp layout) > moving source into dev/log still requires a changeset [148.69ms]
+(pass) pull_request rename detection (csharp layout) > moving source into experiments still requires a changeset [150.44ms]
+(pass) pull_request rename detection (csharp layout) > moving source into examples still requires a changeset [157.08ms]
+(pass) pull_request rename detection (csharp layout) > ordinary source renames preserve both paths [161.70ms]
+(pass) pull_request rename detection (csharp layout) > genuine examples-only edits remain excluded [144.89ms]
+
+scripts/sarif-directory.test.mjs:
+(pass) CLI examines all files, including after invalid JSON, and prints untrusted values safely [39.36ms]
+
+scripts/print-untrusted.test.mjs:
+(pass) printUntrusted > brackets the text between stop-commands and its resume on CI [0.78ms]
+(pass) printUntrusted > every call gets a fresh token, so printed text cannot resume early [0.24ms]
+(pass) printUntrusted > multi-line text stays verbatim inside the bracket [0.13ms]
+(pass) printUntrusted > prints plainly outside GitHub Actions [0.08ms]
+(pass) printUntrusted > markers and text share one stream [0.14ms]
+(pass) printUntrusted > resumes command processing when the output sink rejects the payload [0.28ms]
+(pass) validate-changeset integration > the printed description of a valid changeset is bracketed [43.08ms]
+(pass) validate-changeset integration > the printed file content of a rejected changeset is bracketed on stderr [43.95ms]
+(pass) merge-changesets integration > the merged changeset content is bracketed [51.16ms]
+
+scripts/smoke-test-nuget-package.test.mjs:
+(pass) smoke-test-nuget-package parseArgs() > defaults to a NuGet consumer smoke test for MyPackage [0.53ms]
+(pass) smoke-test-nuget-package parseArgs() > accepts CLI and environment overrides [0.11ms]
+(pass) smoke-test-nuget-package buildSmokeTestProgram() > exercises the package API advertised by the template example [0.32ms]
+(pass) smoke-test-nuget-package smokeTestNugetPackage() > retries package installation, then builds and runs the throwaway consumer [5.95ms]
+(pass) smoke-test-nuget-package smokeTestNugetPackage() > fails before build when the package cannot be installed after all attempts [3.01ms]
+
+scripts/release-workflow-policy.test.mjs:
+(pass) release workflow policy > installs locked helper dependencies before every CI helper test command [3.26ms]
+(pass) release workflow policy > both publishers request OIDC just before push and explicitly select bounded fallback after login failure [2.02ms]
+(pass) release workflow policy > queues every writer independently from readers [1.81ms]
+(pass) release workflow policy > sets explicit timeout-minutes on every job [2.27ms]
+(pass) release workflow policy > guards jobs with skipped dependencies using a status-check function [1.20ms]
+(pass) release workflow policy > instant-release keeps explicit success checks on its dependencies [0.57ms]
+(pass) release workflow policy > change-gated jobs use detector output for both pull requests and pushes [0.56ms]
+(pass) release workflow policy > publishes only the detector output consumed by job gates [0.50ms]
+(pass) release workflow policy > uses the current GitHub Action versions required by the template [2.26ms]
+(pass) release workflow policy > configures the default Git branch before checkout runs [0.62ms]
+(pass) release workflow policy > gates Codecov uploads on an explicit token [1.35ms]
+(pass) release workflow policy > smoke-tests published NuGet packages before creating releases [1.99ms]
+(pass) release workflow policy > pipeline-status observes every job of the release workflow [1.31ms]
+(pass) release workflow policy > budgets every long step below 70% of its job cap [2.41ms]
+(pass) release workflow policy > release jobs gate on the preflight verdict [2.98ms]
+
+scripts/anonymous-package.test.mjs:
+(pass) anonymous exact download HTTP 200 is verified or fatal [2.73ms]
+(pass) anonymous exact download HTTP 404 is verified or fatal [0.82ms]
+(pass) anonymous exact download HTTP 400 is verified or fatal [0.55ms]
+
+scripts/links-workflow-policy.test.mjs:
+(pass) broken-link workflow policy > throttles GitHub requests without accepting rate limits as healthy links [2.32ms]
+(pass) broken-link workflow policy > checks Markdown and HTML changes with least privilege [0.23ms]
+(pass) broken-link workflow policy > excludes copied case studies and parser fixtures but not C# template HTML [0.10ms]
+(pass) broken-link workflow policy > ignores npm bot-protection responses [0.06ms]
+(pass) broken-link workflow policy > uses a bounded, cancellation-safe Wayback fallback [0.07ms]
+(pass) broken-link workflow policy > re-asks the failures no host ever answered before declaring links broken [0.15ms]
+(pass) broken-link workflow policy > the re-check judges links by the same rules lychee ran with [0.08ms]
+(pass) broken-link workflow policy > the re-check budget expires before the job cap can [0.40ms]
+(pass) scheduled checks and failure validation receive lychee exit status [0.34ms]
+
+scripts/issue-82-regressions.test.mjs:
+(pass) file limit scans substring filenames, .github and checkout names [3.45ms]
+Fetching https://api.nuget.org/v3-flatcontainer/example/index.json
+Retrying https://api.nuget.org/v3-flatcontainer/example/index.json (attempt 2 of 4)
+Retrying https://api.nuget.org/v3-flatcontainer/example/index.json (attempt 3 of 4)
+Retrying https://api.nuget.org/v3-flatcontainer/example/index.json (attempt 4 of 4)
+(pass) nuget retries dropped connections, rate limits and server failures [4.72ms]
+Fetching https://api.nuget.org/v3-flatcontainer/example/index.json
+Retrying https://api.nuget.org/v3-flatcontainer/example/index.json (attempt 2 of 2)
+Fetching https://api.nuget.org/v3-flatcontainer/example/index.json
+(pass) nuget exhausted errors name cause; 404 is immediate [2.30ms]
+Fetching https://api.github.com/repos/owner/repo/releases/tags/v1.0.0
+Retrying https://api.github.com/repos/owner/repo/releases/tags/v1.0.0 (attempt 2 of 4)
+Retrying https://api.github.com/repos/owner/repo/releases/tags/v1.0.0 (attempt 3 of 4)
+Retrying https://api.github.com/repos/owner/repo/releases/tags/v1.0.0 (attempt 4 of 4)
+(pass) github retries dropped connections, rate limits and server failures [3.71ms]
+Fetching https://api.github.com/repos/owner/repo/releases/tags/v1.0.0
+Retrying https://api.github.com/repos/owner/repo/releases/tags/v1.0.0 (attempt 2 of 2)
+Fetching https://api.github.com/repos/owner/repo/releases/tags/v1.0.0
+(pass) github exhausted errors name cause; 404 is immediate [1.43ms]
+(pass) Wayback retries and distinguishes lookup errors from absent snapshots [4.81ms]
+(pass) Dependabot exemption uses author before any git or changeset access [130.92ms]
+(pass) merge-changesets.mjs rejects mixed invalid changesets without mutations or pushes [239.31ms]
+(pass) version-and-commit.mjs rejects mixed invalid changesets without mutations or pushes [259.84ms]
+
+scripts/release-assets.test.mjs:
+(pass) public nonempty asset bytes survive rerun without upload/delete/promotion [3.49ms]
+(pass) repairs empty/missing draft assets then verifies bytes [1.95ms]
+(pass) repairs empty/missing public assets then verifies bytes [1.70ms]
+(pass) corrupt leaves a draft unpublished [1.76ms]
+(pass) uploadFailure leaves a draft unpublished [1.71ms]
+
+scripts/git-push.test.mjs:
+(pass) atomic push rebases a racing unrelated main update and retags the final commit [500.96ms]
+(pass) protected-branch rejection is fatal and atomic: neither ref changes [332.37ms]
+(pass) repeated non-fast-forward races are bounded without forcing [0.66ms]
+
+scripts/wait-for-nuget.test.mjs:
+(pass) wait-for-nuget parseArgs() > defaults to two-minute checks across the NuGet indexing window [0.43ms]
+(pass) wait-for-nuget parseArgs() > accepts --version as an alias for --release-version [0.06ms]
+(pass) wait-for-nuget parseArgs() > honours CLI flags for max-attempts, sleep-seconds and flat-container-url [0.07ms]
+(pass) wait-for-nuget parseArgs() > reads overrides from environment variables [0.07ms]
+(pass) wait-for-nuget parseArgs() > inline --flag=value form is supported [0.06ms]
+(pass) wait-for-nuget parseArgs() > rejects non-positive integers for --max-attempts [0.26ms]
+(pass) wait-for-nuget parseArgs() > rejects non-positive integers for --sleep-seconds [0.13ms]
+(pass) wait-for-nuget parseArgs() > throws when a flag is missing its value [0.09ms]
+(pass) wait-for-nuget createNugetNuspecUrl() > builds the flat-container nuspec URL with lowercased id and version [0.15ms]
+(pass) wait-for-nuget createNugetNuspecUrl() > lowercases mixed-case versions (e.g. semver pre-release tags) [0.05ms]
+(pass) wait-for-nuget createNugetNuspecUrl() > defaults to the official flat-container URL when not specified [0.06ms]
+(pass) wait-for-nuget waitForNugetPackage() > succeeds when indexing takes longer than the old 125-second loop [0.70ms]
+(pass) wait-for-nuget waitForNugetPackage() > fails only after exhausting all attempts [0.39ms]
+(pass) wait-for-nuget waitForNugetPackage() > returns immediately when the package is already indexed [0.16ms]
+(pass) wait-for-nuget waitForNugetPackage() > tolerates transient network errors before succeeding [5.19ms]
+(pass) wait-for-nuget checkNugetPackageVersion() > reports 200 responses as available against a live HTTP endpoint [10.09ms]
+(pass) wait-for-nuget checkNugetPackageVersion() > reports 404 responses as unavailable without throwing [5.35ms]
+(pass) wait-for-nuget checkNugetPackageVersion() > treats fetch network errors as a soft failure [0.53ms]
+(pass) wait-for-nuget checkNugetPackageVersion() > end-to-end: waits through 404 responses then succeeds when the package appears [9.65ms]
+
+scripts/workflow-injection-policy.test.mjs:
+(pass) workflow script-injection policy > no workflow interpolates attacker-controlled context into a run: script [3.28ms]
+(pass) workflow script-injection policy > changeset validation reads head_ref and the C# root from env [0.30ms]
+(pass) workflow script-injection policy > quotes $GITHUB_OUTPUT redirections [0.38ms]
+(pass) workflow credential policy > every checkout declares its credential persistence explicitly [1.36ms]
+(pass) workflow credential policy > only the jobs that push keep a credential to push with [3.07ms]
+(pass) workflow linting policy > lints every workflow with actionlint plus its bundled shellcheck [0.13ms]
+(pass) workflow linting policy > audits every workflow with zizmor beside actionlint [0.60ms]
+
+scripts/preflight-credentials.test.mjs:
+Fetching https://api.github.com/repos/owner/repo
+(pass) GitHub push permission probe > verifies readable identity without claiming protected write authorization [0.71ms]
+Fetching https://api.github.com/repos/owner/repo
+(pass) GitHub push permission probe > false user-role field does not establish installation-token write permissions [0.20ms]
+Fetching https://api.github.com/repos/owner/repo
+(pass) GitHub push permission probe > treats an anonymous probe honestly: no token, no push [0.12ms]
+Fetching https://api.github.com/repos/owner/repo
+(pass) GitHub push permission probe > reports rate limiting as unknown, never as a pass [0.10ms]
+Fetching https://api.github.com/repos/owner/repo
+(pass) GitHub push permission probe > network failure is unknown, never a pass [0.37ms]
+(pass) GitHub push permission probe > a missing repository cannot be probed [0.10ms]
+Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+(pass) NuGet package visibility probe > a published package is reported with its version count [0.63ms]
+Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+(pass) NuGet package visibility probe > a 404 is the expected pre-first-publish state, not a failure [0.21ms]
+Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+(pass) NuGet package visibility probe > an unreachable registry is unknown; the probe is advisory [0.14ms]
+Preflight mode: release
+Repository:     owner/repo
+Package id:     MyPackage
+Fetching https://api.github.com/repos/owner/repo
+Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+Output: auth=trusted-publishing
+[PASS] Publishing identity: Test package configured
+[PASS] GitHub repository access (write unverified): Repository identity and read access verified. User-role permissions.push=true does not prove installation-token or protected-branch write authorization; actual writes remain fatal.
+[PASS] NuGet authentication: Official OIDC exchange authenticated the workflow. Exact package push authorization is unverified until publication.
+[PASS] NuGet package visibility: "MyPackage" is public on nuget.org with 1 published version(s)
+Output: preflight_result=passed
+(pass) preflight authentication integration > release mode with auth user=publisher key=(none) [8.41ms]
+Preflight mode: release
+Repository:     owner/repo
+Package id:     MyPackage
+Fetching https://api.github.com/repos/owner/repo
+Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+Output: auth=token-fallback
+[PASS] Publishing identity: Test package configured
+[PASS] GitHub repository access (write unverified): Repository identity and read access verified. User-role permissions.push=true does not prove installation-token or protected-branch write authorization; actual writes remain fatal.
+[FAIL] NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 401. NUGET_API_KEY is not accepted (invalid, expired or revoked). x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+::error::NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 401. NUGET_API_KEY is not accepted (invalid, expired or revoked). x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+[PASS] NuGet package visibility: "MyPackage" is public on nuget.org with 1 published version(s)
+::error::release preflight failed — NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 401. NUGET_API_KEY is not accepted (invalid, expired or revoked). x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+Output: preflight_result=failed
+Release preflight failed; publishing is blocked; lint, tests and build still run. Fix the probes above and push again.
+(pass) preflight authentication integration > release mode with auth user=(none) key=expired [4.19ms]
+Preflight mode: release
+Repository:     owner/repo
+Package id:     MyPackage
+Fetching https://api.github.com/repos/owner/repo
+Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+Output: auth=token-fallback
+[PASS] Publishing identity: Test package configured
+[PASS] GitHub repository access (write unverified): Repository identity and read access verified. User-role permissions.push=true does not prove installation-token or protected-branch write authorization; actual writes remain fatal.
+[FAIL] NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 403. NUGET_API_KEY authenticates but has no push scope. x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+::error::NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 403. NUGET_API_KEY authenticates but has no push scope. x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+[PASS] NuGet package visibility: "MyPackage" is public on nuget.org with 1 published version(s)
+::error::release preflight failed — NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 403. NUGET_API_KEY authenticates but has no push scope. x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+Output: preflight_result=failed
+Release preflight failed; publishing is blocked; lint, tests and build still run. Fix the probes above and push again.
+(pass) preflight authentication integration > release mode with auth user=(none) key=unlist-only [4.09ms]
+Preflight mode: report
+Repository:     owner/repo
+Package id:     MyPackage
+Fetching https://api.github.com/repos/owner/repo
+Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+Output: auth=token-fallback
+[PASS] Publishing identity: Test package configured
+[PASS] GitHub repository access (write unverified): Repository identity and read access verified. User-role permissions.push=true does not prove installation-token or protected-branch write authorization; actual writes remain fatal.
+[FAIL] NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 403. NUGET_API_KEY authenticates but has no push scope. x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+::error::NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 403. NUGET_API_KEY authenticates but has no push scope. x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+[PASS] NuGet package visibility: "MyPackage" is public on nuget.org with 1 published version(s)
+[REPORT] NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 403. NUGET_API_KEY authenticates but has no push scope. x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+Output: preflight_result=passed
+(pass) preflight authentication integration > report mode with auth user=(none) key=unlist-only [3.94ms]
+Preflight mode: report
+Repository:     owner/repo
+Package id:     MyPackage
+Fetching https://api.github.com/repos/owner/repo
+Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+Output: auth=none
+[PASS] Publishing identity: Test package configured
+[PASS] GitHub repository access (write unverified): Repository identity and read access verified. User-role permissions.push=true does not prove installation-token or protected-branch write authorization; actual writes remain fatal.
+[FAIL] NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. No NUGET_API_KEY fallback is configured. Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+::error::NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. No NUGET_API_KEY fallback is configured. Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+[PASS] NuGet package visibility: "MyPackage" is public on nuget.org with 1 published version(s)
+[REPORT] NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. No NUGET_API_KEY fallback is configured. Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+Output: preflight_result=passed
+(pass) preflight authentication integration > report mode with auth user=(none) key=(none) [3.53ms]
+(pass) preflight decision > release mode passes only when every required probe verified [0.15ms]
+(pass) preflight decision > release mode fails on any failed probe and names it [0.08ms]
+(pass) preflight decision > release mode treats an unverified required probe as a failure [0.13ms]
+(pass) preflight decision > an unknown advisory probe never blocks [0.03ms]
+(pass) preflight decision > report mode reports without blocking [0.05ms]
+
+ 382 pass
+ 0 fail
+ 1218 expect() calls
+Ran 382 tests across 41 files. [20.66s]

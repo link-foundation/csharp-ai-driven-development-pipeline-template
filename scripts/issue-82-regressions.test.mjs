@@ -182,7 +182,8 @@ for (const script of ['merge-changesets.mjs', 'version-and-commit.mjs']) {
       });
       expect(result.status).toBe(1);
       expect(result.stderr).toContain('Invalid changeset');
-      expect(readdirSync(join(root, '.changeset'))).toEqual(['a.md', 'b.md']);
+      // Directory enumeration order varies with the runner filesystem.
+      expect(readdirSync(join(root, '.changeset')).sort()).toEqual(['a.md', 'b.md']);
       expect(readFileSync(join(root, 'CHANGELOG.md'), 'utf8')).toBe('# Changelog\n');
       expect(git(['rev-parse', 'HEAD'])).toBe(before);
       expect(git(['ls-remote', 'origin', 'refs/heads/main'])).toStartWith(before);

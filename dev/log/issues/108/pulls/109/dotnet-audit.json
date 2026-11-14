@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "projects": [
+    {
+      "path": "/tmp/gh-issue-solver-1794664914456/src/MyPackage/MyPackage.csproj"
+    },
+    {
+      "path": "/tmp/gh-issue-solver-1794664914456/examples/BasicUsage.csproj"
+    },
+    {
+      "path": "/tmp/gh-issue-solver-1794664914456/tests/MyPackage.Tests/MyPackage.Tests.csproj"
+    }
+  ]
+}

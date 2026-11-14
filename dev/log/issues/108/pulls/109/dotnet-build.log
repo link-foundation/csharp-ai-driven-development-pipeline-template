@@ -1,0 +1,9 @@
+  MyPackage -> /tmp/gh-issue-solver-1794664914456/src/MyPackage/bin/Release/net11.0/MyPackage.dll
+  MyPackage.Tests -> /tmp/gh-issue-solver-1794664914456/tests/MyPackage.Tests/bin/Release/net11.0/MyPackage.Tests.dll
+  BasicUsage -> /tmp/gh-issue-solver-1794664914456/examples/bin/Release/net11.0/BasicUsage.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:05.34

@@ -1,0 +1,5 @@
+Bounded reproduction on Bun 1.4.4, the current release on 2026-11-14: a single 6-second test with `[test] timeout = 7000` still fails at 5000ms; the same test using file-local `setDefaultTimeout(7000)` passes in 6 seconds. Script: https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/blob/issue-108-555c331829cb/experiments/issue-82/reproduce-bun-timeout.mjs (two finite child runs, no stress allocation).
+
+Run `bun experiments/issue-82/reproduce-bun-timeout.mjs`. The first child demonstrates the ignored TOML setting and the second demonstrates the workaround. Our consumer keeps explicit file-local timeouts for subprocess integration tests; it does not skip tests or extend budgets to hide hangs: https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/pull/109 .
+
+A parsed `[test].timeout` applied when initializing every test file would let consumers remove this duplicated setup. A regression should cover two sequential files so a preload affecting only the first file cannot appear to fix the setting. Adding current-version measured evidence to the existing report, with AI assistance.

@@ -14,5 +14,8 @@ if printf '%s\n' 'undefined_variable' | pyflakes >/dev/null 2>&1; then
   exit 1
 fi
 sh experiments/issue-82/verify-lint-integrations.sh
-actionlint -color -ignore 'unexpected key .queue. for .concurrency. section'
+sh experiments/issue-108/verify-actionlint-exception.sh
+# Remove these exact schema exceptions when rhysd/actionlint #654/#711 ship.
+actionlint -color -ignore 'unexpected key .queue. for .concurrency. section' \
+  -ignore 'specifying action "\$/\.github/actions/csharp-layout" in invalid format because ref is missing'
 find scripts experiments -type f -name '*.sh' -exec shellcheck '{}' +

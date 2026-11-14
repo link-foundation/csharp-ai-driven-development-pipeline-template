@@ -1,6 +1,10 @@
 version: 2
 updates:
   - package-ecosystem: github-actions
+    groups:
+      codeql:
+        patterns:
+          - github/codeql-action/*
     cooldown:
       default-days: 7
     directories:
@@ -13,6 +17,7 @@ updates:
       default-days: 7
     directories:
       - /
+      - /.config
       - /examples
       - /src/MyPackage
       - /tests/MyPackage.Tests

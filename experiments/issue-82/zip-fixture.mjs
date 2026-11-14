@@ -1,4 +1,4 @@
-import { deflateRawSync } from 'node:zlib';
+import { deflateRawSync, crc32 } from 'node:zlib';
 /** Tiny, finite fixtures allow hostile central/local names without extracting them. */
 export function makeZip(files) {
   const locals = [];
@@ -10,12 +10,7 @@ export function makeZip(files) {
     const bytes = Buffer.from(file.bytes ?? 'fixture');
     const method = file.deflate ? 8 : 0;
     const packed = method ? deflateRawSync(bytes) : bytes;
-    let crc = 0xffffffff;
-    for (const byte of bytes) {
-      crc ^= byte;
-      for (let i = 0; i < 8; i++) crc = (crc >>> 1) ^ (crc & 1 ? 0xedb88320 : 0);
-    }
-    crc = (crc ^ 0xffffffff) >>> 0;
+    const crc = crc32(bytes);
     const local = Buffer.alloc(30);
     local.writeUInt32LE(0x04034b50);
     local.writeUInt16LE(method, 8);
