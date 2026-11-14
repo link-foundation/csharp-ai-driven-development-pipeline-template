@@ -30,7 +30,9 @@ for (const project of expected) {
     'restore',
     project,
     '--locked-mode',
-    '--force-evaluate',
+    // Refresh assets/auditing while preserving the committed resolution.
+    // --force-evaluate overrides --locked-mode (NU1512 in .NET 11).
+    '--force',
     '-p:NuGetAudit=true',
     '-p:NuGetAuditMode=all',
     '-p:NuGetAuditLevel=low',

@@ -1,0 +1,135 @@
+{
+  "coverlet.collector": {
+    "before": [
+      "10.1.0"
+    ],
+    "latest": "10.1.0",
+    "source": "https://api.nuget.org/v3-flatcontainer/coverlet.collector/index.json"
+  },
+  "Microsoft.NET.Test.Sdk": {
+    "before": [
+      "18.11.0"
+    ],
+    "latest": "18.12.0",
+    "source": "https://api.nuget.org/v3-flatcontainer/microsoft.net.test.sdk/index.json"
+  },
+  "xunit.runner.visualstudio": {
+    "before": [
+      "4.0.1"
+    ],
+    "latest": "4.0.1",
+    "source": "https://api.nuget.org/v3-flatcontainer/xunit.runner.visualstudio/index.json"
+  },
+  "xunit.v3.mtp-off": {
+    "before": [
+      "4.0.2"
+    ],
+    "latest": "4.0.3",
+    "source": "https://api.nuget.org/v3-flatcontainer/xunit.v3.mtp-off/index.json"
+  },
+  "Microsoft.Bcl.AsyncInterfaces": {
+    "before": [
+      "6.0.0"
+    ],
+    "latest": "11.0.0",
+    "source": "https://api.nuget.org/v3-flatcontainer/microsoft.bcl.asyncinterfaces/index.json"
+  },
+  "Microsoft.CodeCoverage": {
+    "before": [
+      "18.11.0"
+    ],
+    "latest": "18.12.0",
+    "source": "https://api.nuget.org/v3-flatcontainer/microsoft.codecoverage/index.json"
+  },
+  "Microsoft.TestPlatform.ObjectModel": {
+    "before": [
+      "18.11.0"
+    ],
+    "latest": "18.12.0",
+    "source": "https://api.nuget.org/v3-flatcontainer/microsoft.testplatform.objectmodel/index.json"
+  },
+  "Microsoft.TestPlatform.TestHost": {
+    "before": [
+      "18.11.0"
+    ],
+    "latest": "18.12.0",
+    "source": "https://api.nuget.org/v3-flatcontainer/microsoft.testplatform.testhost/index.json"
+  },
+  "Microsoft.Win32.Registry": {
+    "before": [
+      "5.0.0"
+    ],
+    "latest": "5.0.0",
+    "source": "https://api.nuget.org/v3-flatcontainer/microsoft.win32.registry/index.json"
+  },
+  "System.Security.AccessControl": {
+    "before": [
+      "6.0.1"
+    ],
+    "latest": "6.0.1",
+    "source": "https://api.nuget.org/v3-flatcontainer/system.security.accesscontrol/index.json"
+  },
+  "xunit.analyzers": {
+    "before": [
+      "2.2.0"
+    ],
+    "latest": "2.3.0",
+    "source": "https://api.nuget.org/v3-flatcontainer/xunit.analyzers/index.json"
+  },
+  "xunit.v3.assert": {
+    "before": [
+      "4.0.2"
+    ],
+    "latest": "4.0.3",
+    "source": "https://api.nuget.org/v3-flatcontainer/xunit.v3.assert/index.json"
+  },
+  "xunit.v3.common": {
+    "before": [
+      "4.0.2"
+    ],
+    "latest": "4.0.3",
+    "source": "https://api.nuget.org/v3-flatcontainer/xunit.v3.common/index.json"
+  },
+  "xunit.v3.core.mtp-off": {
+    "before": [
+      "4.0.2"
+    ],
+    "latest": "4.0.3",
+    "source": "https://api.nuget.org/v3-flatcontainer/xunit.v3.core.mtp-off/index.json"
+  },
+  "xunit.v3.extensibility.core": {
+    "before": [
+      "4.0.2"
+    ],
+    "latest": "4.0.3",
+    "source": "https://api.nuget.org/v3-flatcontainer/xunit.v3.extensibility.core/index.json"
+  },
+  "xunit.v3.runner.common": {
+    "before": [
+      "4.0.2"
+    ],
+    "latest": "4.0.3",
+    "source": "https://api.nuget.org/v3-flatcontainer/xunit.v3.runner.common/index.json"
+  },
+  "xunit.v3.runner.inproc.console": {
+    "before": [
+      "4.0.2"
+    ],
+    "latest": "4.0.3",
+    "source": "https://api.nuget.org/v3-flatcontainer/xunit.v3.runner.inproc.console/index.json"
+  },
+  "docfx": {
+    "before": [
+      "unpinned"
+    ],
+    "latest": "2.81.0",
+    "source": "https://api.nuget.org/v3-flatcontainer/docfx/index.json"
+  },
+  "dotnet-outdated-tool": {
+    "before": [
+      "not installed"
+    ],
+    "latest": "4.9.0",
+    "source": "https://api.nuget.org/v3-flatcontainer/dotnet-outdated-tool/index.json"
+  }
+}

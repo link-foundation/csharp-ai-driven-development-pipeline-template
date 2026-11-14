@@ -1,0 +1,1419 @@
+Lint and Format Check	UNKNOWN STEP	﻿2026-11-13T20:03:44.6399187Z Current runner version: '2.338.2'
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6436128Z ##[group]Runner Image Provisioner
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6437454Z Hosted Compute Agent
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6438471Z Version: 20261103.629
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6439651Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6441189Z Build Date: 2026-11-03T17:26:59Z
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6442443Z Worker ID: {b66a9861-d2cb-40f4-8444-947a5c0a6cad}
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6443648Z Region: eastus
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6444634Z Cloud: Azure
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6445640Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6448006Z ##[group]Operating System
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6449138Z Ubuntu
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6449985Z 24.04.5
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6451210Z LTS
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6452219Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6453078Z ##[group]Runner Image
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6454206Z Image: ubuntu-24.04
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6455184Z Version: 20261111.370.1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6457405Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261111.370/images/ubuntu/Ubuntu2404-Readme.md
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6460434Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261111.370
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6462194Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6464108Z ##[group]GITHUB_TOKEN Permissions
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6466694Z Contents: read
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6467842Z Metadata: read
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6468801Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6472024Z Secret source: Dependabot
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6473583Z Cache mode: write
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.6474759Z Prepare workflow directory
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.7038025Z Prepare all required actions
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.7109706Z Getting action download info
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:44.9117100Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.0748612Z Download action repository 'actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68' (SHA:a98b56852c35b8e3190ac28c8c2271da59106c68)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.2713848Z Download action repository 'oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6' (SHA:0c5077e51419868618aeaa5fe8019c62421857d6)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.5069630Z Complete job name: Lint and Format Check
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6017524Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6018799Z with:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6019310Z   persist-credentials: false
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6020488Z   repository: link-foundation/csharp-ai-driven-development-pipeline-template
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6025637Z   token: ***
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6026118Z   ssh-strict: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6026601Z   ssh-user: git
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6027062Z   clean: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6027559Z   sparse-checkout-cone-mode: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6028161Z   fetch-depth: 1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6028634Z   fetch-tags: false
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6029123Z   show-progress: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6029617Z   lfs: false
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6030231Z   submodules: false
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6030759Z   set-safe-directory: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6031377Z   allow-unsafe-pr-checkout: false
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6032254Z env:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6032700Z   GIT_CONFIG_COUNT: 1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6033267Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6033895Z   GIT_CONFIG_VALUE_0: main
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6034469Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6035127Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6035793Z   DOTNET_NOLOGO: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.6036286Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.8709712Z Syncing repository: link-foundation/csharp-ai-driven-development-pipeline-template
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.8713863Z ##[group]Getting Git version info
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.8716657Z Working directory is '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template'
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.8720471Z [command]/usr/bin/git version
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.8793633Z git version 2.56.1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.8818000Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.8829543Z Temporarily overriding HOME='/home/runner/work/_temp/91fb71b0-a7f8-4d77-921f-b98d9940d608' before making global git config changes
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.8832989Z Adding repository directory to the temporary git global config as a safe directory
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.8837132Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.8888564Z Deleting the contents of '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template'
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.8892345Z ##[group]Determining repository object format
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.8897676Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.8899208Z ##[group]Initializing the repository
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.8902059Z [command]/usr/bin/git init /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.9034797Z Initialized empty Git repository in /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.9045651Z [command]/usr/bin/git remote add origin https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.9103090Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.9104581Z ##[group]Disabling automatic garbage collection
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.9107614Z [command]/usr/bin/git config --local gc.auto 0
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.9144284Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.9145569Z ##[group]Setting up auth
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.9150963Z Removing SSH command configuration
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.9152667Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.9193884Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.9590914Z Removing HTTP extra header
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.9598044Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.9671056Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.9894780Z Removing includeIf entries pointing to credentials config files
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.9901065Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:45.9946905Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.0192462Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-b48f5b0c-885e-4e29-99d4-1bc9ac67c40b.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.0243314Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path /home/runner/work/_temp/git-credentials-b48f5b0c-885e-4e29-99d4-1bc9ac67c40b.config
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.0286497Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-b48f5b0c-885e-4e29-99d4-1bc9ac67c40b.config
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.0329764Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-b48f5b0c-885e-4e29-99d4-1bc9ac67c40b.config
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.0374078Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-b48f5b0c-885e-4e29-99d4-1bc9ac67c40b.config
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.0415025Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.0415872Z ##[group]Fetching the repository
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.0421764Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +2dbec21af25eeee7c48dde16cffa0c8bd5b1dd5a:refs/remotes/pull/102/merge
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.2908931Z From https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.2911337Z  * [new ref]         2dbec21af25eeee7c48dde16cffa0c8bd5b1dd5a -> pull/102/merge
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.2914623Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.2915757Z ##[group]Determining the checkout info
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.2917023Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.2919614Z [command]/usr/bin/git sparse-checkout disable
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.2990669Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3036106Z ##[group]Checking out the ref
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3041161Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/102/merge
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3195322Z Note: switching to 'refs/remotes/pull/102/merge'.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3196691Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3197550Z You are in 'detached HEAD' state. You can look around, make experimental
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3199461Z changes and commit them, and you can discard any commits you make in this
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3201715Z state without impacting any branches by switching back to a branch.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3202802Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3203491Z If you want to create a new branch to retain commits you create, you may
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3205229Z do so (now or later) by using -c with the switch command. Example:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3206778Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3207242Z   git switch -c <new-branch-name>
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3207968Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3208386Z Or undo this operation with:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3209091Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3209505Z   git switch -
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3210322Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3211322Z Turn off this advice by setting config variable advice.detachedHead to false
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3212698Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3244932Z HEAD is now at 2dbec21 Merge 17cf5118c3f3c2c1935ebf342db8968c3c0a0a97 into ec58d9debf5f11d350498bef51554a70357cf9a1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3249969Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3281022Z [command]/usr/bin/git log -1 --format=%H
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3320011Z 2dbec21af25eeee7c48dde16cffa0c8bd5b1dd5a
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3330661Z ##[group]Removing auth
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3332531Z Removing SSH command configuration
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3335764Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3383066Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3626467Z Removing HTTP extra header
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3630355Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3675704Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3914620Z Removing includeIf entries pointing to credentials config files
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3917631Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3958729Z includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3964387Z includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3969442Z includeif.gitdir:/github/workspace/.git.path
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3972171Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.3980362Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.4007647Z /home/runner/work/_temp/git-credentials-b48f5b0c-885e-4e29-99d4-1bc9ac67c40b.config
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.4023699Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-b48f5b0c\-885e\-4e29\-99d4\-1bc9ac67c40b\.config
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.4073879Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.4107862Z /home/runner/work/_temp/git-credentials-b48f5b0c-885e-4e29-99d4-1bc9ac67c40b.config
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.4122823Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-b48f5b0c\-885e\-4e29\-99d4\-1bc9ac67c40b\.config
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.4169562Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.4212210Z /github/runner_temp/git-credentials-b48f5b0c-885e-4e29-99d4-1bc9ac67c40b.config
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.4225528Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-b48f5b0c\-885e\-4e29\-99d4\-1bc9ac67c40b\.config
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.4271226Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.4309034Z /github/runner_temp/git-credentials-b48f5b0c-885e-4e29-99d4-1bc9ac67c40b.config
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.4320973Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-b48f5b0c\-885e\-4e29\-99d4\-1bc9ac67c40b\.config
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.4371758Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.4622686Z Removing credentials config '/home/runner/work/_temp/git-credentials-b48f5b0c-885e-4e29-99d4-1bc9ac67c40b.config'
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.4632456Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.4980873Z Prepare all required actions
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5107119Z ##[group]Run ./.github/actions/csharp-layout
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5108250Z env:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5108982Z   GIT_CONFIG_COUNT: 1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5109912Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5111216Z   GIT_CONFIG_VALUE_0: main
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5112198Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5113327Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5114339Z   DOTNET_NOLOGO: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5115179Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5177734Z ##[start-action display=Run set -euo pipefail;id=csharp_layout.layout]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5242648Z ##[group]Run set -euo pipefail
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5243786Z ^[[36;1mset -euo pipefail^[[0m
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5246110Z ^[[36;1mif compgen -G "*.csproj" > /dev/null || compgen -G "*.sln" > /dev/null || find src -maxdepth 5 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then^[[0m
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5248531Z ^[[36;1m  CSHARP_ROOT="."^[[0m
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5249507Z ^[[36;1m  MULTI_LANGUAGE="false"^[[0m
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5251603Z ^[[36;1melif find csharp -maxdepth 6 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then^[[0m
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5253373Z ^[[36;1m  CSHARP_ROOT="csharp"^[[0m
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5254370Z ^[[36;1m  MULTI_LANGUAGE="true"^[[0m
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5255333Z ^[[36;1melse^[[0m
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5256887Z ^[[36;1m  echo "::error::Could not find a C# project at the repository root or under csharp/"^[[0m
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5258496Z ^[[36;1m  exit 1^[[0m
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5259268Z ^[[36;1mfi^[[0m
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5260471Z ^[[36;1mecho "root=$CSHARP_ROOT" >> "$GITHUB_OUTPUT"^[[0m
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5262014Z ^[[36;1mecho "multi-language=$MULTI_LANGUAGE" >> "$GITHUB_OUTPUT"^[[0m
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5264099Z ^[[36;1mecho "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"^[[0m
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5290247Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5291549Z env:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5292282Z   GIT_CONFIG_COUNT: 1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5293169Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5294217Z   GIT_CONFIG_VALUE_0: main
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5295187Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5296284Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5297287Z   DOTNET_NOLOGO: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5298131Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5374342Z Detected C# layout: root=., multi-language=false
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5422630Z ##[end-action id=csharp_layout.layout;outcome=success;conclusion=success;duration_ms=24]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5600838Z ##[group]Run actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5602280Z with:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5603042Z   global-json-file: global.json
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5603961Z   cache: false
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5604760Z env:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5605452Z   GIT_CONFIG_COUNT: 1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5606309Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5607315Z   GIT_CONFIG_VALUE_0: main
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5608252Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5609310Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5610462Z   DOTNET_NOLOGO: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.5611265Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.7067346Z [command]/home/runner/work/_actions/actions/setup-dotnet/a98b56852c35b8e3190ac28c8c2271da59106c68/externals/install-dotnet.sh --skip-non-versioned-files --runtime dotnet --channel LTS
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.9428999Z dotnet-install: .NET Core Runtime with version '10.0.15' is already installed.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:46.9458781Z [command]/home/runner/work/_actions/actions/setup-dotnet/a98b56852c35b8e3190ac28c8c2271da59106c68/externals/install-dotnet.sh --skip-non-versioned-files --channel 10.0
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:47.1572490Z dotnet-install: .NET Core SDK with version '10.0.404' is already installed.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:47.1861323Z ##[group]Run oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:47.1862811Z with:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:47.1863640Z   bun-version: 1.4.4
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:47.1864550Z   no-cache: false
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:47.1873300Z   token: ***
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:47.1874139Z env:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:47.1874929Z   GIT_CONFIG_COUNT: 1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:47.1875893Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:47.1877003Z   GIT_CONFIG_VALUE_0: main
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:47.1878035Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:47.1879198Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:47.1880375Z   DOTNET_NOLOGO: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:47.1881316Z   DOTNET_ROOT: /usr/share/dotnet
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:47.1882314Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:47.4768924Z Cache hit for: bun-vyrKTwhw5PEh6pGRz1Zgyle11uQ=
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:47.8837583Z Received 50544728 of 50544728 (100.0%), 142.2 MBs/sec
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:47.8842204Z Cache Size: ~48 MB (50544728 B)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:47.8877001Z [command]/usr/bin/tar -xf /home/runner/work/_temp/b7064162-cec8-4581-b0fb-9b592664b386/cache.tzst -P -C /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template --use-compress-program unzstd
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:48.0857272Z Cache restored successfully
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:48.0887307Z [command]/home/runner/.bun/bin/bun --revision
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:48.0985265Z 1.4.4+38afee6c8
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:48.0992013Z Using a cached version of Bun: 1.4.4+38afee6c8
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:48.1296763Z ##[group]Run bash scripts/run-with-budget-warning.sh 600 "dotnet restore (lint)" dotnet restore
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:48.1299187Z ^[[36;1mbash scripts/run-with-budget-warning.sh 600 "dotnet restore (lint)" dotnet restore^[[0m
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:48.1324117Z shell: /usr/bin/bash -e {0}
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:48.1325113Z env:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:48.1325896Z   GIT_CONFIG_COUNT: 1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:48.1327094Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:48.1328196Z   GIT_CONFIG_VALUE_0: main
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:48.1329223Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:48.1330724Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:48.1331805Z   DOTNET_NOLOGO: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:48.1332743Z   DOTNET_ROOT: /usr/share/dotnet
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:48.1333748Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:52.1996376Z   Determining projects to restore...
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:53.3263897Z   Restored /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/src/MyPackage/MyPackage.csproj (in 105 ms).
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:53.3266747Z   Restored /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/examples/BasicUsage.csproj (in 105 ms).
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:54.7908662Z   Restored /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/tests/MyPackage.Tests/MyPackage.Tests.csproj (in 1.6 sec).
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:55.1604286Z ##[group]Run bash scripts/run-with-budget-warning.sh 600 "dotnet format (lint)" dotnet format --verify-no-changes --verbosity diagnostic
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:55.1605281Z ^[[36;1mbash scripts/run-with-budget-warning.sh 600 "dotnet format (lint)" dotnet format --verify-no-changes --verbosity diagnostic^[[0m
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:55.1625836Z shell: /usr/bin/bash -e {0}
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:55.1626103Z env:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:55.1626305Z   GIT_CONFIG_COUNT: 1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:55.1626554Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:55.1626844Z   GIT_CONFIG_VALUE_0: main
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:55.1627099Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:55.1627399Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:55.1627659Z   DOTNET_NOLOGO: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:55.1627905Z   DOTNET_ROOT: /usr/share/dotnet
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:55.1628166Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:56.5698057Z The dotnet runtime version is '11.0.0'.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:56.7702436Z Formatting code files in workspace '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/MyPackage.sln'.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:56.7704003Z Loading workspace.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:57.9789634Z   Determining projects to restore...
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:03:57.9790596Z   All projects are up-to-date for restore.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:06.1844511Z Project MyPackage is using configuration from '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.editorconfig'.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:06.1848200Z Project MyPackage is using configuration from '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/src/MyPackage/obj/Debug/net10.0/MyPackage.GeneratedMSBuildEditorConfig.editorconfig'.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:06.1851763Z Project MyPackage is using configuration from '/usr/share/dotnet/sdk/10.0.404/Sdks/Microsoft.NET.Sdk/analyzers/build/config/analysislevel_10_all.globalconfig'.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:06.1854233Z Project MyPackage.Tests is using configuration from '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.editorconfig'.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:06.1857569Z Project MyPackage.Tests is using configuration from '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/tests/MyPackage.Tests/obj/Debug/net10.0/MyPackage.Tests.GeneratedMSBuildEditorConfig.editorconfig'.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:06.1861021Z Project MyPackage.Tests is using configuration from '/usr/share/dotnet/sdk/10.0.404/Sdks/Microsoft.NET.Sdk/analyzers/build/config/analysislevel_10_all.globalconfig'.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:06.1863438Z Project BasicUsage is using configuration from '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.editorconfig'.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:06.1866596Z Project BasicUsage is using configuration from '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/examples/obj/Debug/net10.0/BasicUsage.GeneratedMSBuildEditorConfig.editorconfig'.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:06.1870935Z Project BasicUsage is using configuration from '/usr/share/dotnet/sdk/10.0.404/Sdks/Microsoft.NET.Sdk/analyzers/build/config/analysislevel_10_all.globalconfig'.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:06.1872512Z Complete in 9414ms.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:06.1872995Z Determining formattable files.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:06.5458982Z Complete in 361ms.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:06.5459390Z Running formatters.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:08.1701257Z Running Code Style analysis.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:08.1707663Z Determining diagnostics...
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:09.5320526Z Running 25 analyzers on MyPackage.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:10.1892089Z Running 25 analyzers on MyPackage.Tests.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:10.4291253Z Running 25 analyzers on BasicUsage.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:10.5158802Z Complete in 2345ms.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:10.5160348Z Analysis complete in 2345ms.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:10.5402807Z Running Analyzer Reference analysis.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:10.5919148Z Determining diagnostics...
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:10.5919733Z Running 173 analyzers on MyPackage.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:11.1516459Z Running 241 analyzers on MyPackage.Tests.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:11.3918065Z Running 171 analyzers on BasicUsage.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:11.4688082Z Complete in 928ms.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:11.4691990Z Analysis complete in 928ms.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:11.4692385Z Complete in 4923ms.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:11.4692683Z Formatted 0 of 17 files.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:11.4693220Z Format complete in 14699ms.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:12.2024616Z ##[group]Run bash scripts/run-with-budget-warning.sh 700 "dotnet build (lint)" dotnet build --no-restore --configuration Release /warnaserror
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:12.2025640Z ^[[36;1mbash scripts/run-with-budget-warning.sh 700 "dotnet build (lint)" dotnet build --no-restore --configuration Release /warnaserror^[[0m
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:12.2045964Z shell: /usr/bin/bash -e {0}
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:12.2046215Z env:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:12.2046407Z   GIT_CONFIG_COUNT: 1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:12.2046659Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:12.2046932Z   GIT_CONFIG_VALUE_0: main
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:12.2047180Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:12.2047471Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:12.2047720Z   DOTNET_NOLOGO: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:12.2047939Z   DOTNET_ROOT: /usr/share/dotnet
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:12.2048176Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:17.4931097Z   MyPackage -> /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/src/MyPackage/bin/Release/net10.0/MyPackage.dll
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:18.3092659Z   BasicUsage -> /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/examples/bin/Release/net10.0/BasicUsage.dll
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:18.6570694Z   MyPackage.Tests -> /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/tests/MyPackage.Tests/bin/Release/net10.0/MyPackage.Tests.dll
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:18.7117479Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:18.7140939Z Build succeeded.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:18.7141441Z     0 Warning(s)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:18.7151233Z     0 Error(s)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:18.7151493Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:18.7151914Z Time Elapsed 00:00:06.23
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:19.2402573Z ##[group]Run bun install --frozen-lockfile
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:19.2403236Z ^[[36;1mbun install --frozen-lockfile^[[0m
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:19.2432630Z shell: /usr/bin/bash -e {0}
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:19.2433061Z env:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:19.2433404Z   GIT_CONFIG_COUNT: 1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:19.2433821Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:19.2434297Z   GIT_CONFIG_VALUE_0: main
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:19.2434749Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:19.2435318Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:19.2435781Z   DOTNET_NOLOGO: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:19.2436173Z   DOTNET_ROOT: /usr/share/dotnet
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:19.2436635Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:19.2731154Z bun install v1.4.4 (38afee6c8)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8012757Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8013294Z + @eslint/js@10.0.1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8013719Z + @types/bun@1.4.4
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8014081Z + @types/node@26.6.6
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8014437Z + eslint@10.14.0
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8014885Z + globals@17.13.0
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8015288Z + prettier@3.9.10
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8015624Z + typescript@7.0.2
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8015828Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8016012Z 88 packages installed [2.54s]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8125238Z ##[group]Run bash scripts/run-with-budget-warning.sh 300 "Script tests" bun test scripts/*.test.mjs
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8126490Z ^[[36;1mbash scripts/run-with-budget-warning.sh 300 "Script tests" bun test scripts/*.test.mjs^[[0m
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8157268Z shell: /usr/bin/bash -e {0}
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8157709Z env:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8158147Z   GIT_CONFIG_COUNT: 1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8158571Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8159059Z   GIT_CONFIG_VALUE_0: main
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8159525Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8160368Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8160857Z   DOTNET_NOLOGO: true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8161262Z   DOTNET_ROOT: /usr/share/dotnet
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8161706Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8291473Z bun test v1.4.4 (38afee6c8)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8380671Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8459943Z ##[group]scripts/security-gates.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8569034Z (pass) complete clean SARIF passes; every finding level fails [0.45ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8570582Z (pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.07ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8572097Z (pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.05ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8574270Z (pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.04ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8575595Z (pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.03ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8576818Z (pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.02ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8578137Z (pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.07ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8579376Z (pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.03ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8580837Z (pass) incomplete or diagnostic-bearing SARIF cannot look clean [0.07ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8584871Z (pass) full direct/transitive dependency graph and clean validated audit pass [0.48ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8586384Z (pass) SDK 8 clean audit omits frameworks, but never substitutes for the full graph [0.18ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8587718Z (pass) existing vulnerable topLevelPackages fails without any dependency diff [0.11ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8589011Z (pass) existing vulnerable transitivePackages fails without any dependency diff [0.06ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8590684Z (pass) unverified provider, missing graph, unknown projects and malformed JSON fail [0.24ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8592103Z (pass) terminal gate rejects skipped, missing, cancelled and failed expected work [0.16ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8593565Z (pass) reports every malformed run, diagnostic and finding with rule, location and message [0.17ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8594479Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8595208Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8597352Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:21.8598006Z ##[group]scripts/validate-nuget-package.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:23.1328465Z (pass) valid generated metadata and exact bundled license pass [1267.41ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:24.1059431Z (pass) generated package rejects identity before upload [973.13ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:25.0564189Z (pass) generated package rejects version before upload [950.44ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:25.9999093Z (pass) generated package rejects SPDX before upload [943.49ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:26.9417028Z (pass) generated package rejects license kind before upload [941.81ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:27.8794895Z (pass) generated package rejects authors before upload [937.74ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:28.8222672Z (pass) generated package rejects description before upload [942.74ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:29.9038584Z (pass) generated package rejects malformed XML before upload [1081.64ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:30.8522778Z (pass) generated package rejects DTD before upload [948.34ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.7982670Z (pass) changed bundled license bytes fail even with correct SPDX metadata [946.00ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.7983146Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.7983602Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.7983729Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.7984007Z ##[group]scripts/release-assets.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8023307Z (pass) public nonempty asset bytes survive rerun without upload/delete/promotion [1.24ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8027523Z (pass) repairs empty/missing draft assets then verifies bytes [0.48ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8030851Z (pass) repairs empty/missing public assets then verifies bytes [0.30ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8034672Z (pass) corrupt leaves a draft unpublished [0.41ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8037252Z (pass) uploadFailure leaves a draft unpublished [0.25ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8037722Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8038207Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8038429Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8038932Z ##[group]scripts/check-release-needed.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8120492Z (pass) check-release-needed decide() > changesets take the normal release path [0.09ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8121803Z (pass) check-release-needed decide() > self-heals when csproj version is missing from NuGet [0.06ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8123218Z (pass) check-release-needed decide() > self-heals when package id is unknown to NuGet [0.08ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8124607Z (pass) check-release-needed decide() > self-heals GitHub release when NuGet already has the version [0.06ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8125949Z (pass) check-release-needed decide() > no-op when both NuGet and GitHub release exist [0.05ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8127197Z (pass) check-release-needed readCsprojInfo() > extracts version and package id [0.39ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8129373Z (pass) check-release-needed readCsprojInfo() > returns empty package id when not set in csproj [0.26ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8132267Z (pass) check-release-needed readCsprojInfo() > throws on missing <Version> tag [0.29ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8183402Z Fetching http://127.0.0.1:34999/nuget/mypackage/index.json
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8237545Z (pass) check-release-needed probes > fetchNugetVersions returns the version list from the flat-container index [10.47ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8240312Z Fetching http://127.0.0.1:43671/nuget/notregistered/index.json
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8253909Z (pass) check-release-needed probes > fetchNugetVersions returns null when the package id is not registered [1.64ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8264717Z Fetching http://127.0.0.1:41149/github/repos/link-foundation/csharp-ai-driven-development-pipeline-template/releases/tags/cs_v1.0.0
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8272849Z (pass) check-release-needed probes > fetchGithubReleaseExists returns true when the GitHub release exists [1.84ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8276366Z Fetching http://127.0.0.1:41405/github/repos/link-foundation/csharp-ai-driven-development-pipeline-template/releases/tags/cs_v9.9.9
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8286882Z (pass) check-release-needed probes > fetchGithubReleaseExists returns false on HTTP 404 [1.41ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8288357Z (pass) check-release-needed probes > fetchGithubReleaseExists returns false when repository is empty [0.09ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8296387Z Fetching http://127.0.0.1:46103/nuget/mypackage/index.json
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8304579Z Fetching http://127.0.0.1:46103/github/repos/link-foundation/csharp-ai-driven-development-pipeline-template/releases/tags/cs_v2.4.0
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8309210Z (pass) check-release-needed probes > end-to-end: missing NuGet version + missing GitHub release triggers self-heal [2.12ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8313245Z Fetching http://127.0.0.1:37973/nuget/mypackage/index.json
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8325830Z Fetching http://127.0.0.1:37973/github/repos/link-foundation/csharp-ai-driven-development-pipeline-template/releases/tags/cs_v2.4.0
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8332473Z (pass) check-release-needed probes > end-to-end: NuGet has the version and GitHub release exists → no-op [2.28ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8333305Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8333614Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8333747Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8334015Z ##[group]scripts/pipeline-gate.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8353711Z (pass) push distinguishes expected work from inapplicable jobs (code=true) [0.32ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8354805Z (pass) push distinguishes expected work from inapplicable jobs (code=false) [0.04ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8356137Z (pass) pull_request distinguishes expected work from inapplicable jobs (code=true) [0.02ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8357373Z (pass) pull_request distinguishes expected work from inapplicable jobs (code=false) [0.04ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8358552Z (pass) workflow_dispatch distinguishes expected work from inapplicable jobs (code=true) [0.03ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8359782Z (pass) workflow_dispatch distinguishes expected work from inapplicable jobs (code=false) [0.04ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8361007Z (pass) required pipeline work cannot pass as skipped [0.08ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8361781Z (pass) required pipeline work cannot pass as failure [0.02ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8362531Z (pass) required pipeline work cannot pass as cancelled [0.02ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8363285Z (pass) required pipeline work cannot pass as undefined [0.01ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8364186Z (pass) unknown, missing or malformed detector/job result cannot pass [0.22ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8365315Z (pass) failed publication cannot produce a green main gate; deliberate changeset dispatch passes [0.19ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8366117Z (pass) main reports a failed release preflight even when all code checks succeeded [0.07ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8366476Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8366755Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8366876Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8367136Z ##[group]scripts/sarif-directory.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8561853Z (pass) CLI examines all files, including after invalid JSON, and prints untrusted values safely [17.13ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8562593Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8563178Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8563411Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8563888Z ##[group]scripts/runner-acquisition.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8565008Z (pass) runner acquisition classification > the real not-acquired macOS job is runnerless and unacquired [0.16ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8566558Z (pass) runner acquisition classification > a queued job cancelled by concurrency is runnerless but not unacquired [0.04ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8568136Z (pass) runner acquisition classification > a job that ran steps and failed is never treated as infrastructure [0.04ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8569608Z (pass) runner acquisition classification > a runnerless job reported as failure (not cancelled) still counts [0.04ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8571112Z (pass) rerun decision > reruns attempts 1 and 2, gives up on attempt 3 [0.15ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8572251Z (pass) rerun decision > leaves real failures, superseded runs and unfinished runs alone [0.04ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8573598Z (pass) rerunInfrastructureFailures > requests "rerun failed jobs" once for an unacquired job [1.67ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8574952Z (pass) rerunInfrastructureFailures > never reruns a run whose failure is a test that ran [0.19ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8577688Z (pass) rerunInfrastructureFailures > does not rerun a concurrency cancellation or a superseded run [0.30ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8579791Z (pass) rerunInfrastructureFailures > gives up after the third attempt with the manual command [0.16ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8585687Z (pass) rerunInfrastructureFailures > dry run reports but does not rerun; inputs are validated [0.27ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8587393Z (pass) pipeline gate explanation > names the unacquired job as the cause of a red gate [0.31ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8588995Z (pass) pipeline gate explanation > warns about a non-blocking leg that failed while the gate passed [0.13ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8590669Z (pass) pipeline gate explanation > says nothing when every job reached a runner and the gate failed on results [0.11ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8596872Z (pass) GitHub client > authenticates, paginates jobs and reports HTTP failures [0.91ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8597524Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8597833Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8598119Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8598870Z ##[group]scripts/link-failures.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8624346Z (pass) both failure sections are parsed; redirects are excluded [0.74ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8625198Z (pass) exit "1" cannot be recovered [0.09ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8625835Z (pass) exit "3" cannot be recovered [0.03ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8626736Z (pass) exit "127" cannot be recovered [0.02ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8627398Z (pass) exit "" cannot be recovered [0.02ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8628171Z (pass) missing, incomplete or malformed report fails closed [0.04ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8629032Z (pass) missing, incomplete or malformed report fails closed [0.02ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8629883Z (pass) missing, incomplete or malformed report fails closed [0.02ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8631028Z (pass) missing, incomplete or malformed report fails closed [0.02ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8637877Z === Re-check of transient link failures ===
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8638265Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8638681Z Reading lychee output from: /tmp/lychee-timeouts-n2vRza/report.md
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8639201Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8643173Z lychee reported 2 failing link(s): 0 permanent or non-http failures, 2 transport, rate-limit or server failures.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8643951Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8643959Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8644455Z Re-asking 2 link(s) directly (accept: 100..=103,200..=299, user agent: lychee)...
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8645020Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8651973Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8652389Z === Re-check summary ===
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8652676Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8653393Z ✓ https://recovered.example/ answered HTTP 200 on attempt 1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8678751Z ##[notice]https://recovered.example/ answered HTTP 200 when asked directly, after lychee reported it as "failed with no status code".
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8692341Z The transient failure recovered within the retry budget. This link is not treated as broken.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8693810Z ✗ https://timeout.example/ still failing: HTTP 404 after 1 direct attempt(s) (lychee: no detail)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8695009Z (pass) a recovered 503 never hides an unrecovered timeout in the verdict [3.03ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8695623Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8696097Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8696316Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8696842Z ##[group]scripts/issue-82-regressions.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8697252Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8697692Z Recovered URLs written to /tmp/lychee-timeouts-n2vRza/recovered
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8698377Z all_recovered=false
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8698766Z recovered=1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8698997Z remaining=1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8699242Z === Re-check of transient link failures ===
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8699462Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8699686Z Reading lychee output from: /tmp/lychee-timeouts-n2vRza/report.md
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8699965Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8700598Z (pass) file limit scans substring filenames, .github and checkout names [1.89ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8712806Z Fetching https://api.nuget.org/v3-flatcontainer/example/index.json
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8713823Z Retrying https://api.nuget.org/v3-flatcontainer/example/index.json (attempt 2 of 4)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8714587Z Retrying https://api.nuget.org/v3-flatcontainer/example/index.json (attempt 3 of 4)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8722623Z Retrying https://api.nuget.org/v3-flatcontainer/example/index.json (attempt 4 of 4)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8734356Z (pass) nuget retries dropped connections, rate limits and server failures [3.83ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8735418Z Fetching https://api.nuget.org/v3-flatcontainer/example/index.json
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8736095Z Retrying https://api.nuget.org/v3-flatcontainer/example/index.json (attempt 2 of 2)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8748054Z Fetching https://api.nuget.org/v3-flatcontainer/example/index.json
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8748816Z (pass) nuget exhausted errors name cause; 404 is immediate [1.44ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8749344Z Fetching https://api.github.com/repos/owner/repo/releases/tags/v1.0.0
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8750498Z Retrying https://api.github.com/repos/owner/repo/releases/tags/v1.0.0 (attempt 2 of 4)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8759908Z Retrying https://api.github.com/repos/owner/repo/releases/tags/v1.0.0 (attempt 3 of 4)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8771046Z Retrying https://api.github.com/repos/owner/repo/releases/tags/v1.0.0 (attempt 4 of 4)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8781548Z (pass) github retries dropped connections, rate limits and server failures [3.29ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8782365Z Fetching https://api.github.com/repos/owner/repo/releases/tags/v1.0.0
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8782970Z Retrying https://api.github.com/repos/owner/repo/releases/tags/v1.0.0 (attempt 2 of 2)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8793048Z (pass) github exhausted errors name cause; 404 is immediate [1.16ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8793606Z Fetching https://api.github.com/repos/owner/repo/releases/tags/v1.0.0
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.8821249Z (pass) Wayback retries and distinguishes lookup errors from absent snapshots [2.77ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:31.9314861Z (pass) Dependabot exemption uses author before any git or changeset access [49.31ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0173067Z (pass) merge-changesets.mjs rejects mixed invalid changesets without mutations or pushes [85.76ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0905822Z (pass) version-and-commit.mjs rejects mixed invalid changesets without mutations or pushes [73.29ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0906680Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0907422Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0907744Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0908540Z ##[group]scripts/links-workflow-policy.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0924789Z (pass) broken-link workflow policy > throttles GitHub requests without accepting rate limits as healthy links [0.36ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0926863Z (pass) broken-link workflow policy > checks Markdown and HTML changes with least privilege [0.31ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0928657Z (pass) broken-link workflow policy > excludes copied case studies and parser fixtures but not C# template HTML [0.07ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0930560Z (pass) broken-link workflow policy > ignores npm bot-protection responses [0.04ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0932095Z (pass) broken-link workflow policy > uses a bounded, cancellation-safe Wayback fallback [0.05ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0933828Z (pass) broken-link workflow policy > re-asks the failures no host ever answered before declaring links broken [0.11ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0935623Z (pass) broken-link workflow policy > the re-check judges links by the same rules lychee ran with [0.05ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0937227Z (pass) broken-link workflow policy > the re-check budget expires before the job cap can [0.24ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0938787Z (pass) scheduled checks and failure validation receive lychee exit status [0.27ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0939685Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0940551Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0940707Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0941042Z ##[group]scripts/workflow-git-policy.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0955847Z (pass) checkout Git configuration policy > configures init.defaultBranch before checkout in every workflow [1.60ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0956717Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0957184Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0957409Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0957909Z ##[group]scripts/check-web-archive.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0962795Z (pass) lychee report parsing > the errors section stops at the next top-level heading [0.17ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0964394Z (pass) lychee report parsing > a report without an errors section yields nothing [0.04ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0965860Z (pass) lychee report parsing > redirected links are not reported as broken [0.25ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0967227Z (pass) lychee report parsing > every http error is extracted exactly once [0.09ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0968671Z (pass) lychee report parsing > errors that the Wayback Machine cannot answer are still reported [0.11ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0970411Z (pass) lychee report parsing > the parsed error count matches the count lychee reports [0.11ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0972024Z (pass) recovered url splitting > a URL the re-check found healthy leaves the archive report [0.12ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0973815Z (pass) recovered url splitting > blank lines and stray whitespace are tolerated [0.03ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0974741Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0975801Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0976049Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0976561Z ##[group]scripts/docs-workflow-policy.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0977676Z (pass) docs workflow policy > keeps documentation builds independent from Pages deployment opt-in [0.31ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0981192Z (pass) docs workflow policy > gates GitHub Pages publishing behind DEPLOY_GITHUB_PAGES=true [0.29ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0985387Z (pass) docs workflow policy > explains skipped GitHub Pages publishing when repository opt-in is absent [0.27ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0986192Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0986671Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0986897Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.0987427Z ##[group]scripts/publishing-configuration.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1016635Z (pass) template placeholder cannot pass release publishing configuration [1.66ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1019503Z Fetching https://api.github.com/repos/owner/repo
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1020620Z (pass) repository read does not prove write capability: undefined [0.40ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1021640Z (pass) repository read does not prove write capability: {} [0.06ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1022639Z (pass) repository read does not prove write capability: {"push":false} [0.03ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1023704Z (pass) repository read does not prove write capability: {"push":true} [0.02ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1024586Z Fetching https://api.github.com/repos/owner/repo
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1025290Z Fetching https://api.github.com/repos/owner/repo
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1025873Z Fetching https://api.github.com/repos/owner/repo
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1026299Z (pass) repository read rejection 401 is fatal [0.12ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1026695Z (pass) repository read rejection 404 is fatal [0.02ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1026918Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1027322Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1027443Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1027777Z ##[group]scripts/push-nuget-package.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1028173Z Fetching https://api.github.com/repos/owner/repo
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1028539Z Fetching https://api.github.com/repos/owner/repo
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1037242Z (pass) NuGet push > publishes every package with safe arguments and duplicate handling [0.16ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1039181Z (pass) NuGet push > missing credentials fail instead of advertising an unpublished release [0.11ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1041141Z (pass) NuGet push > an expired-key 403 preserves failure and gives both remedies without logging the key [0.21ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1042548Z (pass) NuGet push > an unrelated push failure also stops the release [0.14ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1043203Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1043974Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1044196Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.1044674Z ##[group]scripts/git-push.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.2392659Z (pass) atomic push rebases a racing unrelated main update and retags the final commit [134.18ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.3188590Z (pass) protected-branch rejection is fatal and atomic: neither ref changes [79.59ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.3189692Z (pass) repeated non-fast-forward races are bounded without forcing [0.17ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.3190408Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.3191351Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.3191489Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.3191830Z ##[group]scripts/security-workflow-policy.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.3195739Z (pass) security workflow policy > scans pushes, pull requests, and the weekly schedule [0.06ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.3197432Z (pass) security workflow policy > analyzes C# and GitHub Actions with CodeQL [0.19ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.3198822Z (pass) security workflow policy > rejects high-severity dependency changes on pull requests [0.13ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.3199972Z (pass) security workflow policy > uses current checkout and bounded jobs [0.10ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.3201872Z (pass) security workflow policy > downloads the actual filename registered by an unarchived upload [0.18ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.3202564Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.3203134Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.3203258Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.3203521Z ##[group]scripts/helper-globs.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.4255134Z (pass) ESLint glob preprocessing respects the expansion limit [1.88ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.4775758Z (pass) ESLint still finds nested helpers and honors ignored glob paths [52.00ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.4776266Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.4776778Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.4776928Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.4777589Z ##[group]scripts/print-untrusted.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.4786916Z (pass) printUntrusted > brackets the text between stop-commands and its resume on CI [0.20ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.4788262Z (pass) printUntrusted > every call gets a fresh token, so printed text cannot resume early [0.12ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.4789411Z (pass) printUntrusted > multi-line text stays verbatim inside the bracket [0.08ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.4790582Z (pass) printUntrusted > prints plainly outside GitHub Actions [0.08ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.4791445Z (pass) printUntrusted > markers and text share one stream [0.07ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.4997717Z (pass) validate-changeset integration > the printed description of a valid changeset is bracketed [20.63ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.5157049Z (pass) validate-changeset integration > the printed file content of a rejected changeset is bracketed on stderr [15.86ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.5334572Z (pass) merge-changesets integration > the merged changeset content is bracketed [17.74ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.5335279Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.5335803Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.5336142Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.5336806Z ##[group]scripts/change-detection-renames.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.5875202Z (pass) push rename detection (root layout) > moving source into .changeset still requires a changeset [53.29ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.6357659Z (pass) push rename detection (root layout) > moving source into docs still requires a changeset [48.26ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.6883569Z (pass) push rename detection (root layout) > moving source into dev/log still requires a changeset [52.61ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.7348395Z (pass) push rename detection (root layout) > moving source into experiments still requires a changeset [46.42ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.7844252Z (pass) push rename detection (root layout) > moving source into examples still requires a changeset [49.59ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.8330599Z (pass) push rename detection (root layout) > ordinary source renames preserve both paths [48.62ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.8786080Z (pass) push rename detection (root layout) > genuine examples-only edits remain excluded [45.51ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.9266192Z (pass) push rename detection (csharp layout) > moving source into .changeset still requires a changeset [48.03ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:32.9732049Z (pass) push rename detection (csharp layout) > moving source into docs still requires a changeset [46.48ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.0224115Z (pass) push rename detection (csharp layout) > moving source into dev/log still requires a changeset [49.25ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.0694122Z (pass) push rename detection (csharp layout) > moving source into experiments still requires a changeset [46.98ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.1161178Z (pass) push rename detection (csharp layout) > moving source into examples still requires a changeset [46.64ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.1632716Z (pass) push rename detection (csharp layout) > ordinary source renames preserve both paths [47.20ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.2114675Z (pass) push rename detection (csharp layout) > genuine examples-only edits remain excluded [48.18ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.2591246Z (pass) pull_request rename detection (root layout) > moving source into .changeset still requires a changeset [47.61ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.3050548Z (pass) pull_request rename detection (root layout) > moving source into docs still requires a changeset [45.87ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.3523702Z (pass) pull_request rename detection (root layout) > moving source into dev/log still requires a changeset [47.36ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.4002825Z (pass) pull_request rename detection (root layout) > moving source into experiments still requires a changeset [47.88ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.4506903Z (pass) pull_request rename detection (root layout) > moving source into examples still requires a changeset [50.41ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.4999874Z (pass) pull_request rename detection (root layout) > ordinary source renames preserve both paths [49.33ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.5474530Z (pass) pull_request rename detection (root layout) > genuine examples-only edits remain excluded [47.36ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.5976598Z (pass) pull_request rename detection (csharp layout) > moving source into .changeset still requires a changeset [50.23ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.6448598Z (pass) pull_request rename detection (csharp layout) > moving source into docs still requires a changeset [47.24ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.6925372Z (pass) pull_request rename detection (csharp layout) > moving source into dev/log still requires a changeset [47.65ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.7401348Z (pass) pull_request rename detection (csharp layout) > moving source into experiments still requires a changeset [47.52ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.7890735Z (pass) pull_request rename detection (csharp layout) > moving source into examples still requires a changeset [48.93ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8363283Z (pass) pull_request rename detection (csharp layout) > ordinary source renames preserve both paths [47.25ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8842399Z (pass) pull_request rename detection (csharp layout) > genuine examples-only edits remain excluded [47.85ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8843350Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8845010Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8845220Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8845727Z ##[group]scripts/wait-for-nuget.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8888461Z (pass) wait-for-nuget parseArgs() > defaults to two-minute checks across the NuGet indexing window [0.17ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8890041Z (pass) wait-for-nuget parseArgs() > accepts --version as an alias for --release-version [0.04ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8892118Z (pass) wait-for-nuget parseArgs() > honours CLI flags for max-attempts, sleep-seconds and flat-container-url [0.05ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8893937Z (pass) wait-for-nuget parseArgs() > reads overrides from environment variables [0.05ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8895403Z (pass) wait-for-nuget parseArgs() > inline --flag=value form is supported [0.04ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8896864Z (pass) wait-for-nuget parseArgs() > rejects non-positive integers for --max-attempts [0.11ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8898407Z (pass) wait-for-nuget parseArgs() > rejects non-positive integers for --sleep-seconds [0.12ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8899887Z (pass) wait-for-nuget parseArgs() > throws when a flag is missing its value [0.07ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8901967Z (pass) wait-for-nuget createNugetNuspecUrl() > builds the flat-container nuspec URL with lowercased id and version [0.09ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8903888Z (pass) wait-for-nuget createNugetNuspecUrl() > lowercases mixed-case versions (e.g. semver pre-release tags) [0.03ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8905716Z (pass) wait-for-nuget createNugetNuspecUrl() > defaults to the official flat-container URL when not specified [0.03ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8907561Z (pass) wait-for-nuget waitForNugetPackage() > succeeds when indexing takes longer than the old 125-second loop [0.39ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8909268Z (pass) wait-for-nuget waitForNugetPackage() > fails only after exhausting all attempts [0.17ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8911120Z (pass) wait-for-nuget waitForNugetPackage() > returns immediately when the package is already indexed [0.16ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8912767Z (pass) wait-for-nuget waitForNugetPackage() > tolerates transient network errors before succeeding [0.19ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8945317Z (pass) wait-for-nuget checkNugetPackageVersion() > reports 200 responses as available against a live HTTP endpoint [4.10ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8959545Z (pass) wait-for-nuget checkNugetPackageVersion() > reports 404 responses as unavailable without throwing [1.45ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8961297Z (pass) wait-for-nuget checkNugetPackageVersion() > treats fetch network errors as a soft failure [0.20ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8986526Z (pass) wait-for-nuget checkNugetPackageVersion() > end-to-end: waits through 404 responses then succeeds when the package appears [2.44ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8987411Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8987718Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8987855Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.8988147Z ##[group]scripts/create-github-release.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9007827Z (pass) create-github-release helpers > parseArgs defaults to auto-detected release naming and accepts package id [0.16ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9009371Z (pass) create-github-release helpers > normalizes release versions from legacy and language-prefixed tags [0.12ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9011015Z (pass) create-github-release helpers > builds C# release tags and titles from bare semver [0.14ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9012457Z (pass) create-github-release helpers > appends a NuGet shields.io badge when release notes do not have one [0.15ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9013527Z (pass) create-github-release helpers > does not append a second badge when release notes already contain shields.io [0.04ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9015106Z (pass) create-github-release helpers > builds a GitHub release payload with C# title and NuGet badge [0.28ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9117824Z (pass) create-github-release helpers > limits oversized release payload bodies and links the tagged changelog [10.19ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9119464Z (pass) create-github-release helpers > truncates release notes without splitting UTF-8 characters [0.12ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9125215Z (pass) create-github-release helpers > findPackageId reads PackageId from a project file [0.59ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9137064Z (pass) create-github-release helpers > uploads matching NuGet package assets after creating a release [1.18ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9144109Z (pass) create-github-release helpers > uploads matching NuGet package assets when the release already exists [0.70ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9144896Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9145448Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9145657Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9146103Z ##[group]scripts/zip-archive.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9167330Z (pass) stored and deflated bytes survive SHA-verified extraction [1.74ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9169472Z (pass) unsafe path fails before any writes: "../escape" [0.23ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9171669Z (pass) unsafe path fails before any writes: "/absolute" [0.20ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9173176Z (pass) unsafe path fails before any writes: "C:/drive" [0.17ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9175008Z (pass) unsafe path fails before any writes: "C:relative" [0.15ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9176464Z (pass) unsafe path fails before any writes: "dir\\escape" [0.15ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9178227Z (pass) unsafe path fails before any writes: "dir/../escape" [0.15ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9179729Z (pass) unsafe path fails before any writes: "dir//file" [0.16ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9182385Z (pass) unsafe path fails before any writes: "./file" [0.22ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9184603Z (pass) unsafe path fails before any writes: "dir/./file" [0.23ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9186367Z (pass) unsafe path fails before any writes: "dir/file." [0.19ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9188215Z (pass) unsafe path fails before any writes: "dir/file " [0.18ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9190655Z (pass) unsafe path fails before any writes: "bad\u0000name" [0.19ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9193259Z (pass) ambiguous/oversized/symlink ZIP fails before any writes [0.27ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9194994Z (pass) ambiguous/oversized/symlink ZIP fails before any writes [0.17ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9196914Z (pass) ambiguous/oversized/symlink ZIP fails before any writes [0.18ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9198656Z (pass) ambiguous/oversized/symlink ZIP fails before any writes [0.16ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9200666Z (pass) ambiguous/oversized/symlink ZIP fails before any writes [0.17ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9202418Z (pass) ambiguous/oversized/symlink ZIP fails before any writes [0.19ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9206052Z (pass) bad digest, checksum, truncated directory and trailing archive bytes fail closed [0.34ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9208284Z (pass) conflicting local ZIP metadata at 14 is rejected before writes [0.24ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9210290Z (pass) conflicting local ZIP metadata at 18 is rejected before writes [0.17ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9212702Z (pass) conflicting local ZIP metadata at 22 is rejected before writes [0.21ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9213219Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9213638Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9213829Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9214099Z ##[group]scripts/nuget-auth.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9222008Z (pass) username alone is configuration, never authentication [0.39ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9222984Z (pass) successful official OIDC exchange never probes fallback (absent) [0.12ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9223989Z (pass) successful official OIDC exchange never probes fallback (invalid) [0.02ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9224950Z (pass) OIDC failure without a key selects deliberate token fallback [0.04ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9225808Z (pass) OIDC skipped without a key selects deliberate token fallback
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9226608Z (pass) OIDC success without a key selects deliberate token fallback
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9227533Z (pass) fallback probe HTTP 400 preserves honest authentication/scope states [0.16ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9228542Z (pass) fallback probe HTTP 401 preserves honest authentication/scope states [0.03ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9229529Z (pass) fallback probe HTTP 403 preserves honest authentication/scope states [0.02ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9230801Z (pass) fallback probe HTTP 500 preserves honest authentication/scope states [0.01ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9231785Z (pass) derived verification key cannot establish original push glob [0.14ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9232789Z (pass) both methods unavailable fail with both remedies and redacted diagnostics [0.07ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9233690Z (pass) NuGet denial includes the safely quoted server warning without the API key [0.12ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9234044Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9234296Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9234413Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:33.9234667Z ##[group]scripts/version-and-commit.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.0356913Z (pass) version-and-commit > does not report already_released when the target tag is missing [111.80ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.1038350Z (pass) version-and-commit > reports already_released when the target tag does exist [68.07ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2169408Z (pass) version-and-commit > uses cs_v release tags in a csharp subdirectory layout [113.11ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2435172Z (pass) version-and-commit argv injection (issue #61) > a --description with shell substitution is stored, never executed [26.52ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2436237Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2437024Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2437350Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2437966Z ##[group]scripts/release-workflow-policy.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2471221Z (pass) release workflow policy > installs locked helper dependencies before every CI helper test command [1.17ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2482641Z (pass) release workflow policy > both publishers request OIDC just before push and explicitly select bounded fallback after login failure [1.18ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2490656Z (pass) release workflow policy > queues every writer independently from readers [0.82ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2496119Z (pass) release workflow policy > sets explicit timeout-minutes on every job [0.55ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2502456Z (pass) release workflow policy > guards jobs with skipped dependencies using a status-check function [0.58ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2505950Z (pass) release workflow policy > instant-release keeps explicit success checks on its dependencies [0.38ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2509803Z (pass) release workflow policy > change-gated jobs use detector output for both pull requests and pushes [0.37ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2517887Z (pass) release workflow policy > publishes only the detector output consumed by job gates [0.39ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2522640Z (pass) release workflow policy > uses the current GitHub Action versions required by the template [0.93ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2524955Z (pass) release workflow policy > configures the default Git branch before checkout runs [0.24ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2528818Z (pass) release workflow policy > gates Codecov uploads on an explicit token [0.38ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2532134Z (pass) release workflow policy > smoke-tests published NuGet packages before creating releases [0.31ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2535588Z (pass) release workflow policy > pipeline-status observes every job of the release workflow [0.35ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2540441Z (pass) release workflow policy > budgets every long step below 70% of its job cap [0.43ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2543937Z (pass) release workflow policy > release jobs gate on the preflight verdict [0.37ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2544516Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2544950Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2545101Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2545383Z ##[group]scripts/recheck-broken-links.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2578665Z (pass) lychee failure classification > preserves adjacent failures with bare URLs [0.21ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2579909Z (pass) lychee failure classification > preserves adjacent failures with angle brackets [0.03ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2581261Z (pass) lychee failure classification > preserves adjacent failures with locations [0.03ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2581995Z (pass) lychee failure classification > preserves adjacent failures with horizontal whitespace [0.04ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2583099Z (pass) lychee failure classification > reads only failures in the Errors section, including input subheadings [0.08ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2584333Z (pass) lychee failure classification > the real fixture leaves nothing to re-ask: 404s answered, locals unprovable [0.24ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2585297Z (pass) lychee failure classification > only silent transport failures are worth asking again [0.10ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2586718Z (pass) lychee failure classification > "Rejected status code" identifies a transient server response under any marker [0.06ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2587956Z (pass) lychee failure classification > 429 and every 5xx are retryable while client failures remain final [0.10ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2589250Z (pass) lychee failure classification > a non-http failure is final without being re-asked [0.05ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2590590Z (pass) lychee failure classification > duplicate urls collapse to one failure [0.05ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2591695Z (pass) accept list parsing > the default is lychee own documented default [0.08ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2592735Z (pass) accept list parsing > bare codes, exclusive ranges and stray spaces parse [0.06ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2593875Z (pass) accept list parsing > a typo throws instead of silently narrowing what healthy means [0.10ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2595051Z (pass) request option extraction > a workflow without flags gets the lychee defaults [0.04ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2596025Z (pass) request option extraction > flags in the workflow win [0.04ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2596946Z (pass) probe > an accepted status is alive; a rejected one is a final verdict [0.22ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2597914Z (pass) probe > the probe presents the same user agent lychee ran with [0.16ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2598828Z (pass) probe > a transport failure is unreachable, never a verdict [0.16ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2599682Z (pass) probe > an abort is reported as a timeout, not a crash [0.17ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2602225Z (pass) recheckAll > retries HTTP 429 until recovery without re-asking a 404 [0.38ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2603530Z (pass) recheckAll > retries HTTP 502 until recovery without re-asking a 404 [0.15ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2605203Z (pass) recheckAll > retries HTTP 503 until recovery without re-asking a 404 [0.17ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2607631Z (pass) recheckAll > persistent transient statuses exhaust retries without being called recovered [0.21ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2611404Z (pass) recheckAll > honors Retry-After without exceeding the total wait budget [0.36ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2615103Z (pass) recheckAll > retries a silent link and stops at the first accepted answer [0.32ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2616490Z (pass) recheckAll > duplicate urls share one probe slot [0.18ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2618565Z (pass) recheckAll > an expired budget marks never-asked links without probing them [0.18ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2621988Z (pass) recheckAll > waits double between rounds: a burst of resets is outlasted, not spammed [0.29ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2626119Z === Re-check of transient link failures ===
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2626507Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2627158Z Reading lychee output from: /tmp/recheck-test-unZhPE/missing.md
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2627704Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2628027Z No lychee output file found; nothing to re-check.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2628607Z all_recovered=false
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2628977Z recovered=0
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2629709Z (pass) main > a missing report is reported as nothing recovered, with exit code 0 [0.67ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2630795Z remaining=0
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2631898Z === Re-check of transient link failures ===
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2632277Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2632644Z Reading lychee output from: /tmp/recheck-test-nPY7aV/out.md
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2633122Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2633875Z lychee reported 2 failing link(s): 1 permanent or non-http failures, 1 transport, rate-limit or server failures.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2634612Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2634931Z   [404] https://gone.example/x -- not re-checked
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2635323Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2635790Z Re-asking 1 link(s) directly (accept: 100..=103,200..=299, user agent: lychee)...
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2636363Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2636910Z (pass) main > re-asks only the unanswered and never hides an answered failure [0.86ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2637502Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2637709Z === Re-check summary ===
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2637984Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2638653Z ✓ https://flappy.example/y answered HTTP 200 on attempt 1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2642703Z ##[notice]https://flappy.example/y answered HTTP 200 when asked directly, after lychee reported it as "failed with no status code".
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2645196Z The transient failure recovered within the retry budget. This link is not treated as broken.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2645874Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2646299Z Recovered URLs written to /tmp/recheck-test-nPY7aV/recovered.txt
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2646988Z all_recovered=false
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2647396Z recovered=1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2647753Z remaining=1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2649594Z (pass) main > all_recovered is true only when nothing at all remains [0.67ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2650676Z === Re-check of transient link failures ===
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2651047Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2651406Z Reading lychee output from: /tmp/recheck-test-XeRPPN/out.md
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2651852Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2652532Z lychee reported 1 failing link(s): 0 permanent or non-http failures, 1 transport, rate-limit or server failures.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2653277Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2653285Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2653737Z Re-asking 1 link(s) directly (accept: 100..=103,200..=299, user agent: lychee)...
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2654284Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2654291Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2654514Z === Re-check summary ===
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2654785Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2655246Z ✓ https://flappy.example/y answered HTTP 200 on attempt 1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2657423Z ##[notice]https://flappy.example/y answered HTTP 200 when asked directly, after lychee reported it as "failed with no status code".
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2659723Z The transient failure recovered within the retry budget. This link is not treated as broken.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2660696Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2661137Z Recovered URLs written to /tmp/recheck-test-XeRPPN/recovered.txt
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2661847Z all_recovered=true
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2662241Z recovered=1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2662585Z remaining=0
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2662789Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2663368Z Every link lychee reported answered a direct request. Every transient failure recovered.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2664255Z === Re-check of transient link failures ===
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2664640Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2665004Z Reading lychee output from: /tmp/recheck-mixed-u17imR/out.md
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2665756Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2666467Z lychee reported 2 failing link(s): 0 permanent or non-http failures, 2 transport, rate-limit or server failures.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2667220Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2667228Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2667698Z Re-asking 2 link(s) directly (accept: 100..=103,200..=299, user agent: lychee)...
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2668244Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2668251Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2668442Z === Re-check summary ===
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2668905Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2669417Z ✓ https://flappy.example/ answered HTTP 200 on attempt 1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2672182Z ##[notice]https://flappy.example/ answered HTTP 200 when asked directly, after lychee reported it as "failed with no status code".
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2674519Z The transient failure recovered within the retry budget. This link is not treated as broken.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2675975Z ✗ https://timeout.example/ still failing: HTTP 404 after 1 direct attempt(s) (lychee: no detail)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2677169Z (pass) recovered error plus timeout still reports an unresolved failure [0.90ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2677766Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2678218Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2678433Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2678930Z ##[group]scripts/detect-code-changes.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2679974Z (pass) code change detection > pull_request ignores excluded-only change experiments/repro.mjs [0.19ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2681521Z (pass) code change detection > push ignores excluded-only change experiments/repro.md
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2682693Z (pass) code change detection > pull_request ignores excluded-only change dev/log/repro.mjs
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2683788Z (pass) code change detection > push ignores excluded-only change dev/log/repro.md
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2684990Z (pass) code change detection > pull_request ignores excluded-only change docs/case-studies/repro.mjs
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2686267Z (pass) code change detection > push ignores excluded-only change docs/case-studies/repro.md
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2687425Z (pass) code change detection > detects code change src/MyPackage/Calculator.cs [0.09ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2688557Z (pass) code change detection > detects code change scripts/check-file-size.mjs [0.01ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2689629Z (pass) code change detection > detects code change .github/workflows/release.yml
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2690874Z (pass) code change detection > detects code change lychee.toml [0.02ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2691996Z (pass) code change detection > detects code when excluded and included files are mixed [0.04ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2692654Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2693111Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2693337Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2693845Z ##[group]scripts/preflight-credentials.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2694271Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2694654Z Recovered URLs written to /tmp/recheck-mixed-u17imR/recovered
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2695294Z all_recovered=false
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2695671Z recovered=1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2696006Z remaining=1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2696949Z (pass) GitHub push permission probe > verifies readable identity without claiming protected write authorization [0.32ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2698532Z (pass) GitHub push permission probe > false user-role field does not establish installation-token write permissions [0.17ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2699987Z (pass) GitHub push permission probe > treats an anonymous probe honestly: no token, no push [0.10ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2701596Z (pass) GitHub push permission probe > reports rate limiting as unknown, never as a pass [0.12ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2702747Z (pass) GitHub push permission probe > network failure is unknown, never a pass [0.14ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2703810Z (pass) GitHub push permission probe > a missing repository cannot be probed [0.09ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2704994Z (pass) NuGet package visibility probe > a published package is reported with its version count [0.46ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2706331Z (pass) NuGet package visibility probe > a 404 is the expected pre-first-publish state, not a failure [0.13ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2707647Z (pass) NuGet package visibility probe > an unreachable registry is unknown; the probe is advisory [0.13ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2708878Z Fetching https://api.github.com/repos/owner/repo
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2709539Z Fetching https://api.github.com/repos/owner/repo
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2710436Z Fetching https://api.github.com/repos/owner/repo
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2711104Z Fetching https://api.github.com/repos/owner/repo
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2711938Z Fetching https://api.github.com/repos/owner/repo
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2712786Z Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2713817Z Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2714807Z Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2715558Z Preflight mode: release
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2716025Z Repository:     owner/repo
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2716501Z Package id:     MyPackage
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2717066Z Fetching https://api.github.com/repos/owner/repo
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2717880Z Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2718617Z Output: auth=trusted-publishing
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2719209Z [PASS] Publishing identity: Test package configured
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2721457Z [PASS] GitHub repository access (write unverified): Repository identity and read access verified. User-role permissions.push=true does not prove installation-token or protected-branch write authorization; actual writes remain fatal.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2723849Z [PASS] NuGet authentication: Official OIDC exchange authenticated the workflow. Exact package push authorization is unverified until publication.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2725356Z [PASS] NuGet package visibility: "MyPackage" is public on nuget.org with 1 published version(s)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2726668Z (pass) preflight authentication integration > release mode with auth user=publisher key=(none) [2.37ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2727633Z Output: preflight_result=passed
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2734529Z ##[error]NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 401. NUGET_API_KEY is not accepted (invalid, expired or revoked). x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2743716Z ##[error]release preflight failed — NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 401. NUGET_API_KEY is not accepted (invalid, expired or revoked). x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2747274Z Preflight mode: release
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2747744Z Repository:     owner/repo
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2748191Z Package id:     MyPackage
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2748739Z Fetching https://api.github.com/repos/owner/repo
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2749527Z Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2750497Z Output: auth=token-fallback
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2751082Z [PASS] Publishing identity: Test package configured
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2753064Z [PASS] GitHub repository access (write unverified): Repository identity and read access verified. User-role permissions.push=true does not prove installation-token or protected-branch write authorization; actual writes remain fatal.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2757233Z [FAIL] NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 401. NUGET_API_KEY is not accepted (invalid, expired or revoked). x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2760455Z [PASS] NuGet package visibility: "MyPackage" is public on nuget.org with 1 published version(s)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2762194Z Release preflight failed; publishing is blocked; lint, tests and build still run. Fix the probes above and push again.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2763683Z (pass) preflight authentication integration > release mode with auth user=(none) key=expired [1.21ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2769551Z ##[error]NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 403. NUGET_API_KEY authenticates but has no push scope. x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2777553Z ##[error]release preflight failed — NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 403. NUGET_API_KEY authenticates but has no push scope. x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2779984Z Release preflight failed; publishing is blocked; lint, tests and build still run. Fix the probes above and push again.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2781148Z (pass) preflight authentication integration > release mode with auth user=(none) key=unlist-only [1.20ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2785684Z ##[error]NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 403. NUGET_API_KEY authenticates but has no push scope. x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2790780Z [REPORT] NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 403. NUGET_API_KEY authenticates but has no push scope. x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2793853Z (pass) preflight authentication integration > report mode with auth user=(none) key=unlist-only [1.24ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2794848Z Output: preflight_result=failed
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2795380Z Preflight mode: release
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2795855Z Repository:     owner/repo
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2796332Z Package id:     MyPackage
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2796895Z Fetching https://api.github.com/repos/owner/repo
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2797698Z Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2798436Z Output: auth=token-fallback
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2799014Z [PASS] Publishing identity: Test package configured
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2801247Z [PASS] GitHub repository access (write unverified): Repository identity and read access verified. User-role permissions.push=true does not prove installation-token or protected-branch write authorization; actual writes remain fatal.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2805315Z [FAIL] NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 403. NUGET_API_KEY authenticates but has no push scope. x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2808287Z [PASS] NuGet package visibility: "MyPackage" is public on nuget.org with 1 published version(s)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2809192Z Output: preflight_result=failed
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2809710Z Preflight mode: report
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2810472Z Repository:     owner/repo
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2810949Z Package id:     MyPackage
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2811494Z Fetching https://api.github.com/repos/owner/repo
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2812312Z Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2813349Z Output: auth=token-fallback
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2813929Z [PASS] Publishing identity: Test package configured
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2815909Z [PASS] GitHub repository access (write unverified): Repository identity and read access verified. User-role permissions.push=true does not prove installation-token or protected-branch write authorization; actual writes remain fatal.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2820484Z [FAIL] NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. Fallback verification HTTP 403. NUGET_API_KEY authenticates but has no push scope. x-nuget-warning: "". Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2823472Z [PASS] NuGet package visibility: "MyPackage" is public on nuget.org with 1 published version(s)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2824372Z Output: preflight_result=passed
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2828800Z ##[error]NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. No NUGET_API_KEY fallback is configured. Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2834002Z [REPORT] NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. No NUGET_API_KEY fallback is configured. Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2836582Z (pass) preflight authentication integration > report mode with auth user=(none) key=(none) [1.09ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2837899Z (pass) preflight decision > release mode passes only when every required probe verified [0.04ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2839122Z (pass) preflight decision > release mode fails on any failed probe and names it [0.05ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2840663Z (pass) preflight decision > release mode treats an unverified required probe as a failure [0.07ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2841828Z (pass) preflight decision > an unknown advisory probe never blocks [0.03ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2842851Z (pass) preflight decision > report mode reports without blocking [0.03ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2843405Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2843845Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2844062Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2844568Z ##[group]scripts/smoke-test-nuget-package.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2845711Z (pass) smoke-test-nuget-package parseArgs() > defaults to a NuGet consumer smoke test for MyPackage [0.20ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2847049Z (pass) smoke-test-nuget-package parseArgs() > accepts CLI and environment overrides [0.06ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2848589Z (pass) smoke-test-nuget-package buildSmokeTestProgram() > exercises the package API advertised by the template example [0.14ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2850712Z (pass) smoke-test-nuget-package smokeTestNugetPackage() > retries package installation, then builds and runs the throwaway consumer [1.70ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2852628Z (pass) smoke-test-nuget-package smokeTestNugetPackage() > fails before build when the package cannot be installed after all attempts [0.66ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2853595Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2854059Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2854289Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2854756Z ##[group]scripts/publish-fallback.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2855356Z Preflight mode: report
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2855834Z Repository:     owner/repo
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2856315Z Package id:     MyPackage
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2856980Z Fetching https://api.github.com/repos/owner/repo
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2857817Z Fetching https://api.nuget.org/v3-flatcontainer/mypackage/index.json
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2858524Z Output: auth=none
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2859055Z [PASS] Publishing identity: Test package configured
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2861319Z [PASS] GitHub repository access (write unverified): Repository identity and read access verified. User-role permissions.push=true does not prove installation-token or protected-branch write authorization; actual writes remain fatal.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2865696Z [FAIL] NuGet authentication: Trusted publishing unavailable: configure NUGET_USER and an exact publisher policy. No NUGET_API_KEY fallback is configured. Renew NUGET_API_KEY with push permission and the correct package owner/glob, or configure NuGet trusted publishing and set the NUGET_USER repository variable.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2868294Z [PASS] NuGet package visibility: "MyPackage" is public on nuget.org with 1 published version(s)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2869234Z Output: preflight_result=passed
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2869966Z (pass) working OIDC never tries a supplied fallback [0.96ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2871113Z (pass) working OIDC never tries a supplied fallback [0.23ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2871978Z (pass) actual HTTP 401 retries the same artifact only once [0.61ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2872869Z (pass) actual HTTP 403 retries the same artifact only once [0.28ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2873890Z (pass) already accepted exact version is preserved without another push [0.51ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2875014Z (pass) unrelated failure remains fatal: HTTP 400 package metadata invalid [0.37ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2876030Z (pass) unrelated failure remains fatal: Connection reset [0.21ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2877030Z (pass) unrelated failure remains fatal: exit code 401 unrelated failure [0.23ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2878135Z (pass) both authentication paths failing is redacted, bounded and fatal [0.46ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2879146Z (pass) unverified anonymous state refuses credential retry [0.45ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2880486Z (pass) modified artifact cannot be retried with fallback credentials [0.46ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2881112Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2881546Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2881749Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2882161Z ##[group]scripts/action-pins.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2886787Z (pass) GitHub Action pins > finds the workflow references [0.02ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2887963Z (pass) GitHub Action pins > every remote action is pinned to a commit SHA with a version comment [0.08ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2890709Z 25 |     for (const ref of references) {
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2891503Z 26 |       const repo = ref.action.split('/').slice(0, 2).join('/');
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2892380Z 27 |       shas.set(repo, (shas.get(repo) ?? new Set()).add(ref.ref));
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2893001Z 28 |     }
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2893667Z 29 |     const drift = [...shas].filter(([, set]) => set.size > 1).map(([repo]) => repo);
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2894442Z 30 |     expect(drift).toEqual([]);
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2894971Z                        ^
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2895468Z error: expect(received).toEqual(expected)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2895826Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2895979Z - []
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2896315Z + [
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2896718Z +   "github/codeql-action",
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2897140Z + ]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2897326Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2897509Z - Expected  - 1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2897894Z + Received  + 3
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2898112Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2899357Z       at <anonymous> (/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/scripts/action-pins.test.mjs:30:19)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2900924Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2908381Z ##[error]- []
+Lint and Format Check	UNKNOWN STEP	+ [
+Lint and Format Check	UNKNOWN STEP	+   "github/codeql-action",
+Lint and Format Check	UNKNOWN STEP	+ ]
+Lint and Format Check	UNKNOWN STEP	
+Lint and Format Check	UNKNOWN STEP	- Expected  - 1
+Lint and Format Check	UNKNOWN STEP	+ Received  + 3
+Lint and Format Check	UNKNOWN STEP	
+Lint and Format Check	UNKNOWN STEP	      at <anonymous> (/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/scripts/action-pins.test.mjs:30:19)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2911713Z (fail) GitHub Action pins > each action resolves to one SHA across all workflows [0.37ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2912857Z (pass) GitHub Action pins > isShaPinned rejects tags and missing comments [0.13ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2913448Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2913892Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2914129Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2914599Z ##[group]scripts/release-naming.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2915888Z (pass) release naming layout detection > treats the template root layout as single-language [0.58ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2917269Z (pass) release naming layout detection > treats a csharp subdirectory layout as multi-language [0.81ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2918628Z (pass) release naming tags and titles > uses plain v tags and package titles for single-language releases [0.09ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2920781Z (pass) release naming tags and titles > uses cs_v tags and C# title prefixes for multi-language releases [0.06ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2921854Z (pass) release naming tags and titles > normalizes already-prefixed versions idempotently [0.06ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2922776Z (pass) release naming NuGet badge > links to the exact NuGet version page using the bare version [0.04ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2923257Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2923569Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2923710Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.2924018Z ##[group]scripts/git-inputs.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3038044Z (pass) detect-code-changes fails closed on unverified PR refs without executing input [11.98ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3215832Z (pass) validate-changeset fails closed on unverified PR refs without executing input [17.73ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3216576Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3217102Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3217305Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3217798Z ##[group]scripts/workflow-injection-policy.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3241676Z (pass) workflow script-injection policy > no workflow interpolates attacker-controlled context into a run: script [1.41ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3251549Z (pass) workflow script-injection policy > changeset validation reads head_ref and the C# root from env [0.38ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3253225Z (pass) workflow script-injection policy > quotes $GITHUB_OUTPUT redirections [0.25ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3254700Z (pass) workflow credential policy > every checkout declares its credential persistence explicitly [0.81ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3268312Z (pass) workflow credential policy > only the jobs that push keep a credential to push with [1.36ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3269619Z (pass) workflow linting policy > lints every workflow with actionlint plus its bundled shellcheck [0.05ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3270796Z (pass) workflow linting policy > audits every workflow with zizmor beside actionlint [0.08ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3271177Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3271452Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3271577Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3271849Z ##[group]scripts/anonymous-package.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3284880Z (pass) anonymous exact download HTTP 200 is verified or fatal [1.11ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3286488Z (pass) anonymous exact download HTTP 404 is verified or fatal [0.17ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3288228Z (pass) anonymous exact download HTTP 400 is verified or fatal [0.16ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3288709Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3289065Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3289190Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3289448Z ##[group]scripts/lint-integrations.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3305331Z (pass) native lint rejects missing actionlint [1.38ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3315692Z (pass) native lint rejects missing shellcheck [1.03ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3348285Z (pass) native lint rejects missing pyflakes [1.22ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3348851Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3349579Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3349996Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3351267Z ##[group]scripts/workflow-runner-policy.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3352667Z (pass) workflow runner policy > rejects floating runners in scalars, lists, label objects, and matrix includes [0.32ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3355821Z (pass) workflow runner policy > pins runners in every workflow, including multiline matrices [1.86ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3375405Z (pass) workflow runner policy > keeps all three pinned platforms and .NET SDK from global.json in the release matrix [1.88ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3376416Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3377297Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3377729Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3378374Z ##[group]scripts/check-file-size.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3387671Z (pass) check-file-size thresholds > classifies warning band without blocking [0.06ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3394334Z (pass) check-file-size thresholds > classifies hard limit violations as failures [0.04ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3404359Z (pass) check-file-size thresholds > reports warnings and violations separately [1.86ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3405848Z (pass) check-file-size thresholds > warning annotation uses GitHub Actions format [0.12ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3414426Z (pass) check-file-size thresholds > main emits warning annotations without failing warning-only files [0.80ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3424673Z (pass) size gate covers .cs boundaries and ignores generated directories [1.07ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3437900Z (pass) size gate covers .mjs boundaries and ignores generated directories [1.29ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3449505Z (pass) size gate covers .js boundaries and ignores generated directories [1.17ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3459836Z (pass) size gate covers .md boundaries and ignores generated directories [1.01ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3460736Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3461237Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3461448Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3461931Z ##[group]scripts/rerun-workflow-policy.test.mjs:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3485097Z (pass) infrastructure-failure rerun workflow (issue #96) > listens to the completed CI/CD pipeline by its exact name [1.20ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3486781Z (pass) infrastructure-failure rerun workflow (issue #96) > runs only trusted default-branch code with least privilege [0.21ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3488109Z (pass) infrastructure-failure rerun workflow (issue #96) > the status gate can read jobs and annotations to name the cause [0.06ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3489075Z (pass) infrastructure-failure rerun workflow (issue #96) > macOS stays blocking unless NON_BLOCKING_MACOS is explicitly enabled [0.02ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3489570Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3489827Z ##[endgroup]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3489940Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3490024Z 1 tests failed:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3511030Z (fail) GitHub Action pins > each action resolves to one SHA across all workflows [0.37ms]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3511602Z 
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3511743Z  376 pass
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3512026Z  1 fail
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3512360Z  1191 expect() calls
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.3512751Z Ran 377 tests across 40 files. [12.52s]
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.8508549Z ##[error]Process completed with exit code 1.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.8663202Z Post job cleanup.
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.9518092Z [command]/usr/bin/git version
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.9600420Z git version 2.56.1
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.9642207Z Temporarily overriding HOME='/home/runner/work/_temp/4af66e36-6f7a-4a21-aa04-23aebda0cbb6' before making global git config changes
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.9643356Z Adding repository directory to the temporary git global config as a safe directory
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.9648353Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.9684421Z Removing SSH command configuration
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.9691952Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:34.9753127Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:35.0025233Z Removing HTTP extra header
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:35.0031366Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:35.0078651Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:35.0348003Z Removing includeIf entries pointing to credentials config files
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:35.0355915Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:35.0406112Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:35.0813955Z Cleaning up orphan processes
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:35.1117798Z Terminate orphan process: pid (2628) (dotnet)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:35.1143054Z Terminate orphan process: pid (2629) (dotnet)
+Lint and Format Check	UNKNOWN STEP	2026-11-13T20:04:35.1168157Z Terminate orphan process: pid (2836) (VBCSCompiler)
+Pipeline Status	UNKNOWN STEP	﻿2026-11-13T20:05:56.6596308Z Current runner version: '2.338.2'
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6612438Z ##[group]Runner Image Provisioner
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6612967Z Hosted Compute Agent
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6613319Z Version: 20261103.629
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6613766Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6614189Z Build Date: 2026-11-03T17:26:59Z
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6614573Z Worker ID: {34932c85-e464-4299-b737-799d476cecf7}
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6615050Z Region: westus3
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6615378Z Cloud: Azure
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6615766Z ##[endgroup]
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6616492Z ##[group]Operating System
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6616847Z Ubuntu
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6617211Z 24.04.5
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6617545Z LTS
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6617906Z ##[endgroup]
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6618338Z ##[group]Runner Image
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6618815Z Image: ubuntu-24.04
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6619209Z Version: 20261111.370.1
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6619923Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261111.370/images/ubuntu/Ubuntu2404-Readme.md
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6620834Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261111.370
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6621372Z ##[endgroup]
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6622137Z ##[group]GITHUB_TOKEN Permissions
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6623474Z Actions: read
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6623871Z Checks: read
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6624197Z Contents: read
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6624553Z Metadata: read
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6624896Z ##[endgroup]
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6626181Z Secret source: Dependabot
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6626786Z Cache mode: write
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6627397Z Prepare workflow directory
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6858728Z Prepare all required actions
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.6888421Z Getting action download info
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:56.9955620Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1489325Z Complete job name: Pipeline Status
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1960976Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1961482Z with:
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1961725Z   persist-credentials: false
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1962118Z   repository: link-foundation/csharp-ai-driven-development-pipeline-template
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1964568Z   token: ***
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1964797Z   ssh-strict: true
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1965033Z   ssh-user: git
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1965261Z   clean: true
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1965506Z   sparse-checkout-cone-mode: true
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1965782Z   fetch-depth: 1
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1966016Z   fetch-tags: false
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1966257Z   show-progress: true
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1966501Z   lfs: false
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1966729Z   submodules: false
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1966975Z   set-safe-directory: true
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1967254Z   allow-unsafe-pr-checkout: false
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1967592Z env:
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1967811Z   GIT_CONFIG_COUNT: 1
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1968090Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1968382Z   GIT_CONFIG_VALUE_0: main
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1968761Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1969069Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1969347Z   DOTNET_NOLOGO: true
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.1969587Z ##[endgroup]
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4167248Z Syncing repository: link-foundation/csharp-ai-driven-development-pipeline-template
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4168365Z ##[group]Getting Git version info
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4169176Z Working directory is '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template'
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4169954Z [command]/usr/bin/git version
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4250348Z git version 2.56.1
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4262755Z ##[endgroup]
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4269202Z Temporarily overriding HOME='/home/runner/work/_temp/23d4f9b1-8185-44aa-915b-1572f7f5bdee' before making global git config changes
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4270518Z Adding repository directory to the temporary git global config as a safe directory
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4273503Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4313945Z Deleting the contents of '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template'
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4315758Z ##[group]Determining repository object format
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4316658Z ##[endgroup]
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4317313Z ##[group]Initializing the repository
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4320304Z [command]/usr/bin/git init /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4420577Z Initialized empty Git repository in /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4427882Z [command]/usr/bin/git remote add origin https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4469355Z ##[endgroup]
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4469977Z ##[group]Disabling automatic garbage collection
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4473723Z [command]/usr/bin/git config --local gc.auto 0
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4498710Z ##[endgroup]
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4499346Z ##[group]Setting up auth
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4499847Z Removing SSH command configuration
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4502908Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4542263Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4864513Z Removing HTTP extra header
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4879413Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.4909373Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.5088889Z Removing includeIf entries pointing to credentials config files
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.5092212Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.5127383Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.5307713Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-df3015b2-c157-42dd-b6a2-9751f8be0c43.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.5346214Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path /home/runner/work/_temp/git-credentials-df3015b2-c157-42dd-b6a2-9751f8be0c43.config
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.5382548Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-df3015b2-c157-42dd-b6a2-9751f8be0c43.config
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.5417488Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-df3015b2-c157-42dd-b6a2-9751f8be0c43.config
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.5453224Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-df3015b2-c157-42dd-b6a2-9751f8be0c43.config
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.5486424Z ##[endgroup]
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.5486821Z ##[group]Fetching the repository
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:57.5490728Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +2dbec21af25eeee7c48dde16cffa0c8bd5b1dd5a:refs/remotes/pull/102/merge
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1538943Z From https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1539780Z  * [new ref]         2dbec21af25eeee7c48dde16cffa0c8bd5b1dd5a -> pull/102/merge
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1542523Z ##[endgroup]
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1543058Z ##[group]Determining the checkout info
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1543532Z ##[endgroup]
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1546862Z [command]/usr/bin/git sparse-checkout disable
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1781963Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1817404Z ##[group]Checking out the ref
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1819945Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/102/merge
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1931078Z Note: switching to 'refs/remotes/pull/102/merge'.
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1931496Z 
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1931839Z You are in 'detached HEAD' state. You can look around, make experimental
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1932803Z changes and commit them, and you can discard any commits you make in this
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1933441Z state without impacting any branches by switching back to a branch.
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1933755Z 
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1933975Z If you want to create a new branch to retain commits you create, you may
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1934445Z do so (now or later) by using -c with the switch command. Example:
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1934712Z 
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1934842Z   git switch -c <new-branch-name>
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1935027Z 
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1935150Z Or undo this operation with:
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1935351Z 
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1935461Z   git switch -
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1935608Z 
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1935857Z Turn off this advice by setting config variable advice.detachedHead to false
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1936179Z 
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1936532Z HEAD is now at 2dbec21 Merge 17cf5118c3f3c2c1935ebf342db8968c3c0a0a97 into ec58d9debf5f11d350498bef51554a70357cf9a1
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1940189Z ##[endgroup]
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.1983526Z [command]/usr/bin/git log -1 --format=%H
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2015127Z 2dbec21af25eeee7c48dde16cffa0c8bd5b1dd5a
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2021508Z ##[group]Removing auth
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2021839Z Removing SSH command configuration
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2023760Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2059186Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2241656Z Removing HTTP extra header
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2243969Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2279641Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2462056Z Removing includeIf entries pointing to credentials config files
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2464157Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2498370Z includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2499716Z includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2500650Z includeif.gitdir:/github/workspace/.git.path
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2501280Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2505033Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2534509Z /home/runner/work/_temp/git-credentials-df3015b2-c157-42dd-b6a2-9751f8be0c43.config
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2542375Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-df3015b2\-c157\-42dd\-b6a2\-9751f8be0c43\.config
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2589004Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2618397Z /home/runner/work/_temp/git-credentials-df3015b2-c157-42dd-b6a2-9751f8be0c43.config
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2624277Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-df3015b2\-c157\-42dd\-b6a2\-9751f8be0c43\.config
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2660703Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2691701Z /github/runner_temp/git-credentials-df3015b2-c157-42dd-b6a2-9751f8be0c43.config
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2697419Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-df3015b2\-c157\-42dd\-b6a2\-9751f8be0c43\.config
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2734218Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2763695Z /github/runner_temp/git-credentials-df3015b2-c157-42dd-b6a2-9751f8be0c43.config
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2769343Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-df3015b2\-c157\-42dd\-b6a2\-9751f8be0c43\.config
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2806766Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2989010Z Removing credentials config '/home/runner/work/_temp/git-credentials-df3015b2-c157-42dd-b6a2-9751f8be0c43.config'
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.2994844Z ##[endgroup]
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3190235Z Prepare all required actions
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3234886Z ##[group]Run ./.github/actions/csharp-layout
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3235219Z env:
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3235451Z   GIT_CONFIG_COUNT: 1
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3235724Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3236037Z   GIT_CONFIG_VALUE_0: main
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3236323Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3236643Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3236938Z   DOTNET_NOLOGO: true
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3237192Z ##[endgroup]
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3271356Z ##[start-action display=Run set -euo pipefail;id=csharp_layout.layout]
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3362074Z ##[group]Run set -euo pipefail
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3362435Z ^[[36;1mset -euo pipefail^[[0m
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3363102Z ^[[36;1mif compgen -G "*.csproj" > /dev/null || compgen -G "*.sln" > /dev/null || find src -maxdepth 5 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then^[[0m
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3363771Z ^[[36;1m  CSHARP_ROOT="."^[[0m
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3364063Z ^[[36;1m  MULTI_LANGUAGE="false"^[[0m
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3364527Z ^[[36;1melif find csharp -maxdepth 6 -name "*.csproj" -print -quit 2>/dev/null | grep -q .; then^[[0m
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3365009Z ^[[36;1m  CSHARP_ROOT="csharp"^[[0m
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3365306Z ^[[36;1m  MULTI_LANGUAGE="true"^[[0m
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3365590Z ^[[36;1melse^[[0m
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3366031Z ^[[36;1m  echo "::error::Could not find a C# project at the repository root or under csharp/"^[[0m
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3366476Z ^[[36;1m  exit 1^[[0m
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3366719Z ^[[36;1mfi^[[0m
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3366996Z ^[[36;1mecho "root=$CSHARP_ROOT" >> "$GITHUB_OUTPUT"^[[0m
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3367417Z ^[[36;1mecho "multi-language=$MULTI_LANGUAGE" >> "$GITHUB_OUTPUT"^[[0m
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3367929Z ^[[36;1mecho "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"^[[0m
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3386582Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3387093Z env:
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3387329Z   GIT_CONFIG_COUNT: 1
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3387605Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3387912Z   GIT_CONFIG_VALUE_0: main
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3388205Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3388525Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3388937Z   DOTNET_NOLOGO: true
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3389190Z ##[endgroup]
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3435574Z Detected C# layout: root=., multi-language=false
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3457395Z ##[end-action id=csharp_layout.layout;outcome=success;conclusion=success;duration_ms=18]
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3531264Z ##[group]Run bash scripts/check-pipeline-status.sh
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3531671Z ^[[36;1mbash scripts/check-pipeline-status.sh^[[0m
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3545504Z shell: /usr/bin/bash -e {0}
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3545780Z env:
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3546007Z   GIT_CONFIG_COUNT: 1
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3546274Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3546585Z   GIT_CONFIG_VALUE_0: main
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3546868Z   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3547185Z   DOTNET_CLI_TELEMETRY_OPTOUT: true
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3547473Z   DOTNET_NOLOGO: true
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3549419Z   NEEDS_JSON: {
+Pipeline Status	UNKNOWN STEP	  "codecov-token": {
+Pipeline Status	UNKNOWN STEP	    "result": "skipped",
+Pipeline Status	UNKNOWN STEP	    "outputs": {}
+Pipeline Status	UNKNOWN STEP	  },
+Pipeline Status	UNKNOWN STEP	  "detect-changes": {
+Pipeline Status	UNKNOWN STEP	    "result": "success",
+Pipeline Status	UNKNOWN STEP	    "outputs": {
+Pipeline Status	UNKNOWN STEP	      "any-code-changed": "true"
+Pipeline Status	UNKNOWN STEP	    }
+Pipeline Status	UNKNOWN STEP	  },
+Pipeline Status	UNKNOWN STEP	  "changeset-check": {
+Pipeline Status	UNKNOWN STEP	    "result": "success",
+Pipeline Status	UNKNOWN STEP	    "outputs": {}
+Pipeline Status	UNKNOWN STEP	  },
+Pipeline Status	UNKNOWN STEP	  "lint": {
+Pipeline Status	UNKNOWN STEP	    "result": "failure",
+Pipeline Status	UNKNOWN STEP	    "outputs": {}
+Pipeline Status	UNKNOWN STEP	  },
+Pipeline Status	UNKNOWN STEP	  "test": {
+Pipeline Status	UNKNOWN STEP	    "result": "success",
+Pipeline Status	UNKNOWN STEP	    "outputs": {}
+Pipeline Status	UNKNOWN STEP	  },
+Pipeline Status	UNKNOWN STEP	  "build": {
+Pipeline Status	UNKNOWN STEP	    "result": "skipped",
+Pipeline Status	UNKNOWN STEP	    "outputs": {}
+Pipeline Status	UNKNOWN STEP	  },
+Pipeline Status	UNKNOWN STEP	  "release-preflight": {
+Pipeline Status	UNKNOWN STEP	    "result": "success",
+Pipeline Status	UNKNOWN STEP	    "outputs": {}
+Pipeline Status	UNKNOWN STEP	  },
+Pipeline Status	UNKNOWN STEP	  "release": {
+Pipeline Status	UNKNOWN STEP	    "result": "skipped",
+Pipeline Status	UNKNOWN STEP	    "outputs": {}
+Pipeline Status	UNKNOWN STEP	  },
+Pipeline Status	UNKNOWN STEP	  "instant-release": {
+Pipeline Status	UNKNOWN STEP	    "result": "skipped",
+Pipeline Status	UNKNOWN STEP	    "outputs": {}
+Pipeline Status	UNKNOWN STEP	  },
+Pipeline Status	UNKNOWN STEP	  "changeset-pr": {
+Pipeline Status	UNKNOWN STEP	    "result": "skipped",
+Pipeline Status	UNKNOWN STEP	    "outputs": {}
+Pipeline Status	UNKNOWN STEP	  }
+Pipeline Status	UNKNOWN STEP	}
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3551257Z   IS_MAIN: false
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3551507Z   EVENT_NAME: pull_request
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3551787Z   BRANCH_REF_FULL: refs/pull/102/merge
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3552084Z   RELEASE_MODE: 
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3552328Z   BRANCH_REF: 102/merge
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3554685Z   GH_TOKEN: ***
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:58.3554924Z ##[endgroup]
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.6616340Z file:///home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/scripts/security-gates.mjs:159
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.6616899Z       throw Error(`Required job ${name}: ${needs[name]?.result ?? 'missing'}`);
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.6617155Z             ^
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.6617450Z 
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.6617560Z Error: Required job lint: failure
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.6618108Z     at validateJobResults (file:///home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/scripts/security-gates.mjs:159:13)
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.6619123Z     at checkPipeline (file:///home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/scripts/pipeline-gate.mjs:48:3)
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.6620258Z     at file:///home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/scripts/pipeline-gate.mjs:100:5
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.6620781Z 
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.6620876Z Node.js v22.23.4
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.6938353Z ##[error]Process completed with exit code 1.
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.7071710Z Post job cleanup.
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.7634665Z [command]/usr/bin/git version
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.7669261Z git version 2.56.1
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.7693679Z Temporarily overriding HOME='/home/runner/work/_temp/b15c8c91-3717-4bd8-a1a3-9b00c067103b' before making global git config changes
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.7694441Z Adding repository directory to the temporary git global config as a safe directory
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.7697374Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.7729641Z Removing SSH command configuration
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.7733716Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.7762204Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.7976247Z Removing HTTP extra header
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.7980671Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.8014366Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.8216694Z Removing includeIf entries pointing to credentials config files
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.8217308Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.8258175Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Pipeline Status	UNKNOWN STEP	2026-11-13T20:05:59.8557922Z Cleaning up orphan processes

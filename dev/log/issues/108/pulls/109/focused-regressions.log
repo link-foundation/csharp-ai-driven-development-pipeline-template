@@ -1,0 +1,48 @@
+bun test v1.4.4 (38afee6c8)
+
+scripts/toolchain-policy.test.mjs:
+(pass) package consumer smoke test uses the library target framework [0.21ms]
+(pass) Node and Bun requirements match the toolchain selected by CI [0.77ms]
+(pass) documentation restores its committed local tool and validates toolchain changes [0.96ms]
+(pass) Dependabot updates coupled CodeQL actions together [0.17ms]
+
+scripts/print-untrusted.test.mjs:
+(pass) printUntrusted > brackets the text between stop-commands and its resume on CI [0.83ms]
+(pass) printUntrusted > every call gets a fresh token, so printed text cannot resume early [0.16ms]
+(pass) printUntrusted > multi-line text stays verbatim inside the bracket [0.08ms]
+(pass) printUntrusted > prints plainly outside GitHub Actions [0.06ms]
+(pass) printUntrusted > markers and text share one stream [0.14ms]
+(pass) printUntrusted > resumes command processing when the output sink rejects the payload [0.25ms]
+(pass) validate-changeset integration > the printed description of a valid changeset is bracketed [39.77ms]
+(pass) validate-changeset integration > the printed file content of a rejected changeset is bracketed on stderr [44.10ms]
+(pass) merge-changesets integration > the merged changeset content is bracketed [38.93ms]
+
+scripts/issue-82-regressions.test.mjs:
+(pass) file limit scans substring filenames, .github and checkout names [4.08ms]
+Fetching https://api.nuget.org/v3-flatcontainer/example/index.json
+Retrying https://api.nuget.org/v3-flatcontainer/example/index.json (attempt 2 of 4)
+Retrying https://api.nuget.org/v3-flatcontainer/example/index.json (attempt 3 of 4)
+Retrying https://api.nuget.org/v3-flatcontainer/example/index.json (attempt 4 of 4)
+(pass) nuget retries dropped connections, rate limits and server failures [4.94ms]
+Fetching https://api.nuget.org/v3-flatcontainer/example/index.json
+Retrying https://api.nuget.org/v3-flatcontainer/example/index.json (attempt 2 of 2)
+Fetching https://api.nuget.org/v3-flatcontainer/example/index.json
+(pass) nuget exhausted errors name cause; 404 is immediate [1.81ms]
+Fetching https://api.github.com/repos/owner/repo/releases/tags/v1.0.0
+Retrying https://api.github.com/repos/owner/repo/releases/tags/v1.0.0 (attempt 2 of 4)
+Retrying https://api.github.com/repos/owner/repo/releases/tags/v1.0.0 (attempt 3 of 4)
+Retrying https://api.github.com/repos/owner/repo/releases/tags/v1.0.0 (attempt 4 of 4)
+(pass) github retries dropped connections, rate limits and server failures [3.82ms]
+Fetching https://api.github.com/repos/owner/repo/releases/tags/v1.0.0
+Retrying https://api.github.com/repos/owner/repo/releases/tags/v1.0.0 (attempt 2 of 2)
+Fetching https://api.github.com/repos/owner/repo/releases/tags/v1.0.0
+(pass) github exhausted errors name cause; 404 is immediate [1.44ms]
+(pass) Wayback retries and distinguishes lookup errors from absent snapshots [3.72ms]
+(pass) Dependabot exemption uses author before any git or changeset access [131.12ms]
+(pass) merge-changesets.mjs rejects mixed invalid changesets without mutations or pushes [230.58ms]
+(pass) version-and-commit.mjs rejects mixed invalid changesets without mutations or pushes [219.23ms]
+
+ 22 pass
+ 0 fail
+ 77 expect() calls
+Ran 22 tests across 3 files. [779.00ms]

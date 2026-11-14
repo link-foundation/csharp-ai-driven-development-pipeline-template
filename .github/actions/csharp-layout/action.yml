@@ -27,3 +27,8 @@ runs:
         echo "root=$CSHARP_ROOT" >> "$GITHUB_OUTPUT"
         echo "multi-language=$MULTI_LANGUAGE" >> "$GITHUB_OUTPUT"
         echo "Detected C# layout: root=$CSHARP_ROOT, multi-language=$MULTI_LANGUAGE"
+    - name: Setup Node.js
+      uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      with:
+        node-version-file: .node-version
+        package-manager-cache: false

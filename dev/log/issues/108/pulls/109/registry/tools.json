@@ -1,0 +1,29 @@
+{
+  "pre-commit-hooks": {
+    "latest": "v6.0.0",
+    "source": "https://github.com/pre-commit/pre-commit-hooks/releases/tag/v6.0.0",
+    "notes": "## Fixes\r\n- `check-shebang-scripts-are-executable`: improve error message.\r\n    - #1115 PR by @homebysix.\r\n\r\n## Migrating\r\n- now requires python >= 3.9.\r\n    - #1098 PR by @asottile.\r\n- `file-contents-sorter`: disallow `--unique` and `--ignore-case` at the same\r\n  time.\r\n    - #1095 PR by @nemacysts.\r\n    - #794 issue by @teksturi.\r\n- Removed `check-byte-order-marker` and `fix-encoding-pragma`.\r\n    - `check-byte-order-marker`: migrate to `fix-byte-order-marker`.\r\n    - `fix-encoding-pragma`: migrate to `pyupgrade`.\r\n    - #1034 PR by @mxr.\r\n    - #1032 issue by @mxr.\r\n    - #522 PR by @jgowdy.\r\n\r\n"
+  },
+  "actionlint": {
+    "latest": "v1.7.12",
+    "source": "https://github.com/rhysd/actionlint/releases/tag/v1.7.12",
+    "notes": "- Support the [`timezone` configuration in `on.schedule`](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#onschedule) with checks for IANA timezone string. See the [documentation](https://github.com/rhysd/actionlint/blob/main/docs/checks.md#check-cron-syntax-and-timezone) for more details. Note that actionlint starts to embed the timezone database in the executables from this version so the binary sizes slightly increase. (#641, thanks @martincostello)\r\n  ```yaml\r\n  on:\r\n    schedule:\r\n      # ERROR: The timezone is not a valid IANA timezone string\r\n      - cron: '*/5 * * * *'\r\n        timezone: 'Asia/Somewhere'\r\n  ```\r\n- Support the [`jobs.<job_name>.environment.deployment` configuration](https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/control-deployments#using-environments-without-deployments). (#639, thanks @springmeyer)\r\n- Support the [`macos-26-intel` runner label](https://github.blog/changelog/2026-02-26-macos-26-is-now-generally-available-for-github-hosted-runners/). (#629, thanks @hugovk)\r\n- Fix the outdated [table of webhook activity types](https://github.com/rhysd/actionlint/blob/main/all_webhooks.go) by rebuilding the [script to scrape the table](https://github.com/rhysd/actionlint/tree/main/scripts/generate-webhook-events) from scratch.\r\n- Support Go 1.26 and drop the support for Go 1.24. Now supported versions are 1.25 and 1.26.\r\n- Tests are run on arm64 Windows in CI.\r\n- Update the popular actions data set to the latest."
+  },
+  "lychee": {
+    "latest": "lychee-v0.24.2",
+    "source": "https://github.com/lycheeverse/lychee/releases/tag/lychee-v0.24.2",
+    "notes": "### Added\r\n\r\n- User hints ([#2021](https://github.com/lycheeverse/lychee/pull/2021))\r\n\r\n### Fixed\r\n\r\n- Typo in README.md ([#2173](https://github.com/lycheeverse/lychee/pull/2173))\r\n\r\n### Other\r\n\r\n- *(deps)* bump the dependencies group with 8 updates"
+  },
+  "zizmor": {
+    "latest": "1.32.0",
+    "source": "https://pypi.org/project/zizmor/"
+  },
+  "pre-commit": {
+    "latest": "4.7.0",
+    "source": "https://pypi.org/project/pre-commit/"
+  },
+  "pyflakes": {
+    "latest": "4.1.0",
+    "source": "https://pypi.org/project/pyflakes/"
+  }
+}

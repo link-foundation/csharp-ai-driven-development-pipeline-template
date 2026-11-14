@@ -8,7 +8,7 @@ A comprehensive template for AI-driven C# development with full CI/CD pipeline s
 
 ## Features
 
-- **.NET 10 support**: Targets the current .NET LTS (`net10.0`); the SDK is pinned once in `global.json`
+- **.NET 11 support**: Targets the current stable .NET release (`net11.0`); the SDK is pinned once in `global.json`
 - **Cross-platform testing**: CI runs on Ubuntu, macOS, and Windows
 - **Comprehensive testing**: xUnit tests with coverage reporting
 - **Code quality**: EditorConfig + .NET analyzers with warnings as errors

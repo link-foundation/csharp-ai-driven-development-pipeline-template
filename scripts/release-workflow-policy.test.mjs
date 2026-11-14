@@ -310,14 +310,14 @@ describe('release workflow policy', () => {
 
     expect(testJob).toContain('CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}');
     expect(uploadStep).toContain(
-      "if: matrix.os == 'ubuntu-24.04' && env.CODECOV_TOKEN != ''",
+      "if: matrix.os == 'ubuntu-26.04' && env.CODECOV_TOKEN != ''",
     );
     expect(isShaPinned(uploadStep, 'codecov/codecov-action')).toBe(true);
     expect(uploadStep).toContain('token: ${{ env.CODECOV_TOKEN }}');
     expect(uploadStep).toContain('fail_ci_if_error: true');
     expect(uploadStep).not.toContain('fail_ci_if_error: false');
     expect(missingTokenStep).toContain(
-      "if: matrix.os == 'ubuntu-24.04' && env.CODECOV_TOKEN == ''",
+      "if: matrix.os == 'ubuntu-26.04' && env.CODECOV_TOKEN == ''",
     );
     expect(missingTokenStep).toContain(
       '::notice::CODECOV_TOKEN is not configured; skipping Codecov upload.',

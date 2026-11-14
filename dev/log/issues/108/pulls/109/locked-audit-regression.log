@@ -1,0 +1,4 @@
+  Determining projects to restore...
+  Restored /tmp/tmp.TkmbLZY1iv/Probe.csproj (in 2 ms).
+/tmp/tmp.TkmbLZY1iv/Probe.csproj : error NU1004: The project target framework net11.0 was not found in the lock file.The packages lock file is inconsistent with the project dependencies so restore can't be run in locked mode. Disable the RestoreLockedMode MSBuild property or pass an explicit --force-evaluate option to run restore to update the lock file.
+Fresh audit succeeded; stale lock rejected without rewriting it (/tmp/gh-issue-solver-1794664914456)

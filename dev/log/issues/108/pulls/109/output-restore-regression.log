@@ -1,0 +1,11 @@
+bun test v1.4.4 (38afee6c8)
+
+../tmp.S7nUFvvlaZ/print-untrusted.test.mjs:
+(pass) printUntrusted > resumes command processing when the output sink rejects the payload [0.78ms]
+
+ 1 pass
+ 8 filtered out
+ 0 fail
+ 2 expect() calls
+Ran 1 test across 1 file. [24.00ms]
+Output restoration regression fails before the fix and passes afterward

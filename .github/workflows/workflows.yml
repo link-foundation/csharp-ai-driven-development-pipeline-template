@@ -23,7 +23,7 @@ env:
 jobs:
   actionlint:
     name: Lint Workflows
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     # Typical run: <1min. 10min prevents an image pull stall from hanging.
     timeout-minutes: 10
     concurrency:
@@ -55,7 +55,11 @@ jobs:
         with:
           # GitHub supports queue:max; actionlint 1.7.12 predates that key.
           # Remove only this obsolete schema exception when upstream #654 ships.
-          args: -color -ignore "unexpected key .queue. for .concurrency. section"
+          # 1.7.12 also predates self-repository references (upstream #711).
+          # Match only our known composite, preserving all other action checks.
+          args: >-
+            -color -ignore "unexpected key .queue. for .concurrency. section"
+            -ignore "specifying action .[$]/[.]github/actions/csharp-layout. in invalid format because ref is missing"
       - name: Lint standalone shell and verify integrations
         run: >-
           docker run --rm -v "$PWD:/repo" -w /repo --entrypoint sh
@@ -64,7 +68,7 @@ jobs:
 
   zizmor:
     name: zizmor
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 10
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-zizmor
@@ -80,8 +84,8 @@ jobs:
       # scanning may not be enabled, while still making findings fail loudly.
       #
       # `version` is named rather than left at the default, because the
-      # action's `latest` entry is its own frozen table (v0.6.2 -> zizmor
-      # 1.29.0), not the latest zizmor. Naming the version keeps the next bump
+      # action's `latest` entry is its own frozen table, not the latest PyPI
+      # release. Naming the version keeps the next bump
       # a visible line in the diff rather than a side effect of bumping the
       # action, and documents exactly which analyser reproduces a finding.
       - name: Audit workflow files
@@ -92,7 +96,7 @@ jobs:
           config: .github/zizmor.yml
           inputs: .github
           min-confidence: medium
-          version: 1.29.0
+          version: 1.32.0
 
       # The step above runs the default (regular) persona, which is the right
       # default: pedantic surfaces dozens of stylistic findings. But the audits
@@ -106,6 +110,6 @@ jobs:
       - name: Audit for pedantic-only high-severity findings
         timeout-minutes: 5
         run: |
-          pipx run zizmor==1.29.0 --config .github/zizmor.yml \
+          pipx run zizmor==1.32.0 --config .github/zizmor.yml \
             --persona pedantic --min-severity high --min-confidence high \
             .github

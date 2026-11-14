@@ -1,0 +1,6 @@
+$ bun run lint && bun run format:check && bun run typecheck
+$ eslint scripts experiments eslint.config.mjs --max-warnings 0
+$ prettier --check 'scripts/**/*.{mjs,ts}' 'experiments/**/*.mjs' '*.mjs' '*.json'
+Checking formatting...
+All matched files use Prettier code style!
+$ tsc --project jsconfig.json

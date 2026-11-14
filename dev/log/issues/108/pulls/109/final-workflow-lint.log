@@ -1,0 +1,2 @@
+Embedded ShellCheck/Pyflakes and standalone shell regressions passed
+Self-repository exception preserves other action and shell diagnostics
