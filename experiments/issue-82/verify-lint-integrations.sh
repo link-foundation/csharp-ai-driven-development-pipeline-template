@@ -8,7 +8,7 @@ name: Integration regression
 on: push
 jobs:
   probe:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - run: echo $UNQUOTED
       - shell: python

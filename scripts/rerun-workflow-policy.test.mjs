@@ -69,7 +69,7 @@ describe('infrastructure-failure rerun workflow (issue #96)', () => {
 
   test('macOS stays blocking unless NON_BLOCKING_MACOS is explicitly enabled', () => {
     expect(release.jobs.test['continue-on-error']).toBe(
-      "${{ matrix.os == 'macos-15' && vars.NON_BLOCKING_MACOS == 'true' }}",
+      "${{ matrix.os == 'xcode-27' && vars.NON_BLOCKING_MACOS == 'true' }}",
     );
   });
 });
