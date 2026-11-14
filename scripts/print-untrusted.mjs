@@ -47,6 +47,9 @@ export function printUntrusted(text, log = console.log) {
 
   const token = randomBytes(16).toString('hex');
   log(`::stop-commands::${token}`);
-  log(text);
-  log(`::${token}::`);
+  try {
+    log(text);
+  } finally {
+    log(`::${token}::`);
+  }
 }

@@ -14,7 +14,7 @@ jobs:
       - shell: python
         run: undefined_variable
 YAML
-if actionlint -no-color "$fixture/probe.yml" > "$fixture/findings.log" 2>&1; then
+if actionlint -config-file .github/actionlint.yaml -no-color "$fixture/probe.yml" > "$fixture/findings.log" 2>&1; then
   echo 'actionlint missed embedded shell/Python findings' >&2
   exit 1
 fi

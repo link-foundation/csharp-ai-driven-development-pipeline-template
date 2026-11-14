@@ -13,12 +13,12 @@ jobs:
       - uses: $/.github/actions/csharp-layout
 YAML
 exception='specifying action "\$/\.github/actions/csharp-layout" in invalid format because ref is missing'
-actionlint -no-color -ignore "$exception" "$fixture/probe.yml"
+actionlint -config-file .github/actionlint.yaml -no-color -ignore "$exception" "$fixture/probe.yml"
 cat >> "$fixture/probe.yml" <<'YAML'
       - uses: $/.github/actions/unknown
       - run: echo $UNQUOTED
 YAML
-if actionlint -no-color -ignore "$exception" "$fixture/probe.yml" > "$fixture/findings.log" 2>&1; then
+if actionlint -config-file .github/actionlint.yaml -no-color -ignore "$exception" "$fixture/probe.yml" > "$fixture/findings.log" 2>&1; then
   echo 'Schema exception hid unrelated errors' >&2
   exit 1
 fi

@@ -30,6 +30,12 @@ test('documentation restores its committed local tool and validates toolchain ch
   const manifest = JSON.parse(read('.config/dotnet-tools.json'));
   expect(manifest.tools.docfx.version).toMatch(/^\d+\.\d+\.\d+$/);
   /** @type {Record<string, any>} */
+  const dependabot = Bun.YAML.parse(read('.github/dependabot.yml'));
+  expect(
+    dependabot.updates.find((update) => update['package-ecosystem'] === 'nuget')
+      .directories,
+  ).toContain('/.config');
+  /** @type {Record<string, any>} */
   const config = Bun.YAML.parse(workflow);
   for (const event of ['push', 'pull_request'])
     for (const file of [
@@ -38,4 +44,13 @@ test('documentation restores its committed local tool and validates toolchain ch
       '.config/dotnet-tools.json',
     ])
       expect(config.on[event].paths).toContain(file);
+});
+
+test('Dependabot updates coupled CodeQL actions together', () => {
+  /** @type {Record<string, any>} */
+  const config = Bun.YAML.parse(read('.github/dependabot.yml'));
+  const actions = config.updates.find(
+    (update) => update['package-ecosystem'] === 'github-actions',
+  );
+  expect(actions.groups.codeql.patterns).toEqual(['github/codeql-action/*']);
 });
