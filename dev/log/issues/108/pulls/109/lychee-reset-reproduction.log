@@ -1,0 +1,17 @@
+  [DEBUG] add_parsable_certificates processed 121 valid and 0 invalid certs
+ [DEBUG] Loaded 121 CA root certificates from the system
+ [DEBUG] add_parsable_certificates processed 121 valid and 0 invalid certs
+ [DEBUG] Loaded 121 CA root certificates from the system
+ [DEBUG] starting new connection 'Some("127.0.0.1")'
+ [DEBUG] connecting to 127.0.0.1:35187
+ [DEBUG] connected to 127.0.0.1:35187
+ [DEBUG] No cached session for IpAddress(V4(Ipv4Addr([127, 0, 0, 1])))
+ [DEBUG] Not resuming any session
+Error: Network error: Network error: Connection reset by peer (os error 104) (error sending request for url (https://127.0.0.1:35187/))
+
+Caused by:
+    0: error sending request for url (https://127.0.0.1:35187/)
+    1: client error (Connect)
+    2: Connection reset by peer (os error 104)
+
+{"configured_retries": 2, "connections": 1, "exit_code": 1}

@@ -1,0 +1,32 @@
+[INFO] Initializing environment for https://github.com/pre-commit/pre-commit-hooks.
+[INFO] Installing environment for https://github.com/pre-commit/pre-commit-hooks.
+[INFO] Once installed this environment will be reused.
+[INFO] This may take a few minutes...
+trim trailing whitespace.................................................Failed
+- hook id: trailing-whitespace
+- exit code: 1
+- files were modified by this hook
+
+Fixing ci-logs/workflows-43400679647.log
+Fixing ci-logs/issue-100-baseline.log
+Fixing ci-logs/links-32335007232.log
+Fixing ci-logs/main-41299536470.log
+
+fix end of files.........................................................Failed
+- hook id: end-of-file-fixer
+- exit code: 1
+- files were modified by this hook
+
+Fixing examples/packages.lock.json
+Fixing src/MyPackage/packages.lock.json
+Fixing tests/MyPackage.Tests/packages.lock.json
+Fixing ci-logs/issue-100-size.log
+
+check yaml...............................................................Passed
+check for added large files..............................................Passed
+check for merge conflicts................................................Passed
+check json...............................................................Passed
+check xml................................................................Passed
+dotnet format............................................................Passed
+dotnet build.............................................................Passed
+dotnet test..............................................................Passed

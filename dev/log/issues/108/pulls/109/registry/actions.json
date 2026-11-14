@@ -1,0 +1,189 @@
+{
+  "actions/checkout": {
+    "before": [
+      "v7.0.1",
+      "v7.0.1",
+      "v7.0.1",
+      "v7.0.1",
+      "v7.0.1",
+      "v7.0.1",
+      "v7.0.1",
+      "v7.0.1",
+      "v7.0.1",
+      "v7.0.1",
+      "v7.0.1",
+      "v7.0.1",
+      "v7.0.1",
+      "v7.0.1",
+      "v7.0.1",
+      "v7.0.1",
+      "v7.0.1",
+      "v7.0.1",
+      "v7.0.1",
+      "v7.0.1",
+      "v7.0.1",
+      "v7.0.1"
+    ],
+    "latest": "v7.0.1",
+    "sha": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+    "source": "https://github.com/actions/checkout/releases/tag/v7.0.1",
+    "notes": "## What's Changed\r\n* skip running unsafe pr check if input is default by @aiqiaoy in https://github.com/actions/checkout/pull/2518\r\n* trim only ascii whitespace for branch by @aiqiaoy in https://github.com/actions/checkout/pull/2521\r\n* escape values passed to --unset by @aiqiaoy in https://github.com/actions/checkout/pull/2530\r\n* Various dependency updates \r\n\r\n**Full Changelog**: https://github.com/actions/checkout/compare/v7...v7.0.1"
+  },
+  "github/codeql-action": {
+    "before": [
+      "v4.39.3",
+      "v4.39.3"
+    ],
+    "latest": "v4.39.3",
+    "sha": "33d7b85da1a04171e211befe2c739303b9a4c066",
+    "source": "https://github.com/github/codeql-action/releases/tag/v4.39.3",
+    "notes": "- Fixed diff-informed alert filtering incorrectly removing alerts in changed files whose paths contain spaces, special characters, or non-ASCII characters. [#4283](https://github.com/github/codeql-action/pull/4283)"
+  },
+  "actions/upload-artifact": {
+    "before": [
+      "v7.0.2",
+      "v7.0.2",
+      "v7.0.2",
+      "v7.0.2",
+      "v7.0.2",
+      "v7.0.2"
+    ],
+    "latest": "v7.0.2",
+    "sha": "cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+    "source": "https://github.com/actions/upload-artifact/releases/tag/v7.0.2",
+    "notes": "## What's Changed\r\n- Improves artifact download retries when the service returns HTTP 429 (rate limiting), including honoring valid Retry-After headers.\r\n- Updates @actions/artifact to v6.3.1.\r\n\r\n\r\n## New Contributors\r\n* @tunc-d made their first contribution in https://github.com/actions/upload-artifact/pull/821\r\n\r\n**Full Changelog**: https://github.com/actions/upload-artifact/compare/v7.0.1...v7.0.2"
+  },
+  "actions/dependency-review-action": {
+    "before": [
+      "v5.0.0"
+    ],
+    "latest": "v5.0.0",
+    "sha": "a1d282b36b6f3519aa1f3fc636f609c47dddb294",
+    "source": "https://github.com/actions/dependency-review-action/releases/tag/v5.0.0",
+    "notes": "This is a new major version of the Dependency Review Action which updates the runtime to node24. This requires a minimum Actions Runner version [v2.327.1](https://github.com/actions/runner/releases/tag/v2.327.1) to run.\r\n\r\n## What's Changed\r\n* Add .github/copilot-instructions.md for Copilot coding agent by @ahpook in https://github.com/actions/dependency-review-action/pull/1067\r\n* Update Node.js runtime from 20 to 24 by @scottschreckengaust in https://github.com/actions/dependency-review-action/pull/1084\r\n* Bump spdx-license-ids from 3.0.20 to 3.0.23 by @mongolyy in https://github.com/actions/dependency-review-action/pull/1091\r\n* docs: bump actions/checkout from v4 to v6 in workflow examples by @Marukome0743 in https://github.com/actions/dependency-review-action/pull/1077\r\n* fix: patched version display for advisories with non-strict semver ranges (e.g. Maven beta versions) by @tspascoal in https://github.com/actions/dependency-review-action/pull/1076\r\n* Resolve security findings by @AshelyTC in https://github.com/actions/dependency-review-action/pull/1094\r\n* v5.0.0 release branch by @ahpook in https://github.com/actions/dependency-review-action/pull/1098\r\n\r\n## New Contributors\r\n* @scottschreckengaust made their first contribution in https://github.com/actions/dependency-review-action/pull/1084\r\n* @mongolyy made their first contribution in https://github.com/actions/dependency-review-action/pull/1091\r\n* @Marukome0743 made their first contribution in https://github.com/actions/dependency-review-action/pull/1077\r\n\r\n**Full Changelog**: https://github.com/actions/dependency-review-action/compare/v4.9.0...v5.0.0"
+  },
+  "actions/setup-dotnet": {
+    "before": [
+      "v6.1.0",
+      "v6.1.0",
+      "v6.1.0",
+      "v6.1.0",
+      "v6.1.0",
+      "v6.1.0",
+      "v6.1.0",
+      "v6.1.0"
+    ],
+    "latest": "v6.1.0",
+    "sha": "0f4a354dd5547a28c70b7853dbd95d5b67886e73",
+    "source": "https://github.com/actions/setup-dotnet/releases/tag/v6.1.0",
+    "notes": "## What's Changed\r\n\r\n### Enhancements\r\n* Add check-latest input to reuse a locally installed .NET SDK and skip network calls by @v-mahabaleshwars in https://github.com/actions/setup-dotnet/pull/774\r\n* Add skip-lts-prepass input to optimize .NET SDK installation process by @v-chiranjib-swain in https://github.com/actions/setup-dotnet/pull/791\r\n* Add fallback install directory when default is not writable by @v-priyagupta108 in https://github.com/actions/setup-dotnet/pull/785\r\n\r\n### Documentation\r\n* Document sdk.version validation for rollForward in global.json by @v-priyagupta108 in https://github.com/actions/setup-dotnet/pull/763\r\n* Docs: Add Microsoft docs link for dotnet-quality options by @v-priyagupta108 in https://github.com/actions/setup-dotnet/pull/773\r\n* Docs: Updating Documentation in README by @v-lmvysakh in https://github.com/actions/setup-dotnet/pull/776\r\n* Clarify dotnet-quality behavior for multiple SDK versions by @v-mahabaleshwars in https://github.com/actions/setup-dotnet/pull/780\r\n\r\n### Dependency Updates\r\n\r\n* Fix security vulnerabilities by @v-HarithaVattikuti in https://github.com/actions/setup-dotnet/pull/767\r\n* ci: make validation caches read-only by @philip-gai in https://github.com/actions/setup-dotnet/pull/777\r\n* Bump actions/checkout from 7.0.0 to 7.0.1 by @dependabot in https://github.com/actions/setup-dotnet/pull/764\r\n* Bump browserslist from 4.28.2 to 4.28.8 by @dependabot in https://github.com/actions/setup-dotnet/pull/781\r\n* Bump eslint from 10.5.0 to 10.11.0 by @dependabot in https://github.com/actions/setup-dotnet/pull/772\r\n* Bump eslint-plugin-jest from 29.15.2 to 29.16.6 by @dependabot in https://github.com/actions/setup-dotnet/pull/771\r\n* Bump undici from 6.28.0 to 6.29.1 by @dependabot in https://github.com/actions/setup-dotnet/pull/784\r\n* Bump actions/checkout from 7.0.0 to 7.0.1 by @dependabot in https://github.com/actions/setup-dotnet/pull/788\r\n* Bump handlebars from 4.7.9 to 4.7.10 by @dependabot in https://github.com/actions/setup-dotnet/pull/792\r\n* Bump brace-expansion by @dependabot in https://github.com/actions/setup-dotnet/pull/790\r\n* Prepare v6.1.0 release with updated cache dependency by @v-HarithaVattikuti in https://github.com/actions/setup-dotnet/pull/798\r\n\r\n## New Contributors\r\n* @v-lmvysakh made their first contribution in https://github.com/actions/setup-dotnet/pull/776\r\n* @v-chiranjib-swain made their first contribution in https://github.com/actions/setup-dotnet/pull/791\r\n\r\n**Full Changelog**: https://github.com/actions/setup-dotnet/compare/v6.0.0...v6.1.0"
+  },
+  "oven-sh/setup-bun": {
+    "before": [
+      "v2.2.0",
+      "v2.2.0",
+      "v2.2.0",
+      "v2.2.0",
+      "v2.2.0",
+      "v2.2.0",
+      "v2.2.0",
+      "v2.2.0"
+    ],
+    "latest": "v2.2.0",
+    "sha": "0c5077e51419868618aeaa5fe8019c62421857d6",
+    "source": "https://github.com/oven-sh/setup-bun/releases/tag/v2.2.0",
+    "notes": "`oven-sh/setup-bun` is the github action for setting up Bun.\r\n\r\n## What's Changed\r\n* build: update action runtime to Node.js 24 by @adam0white in https://github.com/oven-sh/setup-bun/pull/176\r\n* ci: use `actions/checkout@v6.0.2` in the test workflow by @tcely in https://github.com/oven-sh/setup-bun/pull/173\r\n* ci: update actions for the `autofix.ci` workflow by @tcely in https://github.com/oven-sh/setup-bun/pull/174\r\n* ci: update actions for the `Release new action version` workflow by @tcely in https://github.com/oven-sh/setup-bun/pull/175\r\n* release: v2.2.0 by @xhyrom in https://github.com/oven-sh/setup-bun/pull/177\r\n\r\n## New Contributors\r\n* @adam0white made their first contribution in https://github.com/oven-sh/setup-bun/pull/176\r\n* @tcely made their first contribution in https://github.com/oven-sh/setup-bun/pull/173\r\n\r\n**Full Changelog**: https://github.com/oven-sh/setup-bun/compare/v2...v2.2.0"
+  },
+  "actions/download-artifact": {
+    "before": [
+      "v8.0.2"
+    ],
+    "latest": "v8.0.2",
+    "sha": "9000827ccba6bdab643e8b6fd33ac0654aef8333",
+    "source": "https://github.com/actions/download-artifact/releases/tag/v8.0.2",
+    "notes": "## What's Changed\r\n* Update the readme by @danwkennedy in https://github.com/actions/download-artifact/pull/473\r\n* Improves artifact download retries when the service returns HTTP 429 (rate limiting), including honoring valid Retry-After headers.\r\n* Update @actions/artifact to 6.3.1 by @tunc-d in https://github.com/actions/download-artifact/pull/492\r\n* Prepare download-artifact v8.0.2 by @tunc-d in https://github.com/actions/download-artifact/pull/493\r\n\r\n## New Contributors\r\n* @tunc-d made their first contribution in https://github.com/actions/download-artifact/pull/492\r\n\r\n**Full Changelog**: https://github.com/actions/download-artifact/compare/v8.0.1...v8.0.2"
+  },
+  "codecov/codecov-action": {
+    "before": [
+      "v7.1.1"
+    ],
+    "latest": "v7.1.1",
+    "sha": "303a32d7a59b442fa8d48b6a1cc6825c09c847a5",
+    "source": "https://github.com/codecov/codecov-action/releases/tag/v7.1.1",
+    "notes": "## What's Changed\r\n* chore(release): 7.1.1 by @thomasrockhu-codecov in https://github.com/codecov/codecov-action/pull/1973\r\n\r\n\r\n**Full Changelog**: https://github.com/codecov/codecov-action/compare/v7.1.0...v7.1.1"
+  },
+  "NuGet/login": {
+    "before": [
+      "v1.2.0",
+      "v1.2.0",
+      "v1.2.0"
+    ],
+    "latest": "v1.2.0",
+    "sha": "8d196754b4036150537f80ac539e15c2f1028841",
+    "source": "https://github.com/NuGet/login/releases/tag/v1.2.0",
+    "notes": "\ud83d\ude80 v1.2.0 \r\n\r\nThis is the newest stable release of NuGet/login, a GitHub Action for securely authenticating with NuGet using GitHub\u2019s OIDC tokens.\r\n\r\n\u2728 New features\r\n\r\n- Enhanced logging\r\n- Updated Node.js version\r\n\r\n\ud83d\udee0\ufe0f Example Usage\r\n\r\nname: NuGet Login\r\nuses: NuGet/login@v1.2.0\r\nwith:\r\nuser: my-nuget-username"
+  },
+  "peter-evans/create-pull-request": {
+    "before": [
+      "v8.1.2"
+    ],
+    "latest": "v8.1.3",
+    "sha": "3ffccacd46053766916f087ce41d627c0b8cf2d1",
+    "source": "https://github.com/peter-evans/create-pull-request/releases/tag/v8.1.3",
+    "notes": "## What's Changed\r\n* fix: check git ref directly when pushing signed commits by @peter-evans in https://github.com/peter-evans/create-pull-request/pull/4521\r\n* Update distribution by @actions-bot in https://github.com/peter-evans/create-pull-request/pull/4526\r\n\r\n\r\n**Full Changelog**: https://github.com/peter-evans/create-pull-request/compare/v8.1.2...v8.1.3"
+  },
+  "lycheeverse/lychee-action": {
+    "before": [
+      "v2.9.0"
+    ],
+    "latest": "v2.9.0",
+    "sha": "e7477775783ea5526144ba13e8db5eec57747ce8",
+    "source": "https://github.com/lycheeverse/lychee-action/releases/tag/v2.9.0",
+    "notes": "## Summary\n\nThis release updates the default lychee version from `v0.23.0` to `v0.24.2`.\n\nThe main reason for this release is compatibility with the new lychee `0.24.x` release artifacts. Starting with lychee `v0.24.0`, the archive layout changed, and the `lychee` binary may now be packaged inside a subdirectory. `lychee-action` now detects that layout automatically, so users can upgrade without changing their workflows.\n\nIf you use:\n\n```yaml\nuses: lycheeverse/lychee-action@v2\n```\n\nyou will get the new version once the floating `v2` tag has been updated. If you pin exact versions, update to:\n\n```yaml\nuses: lycheeverse/lychee-action@v2.9.0\n```\n\n## What\u2019s new from lychee `v0.24.x`\n\n### Better diagnostics\n\nlychee now reports line and column numbers for detected links. This makes broken link reports easier to act on, especially in larger documentation sites or generated reports.\n\n### Text fragment checking\n\nlychee can now check URL text fragments, such as links containing `#:~:text=...`. This helps catch links that point to a valid page but no longer points to the intended highlighted text.\n\n### Sitemap support\n\nlychee can now read `sitemap.xml` inputs. This is useful for checking published websites or generated documentation sites where the sitemap is the easiest source of URLs to validate.\n\n### JUnit output\n\nlychee now supports JUnit output. This makes it easier to integrate link checking results with CI systems and test reporting tools that understand JUnit XML.\n\n### Redirect and remap visibility\n\nlychee can now show redirects and remaps more clearly. This helps explain why a URL was checked as a different final URL and makes debugging link-checking behavior easier.\n\n### Multiple config files\n\nlychee now supports multiple configuration files and expanded config handling. This is useful for repositories that split documentation, website, or package-specific link-checking settings.\n\n### Timeout handling\n\nlychee can now accept timeouts explicitly. This gives users more control over how strict their link checks should be for flaky or slow endpoints.\n\n## Fixes and reliability improvements\n\n### Fixed lychee `0.24.x` archive compatibility\n\n`lychee-action` now handles the new lychee release archive layout by detecting whether the `lychee` binary is inside a subdirectory.\n\nThis fixes compatibility with lychee `0.24.x`.\n\n### More stable installation path\n\nThe action now installs lychee into `$RUNNER_TEMP/lychee/bin` instead of `$HOME`.\n\nThis avoids failures on runners where `$HOME` differs between composite action steps. In those environments, the action could add one directory to `PATH` but install the binary somewhere else, causing `lychee: command not found`.\n\n### Safer automatic lychee version updates\n\nThe workflow that checks for new lychee releases now guards against `null` release versions before creating update PRs. This prevents invalid automated PRs such as \u201cUpdate lycheeVersion to null\u201d.\n\n### Dependency updates\n\n- Updated `actions/checkout` from `v6` to `v7`\n- Updated `actions/cache` from `v5` to `v6`\n\n## Upstream lychee changelog\n\nFor the full lychee changelog, see:\n\n- https://github.com/lycheeverse/lychee/releases/tag/lychee-v0.24.0\n- https://github.com/lycheeverse/lychee/releases/tag/lychee-v0.24.1\n- https://github.com/lycheeverse/lychee/releases/tag/lychee-v0.24.2\n\n## What\u2019s Changed\n\n* bump default to 0.24.1 and auto-detect lychee bin in subfolder by @kaitlyndotmoe in https://github.com/lycheeverse/lychee-action/pull/330\n* fixes #322 check for null by @bgermann in https://github.com/lycheeverse/lychee-action/pull/336\n* Install into `$RUNNER_TEMP` instead of `$HOME` by @mre in https://github.com/lycheeverse/lychee-action/pull/338\n* Bump actions/checkout from 6 to 7 by @dependabot in https://github.com/lycheeverse/lychee-action/pull/339\n* Bump actions/cache from 5 to 6 by @dependabot in https://github.com/lycheeverse/lychee-action/pull/340\n\n**Full Changelog**: https://github.com/lycheeverse/lychee-action/compare/v2.8.0...v2.9.0\n"
+  },
+  "actions/configure-pages": {
+    "before": [
+      "v6.0.0"
+    ],
+    "latest": "v6.0.0",
+    "sha": "45bfe0192ca1faeb007ade9deae92b16b8254a0d",
+    "source": "https://github.com/actions/configure-pages/releases/tag/v6.0.0",
+    "notes": "# Changelog\r\n\r\n- upgrade to node 24 @salmanmkc (#186)\r\n- Upgrade IA Publish @Jcambass (#165)\r\n- Add workflow file for publishing releases to immutable action package @Jcambass (#163)\r\n- pin draft release version @YiMysty (#162)\r\n- Bump espree from 9.6.1 to 10.1.0 @dependabot (#160)\r\n- Bump eslint-config-prettier from 8.8.0 to 9.1.0 @dependabot (#143)\r\n- Be more friendly to Dependabot @yoannchaudet (#158)\r\n- Bump eslint-plugin-github from 4.10.2 to 5.0.1 @dependabot (#154)\r\n- Bump braces from 3.0.2 to 3.0.3 in the npm_and_yarn group @dependabot (#156)\r\n- Bump undici from 5.28.3 to 5.28.4 @dependabot (#145)\r\n\r\nSee details of [all code changes](https://github.com/actions/configure-pages/compare/v5.0.0...v5.0.1) since previous release.\r\n"
+  },
+  "actions/upload-pages-artifact": {
+    "before": [
+      "v5.0.0"
+    ],
+    "latest": "v5.0.0",
+    "sha": "fc324d3547104276b827a68afc52ff2a11cc49c9",
+    "source": "https://github.com/actions/upload-pages-artifact/releases/tag/v5.0.0",
+    "notes": "# Changelog\r\n\r\n- Update upload-artifact action to version 7 @Tom-van-Woudenberg (#139)\r\n- feat: add `include-hidden-files` input @jonchurch (#137)\r\n\r\nSee details of [all code changes](https://github.com/actions/upload-pages-artifact/compare/v4.0.0...v4.0.1) since previous release.\r\n"
+  },
+  "actions/deploy-pages": {
+    "before": [
+      "v5.0.1"
+    ],
+    "latest": "v5.0.1",
+    "sha": "368f82528645a54fb793d4d04e342629a3f51346",
+    "source": "https://github.com/actions/deploy-pages/releases/tag/v5.0.1",
+    "notes": "# Changelog\r\n\r\n- Add backoff and jitter to deployment polling @yoannchaudet (#444)\r\n- Improve deployment request test coverage @adwitiyagoyal (#440)\r\n\r\n---\r\n\r\nSee details of [all code changes](https://github.com/actions/deploy-pages/compare/v5.0.0...v5.0.1) since previous release.\r\n\r\n:warning: For use with products other than GitHub.com, such as GitHub Enterprise Server, please consult the [compatibility table](https://github.com/actions/deploy-pages/#compatibility).\r\n"
+  },
+  "zizmorcore/zizmor-action": {
+    "before": [
+      "v0.8.1"
+    ],
+    "latest": "v0.8.1",
+    "sha": "45d7276c9ca790aabd705e31ca99c6185c3e76dd",
+    "source": "https://github.com/zizmorcore/zizmor-action/releases/tag/v0.8.1",
+    "notes": "\n[Sponsorship is appreciated!](https://github.com/sponsors/woodruffw/)\n\nzizmor 1.32 is now the default version used by this action.\n\nFull release notes: https://docs.zizmor.sh/release-notes/#1320\n\n**Full Changelog**: https://github.com/zizmorcore/zizmor-action/compare/v0.8.0...v0.8.1\n"
+  },
+  "actions/setup-node": {
+    "before": [
+      "not pinned"
+    ],
+    "latest": "v7.1.0",
+    "sha": "949feb2413d6458794dcd2491c4babbbce0c15c1",
+    "source": "https://github.com/actions/setup-node/releases/tag/v7.1.0",
+    "notes": "## What's Changed\r\n\r\n### Enhancements:\r\n* Add support for mise.toml file by @gperdomor in https://github.com/actions/setup-node/pull/1421\r\n* Support absolute paths in node-version-file by @v-mahabaleshwars in https://github.com/actions/setup-node/pull/1633\r\n\r\n### Bug fixes:\r\n*  Add Node version validation and manifest fetch retry by @v-jitenderpalsingh in https://github.com/actions/setup-node/pull/1580\r\n\r\n### Documentation updates:\r\n* README.md: bump actions/checkout to latest version 7 by @deining in https://github.com/actions/setup-node/pull/1578\r\n* docs: add V7 ESM migration and NODE_AUTH_TOKEN behavior change by @v-gowridurgad in https://github.com/actions/setup-node/pull/1593\r\n* Fixed cache recommendation syntax by @SubJunk in https://github.com/actions/setup-node/pull/1603\r\n\r\n### Dependency updates:\r\n*  Update workflow pins and migrate Node matrices to modern versions by @v-HarithaVattikuti in https://github.com/actions/setup-node/pull/1583\r\n* Upgrade  @actions/cache to 6.2.0 by @philip-gai in https://github.com/actions/setup-node/pull/1584\r\n* Pin @types/node to v24 by @v-priyagupta108 in https://github.com/actions/setup-node/pull/1585\r\n* Override brace-expansion to 5.0.8 by @v-priyagupta108 with @Copilot in https://github.com/actions/setup-node/pull/1599\r\n* Upgrade  actions/checkout from 7.0.0 to 7.0.1 by @dependabot in https://github.com/actions/setup-node/pull/1598\r\n* Upgrade  prettier from 3.8.4 to 3.9.6 by @dependabot in https://github.com/actions/setup-node/pull/1590\r\n* Upgrade  @vercel/ncc from 0.44.0 to 0.45.0 by @dependabot in https://github.com/actions/setup-node/pull/1610\r\n* Upgrade  pnpm/action-setup from 6.0.9 to 6.0.10 by @dependabot in https://github.com/actions/setup-node/pull/1602\r\n* Upgrade  baseline-browser-mapping from 2.10.38 to 2.11.22 by @dependabot in https://github.com/actions/setup-node/pull/1629\r\n* Upgrade @types/semver from 7.7.1 to 7.8.0 by @dependabot in https://github.com/actions/setup-node/pull/1616\r\n* Upgrade @typescript-eslint/parser from 8.62.0 to 8.70.0 by @dependabot in https://github.com/actions/setup-node/pull/1615\r\n* Upgrade pnpm/action-setup from 6.0.10 to 6.1.0 by @dependabot in https://github.com/actions/setup-node/pull/1631\r\n* Upgrade jest-each from 30.4.1 to 30.5.2 by @dependabot in https://github.com/actions/setup-node/pull/1636\r\n* Upgrade eslint-plugin-n from 18.1.0 to 18.3.0 by @dependabot in https://github.com/actions/setup-node/pull/1638\r\n* Update dependencies and add license files by @v-HarithaVattikuti in https://github.com/actions/setup-node/pull/1642\r\n* Upgrade eslint from 10.5.0 to 10.11.0 and package.json from 7.0.0 to 7.1.0 by @dependabot in https://github.com/actions/setup-node/pull/1635\r\n\r\n\r\n\r\n## New Contributors\r\n* @v-jitenderpalsingh made their first contribution in https://github.com/actions/setup-node/pull/1580\r\n* @philip-gai made their first contribution in https://github.com/actions/setup-node/pull/1584\r\n* @gperdomor made their first contribution in https://github.com/actions/setup-node/pull/1421\r\n* @SubJunk made their first contribution in https://github.com/actions/setup-node/pull/1603\r\n\r\n**Full Changelog**: https://github.com/actions/setup-node/compare/v7.0.0...v7.1.0"
+  }
+}

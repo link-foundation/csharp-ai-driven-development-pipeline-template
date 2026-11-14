@@ -1,0 +1,4 @@
+npm packages: 104
+NuGet packages/tools: 19
+Action repositories: 15
+tools: {'pre-commit-hooks': 'v6.0.0', 'actionlint': 'v1.7.12', 'lychee': 'lychee-v0.24.2', 'zizmor': '1.32.0', 'pre-commit': '4.7.0', 'pyflakes': '4.1.0'}

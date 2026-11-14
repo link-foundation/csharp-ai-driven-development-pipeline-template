@@ -1,0 +1,432 @@
+Check Links	UNKNOWN STEP	﻿2026-11-13T09:37:37.6362779Z Current runner version: '2.338.2'
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6378977Z ##[group]Runner Image Provisioner
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6379551Z Hosted Compute Agent
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6380053Z Version: 20261028.624
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6380469Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6380896Z Build Date: 2026-10-28T21:51:42Z
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6381290Z Worker ID: {64f60bd2-2204-430d-9c17-1f6fcceee4a6}
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6381781Z Region: westus3
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6382120Z Cloud: Azure
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6382513Z ##[endgroup]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6383483Z ##[group]Operating System
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6383842Z Ubuntu
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6384248Z 24.04.5
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6384562Z LTS
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6384893Z ##[endgroup]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6385235Z ##[group]Runner Image
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6385602Z Image: ubuntu-24.04
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6386011Z Version: 20261101.360.1
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6386765Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6387694Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6388265Z ##[endgroup]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6389001Z ##[group]GITHUB_TOKEN Permissions
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6390270Z Contents: read
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6390674Z Metadata: read
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6391055Z ##[endgroup]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6392386Z Secret source: Actions
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6392930Z Cache mode: write
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6393325Z Prepare workflow directory
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6628994Z Prepare all required actions
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.6658835Z Getting action download info
+Check Links	UNKNOWN STEP	2026-11-13T09:37:37.9604209Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.0360226Z Download action repository 'lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8' (SHA:e7477775783ea5526144ba13e8db5eec57747ce8)
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.4466964Z Complete job name: Check Links
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.4943068Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.4943540Z with:
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.4943772Z   persist-credentials: false
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.4944157Z   repository: link-foundation/csharp-ai-driven-development-pipeline-template
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.4946412Z   token: ***
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.4946637Z   ssh-strict: true
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.4946864Z   ssh-user: git
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.4947085Z   clean: true
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.4947319Z   sparse-checkout-cone-mode: true
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.4947593Z   fetch-depth: 1
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.4947820Z   fetch-tags: false
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.4948050Z   show-progress: true
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.4948285Z   lfs: false
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.4948501Z   submodules: false
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.4948736Z   set-safe-directory: true
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.4949000Z   allow-unsafe-pr-checkout: false
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.4949324Z env:
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.4949532Z   GIT_CONFIG_COUNT: 1
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.4949920Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.4950204Z   GIT_CONFIG_VALUE_0: main
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.4950449Z ##[endgroup]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7140426Z Syncing repository: link-foundation/csharp-ai-driven-development-pipeline-template
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7141603Z ##[group]Getting Git version info
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7142212Z Working directory is '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template'
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7143006Z [command]/usr/bin/git version
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7238990Z git version 2.56.0
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7251733Z ##[endgroup]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7259875Z Temporarily overriding HOME='/home/runner/work/_temp/913057b3-c0b3-4012-8bd9-5e2fdaf94caa' before making global git config changes
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7261162Z Adding repository directory to the temporary git global config as a safe directory
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7264397Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7316208Z Deleting the contents of '/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template'
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7320905Z ##[group]Determining repository object format
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7327894Z ##[endgroup]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7328478Z ##[group]Initializing the repository
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7329457Z [command]/usr/bin/git init /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7433488Z Initialized empty Git repository in /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7441672Z [command]/usr/bin/git remote add origin https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7481176Z ##[endgroup]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7481892Z ##[group]Disabling automatic garbage collection
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7483389Z [command]/usr/bin/git config --local gc.auto 0
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7517527Z ##[endgroup]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7518162Z ##[group]Setting up auth
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7518515Z Removing SSH command configuration
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7523575Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7558201Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7867170Z Removing HTTP extra header
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7872218Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.7908772Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.8091174Z Removing includeIf entries pointing to credentials config files
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.8094466Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.8129606Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.8311050Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-9b5acf1b-3620-4945-8bb5-f71953e4dea3.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.8348741Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path /home/runner/work/_temp/git-credentials-9b5acf1b-3620-4945-8bb5-f71953e4dea3.config
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.8383593Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-9b5acf1b-3620-4945-8bb5-f71953e4dea3.config
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.8418106Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-9b5acf1b-3620-4945-8bb5-f71953e4dea3.config
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.8453222Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-9b5acf1b-3620-4945-8bb5-f71953e4dea3.config
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.8486336Z ##[endgroup]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.8486745Z ##[group]Fetching the repository
+Check Links	UNKNOWN STEP	2026-11-13T09:37:38.8490404Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +ec58d9debf5f11d350498bef51554a70357cf9a1:refs/remotes/origin/main
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4252286Z From https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4254162Z  * [new ref]         ec58d9debf5f11d350498bef51554a70357cf9a1 -> origin/main
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4258999Z [command]/usr/bin/git branch --list --remote origin/main
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4292585Z   origin/main
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4298581Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4327901Z ec58d9debf5f11d350498bef51554a70357cf9a1
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4332260Z ##[endgroup]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4333266Z ##[group]Determining the checkout info
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4334390Z ##[endgroup]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4335153Z [command]/usr/bin/git sparse-checkout disable
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4387681Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4422947Z ##[group]Checking out the ref
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4424630Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4543339Z Reset branch 'main'
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4547732Z branch 'main' set up to track 'origin/main'.
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4552770Z ##[endgroup]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4592906Z [command]/usr/bin/git log -1 --format=%H
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4623064Z ec58d9debf5f11d350498bef51554a70357cf9a1
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4630464Z ##[group]Removing auth
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4631299Z Removing SSH command configuration
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4633088Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4666601Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4846380Z Removing HTTP extra header
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4847986Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.4884601Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5063616Z Removing includeIf entries pointing to credentials config files
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5065763Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5099168Z includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5103984Z includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5106230Z includeif.gitdir:/github/workspace/.git.path
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5107275Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5110568Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5136336Z /home/runner/work/_temp/git-credentials-9b5acf1b-3620-4945-8bb5-f71953e4dea3.config
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5146152Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-9b5acf1b\-3620\-4945\-8bb5\-f71953e4dea3\.config
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5183643Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5211906Z /home/runner/work/_temp/git-credentials-9b5acf1b-3620-4945-8bb5-f71953e4dea3.config
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5220548Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-9b5acf1b\-3620\-4945\-8bb5\-f71953e4dea3\.config
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5255434Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5284815Z /github/runner_temp/git-credentials-9b5acf1b-3620-4945-8bb5-f71953e4dea3.config
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5290571Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-9b5acf1b\-3620\-4945\-8bb5\-f71953e4dea3\.config
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5325407Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5353478Z /github/runner_temp/git-credentials-9b5acf1b-3620-4945-8bb5-f71953e4dea3.config
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5360322Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-9b5acf1b\-3620\-4945\-8bb5\-f71953e4dea3\.config
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5397053Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5575689Z Removing credentials config '/home/runner/work/_temp/git-credentials-9b5acf1b-3620-4945-8bb5-f71953e4dea3.config'
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5582321Z ##[endgroup]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5963305Z ##[group]Run lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5964208Z with:
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5965613Z   args: --verbose --no-progress --cache --max-cache-age 1d --max-retries 3 --timeout 30 --exclude-path docs/case-studies --exclude-path scripts/fixtures './**/*.md' './**/*.html'
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5967130Z   fail: false
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5967630Z   output: lychee/out.md
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5968173Z   jobSummary: true
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5968670Z   debug: false
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5969162Z   failIfEmpty: true
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5969768Z   format: markdown
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5970285Z   lycheeVersion: v0.24.2
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5970827Z   checkbox: true
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5975766Z   token: ***
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5976263Z   workingDirectory: .
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5976776Z env:
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5977256Z   GIT_CONFIG_COUNT: 1
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5977814Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5978479Z   GIT_CONFIG_VALUE_0: main
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5983517Z   GITHUB_TOKEN: ***
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.5984025Z ##[endgroup]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6024437Z ##[start-action display=Set up environment;id=lychee.__run]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6061775Z ##[group]Run # Install into $RUNNER_TEMP (not $HOME) so the install path is stable
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6062966Z ^[[36;1m# Install into $RUNNER_TEMP (not $HOME) so the install path is stable^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6064088Z ^[[36;1m# across composite steps. On some runners $HOME is overridden per step^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6065171Z ^[[36;1m# (e.g. actions/checkout temporarily sets it), which made the PATH^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6066191Z ^[[36;1m# entry from one step and the install in another step diverge.^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6067113Z ^[[36;1mecho "$RUNNER_TEMP/lychee/bin" >> "$GITHUB_PATH"^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6067898Z ^[[36;1mmkdir -p "$RUNNER_TEMP/lychee/bin"^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6087465Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6088211Z env:
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6088692Z   GIT_CONFIG_COUNT: 1
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6089252Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6090015Z   GIT_CONFIG_VALUE_0: main
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6094958Z   GITHUB_TOKEN: ***
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6095472Z ##[endgroup]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6168729Z ##[end-action id=lychee.__run;outcome=success;conclusion=success;duration_ms=14]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6173502Z ##[start-action display=Download and extract lychee in temp directory;id=lychee.lychee-setup]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6198080Z ##[group]Run # Create a temporary directory for downloads and extraction
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6199084Z ^[[36;1m# Create a temporary directory for downloads and extraction^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6200094Z ^[[36;1mTEMP_DIR="${RUNNER_TEMP}/lychee-download"^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6200862Z ^[[36;1mrm -rf "${TEMP_DIR}" && mkdir -p "${TEMP_DIR}"^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6201673Z ^[[36;1mcd "${TEMP_DIR}"^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6202207Z ^[[36;1m^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6202679Z ^[[36;1mARCH=$(uname -m)^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6203363Z ^[[36;1m# Determine filename and download URL based on version^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6204227Z ^[[36;1mif [[ "${LYCHEE_VERSION}" =~ ^v0\.0|^v0\.1[0-5]\. ]]; then^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6205188Z ^[[36;1m  FILENAME="lychee-${LYCHEE_VERSION}-${ARCH}-unknown-linux-gnu.tar.gz"^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6206467Z ^[[36;1m  DOWNLOAD_URL="https://github.com/lycheeverse/lychee/releases/download/${LYCHEE_VERSION}/${FILENAME}"^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6207523Z ^[[36;1melse^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6208135Z ^[[36;1m  FILENAME="lychee-${ARCH}-unknown-linux-gnu.tar.gz"^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6208944Z ^[[36;1m  if [[ "${LYCHEE_VERSION}" == 'nightly' ]]; then^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6210072Z ^[[36;1m    DOWNLOAD_URL="https://github.com/lycheeverse/lychee/releases/download/nightly/${FILENAME}"^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6211166Z ^[[36;1m  elif [[ "${LYCHEE_VERSION}" == 'latest' ]]; then^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6212339Z ^[[36;1m    DOWNLOAD_URL="https://github.com/lycheeverse/lychee/releases/latest/download/${FILENAME}"^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6213314Z ^[[36;1m  else^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6214292Z ^[[36;1m    DOWNLOAD_URL="https://github.com/lycheeverse/lychee/releases/download/lychee-${LYCHEE_VERSION}/${FILENAME}"^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6215383Z ^[[36;1m  fi^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6215846Z ^[[36;1mfi^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6216311Z ^[[36;1m^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6216840Z ^[[36;1mecho "Downloading from: ${DOWNLOAD_URL}"^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6217540Z ^[[36;1mcurl -sfLO "${DOWNLOAD_URL}"^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6218132Z ^[[36;1m^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6218620Z ^[[36;1mecho "Extracting ${FILENAME}"^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6219253Z ^[[36;1mtar -xvzf "${FILENAME}"^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6219905Z ^[[36;1mrm -rv "${FILENAME}"^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6220446Z ^[[36;1m^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6221076Z ^[[36;1m# Detect if lychee binary is in a subfolder within the tar.gz^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6221907Z ^[[36;1mif ! [[ -f "${TEMP_DIR}/lychee" ]]; then^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6222780Z ^[[36;1m  TEMP_DIR="$(echo "${TEMP_DIR}"/lychee-*)"  # need `echo` to evaluate glob^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6223596Z ^[[36;1mfi^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6224117Z ^[[36;1mif ! [[ -f "${TEMP_DIR}/lychee" ]]; then^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6225071Z ^[[36;1m  echo "Cannot find lychee binary in $TEMP_DIR. Did the archive structure change?" >&2^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6226018Z ^[[36;1m  exit 1^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6226496Z ^[[36;1mfi^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6226945Z ^[[36;1m^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6227498Z ^[[36;1m# Output temp directory for use in later steps^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6228273Z ^[[36;1mecho "temp_dir=${TEMP_DIR}" >> $GITHUB_OUTPUT^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6244560Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6245277Z env:
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6245726Z   GIT_CONFIG_COUNT: 1
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6246264Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6246883Z   GIT_CONFIG_VALUE_0: main
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6251671Z   GITHUB_TOKEN: ***
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6252175Z   LYCHEE_VERSION: v0.24.2
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6252703Z ##[endgroup]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.6317910Z Downloading from: https://github.com/lycheeverse/lychee/releases/download/lychee-v0.24.2/lychee-x86_64-unknown-linux-gnu.tar.gz
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.8973061Z Extracting lychee-x86_64-unknown-linux-gnu.tar.gz
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.8995604Z lychee-x86_64-unknown-linux-gnu/
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.8996014Z lychee-x86_64-unknown-linux-gnu/README.md
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.8997584Z lychee-x86_64-unknown-linux-gnu/docs/
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.8997946Z lychee-x86_64-unknown-linux-gnu/docs/lychee.1
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.8998449Z lychee-x86_64-unknown-linux-gnu/docs/TROUBLESHOOTING.md
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.8998824Z lychee-x86_64-unknown-linux-gnu/docs/PRE_COMMIT.md
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.8999228Z lychee-x86_64-unknown-linux-gnu/complete/
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.8999764Z lychee-x86_64-unknown-linux-gnu/complete/_lychee.ps1
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.9000435Z lychee-x86_64-unknown-linux-gnu/complete/lychee.elv
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.9000861Z lychee-x86_64-unknown-linux-gnu/complete/lychee.fish
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.9001278Z lychee-x86_64-unknown-linux-gnu/complete/lychee.bash
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.9001686Z lychee-x86_64-unknown-linux-gnu/complete/_lychee
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.9002099Z lychee-x86_64-unknown-linux-gnu/lychee
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.9960981Z removed 'lychee-x86_64-unknown-linux-gnu.tar.gz'
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.9987803Z ##[end-action id=lychee.lychee-setup;outcome=success;conclusion=success;duration_ms=381]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:39.9991614Z ##[start-action display=Install lychee;id=lychee.__run_2]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0019369Z ##[group]Run # Install lychee from the temporary directory
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0019622Z ^[[36;1m# Install lychee from the temporary directory^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0020383Z ^[[36;1minstall -t "$RUNNER_TEMP/lychee/bin" -D "/home/runner/work/_temp/lychee-download/lychee-x86_64-unknown-linux-gnu/lychee"^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0035885Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0036101Z env:
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0036232Z   GIT_CONFIG_COUNT: 1
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0036530Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0036702Z   GIT_CONFIG_VALUE_0: main
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0038288Z   GITHUB_TOKEN: ***
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0038430Z ##[endgroup]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0142061Z ##[end-action id=lychee.__run_2;outcome=success;conclusion=success;duration_ms=15]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0146883Z ##[start-action display=Run Lychee;id=lychee.run-lychee]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0160781Z ##[group]Run /home/runner/work/_actions/lycheeverse/lychee-action/e7477775783ea5526144ba13e8db5eec57747ce8/entrypoint.sh
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0161264Z ^[[36;1m/home/runner/work/_actions/lycheeverse/lychee-action/e7477775783ea5526144ba13e8db5eec57747ce8/entrypoint.sh^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0174846Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0175054Z env:
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0175190Z   GIT_CONFIG_COUNT: 1
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0175363Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0175539Z   GIT_CONFIG_VALUE_0: main
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0177074Z   GITHUB_TOKEN: ***
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0178466Z   INPUT_TOKEN: ***
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0178874Z   INPUT_ARGS: --verbose --no-progress --cache --max-cache-age 1d --max-retries 3 --timeout 30 --exclude-path docs/case-studies --exclude-path scripts/fixtures './**/*.md' './**/*.html'
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0179300Z   INPUT_DEBUG: false
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0179445Z   INPUT_FAIL: false
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0179592Z   INPUT_FAILIFEMPTY: true
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0179918Z   INPUT_FORMAT: markdown
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0180076Z   INPUT_JOBSUMMARY: true
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0180233Z   INPUT_CHECKBOX: true
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0180387Z   INPUT_OUTPUT: lychee/out.md
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0180778Z   SUMMARY_URL: https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/actions/runs/43402853117#summary-131809775617
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.0181161Z ##[endgroup]
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.1826700Z   [WARN] ./**/*.html: No files found for this input source
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.1872842Z [IGNORED] xref:MyPackage (at 8:3) | Unsupported: URL is missing a hostname
+Check Links	UNKNOWN STEP	2026-11-13T09:37:40.1879973Z [EXCLUDED] https://www.npmjs.com/package/browser-commander (at 7:36) | This is due to your 'exclude' values
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7623803Z [500] https://github.com/konard/vk-bot-desktop/pull/52 (at 54:3) | Rejected status code: 500 Internal Server Error
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7626374Z Hint: You can configure accepted/rejected response codes with `-a` or `--accept`
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7719361Z # Summary
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7720954Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7721361Z | Status         | Count |
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7722038Z |----------------|-------|
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7722716Z | 🔍 Total       | 105   |
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7723443Z | 🔗 Unique      | 98    |
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7723681Z | ✅ Successful  | 102   |
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7723926Z | ⏳ Timeouts    | 0     |
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7724160Z | 🔀 Redirected  | 5     |
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7724793Z | 👻 Excluded    | 1     |
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7725148Z | ❓ Unknown     | 0     |
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7725313Z | 🚫 Errors      | 1     |
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7725461Z | ⛔ Unsupported | 1     |
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7725556Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7725619Z ## Errors per input
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7725705Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7725789Z ### Errors in docs/roadmap/preview-regeneration.md
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7725926Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7726159Z * [500] <https://github.com/konard/vk-bot-desktop/pull/52> (at 54:3) | Rejected status code: 500 Internal Server Error
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7726411Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7726467Z ## Redirects per input
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7726547Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7726610Z ### Redirects in CONTRIBUTING.md
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7726716Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7726970Z * https://dotnet.microsoft.com/download --[302]--> https://dotnet.microsoft.com/en-us/download
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7727439Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7727493Z ### Redirects in README.md
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7727600Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7727694Z * http://unlicense.org/ --[301]--> https://unlicense.org/
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7728380Z * https://docs.microsoft.com/dotnet/ --[301]--> https://learn.microsoft.com/dotnet/ --[302]--> https://learn.microsoft.com/en-us/dotnet/
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7729083Z * https://docs.microsoft.com/dotnet/fundamentals/code-analysis/overview --[301]--> https://learn.microsoft.com/dotnet/fundamentals/code-analysis/overview --[302]--> https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/overview
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7730024Z * https://dotnet.microsoft.com/ --[302]--> https://dotnet.microsoft.com/en-us/
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7730299Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7730304Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7748501Z ##[notice]Summary report available at: https://github.com/link-foundation/csharp-ai-driven-development-pipeline-template/actions/runs/43402853117#summary-131809775617
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7763152Z ##[end-action id=lychee.run-lychee;outcome=success;conclusion=success;duration_ms=50761]
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7833206Z ##[group]Run node scripts/recheck-broken-links.mjs
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7833438Z ^[[36;1mnode scripts/recheck-broken-links.mjs^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7850644Z shell: /usr/bin/bash -e {0}
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7850783Z env:
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7850893Z   GIT_CONFIG_COUNT: 1
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7851027Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7851179Z   GIT_CONFIG_VALUE_0: main
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7851310Z   LYCHEE_EXIT_CODE: 2
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7851442Z   LYCHEE_OUTPUT: lychee/out.md
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7851592Z   RECOVERED_OUTPUT: lychee/recovered.txt
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.7851744Z ##[endgroup]
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.8870832Z === Re-check of transient link failures ===
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.8871135Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.8871284Z Reading lychee output from: lychee/out.md
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.8871463Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.8884251Z lychee reported 1 failing link(s): 0 permanent or non-http failures, 1 transport, rate-limit or server failures.
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.8884688Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.8884779Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.8884976Z Re-asking 1 link(s) directly (accept: 100..=103,200..=299, user agent: lychee)...
+Check Links	UNKNOWN STEP	2026-11-13T09:38:30.8885249Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.4343133Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.4343664Z === Re-check summary ===
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.4343905Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.4344526Z ✗ https://github.com/konard/vk-bot-desktop/pull/52 still failing: HTTP 500 after 3 direct attempt(s) (lychee: Rejected status code: 500 Internal Server Error)
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.4345696Z all_recovered=false
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.4345909Z recovered=0
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.4346104Z remaining=1
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.5586426Z ##[group]Run node scripts/check-web-archive.mjs
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.5586643Z ^[[36;1mnode scripts/check-web-archive.mjs^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.5602447Z shell: /usr/bin/bash -e {0}
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.5602583Z env:
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.5602686Z   GIT_CONFIG_COUNT: 1
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.5602812Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.5602955Z   GIT_CONFIG_VALUE_0: main
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.5603221Z   LYCHEE_EXIT_CODE: 2
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.5603344Z   LYCHEE_OUTPUT: lychee/out.md
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.5603481Z   RECOVERED_URLS: lychee/recovered.txt
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.5603623Z ##[endgroup]
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.5845718Z === Web Archive Fallback Check ===
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.5845967Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.5846090Z Reading lychee output from: lychee/out.md
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.5846261Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.5855117Z Found 1 broken URL(s) (lychee reported 1). Checking Web Archive...
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.5855345Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:46.5855681Z Checking: https://github.com/konard/vk-bot-desktop/pull/52
+Check Links	UNKNOWN STEP	2026-11-13T09:38:47.5379807Z   ✗ Not found in Web Archive
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0375846Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0376466Z === Web Archive Check Summary ===
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0376736Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0377298Z ✗ 1 broken link(s) have NO Web Archive version:
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0377670Z   https://github.com/konard/vk-bot-desktop/pull/52
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0390225Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0393703Z ##[error]Broken link detected: https://github.com/konard/vk-bot-desktop/pull/52
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0394802Z No archived version was found in the Wayback Machine.
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0395063Z How to fix:
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0395330Z   1. Find an updated URL for the same or equivalent content and replace the link.
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0395713Z   2. Remove the link if the content is no longer relevant.
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0396127Z   3. Add the URL to .lycheeignore if it is a known false positive (e.g. localhost, example.com).
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0396504Z all_archived=false
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0396636Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0396829Z Action required: Re-run failed lookups; fix confirmed broken links listed above.
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0397320Z For links with Web Archive versions, you can replace them with the suggested archive.org URLs.
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0435867Z ##[error]Process completed with exit code 1.
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0467869Z ##[group]Run echo "::error::Broken links were detected with unresolved Web Archive checks."
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0468241Z ^[[36;1mecho "::error::Broken links were detected with unresolved Web Archive checks."^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0468463Z ^[[36;1mecho ""^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0468585Z ^[[36;1mecho "What happened:"^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0468823Z ^[[36;1mecho "  lychee found one or more broken links in the *.md and *.html files of this repository."^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0469182Z ^[[36;1mecho "  Review the Web Archive verdict: failed lookups are unknown; re-run them before replacing links."^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0469441Z ^[[36;1mecho ""^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0469557Z ^[[36;1mecho "How to fix:"^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0469992Z ^[[36;1mecho "  1. Review the 'Check links with lychee' step above for a full list of broken links."^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0470366Z ^[[36;1mecho "  2. For links marked with a '::notice::' annotation above, a Web Archive version exists."^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0470694Z ^[[36;1mecho "     Replace those broken links with the suggested archive.org URL."^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0470949Z ^[[36;1mecho "  3. For links with no archive version, either:"^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0471203Z ^[[36;1mecho "     a. Find an updated URL that points to the same or equivalent content."^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0471473Z ^[[36;1mecho "     b. Remove the link if the content is no longer relevant."^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0471727Z ^[[36;1mecho "     c. Add the URL to .lycheeignore if it is a known false positive."^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0471936Z ^[[36;1mecho ""^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0472141Z ^[[36;1mecho "Report location: lychee/out.md (available as a workflow artifact if configured)."^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0472377Z ^[[36;1mexit 1^[[0m
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0487763Z shell: /usr/bin/bash -e {0}
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0487894Z env:
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0488006Z   GIT_CONFIG_COUNT: 1
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0488136Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0488294Z   GIT_CONFIG_VALUE_0: main
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0488419Z ##[endgroup]
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0521584Z ##[error]Broken links were detected with unresolved Web Archive checks.
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0522280Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0522336Z What happened:
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0522534Z   lychee found one or more broken links in the *.md and *.html files of this repository.
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0523655Z   Review the Web Archive verdict: failed lookups are unknown; re-run them before replacing links.
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0523981Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0524046Z How to fix:
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0524320Z   1. Review the 'Check links with lychee' step above for a full list of broken links.
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0528573Z   2. For links marked with a '::notice::' annotation above, a Web Archive version exists.
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0528845Z      Replace those broken links with the suggested archive.org URL.
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0529055Z   3. For links with no archive version, either:
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0529270Z      a. Find an updated URL that points to the same or equivalent content.
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0529501Z      b. Remove the link if the content is no longer relevant.
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0529921Z      c. Add the URL to .lycheeignore if it is a known false positive.
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0530063Z 
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0530186Z Report location: lychee/out.md (available as a workflow artifact if configured).
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0530948Z ##[error]Process completed with exit code 1.
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.0604610Z Post job cleanup.
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.1187314Z [command]/usr/bin/git version
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.1225593Z git version 2.56.0
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.1246015Z Temporarily overriding HOME='/home/runner/work/_temp/6cc00141-c453-4416-b4e6-1325eb27df22' before making global git config changes
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.1247067Z Adding repository directory to the temporary git global config as a safe directory
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.1250422Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/csharp-ai-driven-development-pipeline-template/csharp-ai-driven-development-pipeline-template
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.1282352Z Removing SSH command configuration
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.1287534Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.1361988Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.1578240Z Removing HTTP extra header
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.1584163Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.1624274Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.1846499Z Removing includeIf entries pointing to credentials config files
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.1852371Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.1893031Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Check Links	UNKNOWN STEP	2026-11-13T09:38:48.2214703Z Cleaning up orphan processes

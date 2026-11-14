@@ -1,0 +1,19 @@
+bun test v1.4.4 (38afee6c8)
+ 
+timeout.test.mjs:
+(fail) finite wait [5003.53ms]
+  ^ this test timed out after 5000ms.
+
+ 0 pass
+ 1 fail
+Ran 1 test across 1 file. [5.03s]
+
+bun test v1.4.4 (38afee6c8)
+ 
+timeout.test.mjs:
+(pass) finite wait [6003.14ms]
+
+ 1 pass
+ 0 fail
+Ran 1 test across 1 file. [6.01s]
+

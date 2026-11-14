@@ -1,0 +1,29 @@
+bun test v1.4.4 (38afee6c8)
+
+scripts/rerun-workflow-policy.test.mjs:
+(pass) infrastructure-failure rerun workflow (issue #96) > listens to the completed CI/CD pipeline by its exact name [3.59ms]
+(pass) infrastructure-failure rerun workflow (issue #96) > runs only trusted default-branch code with least privilege [0.50ms]
+(pass) infrastructure-failure rerun workflow (issue #96) > the status gate can read jobs and annotations to name the cause [0.06ms]
+(pass) infrastructure-failure rerun workflow (issue #96) > macOS stays blocking unless NON_BLOCKING_MACOS is explicitly enabled [0.02ms]
+
+scripts/runner-acquisition.test.mjs:
+(pass) runner acquisition classification > the real not-acquired macOS job is runnerless and unacquired [0.18ms]
+(pass) runner acquisition classification > a queued job cancelled by concurrency is runnerless but not unacquired [0.04ms]
+(pass) runner acquisition classification > a job that ran steps and failed is never treated as infrastructure [0.04ms]
+(pass) runner acquisition classification > a runnerless job reported as failure (not cancelled) still counts [0.05ms]
+(pass) rerun decision > reruns attempts 1 and 2, gives up on attempt 3 [0.22ms]
+(pass) rerun decision > leaves real failures, superseded runs and unfinished runs alone [0.05ms]
+(pass) rerunInfrastructureFailures > requests "rerun failed jobs" once for an unacquired job [1.39ms]
+(pass) rerunInfrastructureFailures > never reruns a run whose failure is a test that ran [0.22ms]
+(pass) rerunInfrastructureFailures > does not rerun a concurrency cancellation or a superseded run [0.28ms]
+(pass) rerunInfrastructureFailures > gives up after the third attempt with the manual command [0.16ms]
+(pass) rerunInfrastructureFailures > dry run reports but does not rerun; inputs are validated [0.45ms]
+(pass) pipeline gate explanation > names the unacquired job as the cause of a red gate [0.41ms]
+(pass) pipeline gate explanation > warns about a non-blocking leg that failed while the gate passed [0.15ms]
+(pass) pipeline gate explanation > says nothing when every job reached a runner and the gate failed on results [0.39ms]
+(pass) GitHub client > authenticates, paginates jobs and reports HTTP failures [1.67ms]
+
+ 19 pass
+ 0 fail
+ 47 expect() calls
+Ran 19 tests across 2 files. [58.00ms]

@@ -1,0 +1,53 @@
+Created throwaway NuGet consumer project at /tmp/nuget-consumer-smoke-VHRK6L
+Validated exact anonymous package MyPackage@0.3.16: sha256:f7a05973cb6e904d9737220b1d886ad2e23f2495ee81aa3e1d90852733fc196a
+Running: dotnet new console --framework net11.0 --output . --no-restore
+dotnet new console --framework net11.0 --output . --no-restore stdout:
+The template "Console App" was created successfully.
+dotnet new console --framework net11.0 --output . --no-restore stderr:
+Welcome to .NET 11.0!
+---------------------
+SDK Version: 11.0.100
+
+Telemetry
+---------
+The .NET tools collect usage data in order to help us improve your experience. It is collected by Microsoft and shared with the community. You can opt-out of telemetry by setting the DOTNET_CLI_TELEMETRY_OPTOUT environment variable to '1' or 'true' using your favorite shell.
+
+Read more about .NET CLI Tools telemetry: https://aka.ms/dotnet-cli-telemetry
+
+----------------
+Installed an ASP.NET Core HTTPS development certificate.
+To trust the certificate, run 'dotnet dev-certs https --trust'
+Learn about HTTPS: https://aka.ms/dotnet-https
+
+----------------
+Write your first app: https://aka.ms/dotnet-hello-world
+Find out what's new: https://aka.ms/dotnet-whats-new
+Explore documentation: https://aka.ms/dotnet-docs
+Report issues and find source on GitHub: https://github.com/dotnet/core
+... (2 more captured line(s))
+Installing MyPackage@0.3.16 (attempt 1/1)
+dotnet add package stdout:
+info : X.509 certificate chain validation will use the fallback certificate bundle at '/tmp/issue-108-dotnet/sdk/11.0.100/trustedroots/codesignctl.pem'.
+info : X.509 certificate chain validation will use the fallback certificate bundle at '/tmp/issue-108-dotnet/sdk/11.0.100/trustedroots/timestampctl.pem'.
+info : Adding PackageReference for package 'MyPackage' into project '/tmp/nuget-consumer-smoke-VHRK6L/nuget-consumer-smoke-VHRK6L.csproj'.
+info : Restoring packages for /tmp/nuget-consumer-smoke-VHRK6L/nuget-consumer-smoke-VHRK6L.csproj...
+info : Installed MyPackage 0.3.16 from /tmp/gh-issue-solver-1794664914456/artifacts/local-package to /tmp/nuget-consumer-smoke-VHRK6L/packages/mypackage/0.3.16 with content hash Ru856vtAz8Tj3ZJ1C6QZHFwSouWuMCIlcrRPJBIoUp/nmrxODXnlaeqDcoDR6KF6QMRfver1nP7Sh+cJWsCRKg==.
+info : Package 'MyPackage' is compatible with all the specified frameworks in project '/tmp/nuget-consumer-smoke-VHRK6L/nuget-consumer-smoke-VHRK6L.csproj'.
+info : PackageReference for package 'MyPackage' version '0.3.16' added to file '/tmp/nuget-consumer-smoke-VHRK6L/nuget-consumer-smoke-VHRK6L.csproj'.
+info : Generating MSBuild file /tmp/nuget-consumer-smoke-VHRK6L/obj/nuget-consumer-smoke-VHRK6L.csproj.nuget.g.props.
+info : Generating MSBuild file /tmp/nuget-consumer-smoke-VHRK6L/obj/nuget-consumer-smoke-VHRK6L.csproj.nuget.g.targets.
+info : Writing assets file to disk. Path: /tmp/nuget-consumer-smoke-VHRK6L/obj/project.assets.json
+log  : Restored /tmp/nuget-consumer-smoke-VHRK6L/nuget-consumer-smoke-VHRK6L.csproj (in 298 ms).
+Running: dotnet build --configuration Release --no-restore
+dotnet build --configuration Release --no-restore stdout:
+nuget-consumer-smoke-VHRK6L -> /tmp/nuget-consumer-smoke-VHRK6L/bin/Release/net11.0/nuget-consumer-smoke-VHRK6L.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:02.79
+Running: dotnet run --configuration Release --no-build
+dotnet run --configuration Release --no-build stdout:
+Smoke test loaded MyPackage 0.3.16.
+NuGet consumer smoke test passed for MyPackage@0.3.16
