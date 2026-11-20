@@ -4,6 +4,7 @@ function fixture({
   event = 'pull_request',
   code = true,
   releaseMode = 'instant',
+  isCodecovEligiblePullRequest = false,
 } = {}) {
   const needs = Object.fromEntries(
     [
@@ -27,6 +28,7 @@ function fixture({
   if (code || event === 'workflow_dispatch')
     for (const job of ['lint', 'test', 'build']) needs[job].result = 'success';
   if (event === 'pull_request' && code) needs['changeset-check'].result = 'success';
+  if (isCodecovEligiblePullRequest) needs['codecov-token'].result = 'success';
   if (event === 'push') {
     needs['codecov-token'].result = 'success';
     if (code) needs.release.result = 'success';
@@ -34,7 +36,13 @@ function fixture({
   if (event === 'workflow_dispatch')
     needs[releaseMode === 'instant' ? 'instant-release' : 'changeset-pr'].result =
       'success';
-  return { needs, event, ref: 'refs/heads/main', releaseMode };
+  return {
+    needs,
+    event,
+    ref: 'refs/heads/main',
+    releaseMode,
+    isCodecovEligiblePullRequest,
+  };
 }
 for (const event of ['push', 'pull_request', 'workflow_dispatch'])
   for (const code of [true, false])
@@ -46,6 +54,19 @@ for (const result of ['skipped', 'failure', 'cancelled', undefined])
     data.needs.test.result = result;
     expect(() => checkPipeline(data)).toThrow();
   });
+
+for (const code of [true, false]) {
+  test(`same-repository PR requires a successful Codecov token job (code=${code})`, () => {
+    const data = fixture({ code, isCodecovEligiblePullRequest: true });
+    expect(() => checkPipeline(data)).not.toThrow();
+    for (const result of ['skipped', 'failure', 'cancelled']) {
+      data.needs['codecov-token'].result = result;
+      expect(() => checkPipeline(data)).toThrow('codecov-token');
+    }
+    delete data.needs['codecov-token'];
+    expect(() => checkPipeline(data)).toThrow('codecov-token');
+  });
+}
 test('unknown, missing or malformed detector/job result cannot pass', () => {
   for (const mutate of [
     (d) => delete d.needs.build,

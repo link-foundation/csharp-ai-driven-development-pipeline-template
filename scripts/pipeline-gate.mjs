@@ -7,7 +7,13 @@ import {
   inspectAttempt,
 } from './runner-acquisition.mjs';
 
-export function checkPipeline({ needs, event, ref, releaseMode }) {
+export function checkPipeline({
+  needs,
+  event,
+  ref,
+  releaseMode,
+  isCodecovEligiblePullRequest = false,
+}) {
   const expected = ['release-preflight'];
   if (!['push', 'pull_request', 'workflow_dispatch'].includes(event))
     throw Error(`Unknown release event: ${event}`);
@@ -23,7 +29,10 @@ export function checkPipeline({ needs, event, ref, releaseMode }) {
     event === 'workflow_dispatch' ||
     needs['detect-changes'].outputs['any-code-changed'] === 'true';
   if (code) expected.push('lint', 'test', 'build');
-  if (event === 'pull_request' && code) expected.push('changeset-check');
+  if (event === 'pull_request') {
+    if (code) expected.push('changeset-check');
+    if (isCodecovEligiblePullRequest) expected.push('codecov-token');
+  }
   if (event === 'push' && ref === 'refs/heads/main') {
     expected.push('codecov-token');
     if (code) expected.push('release');
@@ -102,6 +111,7 @@ if (
       event: process.env.EVENT_NAME,
       ref: process.env.BRANCH_REF_FULL,
       releaseMode: process.env.RELEASE_MODE,
+      isCodecovEligiblePullRequest: process.env.IS_CODECOV_ELIGIBLE_PR === 'true',
     });
   } catch (error) {
     failure = error;

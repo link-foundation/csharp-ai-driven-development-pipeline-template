@@ -275,16 +275,22 @@ jobs:
 
   codecov-token:
     name: Check Codecov token
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # Dependabot-triggered runs do not receive repository Actions secrets.
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.actor != 'dependabot[bot]')
     runs-on: ubuntu-26.04
     timeout-minutes: 5
+    permissions: {}
     steps:
-      - name: Require Codecov configuration on main
+      - name: Require Codecov configuration
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: |
           if [ -z "$CODECOV_TOKEN" ]; then
-            echo "::error::Set CODECOV_TOKEN in Settings > Secrets and variables > Actions, then rerun. Coverage upload is required on main."
+            echo "::error::Set CODECOV_TOKEN in Settings > Secrets and variables > Actions, then rerun. The token is required on main and same-repository pull request runs with Actions secret access."
             exit 1
           fi
 
@@ -915,6 +921,10 @@ jobs:
           NEEDS_JSON: ${{ toJSON(needs) }}
           IS_MAIN: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
           EVENT_NAME: ${{ github.event_name }}
+          IS_CODECOV_ELIGIBLE_PR: >-
+            ${{ github.event_name == 'pull_request' &&
+            github.event.pull_request.head.repo.full_name == github.repository &&
+            github.actor != 'dependabot[bot]' }}
           BRANCH_REF_FULL: ${{ github.ref }}
           RELEASE_MODE: ${{ inputs.release_mode }}
           BRANCH_REF: ${{ github.ref_name }}

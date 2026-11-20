@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'bun:test';
 import { isShaPinned } from './action-pins.mjs';
 import { readFileSync, statSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
 
 const RELEASE_WORKFLOW = '.github/workflows/release.yml';
 const DOCS_WORKFLOW = '.github/workflows/docs.yml';
@@ -297,6 +298,35 @@ describe('release workflow policy', () => {
     expect(workflowEnv).toContain("\n  GIT_CONFIG_COUNT: '1'");
     expect(workflowEnv).toContain('\n  GIT_CONFIG_KEY_0: init.defaultBranch');
     expect(workflowEnv).toContain('\n  GIT_CONFIG_VALUE_0: main');
+  });
+
+  test('requires the Codecov Actions secret on main pushes and eligible same-repository PRs', () => {
+    /** @type {Record<string, any>} */
+    const workflow = Bun.YAML.parse(readWorkflow(RELEASE_WORKFLOW));
+    const check = workflow.jobs['codecov-token'];
+    const sameRepositoryPullRequest =
+      "github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]'";
+
+    expect(check.if.replace(/\s+/g, ' ').trim()).toBe(
+      "(github.event_name == 'push' && github.ref == 'refs/heads/main') || " +
+        `(${sameRepositoryPullRequest})`,
+    );
+    expect(
+      workflow.jobs['pipeline-status'].steps.at(-1).env.IS_CODECOV_ELIGIBLE_PR,
+    ).toBe('${{ ' + sameRepositoryPullRequest + ' }}');
+
+    expect(check.steps).toHaveLength(1);
+    const [step] = check.steps;
+    expect(step.env.CODECOV_TOKEN).toBe('${{ secrets.CODECOV_TOKEN }}');
+    for (const token of ['', 'test-token']) {
+      const result = spawnSync('bash', ['-c', step.run], {
+        encoding: 'utf8',
+        env: { ...process.env, CODECOV_TOKEN: token },
+      });
+      expect(result.status).toBe(token ? 0 : 1);
+      if (token) expect(result.stdout).toBe('');
+      else expect(result.stdout).toContain('::error::Set CODECOV_TOKEN');
+    }
   });
 
   test('gates Codecov uploads on an explicit token', () => {
