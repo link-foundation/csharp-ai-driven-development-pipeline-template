@@ -193,6 +193,14 @@ The GitHub Actions workflow provides:
    hosted runner (for example macOS during capacity constraints) is rerun
    automatically, at most twice
 
+Set the Codecov upload token as the `CODECOV_TOKEN` Actions secret under
+**Settings → Secrets and variables → Actions**. The pipeline checks for it on
+same-repository pull requests with Actions secret access, including documentation-only
+changes. If it is missing, the check warns before merge and the pull request
+skips coverage upload. On pushes to `main`, a missing token fails the check
+and blocks automatic release. Fork and Dependabot-triggered pull requests skip
+the token check.
+
 ### Documentation Site
 
 This template publishes API documentation to GitHub Pages on every push to `main`.

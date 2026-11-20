@@ -275,16 +275,27 @@ jobs:
 
   codecov-token:
     name: Check Codecov token
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # Dependabot-triggered runs do not receive repository Actions secrets.
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.actor != 'dependabot[bot]')
     runs-on: ubuntu-26.04
     timeout-minutes: 5
+    permissions: {}
     steps:
-      - name: Require Codecov configuration on main
+      - name: Check Codecov configuration
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          EVENT_NAME: ${{ github.event_name }}
         run: |
           if [ -z "$CODECOV_TOKEN" ]; then
-            echo "::error::Set CODECOV_TOKEN in Settings > Secrets and variables > Actions, then rerun. Coverage upload is required on main."
+            if [ "$EVENT_NAME" = "pull_request" ]; then
+              echo "::warning::CODECOV_TOKEN is not configured. This pull request skips the Codecov upload. Add the repository upload token in Settings > Secrets and variables > Actions before merging so CI on main can pass."
+              exit 0
+            fi
+            echo "::error::Set CODECOV_TOKEN to the repository upload token from Codecov in Settings > Secrets and variables > Actions, then rerun the workflow. Coverage upload is required on main."
             exit 1
           fi
 
@@ -400,8 +411,12 @@ jobs:
       cancel-in-progress: false
       queue: max
     name: Release
-    needs: [lint, test, build, release-preflight]
-    if: always() && github.ref == 'refs/heads/main' && github.event_name == 'push' && needs.lint.result == 'success' && needs.test.result == 'success' && needs.build.result == 'success' && needs.release-preflight.result == 'success'
+    needs: [lint, test, build, release-preflight, codecov-token]
+    if: >-
+      always() && github.ref == 'refs/heads/main' && github.event_name == 'push' &&
+      needs.lint.result == 'success' && needs.test.result == 'success' &&
+      needs.build.result == 'success' && needs.release-preflight.result == 'success' &&
+      needs.codecov-token.result == 'success'
     runs-on: ubuntu-26.04
     timeout-minutes: 30
     permissions:
@@ -915,6 +930,10 @@ jobs:
           NEEDS_JSON: ${{ toJSON(needs) }}
           IS_MAIN: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
           EVENT_NAME: ${{ github.event_name }}
+          IS_CODECOV_ELIGIBLE_PR: >-
+            ${{ github.event_name == 'pull_request' &&
+            github.event.pull_request.head.repo.full_name == github.repository &&
+            github.actor != 'dependabot[bot]' }}
           BRANCH_REF_FULL: ${{ github.ref }}
           RELEASE_MODE: ${{ inputs.release_mode }}
           BRANCH_REF: ${{ github.ref_name }}

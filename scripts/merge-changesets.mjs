@@ -16,7 +16,14 @@
  * IMPORTANT: Update the package name below to match your csproj
  */
 
-import { readdirSync, writeFileSync, unlinkSync, statSync } from 'fs';
+import {
+  closeSync,
+  openSync,
+  readdirSync,
+  writeFileSync,
+  unlinkSync,
+  statSync,
+} from 'fs';
 import { parseChangesetFile } from './parse-changeset.mjs';
 import { join } from 'path';
 import { printUntrusted } from './print-untrusted.mjs';
@@ -24,6 +31,7 @@ import { printUntrusted } from './print-untrusted.mjs';
 // Package name must match the package name in the changeset files
 const PACKAGE_NAME = 'MyPackage';
 const CHANGESET_DIR = '.changeset';
+const MAX_OUTPUT_ATTEMPTS = 10;
 
 // Version bump type priority (higher number = higher priority)
 const BUMP_PRIORITY = {
@@ -149,6 +157,40 @@ ${combinedDescription}
 `;
 }
 
+/**
+ * Reserve a new file and finish writing it before any input can be removed.
+ * @param {string} content
+ * @returns {string}
+ */
+function writeMergedChangeset(content) {
+  const stem = `merged-${generateChangesetName()}`;
+  for (let attempt = 0; attempt < MAX_OUTPUT_ATTEMPTS; attempt++) {
+    const fileName = attempt === 0 ? `${stem}.md` : `${stem}-${attempt}.md`;
+    const path = join(CHANGESET_DIR, fileName);
+    let fd;
+    try {
+      fd = openSync(path, 'wx');
+    } catch (error) {
+      if (error.code === 'EEXIST') continue;
+      throw error;
+    }
+    try {
+      try {
+        writeFileSync(fd, content);
+      } finally {
+        closeSync(fd);
+      }
+    } catch (error) {
+      unlinkSync(path);
+      throw error;
+    }
+    return fileName;
+  }
+  throw Error(
+    `Could not create a distinct merged changeset after ${MAX_OUTPUT_ATTEMPTS} attempts`,
+  );
+}
+
 function main() {
   console.log('Checking for multiple changesets to merge...');
 
@@ -209,12 +251,7 @@ function main() {
   // Create merged changeset content
   const mergedContent = createMergedChangeset(highestBumpType, descriptions);
 
-  // Generate a unique name for the merged changeset
-  const mergedFileName = `merged-${generateChangesetName()}.md`;
-  const mergedFilePath = join(CHANGESET_DIR, mergedFileName);
-
-  // Write the merged changeset
-  writeFileSync(mergedFilePath, mergedContent);
+  const mergedFileName = writeMergedChangeset(mergedContent);
   console.log(`\nCreated merged changeset: ${mergedFileName}`);
 
   // Remove the original changeset files
