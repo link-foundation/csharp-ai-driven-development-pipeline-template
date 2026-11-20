@@ -2,4 +2,4 @@
 'MyPackage': patch
 ---
 
-Check for the Codecov token before same-repository pull requests merge and preserve pending changesets when a merged filename is already in use.
+Warn about missing Codecov configuration before same-repository pull requests merge, require the token for automatic releases, and preserve pending changesets when a merged filename is already in use.

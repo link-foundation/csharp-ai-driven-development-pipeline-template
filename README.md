@@ -194,10 +194,12 @@ The GitHub Actions workflow provides:
    automatically, at most twice
 
 Set the Codecov upload token as the `CODECOV_TOKEN` Actions secret under
-**Settings → Secrets and variables → Actions**. The pipeline requires it on
-pushes to `main` and on same-repository pull requests with Actions secret
-access, including documentation-only changes. Fork and Dependabot-triggered
-pull request runs skip this requirement.
+**Settings → Secrets and variables → Actions**. The pipeline checks for it on
+same-repository pull requests with Actions secret access, including documentation-only
+changes. If it is missing, the check warns before merge and the pull request
+skips coverage upload. On pushes to `main`, a missing token fails the check
+and blocks automatic release. Fork and Dependabot-triggered pull requests skip
+the token check.
 
 ### Documentation Site
 

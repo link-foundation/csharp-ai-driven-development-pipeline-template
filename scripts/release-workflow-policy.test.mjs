@@ -300,7 +300,7 @@ describe('release workflow policy', () => {
     expect(workflowEnv).toContain('\n  GIT_CONFIG_VALUE_0: main');
   });
 
-  test('requires the Codecov Actions secret on main pushes and eligible same-repository PRs', () => {
+  test('checks Codecov on eligible PRs and requires its token for automatic release', () => {
     /** @type {Record<string, any>} */
     const workflow = Bun.YAML.parse(readWorkflow(RELEASE_WORKFLOW));
     const check = workflow.jobs['codecov-token'];
@@ -318,15 +318,28 @@ describe('release workflow policy', () => {
     expect(check.steps).toHaveLength(1);
     const [step] = check.steps;
     expect(step.env.CODECOV_TOKEN).toBe('${{ secrets.CODECOV_TOKEN }}');
-    for (const token of ['', 'test-token']) {
-      const result = spawnSync('bash', ['-c', step.run], {
-        encoding: 'utf8',
-        env: { ...process.env, CODECOV_TOKEN: token },
-      });
-      expect(result.status).toBe(token ? 0 : 1);
-      if (token) expect(result.stdout).toBe('');
-      else expect(result.stdout).toContain('::error::Set CODECOV_TOKEN');
+    expect(step.env.EVENT_NAME).toBe('${{ github.event_name }}');
+    for (const event of ['pull_request', 'push']) {
+      for (const token of ['', 'test-token']) {
+        const result = spawnSync('bash', ['-c', step.run], {
+          encoding: 'utf8',
+          env: { ...process.env, CODECOV_TOKEN: token, EVENT_NAME: event },
+        });
+        expect(result.status).toBe(!token && event === 'push' ? 1 : 0);
+        if (token) expect(result.stdout).toBe('');
+        else if (event === 'push') {
+          expect(result.stdout).toContain('::error::Set CODECOV_TOKEN');
+          expect(result.stdout).toContain('Settings > Secrets and variables > Actions');
+        } else {
+          expect(result.stdout).toContain('::warning::CODECOV_TOKEN is not configured');
+          expect(result.stdout).toContain('skips the Codecov upload');
+        }
+      }
     }
+    expect(workflow.jobs.release.needs).toContain('codecov-token');
+    expect(workflow.jobs.release.if).toContain(
+      "needs.codecov-token.result == 'success'",
+    );
   });
 
   test('gates Codecov uploads on an explicit token', () => {

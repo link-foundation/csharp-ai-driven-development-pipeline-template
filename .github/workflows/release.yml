@@ -285,12 +285,17 @@ jobs:
     timeout-minutes: 5
     permissions: {}
     steps:
-      - name: Require Codecov configuration
+      - name: Check Codecov configuration
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          EVENT_NAME: ${{ github.event_name }}
         run: |
           if [ -z "$CODECOV_TOKEN" ]; then
-            echo "::error::Set CODECOV_TOKEN in Settings > Secrets and variables > Actions, then rerun. The token is required on main and same-repository pull request runs with Actions secret access."
+            if [ "$EVENT_NAME" = "pull_request" ]; then
+              echo "::warning::CODECOV_TOKEN is not configured. This pull request skips the Codecov upload. Add the repository upload token in Settings > Secrets and variables > Actions before merging so CI on main can pass."
+              exit 0
+            fi
+            echo "::error::Set CODECOV_TOKEN to the repository upload token from Codecov in Settings > Secrets and variables > Actions, then rerun the workflow. Coverage upload is required on main."
             exit 1
           fi
 
@@ -406,8 +411,12 @@ jobs:
       cancel-in-progress: false
       queue: max
     name: Release
-    needs: [lint, test, build, release-preflight]
-    if: always() && github.ref == 'refs/heads/main' && github.event_name == 'push' && needs.lint.result == 'success' && needs.test.result == 'success' && needs.build.result == 'success' && needs.release-preflight.result == 'success'
+    needs: [lint, test, build, release-preflight, codecov-token]
+    if: >-
+      always() && github.ref == 'refs/heads/main' && github.event_name == 'push' &&
+      needs.lint.result == 'success' && needs.test.result == 'success' &&
+      needs.build.result == 'success' && needs.release-preflight.result == 'success' &&
+      needs.codecov-token.result == 'success'
     runs-on: ubuntu-26.04
     timeout-minutes: 30
     permissions:

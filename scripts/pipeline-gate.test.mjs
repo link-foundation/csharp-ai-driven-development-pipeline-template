@@ -93,3 +93,10 @@ test('main reports a failed release preflight even when all code checks succeede
   data.needs.release.result = 'skipped';
   expect(() => checkPipeline(data)).toThrow('release-preflight');
 });
+
+test('main rejects missing Codecov configuration even when automatic release is skipped', () => {
+  const data = fixture({ event: 'push' });
+  data.needs['codecov-token'].result = 'failure';
+  data.needs.release.result = 'skipped';
+  expect(() => checkPipeline(data)).toThrow('codecov-token');
+});
