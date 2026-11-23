@@ -136,15 +136,28 @@ export async function listAttemptJobs(api, repo, runId, attempt) {
   return jobs;
 }
 
+async function listCheckRunAnnotations(api, repo, checkRunId) {
+  const path = `repos/${repo}/check-runs/${checkRunId}/annotations`;
+  const pageSize = 100;
+  const annotations = [];
+  for (let page = 1; page <= 10; page++) {
+    const items = await api(`${path}?per_page=${pageSize}&page=${page}`);
+    if (!Array.isArray(items) || items.length > pageSize)
+      throw Error(
+        `Expected an array of annotations (up to ${pageSize}) for ${path}, page ${page}`,
+      );
+    annotations.push(...items);
+    if (items.length < pageSize) return annotations;
+  }
+  throw Error(`Annotation pagination limit reached for ${path} after 10 full pages`);
+}
+
 /** Read one attempt and return its jobs plus the unacquired subset. */
 export async function inspectAttempt(api, repo, runId, attempt) {
   const jobs = await listAttemptJobs(api, repo, runId, attempt);
   const annotations = new Map();
   for (const job of jobs.filter(isRunnerless))
-    annotations.set(
-      job.id,
-      await api(`repos/${repo}/check-runs/${job.id}/annotations`),
-    );
+    annotations.set(job.id, await listCheckRunAnnotations(api, repo, job.id));
   return { jobs, unacquired: unacquiredJobs(jobs, annotations) };
 }
 

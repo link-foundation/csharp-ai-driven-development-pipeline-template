@@ -33,6 +33,8 @@ const testFailed = {
   conclusion: 'failure',
 };
 
+const ordinaryAnnotation = { message: 'Ordinary diagnostic' };
+
 /** In-memory GitHub API: routes are matched by path prefix. */
 function fakeApi(routes) {
   const calls = [];
@@ -61,7 +63,15 @@ function runApi({ jobs, run = {}, latestId = 7, annotations = {} }) {
       ...run,
     },
     [`repos/${REPO}/actions/workflows/11/runs`]: { workflow_runs: [{ id: latestId }] },
-    [`repos/${REPO}/check-runs/`]: (path) => annotations[path.split('/')[4]] ?? [],
+    [`repos/${REPO}/check-runs/`]: (path) => {
+      const url = new URL(path, 'https://api.test');
+      const items = annotations[url.pathname.split('/').at(-2)] ?? [];
+      const page = Number(url.searchParams.get('page') ?? 1);
+      const pageSize = Number(url.searchParams.get('per_page') ?? 30);
+      return typeof items === 'function'
+        ? items(page)
+        : items.slice((page - 1) * pageSize, page * pageSize);
+    },
   });
 }
 
@@ -89,6 +99,77 @@ describe('runner acquisition classification', () => {
     expect(unacquiredJobs([job], new Map([[job.id, unacquired.annotations]]))).toEqual([
       job,
     ]);
+  });
+});
+
+describe('check-run annotation pagination', () => {
+  const job = { ...unacquired.job, id: 2 };
+
+  test.each([0, 29, 30, 99, 100])(
+    'finds the runner-loss marker at index %i',
+    async (index) => {
+      const items = Array.from({ length: 101 }, () => ordinaryAnnotation);
+      items[index] = unacquired.annotations[0];
+      const { api } = runApi({ jobs: [job], annotations: { 2: items } });
+
+      expect((await inspectAttempt(api, REPO, 7, 1)).unacquired).toEqual([job]);
+    },
+  );
+
+  test('checks the next page after an exactly full page without a marker', async () => {
+    const items = Array.from({ length: 100 }, () => ordinaryAnnotation);
+    const { api, calls } = runApi({ jobs: [job], annotations: { 2: items } });
+
+    expect((await inspectAttempt(api, REPO, 7, 1)).unacquired).toEqual([]);
+    expect(calls.slice(1)).toEqual([
+      `GET repos/${REPO}/check-runs/2/annotations?per_page=100&page=1`,
+      `GET repos/${REPO}/check-runs/2/annotations?per_page=100&page=2`,
+    ]);
+  });
+
+  test('does not inspect annotations for a failed job that ran steps', async () => {
+    const items = Array.from({ length: 101 }, () => ordinaryAnnotation);
+    items[100] = unacquired.annotations[0];
+    const { api, calls } = runApi({ jobs: [testFailed], annotations: { 3: items } });
+
+    expect((await inspectAttempt(api, REPO, 7, 1)).unacquired).toEqual([]);
+    expect(calls).toHaveLength(1);
+  });
+
+  test('propagates a later-page error before requesting a rerun', async () => {
+    const fullPage = Array.from({ length: 100 }, () => unacquired.annotations[0]);
+    const { api, calls } = runApi({
+      jobs: [job],
+      annotations: {
+        2: (page) => {
+          if (page === 2) throw Error('HTTP 503');
+          return fullPage;
+        },
+      },
+    });
+
+    await expect(
+      rerunInfrastructureFailures({ api, repo: REPO, runId: '7', log: () => {} }),
+    ).rejects.toThrow('HTTP 503');
+    expect(calls.some((call) => call.startsWith('POST'))).toBe(false);
+  });
+
+  test('rejects a malformed annotation page', async () => {
+    const { api } = runApi({ jobs: [job], annotations: { 2: () => null } });
+
+    await expect(inspectAttempt(api, REPO, 7, 1)).rejects.toThrow(
+      'Expected an array of annotations',
+    );
+  });
+
+  test('rejects an incomplete scan after ten full pages', async () => {
+    const fullPage = Array.from({ length: 100 }, () => ordinaryAnnotation);
+    const { api, calls } = runApi({ jobs: [job], annotations: { 2: () => fullPage } });
+
+    await expect(inspectAttempt(api, REPO, 7, 1)).rejects.toThrow(
+      'Annotation pagination limit reached',
+    );
+    expect(calls).toHaveLength(11);
   });
 });
 
