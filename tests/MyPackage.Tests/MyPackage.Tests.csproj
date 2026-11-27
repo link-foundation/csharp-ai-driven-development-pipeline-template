@@ -19,7 +19,7 @@
   <ItemGroup>
     <!-- xUnit's compatible lower bound is 6.0; align its dependency with net11.0. -->
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="11.0.0" PrivateAssets="all" />
-    <PackageReference Include="coverlet.collector" Version="10.1.0">
+    <PackageReference Include="coverlet.collector" Version="10.1.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
